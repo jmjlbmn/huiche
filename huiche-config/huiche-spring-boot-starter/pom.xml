@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>org.huiche.config</groupId>
+        <groupId>org.huiche</groupId>
         <artifactId>huiche-config</artifactId>
         <version>1.0.0</version>
     </parent>
@@ -36,5 +36,4 @@
             <artifactId>spring-boot-starter-undertow</artifactId>
         </dependency>
     </dependencies>
-
 </project>

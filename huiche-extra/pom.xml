@@ -8,7 +8,6 @@
         <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.huiche.extra</groupId>
     <artifactId>huiche-extra</artifactId>
     <name>HuiChe Framework Extra</name>
     <packaging>pom</packaging>

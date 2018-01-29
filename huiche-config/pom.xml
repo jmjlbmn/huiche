@@ -8,7 +8,6 @@
         <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.huiche.config</groupId>
     <artifactId>huiche-config</artifactId>
     <name>HuiChe Framework Config</name>
     <packaging>pom</packaging>
