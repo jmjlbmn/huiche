@@ -4,17 +4,17 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>huiche-core</artifactId>
-        <groupId>org.huiche</groupId>
+        <groupId>com.github.jmjlbmn</groupId>
         <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>core-web</artifactId>
+    <artifactId>huiche-core-web</artifactId>
     <name>HuiChe Framework Core Web</name>
     <dependencies>
         <dependency>
-            <groupId>org.huiche</groupId>
-            <artifactId>core-service</artifactId>
+            <groupId>com.github.jmjlbmn</groupId>
+            <artifactId>huiche-core-service</artifactId>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>

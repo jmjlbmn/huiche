@@ -7,9 +7,9 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.9.RELEASE</version>
+        <version>1.5.10.RELEASE</version>
     </parent>
-    <groupId>org.huiche</groupId>
+    <groupId>com.github.jmjlbmn</groupId>
     <artifactId>huiche</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
@@ -75,38 +75,38 @@
 
             <!--内部依赖-->
             <dependency>
-                <groupId>org.huiche</groupId>
-                <artifactId>core-java</artifactId>
+                <groupId>com.github.jmjlbmn</groupId>
+                <artifactId>huiche-core-java</artifactId>
                 <version>${huiche.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.huiche</groupId>
-                <artifactId>core-service</artifactId>
+                <groupId>com.github.jmjlbmn</groupId>
+                <artifactId>huiche-core-service</artifactId>
                 <version>${huiche.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.huiche</groupId>
-                <artifactId>core-service-impl</artifactId>
+                <groupId>com.github.jmjlbmn</groupId>
+                <artifactId>huiche-core-service-impl</artifactId>
                 <version>${huiche.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.huiche</groupId>
-                <artifactId>core-web</artifactId>
+                <groupId>com.github.jmjlbmn</groupId>
+                <artifactId>huiche-core-web</artifactId>
                 <version>${huiche.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.huiche.config</groupId>
+                <groupId>com.github.jmjlbmn.config</groupId>
                 <artifactId>huiche-spring-boot-starter</artifactId>
                 <version>${huiche.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.huiche.extra</groupId>
-                <artifactId>sql-builder</artifactId>
+                <groupId>com.github.jmjlbmn.extra</groupId>
+                <artifactId>huiche-sql-builder</artifactId>
                 <version>${huiche.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.huiche.extra</groupId>
-                <artifactId>codegen-querydsl</artifactId>
+                <groupId>com.github.jmjlbmn.extra</groupId>
+                <artifactId>huiche-codegen-querydsl</artifactId>
                 <version>${huiche.version}</version>
             </dependency>
         </dependencies>

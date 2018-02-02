@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>org.huiche</groupId>
+        <groupId>com.github.jmjlbmn</groupId>
         <artifactId>huiche-config</artifactId>
         <version>1.0.0</version>
     </parent>
@@ -13,8 +13,8 @@
     <name>HuiChe Framework Config Spring Boot Starter</name>
     <dependencies>
         <dependency>
-            <groupId>org.huiche</groupId>
-            <artifactId>core-service-impl</artifactId>
+            <groupId>com.github.jmjlbmn</groupId>
+            <artifactId>huiche-core-service-impl</artifactId>
         </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>
