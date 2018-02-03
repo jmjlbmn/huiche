@@ -11,6 +11,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>huiche-demo</artifactId>
+    <name>HuiChe Framework Demo</name>
     <dependencies>
         <dependency>
             <groupId>com.github.jmjlbmn</groupId>
