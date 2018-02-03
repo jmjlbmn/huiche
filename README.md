@@ -1,4 +1,4 @@
-# HuiChe[![GitHub issues](https://img.shields.io/travis/jmjlbmn/huiche.svg)](https://github.com/jmjlbmn/huiche/travis)
+# HuiChe [![GitHub issues](https://img.shields.io/travis/jmjlbmn/huiche.svg)](https://github.com/jmjlbmn/huiche/travis)
 - 主要基于Spring boot
 - 数据库连接池:druid (数据库连接池目前仅推荐使用druid或hikari)
 - 数据查询 QueryDSL
