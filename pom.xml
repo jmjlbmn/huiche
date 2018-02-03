@@ -17,6 +17,7 @@
         <module>huiche-core</module>
         <module>huiche-config</module>
         <module>huiche-extra</module>
+        <module>huiche-demo</module>
     </modules>
     <name>HuiChe Framework</name>
     <description>HuiChe Framework</description>
@@ -95,23 +96,23 @@
                 <version>${huiche.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.github.jmjlbmn.config</groupId>
+                <groupId>com.github.jmjlbmn</groupId>
                 <artifactId>huiche-spring-boot-starter</artifactId>
                 <version>${huiche.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.github.jmjlbmn.extra</groupId>
+                <groupId>com.github.jmjlbmn</groupId>
                 <artifactId>huiche-sql-builder</artifactId>
                 <version>${huiche.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.github.jmjlbmn.extra</groupId>
+                <groupId>com.github.jmjlbmn</groupId>
                 <artifactId>huiche-codegen-querydsl</artifactId>
                 <version>${huiche.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
-    <repositories>
+    <!--<repositories>
         <repository>
             <id>public</id>
             <name>aliyun nexus</name>
@@ -119,6 +120,9 @@
             <releases>
                 <enabled>true</enabled>
             </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
         </repository>
     </repositories>
     <pluginRepositories>
@@ -133,7 +137,7 @@
                 <enabled>false</enabled>
             </snapshots>
         </pluginRepository>
-    </pluginRepositories>
+    </pluginRepositories>-->
     <build>
         <plugins>
             <plugin>

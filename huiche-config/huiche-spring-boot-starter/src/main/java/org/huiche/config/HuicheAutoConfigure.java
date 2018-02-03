@@ -14,8 +14,7 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 
 /**
- * @author Manig
- * @date 2018/1/23
+ * @author Maning
  */
 @Configuration
 @AutoConfigureAfter(DruidDataSourceAutoConfigure.class)

@@ -12,8 +12,8 @@
     <name>HuiChe Framework Extra</name>
     <packaging>pom</packaging>
     <modules>
-        <module>sql-builder</module>
-        <module>codegen-querydsl</module>
+        <module>huiche-sql-builder</module>
+        <module>huiche-codegen-querydsl</module>
     </modules>
 
 
