@@ -1,4 +1,6 @@
-# HuiChe [![GitHub issues](https://img.shields.io/travis/jmjlbmn/huiche.svg?style=flat-square)](https://github.com/jmjlbmn/huiche/travis)
+# HuiChe 
+[![build](https://img.shields.io/travis/jmjlbmn/huiche.svg?style=flat-square)](https://github.com/jmjlbmn/huiche/travis)
+[![maven](https://img.shields.io/maven-metadata/v/http/central.maven.org/maven2/com/github/jmjlbmn/huiche/maven-metadata.xml.svg?style=flat-square)](https://mvnrepository.com/artifact/com.github.jmjlbmn)
 - 主要基于Spring boot
 - 数据库连接池:druid (数据库连接池目前仅推荐使用druid或hikari)
 - 数据查询 QueryDSL
