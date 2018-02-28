@@ -9,10 +9,7 @@ import org.huiche.extra.sql.builder.info.TableInfo;
 import org.huiche.extra.sql.builder.naming.NamingRule;
 
 import java.lang.reflect.Field;
-import java.sql.Connection;
-import java.sql.JDBCType;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -138,6 +135,27 @@ public interface Sql {
     }
 
     /**
+     * 获取表的注释
+     *
+     * @param conn      连接
+     * @param tableName 表名
+     * @return 注释
+     */
+    default String getTableComment(Connection conn, String tableName) {
+        String comment = "";
+        try {
+            DatabaseMetaData metaData = conn.getMetaData();
+            ResultSet resultSet = metaData.getTables(null, null, "elder", null);
+            if (resultSet.next()) {
+                return resultSet.getString("REMARKS");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return comment;
+    }
+
+    /**
      * 中文格式化
      *
      * @param name 名称
@@ -172,11 +190,12 @@ public interface Sql {
      * @return 名称
      */
     static String checkName(String name) {
+        String regex = "^[a-zA-Z0-9_]*$";
         if (null == name || "".equals(name.trim())) {
             throw new RuntimeException("名称不能为空");
         }
         name = name.trim().toLowerCase();
-        if (!name.matches("^[a-zA-Z0-9_]*$")) {
+        if (!name.matches(regex)) {
             throw new RuntimeException(name + "不符合规则,只能是字母数字下划线");
         }
         if (KEYWORD.contains(name)) {
@@ -220,7 +239,7 @@ public interface Sql {
                 columnInfo.setNotNull(column.notNull());
                 columnInfo.setUnique(column.unique());
                 columnInfo.setPrimaryKey(column.isPrimaryKey());
-                columnInfo.setComment("".equals(column.comment().trim()) ? null : column.comment().trim());
+                columnInfo.setComment("".equals(column.comment().trim()) ? "" : column.comment().trim());
             }
             Class<?> javaType = field.getType();
             boolean isBoolean = false;
@@ -361,34 +380,41 @@ public interface Sql {
         if (!javaList.isEmpty() && !dbList.isEmpty()) {
             for (ColumnInfo java : javaList) {
                 for (ColumnInfo db : dbList) {
+                    // 比较名称是否相同,已复写equals
                     if (java.equals(db)) {
+                        String comment = java.getComment();
                         if (!java.getType().equals(db.getType())) {
                             // 类型不同
                             modifyList.add(java);
-                        } else {
-                            // 类型相同
-                            Integer length = java.getLength();
-                            if (JDBCType.VARCHAR.equals(java.getType())) {
-                                if (null != length && !length.equals(db.getLength())) {
-                                    //长度不同
-                                    modifyList.add(java);
-                                }
-                            }
-                            if (JDBCType.DECIMAL.equals(java.getType())) {
-                                Integer precision = java.getPrecision();
-                                if ((null != length && !length.equals(db.getLength())) || (null != precision && !precision.equals(db.getPrecision()))) {
-                                    //长度/精度不同
-                                    modifyList.add(java);
-                                }
-                            }
-                            if(!java.getNotNull().equals(db.getNotNull())){
+                        } else if (null != comment && !"".contentEquals(comment.trim()) && !comment.equals(db.getComment())) {
+                            // 注释不同
+                            modifyList.add(java);
+                        } else if (!java.getPrimaryKey()) {
+                            // 非主键
+                            if (!java.getNotNull().equals(db.getNotNull())) {
                                 // 是否非空不同
                                 modifyList.add(java);
-                            }
-                            String comment = java.getComment();
-                            if (null != comment && !"".contentEquals(comment.trim()) && !comment.equals(db.getComment())) {
-                                // 注释不同
-                                modifyList.add(java);
+                            } else {
+                                Integer length = java.getLength();
+                                if (JDBCType.VARCHAR.equals(java.getType())) {
+                                    if (null != length && !length.equals(db.getLength())) {
+                                        //长度不同
+                                        modifyList.add(java);
+                                    }
+                                }
+                                if (JDBCType.DECIMAL.equals(java.getType())) {
+                                    if (null != length && !length.equals(db.getLength())) {
+                                        //长度不同
+                                        modifyList.add(java);
+                                    } else {
+                                        Integer precision = java.getPrecision();
+                                        if (null != precision && !precision.equals(db.getPrecision())) {
+                                            //精度不同
+                                            modifyList.add(java);
+                                        }
+                                    }
+
+                                }
                             }
                         }
                     }

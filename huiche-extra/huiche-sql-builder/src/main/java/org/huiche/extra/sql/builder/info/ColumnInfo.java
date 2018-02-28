@@ -84,9 +84,20 @@ public class ColumnInfo implements Serializable {
     public boolean equals(Object obj) {
         return obj instanceof ColumnInfo && name.equalsIgnoreCase(((ColumnInfo) obj).name);
     }
-
     @Override
     public String toString() {
         return name;
+    }
+    public String toStringDetail() {
+        return "ColumnInfo{" +
+                "name='" + name + '\'' +
+                ", type=" + type +
+                ", length=" + length +
+                ", precision=" + precision +
+                ", unique=" + unique +
+                ", notNull=" + notNull +
+                ", isPrimaryKey=" + isPrimaryKey +
+                ", comment='" + comment + '\'' +
+                '}';
     }
 }

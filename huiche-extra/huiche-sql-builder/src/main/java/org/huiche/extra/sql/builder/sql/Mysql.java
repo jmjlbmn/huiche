@@ -16,7 +16,7 @@ public class Mysql implements Sql {
         Iterator<ColumnInfo> iterator = tableInfo.getColumnInfoList().iterator();
         while (iterator.hasNext()) {
             ColumnInfo columnInfo = iterator.next();
-            builder.append(getCreateColumn(columnInfo));
+            builder.append(TAB).append(getCreateColumn(columnInfo));
             if (iterator.hasNext()) {
                 builder.append(COMMA);
                 builder.append(BR);
@@ -37,7 +37,7 @@ public class Mysql implements Sql {
     @Override
     public String getCreateColumn(ColumnInfo columnInfo) {
         StringBuilder builder = new StringBuilder();
-        builder.append(TAB).append(columnInfo.getName()).append(SPACE);
+        builder.append(columnInfo.getName()).append(SPACE);
         switch (columnInfo.getType()) {
             case TINYINT:
                 builder.append("TINYINT");
@@ -56,13 +56,13 @@ public class Mysql implements Sql {
                 builder.append(BRACKETS_START).append(columnInfo.getLength()).append(COMMA).append(columnInfo.getPrecision()).append(BRACKETS_END);
                 break;
             case VARCHAR:
-                if (columnInfo.getLength() < 5000) {
+                if(columnInfo.getLength()>=Length.LONGTEXT){
+                    builder.append("LONGTEXT");
+                }else if(columnInfo.getLength()>=Length.TEXT){
+                    builder.append("TEXT");
+                }else{
                     builder.append("VARCHAR");
                     builder.append(BRACKETS_START).append(columnInfo.getLength()).append(BRACKETS_END);
-                } else if (columnInfo.getLength() < 65000) {
-                    builder.append("TEXT");
-                } else {
-                    builder.append("LONGTEXT");
                 }
                 break;
             default:
@@ -92,5 +92,10 @@ public class Mysql implements Sql {
     }
 
     private Mysql() {
+    }
+
+    interface Length {
+        int TEXT = 4000;
+        int LONGTEXT = 60000;
     }
 }

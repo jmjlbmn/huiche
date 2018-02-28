@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  */
 public class BeanUtil {
     public static List<Field> getField(Class<?> clazz) {
-        Map<String, Field> map = new HashMap<>();
+        Map<String, Field> map = new HashMap<>(16);
         for (; clazz != Object.class; clazz = clazz.getSuperclass()) {
             for (Field field : Arrays.asList(clazz.getDeclaredFields())) {
                 int modifiers = field.getModifiers();
@@ -51,7 +51,8 @@ public class BeanUtil {
         String path = packageName.replace(".", "/");
         URL url = Thread.currentThread().getContextClassLoader().getResource(path);
         try {
-            if (url != null && url.toString().startsWith("file")) {
+            String filePre = "file";
+            if (url != null && url.toString().startsWith(filePre)) {
                 String filePath = URLDecoder.decode(url.getFile(), "utf-8");
                 File dir = new File(filePath);
                 List<File> fileList = new ArrayList<>();

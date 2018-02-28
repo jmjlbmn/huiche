@@ -28,6 +28,7 @@ public class SqlBuilder {
     private NamingRule namingRule;
     private static SqlBuilder TOOL = new SqlBuilder();
     private List<String> sqlList;
+    private List<String> manualSqlList;
 
     public static SqlBuilder init(String jdbcUrl, String user, String password, String beanPackage) {
         return init(jdbcUrl, user, password, beanPackage, CamelCaseNamingRule.getInstance());
@@ -41,15 +42,23 @@ public class SqlBuilder {
         TOOL.namingRule = namingRule;
         TOOL.dataBase = DataBase.init(TOOL.url);
         TOOL.sqlList = new ArrayList<>();
+        TOOL.manualSqlList = new ArrayList<>();
         return TOOL;
     }
 
     public void run(Class<?>... classes) {
-        run(true, classes);
+        run(false, classes);
     }
 
+    /**
+     * 执行
+     *
+     * @param update  是否执行修改列和删除列操作
+     * @param classes 表
+     */
     public void run(boolean update, Class<?>... classes) {
         sqlList.clear();
+        manualSqlList.clear();
         Properties props = new Properties();
         props.setProperty("user", user);
         props.setProperty("password", password);
@@ -76,16 +85,12 @@ public class SqlBuilder {
             TableInfo tableInfo = Sql.getInfo(clazz, namingRule);
             try {
                 if (dataBase.sql().checkTableExists(conn, tableInfo.getName())) {
-                    if (update) {
-                        System.out.println("数据表: " + tableInfo.getName() + " 已经存在,即将检查对比,尝试进行修改 ... ");
-                        try {
-                            update(tableInfo, conn);
-                        } catch (SQLException e1) {
-                            System.out.print("修改实体: " + clazz.getSimpleName() + " 的数据表 失败!!!!!!");
-                            throw new RuntimeException(e1);
-                        }
-                    } else {
-                        System.out.println("数据表: " + tableInfo.getName() + " 已经存在,跳过 ... ");
+                    System.out.println("数据表: " + tableInfo.getName() + " 已经存在,即将检查对比,尝试进行修改 ... ");
+                    try {
+                        update(tableInfo, conn, update);
+                    } catch (SQLException e1) {
+                        System.out.print("修改实体: " + clazz.getSimpleName() + " 的数据表 失败!!!!!!");
+                        throw new RuntimeException(e1);
                     }
                 } else {
                     System.out.println("创建实体: " + clazz.getSimpleName() + " 的数据表 ... 开始");
@@ -99,9 +104,11 @@ public class SqlBuilder {
         }
     }
 
-    private void update(TableInfo tableInfo, Connection conn) throws SQLException {
-        System.out.println("直接修改表的注释,(不查询注释变动),表: " + tableInfo.getName());
-        executeSql(conn, dataBase.sql().getAlterTableComment(tableInfo));
+    private void update(TableInfo tableInfo, Connection conn, boolean update) throws SQLException {
+        if (!tableInfo.getComment().equals(dataBase.sql().getTableComment(conn, tableInfo.getName()))) {
+            System.out.println("修改表的注释,表: " + tableInfo.getName());
+            executeSql(conn, dataBase.sql().getAlterTableComment(tableInfo));
+        }
         List<ColumnInfo> javaList = tableInfo.getColumnInfoList();
         List<ColumnInfo> dbList = Sql.getInfo(conn, tableInfo.getName());
         ColumnCompareInfo compare = Sql.compare(javaList, dbList);
@@ -110,35 +117,41 @@ public class SqlBuilder {
             return;
         }
         System.out.println(Sql.TAB + "修改表: " + tableInfo.getName() + " ... 开始");
-        if (!compare.getDelList().isEmpty()) {
-            System.out.println(Sql.TAB + Sql.TAB + "需要删除列:" + compare.getDelList() + " 开始执行==>");
-            for (ColumnInfo columnInfo : compare.getDelList()) {
-                System.out.print(Sql.TAB + Sql.TAB + "删除列: " + columnInfo.getName() + " ... ");
-                executeSql(conn, dataBase.sql().getDropColumn(tableInfo.getName(), columnInfo.getName()));
-                System.out.println("成功");
-                System.out.println();
-            }
-        }
-        if (!compare.getModifyList().isEmpty()) {
-            System.out.println(Sql.TAB + Sql.TAB + "需要修改列:" + compare.getModifyList() + " 开始执行==>");
-            for (ColumnInfo columnInfo : compare.getModifyList()) {
-                System.out.print(Sql.TAB + Sql.TAB + "修改列: " + columnInfo.getName() + " ... ");
-                if (!columnInfo.getUnique()) {
-                    try {
-                        executeSql(conn, dataBase.sql().getDropIndex(tableInfo.getName(), columnInfo.getName()));
-                    } catch (SQLException ignored) {}
-                }
-                executeSql(conn, dataBase.sql().getAlterModifyColumn(tableInfo.getName(), columnInfo));
-                System.out.println("成功");
-                System.out.println();
-            }
-        }
         if (!compare.getAddList().isEmpty()) {
             System.out.println(Sql.TAB + Sql.TAB + "需要增加列:" + compare.getAddList() + " 开始执行==>");
             for (ColumnInfo columnInfo : compare.getAddList()) {
                 System.out.print(Sql.TAB + Sql.TAB + "增加列: " + columnInfo.getName() + " ... ");
                 executeSql(conn, dataBase.sql().getAlterAddColumn(tableInfo.getName(), columnInfo));
                 System.out.println("成功");
+            }
+        }
+        if (!compare.getDelList().isEmpty()) {
+            System.out.println(Sql.TAB + Sql.TAB + "需要删除列:" + compare.getDelList() + " 开始执行==>");
+            for (ColumnInfo columnInfo : compare.getDelList()) {
+                String sql = dataBase.sql().getDropColumn(tableInfo.getName(), columnInfo.getName());
+                if (update) {
+                    System.out.print(Sql.TAB + Sql.TAB + "删除列: " + columnInfo.getName() + " ... ");
+                    executeSql(conn, sql);
+                    System.out.println("成功");
+                    System.out.println();
+                } else {
+                    manualSql(sql);
+                }
+            }
+        }
+        if (!compare.getModifyList().isEmpty()) {
+            System.out.println(Sql.TAB + Sql.TAB + "需要修改列:" + compare.getModifyList() + " 开始执行==>");
+            for (ColumnInfo columnInfo : compare.getModifyList()) {
+                String sql = dataBase.sql().getAlterModifyColumn(tableInfo.getName(), columnInfo);
+                if (update) {
+                    System.out.print(Sql.TAB + Sql.TAB + "修改列: " + columnInfo.getName() + " ... ");
+                    executeSql(conn, sql);
+                    System.out.println("成功");
+                    System.out.println();
+                } else {
+                    manualSql(sql);
+                }
+
             }
         }
         System.out.println(Sql.TAB + "修改表: " + tableInfo.getName() + " ... 结束");
@@ -155,14 +168,28 @@ public class SqlBuilder {
         sqlList.add("#执行成功==================>" + Sql.BR);
     }
 
+    private void manualSql(String sql) {
+        System.out.println("请手动执行:");
+        System.out.println(sql);
+        manualSqlList.add(sql + ";");
+    }
+
     private void printSql() {
         if (!sqlList.isEmpty()) {
-            System.out.println(Sql.BR + "#=====所有执行的SQL如下=====>:" + Sql.BR);
+            System.out.println(Sql.BR + "#=====所有已经被执行的SQL如下=====>:" + Sql.BR);
             for (String sql : sqlList) {
                 System.out.println(sql);
             }
         }
+        if (!manualSqlList.isEmpty()) {
+            System.out.println();
+            System.out.println(Sql.BR + "#=====需要您手动执行的SQL如下=====>:" + Sql.BR);
+            for (String sql : manualSqlList) {
+                System.out.println(sql);
+            }
+        }
     }
+
 
     private SqlBuilder() {
     }
