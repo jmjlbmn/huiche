@@ -12,23 +12,53 @@ import java.sql.SQLException;
  * @author Maning
  */
 public class CodeGenQueryDsl {
-    public static void run(String jdbcUrl, String user, String password, String packageName, String exporterPath) {
+    private String jdbcUrl;
+    private String user;
+    private String password;
+    private String exporterPath;
+
+    private CodeGenQueryDsl() {
+    }
+
+    public static CodeGenQueryDsl init(String jdbcUrl, String user, String password, String exporterPath) {
         initDriver(jdbcUrl);
+        CodeGenQueryDsl codeGenQueryDsl = new CodeGenQueryDsl();
+        codeGenQueryDsl.jdbcUrl = jdbcUrl;
+        codeGenQueryDsl.user = user;
+        codeGenQueryDsl.password = password;
+        codeGenQueryDsl.exporterPath = exporterPath;
+        return codeGenQueryDsl;
+    }
+
+    public void exportTable() throws SQLException {
+        exportTable(null);
+    }
+
+    public void exportTable(String packageName) throws SQLException {
         try (Connection conn = DriverManager.getConnection(jdbcUrl, user, password)) {
-            export(conn, packageName, exporterPath);
-        } catch (SQLException e) {
-            e.printStackTrace();
+            MetaDataExporter exporter = new MetaDataExporter();
+            exporter.setPackageName(null == packageName ? "table" : packageName);
+            exporter.setTargetFolder(new File(exporterPath));
+            exporter.setExportTables(true);
+            exporter.setExportViews(false);
+            exporter.setBeanSerializer(new BeanSerializer());
+            exporter.export(conn.getMetaData());
         }
     }
 
-    private static void export(Connection conn, String packageName, String exporterPath) throws SQLException {
-        MetaDataExporter exporter = new MetaDataExporter();
-        exporter.setPackageName(packageName);
-        exporter.setTargetFolder(new File(exporterPath));
-        exporter.setExportTables(true);
-        exporter.setExportViews(true);
-        exporter.setBeanSerializer(new BeanSerializer());
-        exporter.export(conn.getMetaData());
+    public void exportView() throws SQLException {
+        exportView(null);
+    }
+
+    public void exportView(String packageName) throws SQLException {
+        try (Connection conn = DriverManager.getConnection(jdbcUrl, user, password)) {
+            MetaDataExporter exporter = new MetaDataExporter();
+            exporter.setPackageName(null == packageName ? "view" : packageName);
+            exporter.setTargetFolder(new File(exporterPath));
+            exporter.setExportTables(false);
+            exporter.setExportViews(true);
+            exporter.export(conn.getMetaData());
+        }
     }
 
     /**

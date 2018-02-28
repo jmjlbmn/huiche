@@ -16,6 +16,11 @@
             <groupId>com.querydsl</groupId>
             <artifactId>querydsl-sql-codegen</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-nop</artifactId>
+            <scope>runtime</scope>
+        </dependency>
     </dependencies>
 
 </project>
