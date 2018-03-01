@@ -145,7 +145,7 @@ public interface Sql {
         String comment = "";
         try {
             DatabaseMetaData metaData = conn.getMetaData();
-            ResultSet resultSet = metaData.getTables(null, null, "elder", null);
+            ResultSet resultSet = metaData.getTables(null, null, tableName, null);
             if (resultSet.next()) {
                 return resultSet.getString("REMARKS");
             }
