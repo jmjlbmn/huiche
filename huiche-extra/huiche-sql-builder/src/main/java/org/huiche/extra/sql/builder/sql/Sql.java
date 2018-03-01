@@ -2,7 +2,7 @@ package org.huiche.extra.sql.builder.sql;
 
 import org.huiche.core.annotation.Column;
 import org.huiche.core.annotation.Table;
-import org.huiche.extra.sql.builder.BeanUtil;
+import org.huiche.extra.sql.builder.FieldUtil;
 import org.huiche.extra.sql.builder.info.ColumnCompareInfo;
 import org.huiche.extra.sql.builder.info.ColumnInfo;
 import org.huiche.extra.sql.builder.info.TableInfo;
@@ -223,7 +223,7 @@ public interface Sql {
         tableInfo.setEngine(table.engine().trim());
         List<ColumnInfo> columnInfoList = new ArrayList<>();
         ColumnInfo columnInfo;
-        for (Field field : BeanUtil.getField(clazz)) {
+        for (Field field : FieldUtil.getField(clazz)) {
             columnInfo = new ColumnInfo();
             Column column = field.getAnnotation(Column.class);
             if (null == column) {

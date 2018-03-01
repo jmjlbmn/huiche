@@ -8,6 +8,7 @@ import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.DecimalFormat;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -46,10 +47,8 @@ public class FileUtil {
 
     public static boolean saveFileIO(String path, byte[] bytes) {
         File file = new File(path);
-        try (
-                FileOutputStream fileOutputStream = new FileOutputStream(file);
-                BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(fileOutputStream);
-        ) {
+        try (FileOutputStream fileOutputStream = new FileOutputStream(file);
+             BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(fileOutputStream)) {
             bufferedOutputStream.write(bytes);
         } catch (IOException e) {
             e.printStackTrace();
@@ -60,10 +59,8 @@ public class FileUtil {
 
     public static boolean saveFileNIO(String path, byte[] bytes) {
         File file = new File(path);
-        try (
-                FileOutputStream fileOutputStream = new FileOutputStream(file);
-                FileChannel fileChannel = fileOutputStream.getChannel();
-        ) {
+        try (FileOutputStream fileOutputStream = new FileOutputStream(file);
+             FileChannel fileChannel = fileOutputStream.getChannel()) {
             ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
             byteBuffer.put(bytes);
             byteBuffer.flip();
@@ -79,14 +76,16 @@ public class FileUtil {
     /**
      * 创建文件夹
      *
-     * @param path
+     * @param path 路径
      */
     public static void createFile(String path) {
         File file = new File(path.substring(0, path.lastIndexOf("/")));
         if (!file.exists()) {
             try {
-                file.mkdirs();
-            } catch (Exception e) {
+                if (!file.mkdirs()) {
+                    System.err.println("创建文件夹失败: " + file.getPath());
+                }
+            } catch (Exception ignored) {
             }
         }
     }
@@ -125,7 +124,20 @@ public class FileUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
-            return type;
+        return type;
+    }
+
+    public static void fetchFileList(File dir, List<File> fileList) {
+        if (dir.isDirectory()) {
+            File[] list = dir.listFiles();
+            if (null != list) {
+                for (File f : list) {
+                    fetchFileList(f, fileList);
+                }
+            }
+        } else {
+            fileList.add(dir);
+        }
     }
 
 

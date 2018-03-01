@@ -1,6 +1,7 @@
 package org.huiche.extra.sql.builder;
 
 import org.huiche.core.annotation.Table;
+import org.huiche.core.util.BeanUtil;
 import org.huiche.extra.sql.builder.info.ColumnCompareInfo;
 import org.huiche.extra.sql.builder.info.ColumnInfo;
 import org.huiche.extra.sql.builder.info.TableInfo;
@@ -23,22 +24,26 @@ public class SqlBuilder {
     private String url;
     private String user;
     private String password;
+    private String rootPath;
     private DataBase dataBase;
-    private String beanPackage;
     private NamingRule namingRule;
     private static SqlBuilder TOOL = new SqlBuilder();
     private List<String> sqlList;
     private List<String> manualSqlList;
 
-    public static SqlBuilder init(String jdbcUrl, String user, String password, String beanPackage) {
-        return init(jdbcUrl, user, password, beanPackage, CamelCaseNamingRule.getInstance());
+    public static SqlBuilder init(String jdbcUrl, String user, String password, String rootPath) {
+        return init(jdbcUrl, user, password, rootPath, CamelCaseNamingRule.getInstance());
     }
 
-    public static SqlBuilder init(String jdbcUrl, String user, String password, String beanPackage, NamingRule namingRule) {
+    public static SqlBuilder init(String jdbcUrl, String user, String password) {
+        return init(jdbcUrl, user, password, null, CamelCaseNamingRule.getInstance());
+    }
+
+    public static SqlBuilder init(String jdbcUrl, String user, String password, String rootPath, NamingRule namingRule) {
         TOOL.url = jdbcUrl;
         TOOL.user = user;
         TOOL.password = password;
-        TOOL.beanPackage = beanPackage;
+        TOOL.rootPath = rootPath;
         TOOL.namingRule = namingRule;
         TOOL.dataBase = DataBase.init(TOOL.url);
         TOOL.sqlList = new ArrayList<>();
@@ -46,8 +51,45 @@ public class SqlBuilder {
         return TOOL;
     }
 
+    public void run() {
+        run(false);
+    }
+
+    public void run(boolean update) {
+        run(update, new String[]{});
+    }
+
     public void run(Class<?>... classes) {
         run(false, classes);
+    }
+
+    public void run(String... packageName) {
+        run(false, packageName);
+    }
+
+    public void run(boolean update, String... packageName) {
+        List<Class<?>> classList;
+        if (packageName.length > 0) {
+            classList = BeanUtil.scan(rootPath, clazz -> {
+                for (String pkg : packageName) {
+                    if (clazz.getPackage().toString().contains(pkg)) {
+                        Table table = clazz.getAnnotation(Table.class);
+                        return null != table;
+                    }
+                }
+                return false;
+            });
+        } else {
+            classList = BeanUtil.scan(rootPath, clazz -> {
+                Table table = clazz.getAnnotation(Table.class);
+                return null != table;
+            });
+        }
+        if (classList.isEmpty()) {
+            throw new RuntimeException("找不到符合条件的类");
+        }
+        Class<?>[] classes = new Class[classList.size()];
+        run(update, classList.toArray(classes));
     }
 
     /**
@@ -57,6 +99,10 @@ public class SqlBuilder {
      * @param classes 表
      */
     public void run(boolean update, Class<?>... classes) {
+        if (classes.length == 0) {
+            System.err.println("没有要生成SQL的类,不会进行操作");
+            return;
+        }
         sqlList.clear();
         manualSqlList.clear();
         Properties props = new Properties();
@@ -66,13 +112,8 @@ public class SqlBuilder {
         props.setProperty("useInformationSchema", "true");
         try (Connection conn = DriverManager.getConnection(url, props)) {
             conn.setAutoCommit(true);
-            if (null == classes || classes.length == 0) {
-                List<Class<?>> list = BeanUtil.scan(Table.class, beanPackage);
-                create(list, conn, update);
-            } else {
-                List<Class<?>> list = Arrays.asList(classes);
-                create(list, conn, update);
-            }
+            List<Class<?>> list = Arrays.asList(classes);
+            create(list, conn, update);
         } catch (Exception e) {
             printSql();
             throw new RuntimeException(e);
