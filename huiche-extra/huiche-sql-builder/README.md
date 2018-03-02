@@ -2,6 +2,7 @@
 根据实体类和注解,生成 创建/更新 数据表的SQL语句,支持Boolean,Integer,Long,Float,Double,String,枚举(按String,存名称)
 ## 添加依赖
 ```xml
+    <!--版本请自行添加或使用dependencyManagement-->
     <dependencies>
         <!--数据库驱动,目前仅支持MySQl,可自行扩展-->
         <dependency>
