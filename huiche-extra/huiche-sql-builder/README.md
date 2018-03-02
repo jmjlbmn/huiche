@@ -19,6 +19,7 @@
 ## 实体类/表注解 `org.huiche.core.annotation.Table` 参数:
 - `value` 表名,不填默认值为类名用下划线分隔,小写的形式,如实体UserGroup,默认表名为user_group
 - `comment` 表注释
+> `Table` 注解必须添加,不然不会被扫描到
 ## 属性/字段注解 `org.huiche.core.annotation.Column` 参数:
 - `value` 字段名,不填默认值为类名用下划线分隔,小写的形式,如字段userRole,默认字段名为user_role
 - `isPrimaryKey` 是否主键,默认`false`
@@ -30,6 +31,7 @@
 - `notNull` 是否非空,默认`false`
 - `isDbField` 是否是数据表字段,默认`true` 设置为`false`时将跳过该字段
 - `comment` 列注释
+> `Column` 注解可选添加,不添加时默认当做字段并自动解析出字段名和长度,其他使用默认值
 ## 初始化和执行
 ```java
     public class CreateTable {
