@@ -31,7 +31,7 @@ public @interface Column {
 
     /**
      * 是否唯一
-     * zan
+     * 暂时只支持唯一索引的创建,不支持修改,即不能删除(不安全)
      */
     boolean unique() default false;
 
