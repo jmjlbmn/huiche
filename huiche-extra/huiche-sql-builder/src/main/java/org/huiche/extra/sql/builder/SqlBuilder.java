@@ -210,8 +210,8 @@ public class SqlBuilder {
     }
 
     private void manualSql(String sql) {
-        System.out.println("请手动执行:");
-        System.out.println(sql);
+        System.out.println(Sql.TAB + Sql.TAB + "请手动执行:");
+        System.out.println(Sql.TAB + Sql.TAB + sql);
         manualSqlList.add(sql + ";");
     }
 
