@@ -8,14 +8,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
- * @author Dev
+ * @author Maning
  */
-@Transactional(rollbackFor = Throwable.class, readOnly = true)
+@Transactional(rollbackFor = Exception.class, readOnly = true)
 public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseService<T> {
 	/**
-	 * 获取dsl
+	 * 获取dao
 	 *
-	 * @return dsl
+	 * @return dao
 	 */
 	protected abstract BaseDao<T> getBaseDao();
 
@@ -26,7 +26,7 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseServi
 	 * @return ID
 	 */
 	@Override
-	@Transactional(rollbackFor = Throwable.class)
+	@Transactional(rollbackFor = Exception.class)
 	public Long create(T entity) {
 		checkNull(entity);
 		checkRegular(entity);
@@ -40,32 +40,32 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseServi
 	 * @return ID
 	 */
 	@Override
-	@Transactional(rollbackFor = Throwable.class)
+	@Transactional(rollbackFor = Exception.class)
 	public Long update(T entity) {
 		checkRegular(entity);
 		return getBaseDao().update(entity);
 	}
 
 	@Override
-	@Transactional(rollbackFor = Throwable.class)
+	@Transactional(rollbackFor = Exception.class)
 	public void delete(Long id) {
 		getBaseDao().delete(id);
 	}
 
 	@Override
-	@Transactional(rollbackFor = Throwable.class)
+	@Transactional(rollbackFor = Exception.class)
 	public void delete(Long... id) {
 		getBaseDao().delete(id);
 	}
 
 	@Override
-	@Transactional(rollbackFor = Throwable.class)
+	@Transactional(rollbackFor = Exception.class)
 	public void delete(List<Long> id) {
 		getBaseDao().delete(id);
 	}
 
 	@Override
-	@Transactional(rollbackFor = Throwable.class)
+	@Transactional(rollbackFor = Exception.class)
 	public void delete(String ids) {
 		getBaseDao().delete(ids);
 	}
@@ -76,7 +76,7 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseServi
 	}
 
 	@Override
-	@Transactional(rollbackFor = Throwable.class)
+	@Transactional(rollbackFor = Exception.class)
 	public Long save(T entity) {
 		if (entity.getId() == null) {
 			return getBaseDao().create(entity);

@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.github.jmjlbmn</groupId>
         <artifactId>huiche-extra</artifactId>
-        <version>1.0.2</version>
+        <version>1.0.3</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -15,11 +15,6 @@
         <dependency>
             <groupId>com.github.jmjlbmn</groupId>
             <artifactId>huiche-core-annotation</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-nop</artifactId>
-            <scope>runtime</scope>
         </dependency>
     </dependencies>
 </project>

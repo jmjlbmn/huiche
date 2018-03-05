@@ -1,21 +1,17 @@
 # Sql Builder
 根据实体类和注解,生成 创建/更新 数据表的SQL语句,支持Boolean,Integer,Long,Float,Double,String,枚举(按String,存名称)
-## 添加依赖
+> 支持继承,但暂不支持泛型类型的属性(如主键用泛型),另外主键暂时只支持单主键可自增类型(不支持String)
+## 实体类添加的注解需要添加依赖
 ```xml
     <!--版本请自行添加或使用dependencyManagement-->
     <dependencies>
-        <!--数据库驱动,目前仅支持MySQl,可自行扩展-->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
-        </dependency>
         <dependency>
             <groupId>com.github.jmjlbmn</groupId>
-            <artifactId>huiche-sql-builder</artifactId>
+            <artifactId>huiche-core-annotation</artifactId>
         </dependency>
     </dependencies>
 ```
+
 ## 实体类/表注解 `org.huiche.core.annotation.Table` 参数:
 - `value` 表名,不填默认值为类名用下划线分隔,小写的形式,如实体UserGroup,默认表名为user_group
 - `comment` 表注释
@@ -32,6 +28,22 @@
 - `isDbField` 是否是数据表字段,默认`true` 设置为`false`时将跳过该字段
 - `comment` 列注释
 > `Column` 注解可选添加,不添加时默认当做字段并自动解析出字段名和长度,其他使用默认值
+## 执行生成所需依赖(推荐放在单独的,不会被打包的模块,按需手动执行,因为项目运行并不需要它)
+```xml
+    <!--版本请自行添加或使用dependencyManagement-->
+    <dependencies>
+        <!--数据库驱动,目前仅支持MySQl,可自行扩展-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.jmjlbmn</groupId>
+            <artifactId>huiche-sql-builder</artifactId>
+        </dependency>
+    </dependencies>
+```
 ## 初始化和执行
 ```java
     public class CreateTable {
