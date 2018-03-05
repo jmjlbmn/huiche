@@ -77,6 +77,11 @@
             <!--内部依赖-->
             <dependency>
                 <groupId>com.github.jmjlbmn</groupId>
+                <artifactId>huiche-core-annotation</artifactId>
+                <version>${huiche.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.jmjlbmn</groupId>
                 <artifactId>huiche-core-java</artifactId>
                 <version>${huiche.version}</version>
             </dependency>

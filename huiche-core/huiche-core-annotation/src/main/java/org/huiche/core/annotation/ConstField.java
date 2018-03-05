@@ -1,4 +1,4 @@
-package org.huiche.core.consts;
+package org.huiche.core.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

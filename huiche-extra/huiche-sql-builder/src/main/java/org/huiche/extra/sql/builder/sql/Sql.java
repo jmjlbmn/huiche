@@ -86,17 +86,6 @@ public interface Sql {
     }
 
     /**
-     * 获取删除索引语句
-     *
-     * @param tableName 表名
-     * @param indexName 索引名
-     * @return 语句
-     */
-    default String getDropIndex(String tableName, String indexName) {
-        return "ALTER TABLE " + tableName + " DROP INDEX " + indexName;
-    }
-
-    /**
      * 获取修改表修改字段语句
      *
      * @param tableName  表

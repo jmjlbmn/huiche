@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>com.github.jmjlbmn</groupId>
-            <artifactId>huiche-core-java</artifactId>
+            <artifactId>huiche-core-annotation</artifactId>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>

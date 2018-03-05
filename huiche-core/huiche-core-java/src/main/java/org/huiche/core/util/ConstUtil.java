@@ -1,7 +1,7 @@
 package org.huiche.core.util;
 
 import org.huiche.core.consts.ConstClass;
-import org.huiche.core.consts.ConstField;
+import org.huiche.core.annotation.ConstField;
 import org.huiche.core.consts.ConstVal;
 
 import javax.annotation.Nonnull;

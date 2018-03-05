@@ -1,7 +1,6 @@
 package org.huiche.extra.sql.builder;
 
 import org.huiche.core.annotation.Table;
-import org.huiche.core.util.BeanUtil;
 import org.huiche.extra.sql.builder.info.ColumnCompareInfo;
 import org.huiche.extra.sql.builder.info.ColumnInfo;
 import org.huiche.extra.sql.builder.info.TableInfo;
@@ -25,27 +24,51 @@ public class SqlBuilder {
     private String user;
     private String password;
     private String rootPath;
-    private DataBase dataBase;
+    private Sql dbSql;
     private NamingRule namingRule;
     private static SqlBuilder TOOL = new SqlBuilder();
     private List<String> sqlList;
     private List<String> manualSqlList;
 
-    public static SqlBuilder init(String jdbcUrl, String user, String password, String rootPath) {
-        return init(jdbcUrl, user, password, rootPath, CamelCaseNamingRule.getInstance());
+    public static SqlBuilder init(String jdbcUrl, String user, String password) {
+        return init(jdbcUrl, user, password, null, CamelCaseNamingRule.getInstance(), null);
     }
 
-    public static SqlBuilder init(String jdbcUrl, String user, String password) {
-        return init(jdbcUrl, user, password, null, CamelCaseNamingRule.getInstance());
+    public static SqlBuilder init(String jdbcUrl, String user, String password, String rootPath) {
+        return init(jdbcUrl, user, password, rootPath, CamelCaseNamingRule.getInstance(), null);
+    }
+
+    public static SqlBuilder init(String jdbcUrl, String user, String password, Sql sql) {
+        return init(jdbcUrl, user, password, null, CamelCaseNamingRule.getInstance(), sql);
+    }
+
+    public static SqlBuilder init(String jdbcUrl, String user, String password, NamingRule namingRule) {
+        return init(jdbcUrl, user, password, namingRule, null);
+    }
+
+    public static SqlBuilder init(String jdbcUrl, String user, String password, String rootPath, Sql sql) {
+        return init(jdbcUrl, user, password, rootPath, CamelCaseNamingRule.getInstance(), sql);
     }
 
     public static SqlBuilder init(String jdbcUrl, String user, String password, String rootPath, NamingRule namingRule) {
+        return init(jdbcUrl, user, password, rootPath, namingRule, null);
+    }
+
+    public static SqlBuilder init(String jdbcUrl, String user, String password, NamingRule namingRule, Sql sql) {
+        return init(jdbcUrl, user, password, null, namingRule, sql);
+    }
+
+    public static SqlBuilder init(String jdbcUrl, String user, String password, String rootPath, NamingRule namingRule, Sql sql) {
         TOOL.url = jdbcUrl;
         TOOL.user = user;
         TOOL.password = password;
         TOOL.rootPath = rootPath;
         TOOL.namingRule = namingRule;
-        TOOL.dataBase = DataBase.init(TOOL.url);
+        if (null == sql) {
+            TOOL.dbSql = DataBase.init(TOOL.url).sql();
+        } else {
+            TOOL.dbSql = sql;
+        }
         TOOL.sqlList = new ArrayList<>();
         TOOL.manualSqlList = new ArrayList<>();
         return TOOL;
@@ -70,7 +93,7 @@ public class SqlBuilder {
     public void run(boolean update, String... packageName) {
         List<Class<?>> classList;
         if (packageName.length > 0) {
-            classList = BeanUtil.scan(rootPath, clazz -> {
+            classList = FieldUtil.scan(rootPath, clazz -> {
                 for (String pkg : packageName) {
                     if (clazz.getPackage().toString().contains(pkg)) {
                         Table table = clazz.getAnnotation(Table.class);
@@ -80,7 +103,7 @@ public class SqlBuilder {
                 return false;
             });
         } else {
-            classList = BeanUtil.scan(rootPath, clazz -> {
+            classList = FieldUtil.scan(rootPath, clazz -> {
                 Table table = clazz.getAnnotation(Table.class);
                 return null != table;
             });
@@ -125,7 +148,7 @@ public class SqlBuilder {
         for (Class<?> clazz : classes) {
             TableInfo tableInfo = Sql.getInfo(clazz, namingRule);
             try {
-                if (dataBase.sql().checkTableExists(conn, tableInfo.getName())) {
+                if (dbSql.checkTableExists(conn, tableInfo.getName())) {
                     System.out.println("数据表: " + tableInfo.getName() + " 已经存在,即将检查对比,尝试进行修改 ... ");
                     try {
                         update(tableInfo, conn, update);
@@ -135,7 +158,7 @@ public class SqlBuilder {
                     }
                 } else {
                     System.out.println("创建实体: " + clazz.getSimpleName() + " 的数据表 ... 开始");
-                    executeSql(conn, Sql.BR + dataBase.sql().getCreate(tableInfo));
+                    executeSql(conn, Sql.BR + dbSql.getCreate(tableInfo));
                     System.out.println("创建实体: " + clazz.getSimpleName() + " 的数据表 ... 成功!!!");
                 }
             } catch (SQLException e) {
@@ -146,9 +169,9 @@ public class SqlBuilder {
     }
 
     private void update(TableInfo tableInfo, Connection conn, boolean update) throws SQLException {
-        if (!tableInfo.getComment().equals(dataBase.sql().getTableComment(conn, tableInfo.getName()))) {
+        if (!tableInfo.getComment().equals(dbSql.getTableComment(conn, tableInfo.getName()))) {
             System.out.println("修改表的注释,表: " + tableInfo.getName());
-            executeSql(conn, dataBase.sql().getAlterTableComment(tableInfo));
+            executeSql(conn, dbSql.getAlterTableComment(tableInfo));
         }
         List<ColumnInfo> javaList = tableInfo.getColumnInfoList();
         List<ColumnInfo> dbList = Sql.getInfo(conn, tableInfo.getName());
@@ -162,14 +185,14 @@ public class SqlBuilder {
             System.out.println(Sql.TAB + Sql.TAB + "需要增加列:" + compare.getAddList() + " 开始执行==>");
             for (ColumnInfo columnInfo : compare.getAddList()) {
                 System.out.print(Sql.TAB + Sql.TAB + "增加列: " + columnInfo.getName() + " ... ");
-                executeSql(conn, dataBase.sql().getAlterAddColumn(tableInfo.getName(), columnInfo));
+                executeSql(conn, dbSql.getAlterAddColumn(tableInfo.getName(), columnInfo));
                 System.out.println("成功");
             }
         }
         if (!compare.getDelList().isEmpty()) {
             System.out.println(Sql.TAB + Sql.TAB + "需要删除列:" + compare.getDelList() + " 开始执行==>");
             for (ColumnInfo columnInfo : compare.getDelList()) {
-                String sql = dataBase.sql().getDropColumn(tableInfo.getName(), columnInfo.getName());
+                String sql = dbSql.getDropColumn(tableInfo.getName(), columnInfo.getName());
                 if (update) {
                     System.out.print(Sql.TAB + Sql.TAB + "删除列: " + columnInfo.getName() + " ... ");
                     executeSql(conn, sql);
@@ -183,7 +206,7 @@ public class SqlBuilder {
         if (!compare.getModifyList().isEmpty()) {
             System.out.println(Sql.TAB + Sql.TAB + "需要修改列:" + compare.getModifyList() + " 开始执行==>");
             for (ColumnInfo columnInfo : compare.getModifyList()) {
-                String sql = dataBase.sql().getAlterModifyColumn(tableInfo.getName(), columnInfo);
+                String sql = dbSql.getAlterModifyColumn(tableInfo.getName(), columnInfo);
                 if (update) {
                     System.out.print(Sql.TAB + Sql.TAB + "修改列: " + columnInfo.getName() + " ... ");
                     executeSql(conn, sql);
