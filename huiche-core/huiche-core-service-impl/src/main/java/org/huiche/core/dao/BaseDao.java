@@ -10,7 +10,6 @@ import com.querydsl.sql.SQLQuery;
 import com.querydsl.sql.SQLQueryFactory;
 import com.querydsl.sql.dml.SQLInsertClause;
 import com.querydsl.sql.dml.SQLUpdateClause;
-import org.hibernate.validator.constraints.*;
 import org.huiche.core.entity.BaseEntity;
 import org.huiche.core.exception.Assert;
 import org.huiche.core.exception.DataBaseException;
@@ -20,16 +19,15 @@ import org.huiche.core.page.PageResponse;
 import org.huiche.core.util.DateUtil;
 import org.huiche.core.util.QueryDslUtil;
 import org.huiche.core.util.StringUtil;
+import org.huiche.core.validation.ValidOnlyCreate;
+import org.huiche.core.validation.ValidOnlyUpdate;
+import org.huiche.core.validation.ValidatorUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
 import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.constraints.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.groups.Default;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -55,6 +53,7 @@ public abstract class BaseDao<T extends BaseEntity> {
     public Long create(T entity) {
         Assert.notNull(SystemError.NOT_NULL, entity);
         entity = beforeCreate(entity);
+        validOnCreate(entity);
         Assert.isNull("新增数据时ID不能有值", entity.getId());
         Long id = sqlQueryFactory.insert(root())
                 .populate(entity)
@@ -75,6 +74,7 @@ public abstract class BaseDao<T extends BaseEntity> {
         SQLInsertClause insert = sqlQueryFactory.insert(root());
         for (T t : entityList) {
             beforeCreate(t);
+            validOnCreate(t);
             Assert.isNull("新增数据时ID不能有值", t.getId());
             insert.populate(t).addBatch();
         }
@@ -96,6 +96,7 @@ public abstract class BaseDao<T extends BaseEntity> {
         Assert.notNull(SystemError.NOT_NULL, entity);
         Assert.notNull("更新数据时,实体必须设置ID", entity.getId());
         entity = beforeUpdate(entity);
+        validOnUpdate(entity);
         Long change = sqlQueryFactory.update(root()).populate(entity).where(pk().eq(entity.getId())).execute();
         Assert.ok("更新失败,没有数据变动", change > 0);
         return entity.getId();
@@ -114,6 +115,7 @@ public abstract class BaseDao<T extends BaseEntity> {
             Long id = entity.getId();
             if (null != id) {
                 beforeUpdate(entity);
+                validOnUpdate(entity);
                 update.populate(entity.setId(null)).where(pk().eq(id)).addBatch();
             }
         }
@@ -136,6 +138,7 @@ public abstract class BaseDao<T extends BaseEntity> {
         Assert.notNull(entity, predicate);
         // 强制不更新ID
         entity.setId(null);
+        validOnUpdate(entity);
         return sqlQueryFactory.update(root()).populate(entity).where(predicate).execute();
     }
 
@@ -143,6 +146,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * 删除
      *
      * @param id 主键
+     * @return 变更条数
      */
     public long delete(Long id) {
         return sqlQueryFactory.delete(root()).where(pk().eq(id)).execute();
@@ -152,6 +156,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * 删除
      *
      * @param id 主键
+     * @return 变更条数
      */
     public long delete(Long... id) {
         return sqlQueryFactory.delete(root()).where(pk().in(id)).execute();
@@ -161,6 +166,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * 删除
      *
      * @param ids 主键
+     * @return 变更条数
      */
     public long delete(Collection<Long> ids) {
         return sqlQueryFactory.delete(root()).where(pk().in(ids)).execute();
@@ -170,6 +176,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * 删除
      *
      * @param ids 逗号分隔的id
+     * @return 变更条数
      */
     public long delete(String ids) {
         return sqlQueryFactory.delete(root()).where(pk().in(StringUtil.split2ListLong(ids))).execute();
@@ -180,6 +187,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * 删除
      *
      * @param predicate 条件
+     * @return 变更条数
      */
     public long delete(Predicate... predicate) {
         return sqlQueryFactory.delete(root()).where(predicate).execute();
@@ -620,7 +628,7 @@ public abstract class BaseDao<T extends BaseEntity> {
     }
 
     /**
-     * 创建之前方法,在checkNull之前执行<br>
+     * 创建之前方法,在validOnCreate之前执行<br>
      * 主要用于需要初始化默认值的情况,如发布时间,状态,类型,关注数,访问数等等<br>
      * 默认进行创建时间和修改时间的处理
      *
@@ -634,13 +642,14 @@ public abstract class BaseDao<T extends BaseEntity> {
     }
 
     /**
-     * 更新之前方法,在checkRegular之前执行<br>
+     * 更新之前方法,在validOnUpdate之前执行<br>
      * 这个一般很少用,比如用户类,更新之前,需要加密密码
      *
      * @param entity 实体
      * @return 变更后的实体
      */
     protected T beforeUpdate(T entity) {
+        entity.setCreateTime(null);
         entity.setModifyTime(DateUtil.nowTime());
         return entity;
     }
@@ -669,42 +678,19 @@ public abstract class BaseDao<T extends BaseEntity> {
      */
     protected abstract NumberPath<Long> pk();
 
-    protected void checkNull(T entity) {
+    protected void validOnCreate(T entity) {
         Assert.notNull(entity);
-        try {
-            Set<ConstraintViolation<T>> errors = Validation.buildDefaultValidatorFactory().getValidator().validate(entity, NotNull.class, NotBlank.class, NotEmpty.class);
-            if (!errors.isEmpty()) {
-                throw new DataBaseException(errors.stream().map(ConstraintViolation::getMessage).collect(Collectors.toList()));
-            }
-        } catch (DataBaseException e) {
-            throw e;
-        } catch (Exception e) {
-            log.warn("未引入hibernate-validator,将不会执行验证,如需要请手动复写验证");
-        }
+        valid(entity, ValidOnlyCreate.class, Default.class);
     }
 
-    protected void checkRegular(T entity) {
+    protected void validOnUpdate(T entity) {
         Assert.notNull(entity);
+        valid(entity, ValidOnlyUpdate.class, Default.class);
+    }
+
+    private void valid(T entity, Class<?>... groups) {
         try {
-            Set<ConstraintViolation<T>> errors = Validation.buildDefaultValidatorFactory().getValidator().validate(entity,
-                    DecimalMax.class,
-                    DecimalMin.class,
-                    Digits.class,
-                    Email.class,
-                    Pattern.class,
-                    Min.class,
-                    Max.class,
-                    Size.class,
-                    // 银行卡
-                    CreditCardNumber.class,
-                    // 银行卡算法
-                    LuhnCheck.class,
-                    Length.class,
-                    URL.class,
-                    Range.class,
-                    EAN.class,
-                    ISBN.class
-            );
+            Set<ConstraintViolation<T>> errors = ValidatorUtil.fastValidator.validate(entity, groups);
             if (!errors.isEmpty()) {
                 throw new DataBaseException(errors.stream().map(ConstraintViolation::getMessage).collect(Collectors.toList()));
             }
