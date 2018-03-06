@@ -10,19 +10,31 @@ import com.querydsl.sql.SQLQuery;
 import com.querydsl.sql.SQLQueryFactory;
 import com.querydsl.sql.dml.SQLInsertClause;
 import com.querydsl.sql.dml.SQLUpdateClause;
+import org.hibernate.validator.constraints.*;
 import org.huiche.core.entity.BaseEntity;
 import org.huiche.core.exception.Assert;
+import org.huiche.core.exception.DataBaseException;
 import org.huiche.core.exception.SystemError;
 import org.huiche.core.page.PageRequest;
 import org.huiche.core.page.PageResponse;
 import org.huiche.core.util.DateUtil;
 import org.huiche.core.util.QueryDslUtil;
 import org.huiche.core.util.StringUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.constraints.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 基础数据库查询Dao
@@ -30,6 +42,7 @@ import java.util.List;
  * @author Maning
  */
 public abstract class BaseDao<T extends BaseEntity> {
+    protected final Logger log = LoggerFactory.getLogger(getClass());
     @Resource
     protected SQLQueryFactory sqlQueryFactory;
 
@@ -655,5 +668,51 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @return 主键
      */
     protected abstract NumberPath<Long> pk();
+
+    protected void checkNull(T entity) {
+        Assert.notNull(entity);
+        try {
+            Set<ConstraintViolation<T>> errors = Validation.buildDefaultValidatorFactory().getValidator().validate(entity, NotNull.class, NotBlank.class, NotEmpty.class);
+            if (!errors.isEmpty()) {
+                throw new DataBaseException(errors.stream().map(ConstraintViolation::getMessage).collect(Collectors.toList()));
+            }
+        } catch (DataBaseException e) {
+            throw e;
+        } catch (Exception e) {
+            log.warn("未引入hibernate-validator,将不会执行验证,如需要请手动复写验证");
+        }
+    }
+
+    protected void checkRegular(T entity) {
+        Assert.notNull(entity);
+        try {
+            Set<ConstraintViolation<T>> errors = Validation.buildDefaultValidatorFactory().getValidator().validate(entity,
+                    DecimalMax.class,
+                    DecimalMin.class,
+                    Digits.class,
+                    Email.class,
+                    Pattern.class,
+                    Min.class,
+                    Max.class,
+                    Size.class,
+                    // 银行卡
+                    CreditCardNumber.class,
+                    // 银行卡算法
+                    LuhnCheck.class,
+                    Length.class,
+                    URL.class,
+                    Range.class,
+                    EAN.class,
+                    ISBN.class
+            );
+            if (!errors.isEmpty()) {
+                throw new DataBaseException(errors.stream().map(ConstraintViolation::getMessage).collect(Collectors.toList()));
+            }
+        } catch (DataBaseException e) {
+            throw e;
+        } catch (Exception e) {
+            log.warn("未引入hibernate-validator,将不会执行验证,如需要请手动复写验证");
+        }
+    }
 
 }

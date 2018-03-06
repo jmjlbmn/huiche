@@ -20,7 +20,8 @@ public enum SystemError implements BaseError {
     NOT_LOGIN(2, "未登录或登录超时"),
     NOT_AUTH(3, "没有权限"),
     NOT_NULL(4, "请求参数不能为空"),
-    JSON_ERROR(5, "JSON转换是啊比");
+    JSON_ERROR(5, "JSON转换失败"),
+    DB_NOT_ALLOW_FIELD__ERROR(6, "字段不符合数据库要求");
 
 
     private int id;
