@@ -8,6 +8,7 @@ import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.sql.RelationalPath;
 import com.querydsl.sql.SQLQuery;
 import com.querydsl.sql.SQLQueryFactory;
+import com.querydsl.sql.dml.DefaultMapper;
 import com.querydsl.sql.dml.SQLInsertClause;
 import com.querydsl.sql.dml.SQLUpdateClause;
 import org.huiche.core.entity.BaseEntity;
@@ -76,7 +77,7 @@ public abstract class BaseDao<T extends BaseEntity> {
             beforeCreate(t);
             validOnCreate(t);
             Assert.isNull("新增数据时ID不能有值", t.getId());
-            insert.populate(t).addBatch();
+            insert.populate(t, DefaultMapper.WITH_NULL_BINDINGS).addBatch();
         }
         if (!insert.isEmpty()) {
             return insert.executeWithKeys(pk());

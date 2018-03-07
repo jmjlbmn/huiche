@@ -11,6 +11,7 @@ import com.querydsl.sql.dml.SQLInsertBatch;
 import com.querydsl.sql.dml.SQLMergeBatch;
 import com.querydsl.sql.dml.SQLUpdateBatch;
 import com.querydsl.sql.spring.SpringExceptionTranslator;
+import com.querydsl.sql.types.Null;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,8 +27,9 @@ import java.util.Map;
 public class QueryDsl {
     private static final Logger LOG = LoggerFactory.getLogger("SQL监听");
     public static final Configuration CONFIG;
+
     static {
-        CONFIG = new Configuration(new SqlTemplates());
+        CONFIG = new Configuration(new MySqlExTemplates());
         CONFIG.setExceptionTranslator(new SpringExceptionTranslator());
         CONFIG.addListener(new SQLListener() {
             @Override
@@ -107,6 +109,7 @@ public class QueryDsl {
             }
         });
     }
+
     public static void logSql(QueryMetadata md, SQLSerializer serializer) {
         ImmutableList.Builder<Object> args = ImmutableList.builder();
         Map<ParamExpression<?>, Object> params = md.getParams();
@@ -125,6 +128,8 @@ public class QueryDsl {
             for (Object o : list) {
                 if (o instanceof Number) {
                     sql = sql.replaceFirst("\\?", String.valueOf(o));
+                } else if (o instanceof Null) {
+                    sql = sql.replaceFirst("\\?", "NULL");
                 } else {
                     sql = sql.replaceFirst("\\?", "'" + String.valueOf(o) + "'");
                 }
