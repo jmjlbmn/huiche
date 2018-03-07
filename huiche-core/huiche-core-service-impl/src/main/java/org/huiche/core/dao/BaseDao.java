@@ -71,13 +71,27 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @return ID
      */
     public List<Long> create(Collection<T> entityList) {
+        return create(entityList, false);
+    }
+
+    /**
+     * 批量插入数据
+     *
+     * @param entityList 实体
+     * @param fast 是否快速插入,快速插入仅插入需要设置的字段忽略null,但要注意快速插入时,须保证插入的要插入的字段一致,例如要插入name,sex,age字段,批量插入的所有实体都必须设置且只能设置这三个属性的值,不能有null(可以空字符串),不能设置其他属性
+     * @return ID
+     */
+    public List<Long> create(Collection<T> entityList, boolean fast) {
         Assert.ok(SystemError.NOT_NULL, null != entityList);
         SQLInsertClause insert = sqlQueryFactory.insert(root());
         for (T t : entityList) {
             beforeCreate(t);
-            validOnCreate(t);
             Assert.isNull("新增数据时ID不能有值", t.getId());
-            insert.populate(t, DefaultMapper.WITH_NULL_BINDINGS).addBatch();
+            if (fast) {
+                insert.populate(t).addBatch();
+            } else {
+                insert.populate(t, DefaultMapper.WITH_NULL_BINDINGS).addBatch();
+            }
         }
         if (!insert.isEmpty()) {
             return insert.executeWithKeys(pk());
