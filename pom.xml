@@ -11,7 +11,7 @@
     </parent>
     <groupId>com.github.jmjlbmn</groupId>
     <artifactId>huiche</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
     <packaging>pom</packaging>
     <modules>
         <module>huiche-core</module>
@@ -36,7 +36,7 @@
         </developer>
     </developers>
     <properties>
-        <huiche.version>1.0.4</huiche.version>
+        <huiche.version>1.0.5</huiche.version>
         <java.version>1.8</java.version>
         <argLine>-Dfile.encoding=${project.build.sourceEncoding}</argLine>
         <druid.version>1.1.8</druid.version>
@@ -140,7 +140,12 @@
     </build>
     <profiles>
         <profile>
-            <id>release</id>
+            <id>huicheDeploy</id>
+            <modules>
+                <module>huiche-core</module>
+                <module>huiche-config</module>
+                <module>huiche-extra</module>
+            </modules>
             <build>
                 <plugins>
                     <plugin>
@@ -196,9 +201,9 @@
                     </plugin>
                     <!-- GPG -->
                     <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-gpg-plugin</artifactId>
-                            <version>1.6</version>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.6</version>
                         <executions>
                             <execution>
                                 <phase>verify</phase>

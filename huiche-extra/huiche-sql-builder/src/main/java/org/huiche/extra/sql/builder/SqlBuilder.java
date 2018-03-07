@@ -93,7 +93,7 @@ public class SqlBuilder {
     public void run(boolean update, String... packageName) {
         List<Class<?>> classList;
         if (packageName.length > 0) {
-            classList = FieldUtil.scan(rootPath, clazz -> {
+            classList = Util.scan(rootPath, clazz -> {
                 for (String pkg : packageName) {
                     if (clazz.getPackage().toString().contains(pkg)) {
                         Table table = clazz.getAnnotation(Table.class);
@@ -103,7 +103,7 @@ public class SqlBuilder {
                 return false;
             });
         } else {
-            classList = FieldUtil.scan(rootPath, clazz -> {
+            classList = Util.scan(rootPath, clazz -> {
                 Table table = clazz.getAnnotation(Table.class);
                 return null != table;
             });

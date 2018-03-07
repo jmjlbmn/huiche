@@ -14,6 +14,7 @@ public class ColumnInfo implements Serializable {
     private Boolean unique;
     private Boolean notNull;
     private Boolean isPrimaryKey;
+    private Boolean isAutoIncrement;
     private String comment;
 
     public String getName() {
@@ -78,6 +79,14 @@ public class ColumnInfo implements Serializable {
 
     public void setUnique(Boolean unique) {
         this.unique = unique;
+    }
+
+    public Boolean getAutoIncrement() {
+        return isAutoIncrement;
+    }
+
+    public void setAutoIncrement(Boolean autoIncrement) {
+        isAutoIncrement = autoIncrement;
     }
 
     @Override

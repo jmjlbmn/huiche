@@ -2,13 +2,13 @@ package org.huiche.extra.sql.builder.sql;
 
 import org.huiche.core.annotation.Column;
 import org.huiche.core.annotation.Table;
-import org.huiche.extra.sql.builder.FieldUtil;
+import org.huiche.extra.sql.builder.Util;
 import org.huiche.extra.sql.builder.info.ColumnCompareInfo;
 import org.huiche.extra.sql.builder.info.ColumnInfo;
+import org.huiche.extra.sql.builder.info.FieldColumn;
 import org.huiche.extra.sql.builder.info.TableInfo;
 import org.huiche.extra.sql.builder.naming.NamingRule;
 
-import java.lang.reflect.Field;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -212,14 +212,15 @@ public interface Sql {
         tableInfo.setEngine(table.engine().trim());
         List<ColumnInfo> columnInfoList = new ArrayList<>();
         ColumnInfo columnInfo;
-        for (Field field : FieldUtil.getField(clazz)) {
+        for (FieldColumn field : Util.getField(clazz)) {
             columnInfo = new ColumnInfo();
-            Column column = field.getAnnotation(Column.class);
+            Column column = field.getColumn();
             if (null == column) {
                 columnInfo.setName(checkName(namingRule.javaName2SqlName(field.getName())));
                 columnInfo.setNotNull(false);
                 columnInfo.setUnique(false);
                 columnInfo.setPrimaryKey(false);
+                columnInfo.setAutoIncrement(false);
             } else {
                 if (!column.isDbField()) {
                     continue;
@@ -228,6 +229,11 @@ public interface Sql {
                 columnInfo.setNotNull(column.notNull());
                 columnInfo.setUnique(column.unique());
                 columnInfo.setPrimaryKey(column.isPrimaryKey());
+                if (column.isPrimaryKey()) {
+                    columnInfo.setAutoIncrement(column.isAutoIncrement());
+                } else {
+                    columnInfo.setAutoIncrement(false);
+                }
                 columnInfo.setComment("".equals(column.comment().trim()) ? "" : column.comment().trim());
             }
             Class<?> javaType = field.getType();

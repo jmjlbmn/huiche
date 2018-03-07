@@ -1,6 +1,5 @@
 # Sql Builder
 根据实体类和注解,生成 创建/更新 数据表的SQL语句,支持Boolean,Integer,Long,Float,Double,String,枚举(按String,存名称)
-> 支持继承,但暂不支持泛型类型的属性(如主键用泛型),另外主键暂时只支持单主键可自增类型(不支持String)
 ## 实体类添加的注解需要添加依赖
 ```xml
     <!--版本请自行添加或使用dependencyManagement-->

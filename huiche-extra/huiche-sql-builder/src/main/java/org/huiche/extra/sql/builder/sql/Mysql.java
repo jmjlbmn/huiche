@@ -3,6 +3,7 @@ package org.huiche.extra.sql.builder.sql;
 import org.huiche.extra.sql.builder.info.ColumnInfo;
 import org.huiche.extra.sql.builder.info.TableInfo;
 
+import java.sql.JDBCType;
 import java.util.Iterator;
 
 /**
@@ -56,11 +57,11 @@ public class Mysql implements Sql {
                 builder.append(BRACKETS_START).append(columnInfo.getLength()).append(COMMA).append(columnInfo.getPrecision()).append(BRACKETS_END);
                 break;
             case VARCHAR:
-                if(columnInfo.getLength()>=Length.LONGTEXT){
+                if (columnInfo.getLength() >= Length.LONGTEXT) {
                     builder.append("LONGTEXT");
-                }else if(columnInfo.getLength()>=Length.TEXT){
+                } else if (columnInfo.getLength() >= Length.TEXT) {
                     builder.append("TEXT");
-                }else{
+                } else {
                     builder.append("VARCHAR");
                     builder.append(BRACKETS_START).append(columnInfo.getLength()).append(BRACKETS_END);
                 }
@@ -69,7 +70,11 @@ public class Mysql implements Sql {
                 throw new RuntimeException("目前不支持此JDBC类型:" + columnInfo.getType().getName());
         }
         if (columnInfo.getPrimaryKey()) {
-            builder.append(" PRIMARY KEY AUTO_INCREMENT");
+            if (columnInfo.getAutoIncrement() && canAutoIncrement(columnInfo)) {
+                builder.append(" PRIMARY KEY AUTO_INCREMENT");
+            } else {
+                builder.append(" PRIMARY KEY");
+            }
         } else {
             if (columnInfo.getNotNull()) {
                 builder.append(" NOT NULL");
@@ -83,6 +88,10 @@ public class Mysql implements Sql {
             builder.append(" COMMENT ").append(wrap(comment));
         }
         return builder.toString();
+    }
+
+    private static boolean canAutoIncrement(ColumnInfo columnInfo) {
+        return JDBCType.BIGINT.equals(columnInfo.getType()) || JDBCType.INTEGER.equals(columnInfo.getType());
     }
 
     private static final Mysql SQL = new Mysql();
