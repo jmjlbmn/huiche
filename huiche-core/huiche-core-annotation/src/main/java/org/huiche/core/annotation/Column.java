@@ -20,6 +20,11 @@ public @interface Column {
     boolean isPrimaryKey() default false;
 
     /**
+     * 是否自增,仅是主键时生效
+     */
+    boolean isAutoIncrement() default true;
+
+    /**
      * 长度
      */
     int length() default 0;

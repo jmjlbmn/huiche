@@ -19,6 +19,7 @@
 ## 属性/字段注解 `org.huiche.core.annotation.Column` 参数:
 - `value` 字段名,不填默认值为类名用下划线分隔,小写的形式,如字段userRole,默认字段名为user_role
 - `isPrimaryKey` 是否主键,默认`false`
+- `isAutoIncrement` 是否自增,默认true,仅字段是主键时生效
 - `length` 字段长度,仅适用于字符类型和小数类型(DECIMAL)的字符长度,
     > 在Mysql中,length设置4000(`Mysql.Length.TEXT`)以上为TEXT类型,60000(`Mysql.Length.LONGTEXT`)以上为LONGTEXT类型
 - `precision` 精度,仅适用于小数类型的精度,即小数位数
