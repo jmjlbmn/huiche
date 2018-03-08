@@ -6,7 +6,6 @@ import org.huiche.core.exception.SystemError;
 import org.huiche.core.response.BaseResult;
 
 /**
- * Created by Maning on 2017/6/26.
  * 响应返回数据结果工具
  *
  * @author Maning
