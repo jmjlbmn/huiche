@@ -13,5 +13,6 @@
 - 集成javax.validation验证,实体类增加注解,即可写入数据库之前自动进行验证
 
 
-# 使用参考[huiche-examples](https://github.com/jmjlbmn/huiche-examples)
+# 使用参考
+[huiche-examples](https://github.com/jmjlbmn/huiche-examples)
 
