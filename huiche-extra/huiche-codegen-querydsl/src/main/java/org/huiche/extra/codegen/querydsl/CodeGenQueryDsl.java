@@ -30,11 +30,11 @@ public class CodeGenQueryDsl {
         return codeGenQueryDsl;
     }
 
-    public void exportTable() throws SQLException {
+    public void exportTable() {
         exportTable(null);
     }
 
-    public void exportTable(String packageName) throws SQLException {
+    public void exportTable(String packageName) {
         try (Connection conn = DriverManager.getConnection(jdbcUrl, user, password)) {
             MetaDataExporter exporter = new MetaDataExporter();
             exporter.setPackageName(null == packageName ? "table" : packageName);
@@ -43,14 +43,16 @@ public class CodeGenQueryDsl {
             exporter.setExportViews(false);
             exporter.setBeanSerializer(new BeanSerializer());
             exporter.export(conn.getMetaData());
+        } catch (SQLException e) {
+            throw new RuntimeException("生成表失败!", e);
         }
     }
 
-    public void exportView() throws SQLException {
+    public void exportView() {
         exportView(null);
     }
 
-    public void exportView(String packageName) throws SQLException {
+    public void exportView(String packageName) {
         try (Connection conn = DriverManager.getConnection(jdbcUrl, user, password)) {
             MetaDataExporter exporter = new MetaDataExporter();
             exporter.setPackageName(null == packageName ? "view" : packageName);
@@ -58,6 +60,8 @@ public class CodeGenQueryDsl {
             exporter.setExportTables(false);
             exporter.setExportViews(true);
             exporter.export(conn.getMetaData());
+        } catch (SQLException e) {
+            throw new RuntimeException("生成视图失败!", e);
         }
     }
 
