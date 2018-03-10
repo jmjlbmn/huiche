@@ -46,4 +46,13 @@ public class BaseEntity<T extends BaseEntity> implements Serializable {
         this.id = id;
         return (T) this;
     }
+
+    @Override
+    public String toString() {
+        return "BaseEntity{" +
+                "id=" + id +
+                ", createTime='" + createTime + '\'' +
+                ", modifyTime='" + modifyTime + '\'' +
+                '}';
+    }
 }
