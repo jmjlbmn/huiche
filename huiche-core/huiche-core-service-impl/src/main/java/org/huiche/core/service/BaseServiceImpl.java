@@ -3,6 +3,7 @@ package org.huiche.core.service;
 import org.huiche.core.dao.BaseDao;
 import org.huiche.core.entity.BaseEntity;
 import org.huiche.core.exception.Assert;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -14,10 +15,9 @@ import java.util.List;
 public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseService<T> {
     /**
      * 获取dao
-     *
-     * @return dao
      */
-    protected abstract BaseDao<T> getBaseDao();
+    @Autowired
+    protected BaseDao<T> dao;
 
     /**
      * 保存
@@ -28,9 +28,9 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseServi
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Long create(T entity) {
-        checkNull(entity);
+        checkOnCreate(entity);
         checkRegular(entity);
-        return getBaseDao().create(entity);
+        return dao.create(entity);
     }
 
     /**
@@ -43,49 +43,49 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseServi
     @Transactional(rollbackFor = Exception.class)
     public Long update(T entity) {
         checkRegular(entity);
-        return getBaseDao().update(entity);
+        return dao.update(entity);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(Long id) {
-        getBaseDao().delete(id);
+        dao.delete(id);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(Long... id) {
-        getBaseDao().delete(id);
+        dao.delete(id);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(List<Long> id) {
-        getBaseDao().delete(id);
+        dao.delete(id);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(String ids) {
-        getBaseDao().delete(ids);
+        dao.delete(ids);
     }
 
     @Override
     public T get(Long id) {
-        return getBaseDao().get(id);
+        return dao.get(id);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Long save(T entity) {
         if (entity.getId() == null) {
-            return getBaseDao().create(entity);
+            return dao.create(entity);
         } else {
-            return getBaseDao().update(entity);
+            return dao.update(entity);
         }
     }
 
-    protected void checkNull(T entity) {
+    protected void checkOnCreate(T entity) {
         Assert.notNull(entity);
     }
 

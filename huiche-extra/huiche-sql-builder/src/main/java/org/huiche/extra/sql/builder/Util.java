@@ -59,7 +59,7 @@ public class Util {
                 list.add(new FieldColumn(key, type, field.getAnnotation(Column.class)));
             } else {
                 if (field.getType().getName().equals(field.getGenericType().getTypeName())) {
-                    throw new RuntimeException("不支持的类型: " + type.getName());
+                    System.err.println("类 " + clazz.getName() + "的 " + key + " 属性不支持处理,已跳过");
                 } else {
                     Map<String, Class<?>> parameterizedTypeMap = getParameterizedTypeMap(clazz);
                     String parameterizedType = field.getGenericType().getTypeName();

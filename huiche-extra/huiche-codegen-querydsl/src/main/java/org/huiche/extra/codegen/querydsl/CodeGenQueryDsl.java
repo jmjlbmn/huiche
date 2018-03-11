@@ -39,6 +39,7 @@ public class CodeGenQueryDsl {
             MetaDataExporter exporter = new MetaDataExporter();
             exporter.setPackageName(null == packageName ? "table" : packageName);
             exporter.setTargetFolder(new File(exporterPath));
+            exporter.setBeansTargetFolder(new File(exporterPath + "/bean"));
             exporter.setExportTables(true);
             exporter.setExportViews(false);
             exporter.setBeanSerializer(new BeanSerializer());
