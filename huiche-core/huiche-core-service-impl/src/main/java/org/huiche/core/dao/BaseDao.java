@@ -1,13 +1,9 @@
 package org.huiche.core.dao;
 
-import com.querydsl.core.types.Expression;
-import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.Predicate;
-import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.*;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberPath;
-import com.querydsl.sql.RelationalPath;
-import com.querydsl.sql.SQLQuery;
-import com.querydsl.sql.SQLQueryFactory;
+import com.querydsl.sql.*;
 import com.querydsl.sql.dml.DefaultMapper;
 import com.querydsl.sql.dml.SQLInsertClause;
 import com.querydsl.sql.dml.SQLUpdateClause;
@@ -21,7 +17,6 @@ import org.huiche.core.util.DateUtil;
 import org.huiche.core.util.QueryDslUtil;
 import org.huiche.core.util.StringUtil;
 import org.huiche.core.validation.ValidOnlyCreate;
-import org.huiche.core.validation.ValidOnlyUpdate;
 import org.huiche.core.validation.ValidatorUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,7 +73,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * 批量插入数据
      *
      * @param entityList 实体
-     * @param fast 是否快速插入,快速插入仅插入需要设置的字段忽略null,但要注意快速插入时,须保证插入的要插入的字段一致,例如要插入name,sex,age字段,批量插入的所有实体都必须设置且只能设置这三个属性的值,不能有null(可以空字符串),不能设置其他属性
+     * @param fast       是否快速插入,快速插入仅插入需要设置的字段忽略null,但要注意快速插入时,须保证插入的要插入的字段一致,例如要插入name,sex,age字段,批量插入的所有实体都必须设置且只能设置这三个属性的值,不能有null(可以空字符串),不能设置其他属性
      * @return ID
      */
     public List<Long> create(Collection<T> entityList, boolean fast) {
@@ -111,7 +106,7 @@ public abstract class BaseDao<T extends BaseEntity> {
         Assert.notNull(SystemError.NOT_NULL, entity);
         Assert.notNull("更新数据时,实体必须设置ID", entity.getId());
         entity = beforeUpdate(entity);
-        validOnUpdate(entity);
+        validRegular(entity);
         Long change = sqlQueryFactory.update(root()).populate(entity).where(pk().eq(entity.getId())).execute();
         Assert.ok("更新失败,没有数据变动", change > 0);
         return entity.getId();
@@ -130,7 +125,7 @@ public abstract class BaseDao<T extends BaseEntity> {
             Long id = entity.getId();
             if (null != id) {
                 beforeUpdate(entity);
-                validOnUpdate(entity);
+                validRegular(entity);
                 update.populate(entity.setId(null)).where(pk().eq(id)).addBatch();
             }
         }
@@ -153,7 +148,7 @@ public abstract class BaseDao<T extends BaseEntity> {
         Assert.notNull(entity, predicate);
         // 强制不更新ID
         entity.setId(null);
-        validOnUpdate(entity);
+        validRegular(entity);
         return sqlQueryFactory.update(root()).populate(entity).where(predicate).execute();
     }
 
@@ -691,16 +686,20 @@ public abstract class BaseDao<T extends BaseEntity> {
      *
      * @return 主键
      */
-    protected abstract NumberPath<Long> pk();
+    protected NumberPath<Long> pk() {
+        return pk;
+    }
+
+    protected NumberPath<Long> pk = Expressions.numberPath(Long.class, PathMetadataFactory.forProperty(root(), "id"));
 
     protected void validOnCreate(T entity) {
         Assert.notNull(entity);
         valid(entity, ValidOnlyCreate.class, Default.class);
     }
 
-    protected void validOnUpdate(T entity) {
+    protected void validRegular(T entity) {
         Assert.notNull(entity);
-        valid(entity, ValidOnlyUpdate.class, Default.class);
+        valid(entity, Default.class);
     }
 
     private void valid(T entity, Class<?>... groups) {

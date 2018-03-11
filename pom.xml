@@ -40,6 +40,8 @@
         <argLine>-Dfile.encoding=${project.build.sourceEncoding}</argLine>
         <druid.version>1.1.8</druid.version>
         <jsr305.version>3.0.2</jsr305.version>
+        <!--预设依赖版本,没用到,但常用的依赖-->
+        <reflections.version>0.9.11</reflections.version>
     </properties>
     <scm>
         <connection>scm:git:git@github.com:jmjlbmn/huiche.git</connection>
@@ -77,7 +79,6 @@
                 <artifactId>jsr305</artifactId>
                 <version>${jsr305.version}</version>
             </dependency>
-
             <!--内部依赖-->
             <dependency>
                 <groupId>com.github.jmjlbmn</groupId>
@@ -118,6 +119,13 @@
                 <groupId>com.github.jmjlbmn</groupId>
                 <artifactId>huiche-codegen-querydsl</artifactId>
                 <version>${huiche.version}</version>
+            </dependency>
+
+            <!--预设依赖版本,没用到,但常用的依赖-->
+            <dependency>
+                <groupId>org.reflections</groupId>
+                <artifactId>reflections</artifactId>
+                <version>${reflections.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
