@@ -24,10 +24,7 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Resource;
 import javax.validation.ConstraintViolation;
 import javax.validation.groups.Default;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -79,7 +76,7 @@ public abstract class BaseDao<T extends BaseEntity> {
     public List<Long> create(Collection<T> entityList, boolean fast) {
         Assert.ok(SystemError.NOT_NULL, null != entityList);
         SQLInsertClause insert = sqlQueryFactory.insert(root());
-        for (T t : entityList) {
+        entityList.forEach(t -> {
             beforeCreate(t);
             Assert.isNull("新增数据时ID不能有值", t.getId());
             if (fast) {
@@ -87,9 +84,15 @@ public abstract class BaseDao<T extends BaseEntity> {
             } else {
                 insert.populate(t, DefaultMapper.WITH_NULL_BINDINGS).addBatch();
             }
-        }
+        });
         if (!insert.isEmpty()) {
-            return insert.executeWithKeys(pk());
+            LinkedList<Long> ids = new LinkedList<>(insert.executeWithKeys(pk()));
+            if (entityList.size() == ids.size()) {
+                entityList.forEach(t -> {
+                    t.setId(ids.poll());
+                });
+            }
+            return ids;
         } else {
             insert.clear();
             return new ArrayList<>();
