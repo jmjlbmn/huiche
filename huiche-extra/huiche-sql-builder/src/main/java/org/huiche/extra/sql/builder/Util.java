@@ -18,7 +18,7 @@ public class Util {
             if (type instanceof ParameterizedType) {
                 TypeVariable[] typeVariable = clazz.getSuperclass().getTypeParameters();
                 Type[] actualTypeArguments = ((ParameterizedType) type).getActualTypeArguments();
-                Map<String, Class<?>> map = new HashMap<>();
+                Map<String, Class<?>> map = new HashMap<>(4);
                 for (int i = 0; i < typeVariable.length; i++) {
                     try {
                         map.put(typeVariable[i].getName(), Class.forName(actualTypeArguments[i].getTypeName()));

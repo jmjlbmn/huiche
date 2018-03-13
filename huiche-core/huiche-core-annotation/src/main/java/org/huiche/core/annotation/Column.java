@@ -3,6 +3,8 @@ package org.huiche.core.annotation;
 import java.lang.annotation.*;
 
 /**
+ * 用于SqlBuilder生成数据库表的字段/列的实体类属性的注解
+ *
  * @author Maning
  */
 @Documented
@@ -25,12 +27,12 @@ public @interface Column {
     boolean isAutoIncrement() default true;
 
     /**
-     * 长度
+     * 长度,仅字符串或小数时生效,int/long/boolean无效
      */
     int length() default 0;
 
     /**
-     * 精度
+     * 精度,仅小数时生效
      */
     int precision() default 0;
 

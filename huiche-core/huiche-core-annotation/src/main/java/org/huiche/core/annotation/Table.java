@@ -3,6 +3,8 @@ package org.huiche.core.annotation;
 import java.lang.annotation.*;
 
 /**
+ * 用于SqlBuilder生成数据库的实体类注解,必须设置,不然不会当做表
+ *
  * @author Maning
  */
 @Documented
