@@ -19,9 +19,11 @@ import java.sql.Connection;
 @Configuration
 @AutoConfigureAfter(DruidDataSourceAutoConfigure.class)
 public class HuicheAutoConfigure {
+    private JsonUtil jsonUtil = new JsonUtil();
+
     @Bean
     public JsonUtil jsonUtil() {
-        return new JsonUtil();
+        return jsonUtil;
     }
 
     @Bean

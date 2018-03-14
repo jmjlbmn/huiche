@@ -3,10 +3,13 @@ package org.huiche.core.dao;
 import com.querydsl.core.types.*;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberPath;
-import com.querydsl.sql.*;
+import com.querydsl.sql.RelationalPath;
+import com.querydsl.sql.SQLQuery;
+import com.querydsl.sql.SQLQueryFactory;
 import com.querydsl.sql.dml.DefaultMapper;
 import com.querydsl.sql.dml.SQLInsertClause;
 import com.querydsl.sql.dml.SQLUpdateClause;
+import org.hibernate.validator.HibernateValidator;
 import org.huiche.core.entity.BaseEntity;
 import org.huiche.core.exception.Assert;
 import org.huiche.core.exception.DataBaseException;
@@ -17,12 +20,13 @@ import org.huiche.core.util.DateUtil;
 import org.huiche.core.util.QueryDslUtil;
 import org.huiche.core.util.StringUtil;
 import org.huiche.core.validation.ValidOnlyCreate;
-import org.huiche.core.validation.ValidatorUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
 import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import javax.validation.groups.Default;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -34,6 +38,10 @@ import java.util.stream.Collectors;
  */
 public abstract class BaseDao<T extends BaseEntity> {
     protected final Logger log = LoggerFactory.getLogger(getClass());
+    protected static final Validator VALIDATOR = Validation.byProvider(HibernateValidator.class)
+            .configure()
+            .failFast(true)
+            .buildValidatorFactory().getValidator();
     @Resource
     protected SQLQueryFactory sqlQueryFactory;
 
@@ -696,26 +704,24 @@ public abstract class BaseDao<T extends BaseEntity> {
     protected NumberPath<Long> pk = Expressions.numberPath(Long.class, PathMetadataFactory.forProperty(root(), "id"));
 
     protected void validOnCreate(T entity) {
-        Assert.notNull(entity);
         valid(entity, ValidOnlyCreate.class, Default.class);
     }
 
     protected void validRegular(T entity) {
-        Assert.notNull(entity);
         valid(entity, Default.class);
     }
 
     private void valid(T entity, Class<?>... groups) {
-        try {
-            Set<ConstraintViolation<T>> errors = ValidatorUtil.fastValidator.validate(entity, groups);
+        if (doValid()) {
+            Assert.notNull(entity);
+            Set<ConstraintViolation<T>> errors = VALIDATOR.validate(entity, groups);
             if (!errors.isEmpty()) {
                 throw new DataBaseException(errors.stream().map(ConstraintViolation::getMessage).collect(Collectors.toList()));
             }
-        } catch (DataBaseException e) {
-            throw e;
-        } catch (Exception e) {
-            log.warn("未引入hibernate-validator,将不会执行验证,如需要请手动复写验证");
         }
     }
 
+    protected boolean doValid() {
+        return true;
+    }
 }
