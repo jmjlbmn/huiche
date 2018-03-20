@@ -380,7 +380,10 @@ public interface Sql {
                         String comment = java.getComment();
                         if (!java.getType().equals(db.getType())) {
                             // 类型不同
-                            modifyList.add(java);
+                            // 判断长字符串
+                            if (!(java.getType().equals(JDBCType.VARCHAR) && db.getType().equals(JDBCType.LONGVARCHAR))) {
+                                modifyList.add(java);
+                            }
                         } else if (null != comment && !"".contentEquals(comment.trim()) && !comment.equals(db.getComment())) {
                             // 注释不同
                             modifyList.add(java);
