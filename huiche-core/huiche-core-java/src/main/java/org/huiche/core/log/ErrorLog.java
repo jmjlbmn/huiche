@@ -8,7 +8,6 @@ import java.io.StringWriter;
 
 /**
  * @author Maning
- * @version 2017/7/29
  */
 public class ErrorLog {
     public static final String BR = System.lineSeparator();

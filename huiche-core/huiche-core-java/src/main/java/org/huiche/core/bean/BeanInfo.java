@@ -14,11 +14,11 @@ public class BeanInfo {
     /**
      * 方法缓存
      */
-    protected static Map<Class<?>, Method[]> declaredMethodCache = new WeakHashMap<Class<?>, Method[]>();
+    protected static Map<Class<?>, Method[]> declaredMethodCache = new WeakHashMap<>();
     /**
      * 属性信息缓存
      */
-    private static Map<Class<?>, PropertyInfo[]> declaredFieldCache = new WeakHashMap<Class<?>, PropertyInfo[]>();
+    private static Map<Class<?>, PropertyInfo[]> declaredFieldCache = new WeakHashMap<>();
 
     private Class<?> clazz;
 

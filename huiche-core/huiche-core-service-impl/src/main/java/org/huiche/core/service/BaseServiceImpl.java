@@ -3,6 +3,9 @@ package org.huiche.core.service;
 import org.huiche.core.dao.BaseDao;
 import org.huiche.core.entity.BaseEntity;
 import org.huiche.core.exception.Assert;
+import org.huiche.core.page.PageRequest;
+import org.huiche.core.page.PageResponse;
+import org.huiche.core.util.QueryDslUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,25 +57,45 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseServi
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void delete(Long... id) {
-        dao.delete(id);
+    public Long delete(Long... id) {
+        return dao.delete(id);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void delete(List<Long> id) {
-        dao.delete(id);
+    public Long delete(List<Long> id) {
+        return dao.delete(id);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void delete(String ids) {
-        dao.delete(ids);
+    public Long delete(String ids) {
+        return dao.delete(ids);
     }
 
     @Override
     public T get(Long id) {
         return dao.get(id);
+    }
+
+    @Override
+    public List<T> list() {
+        return dao.list();
+    }
+
+    @Override
+    public List<T> list(T search) {
+        return dao.list(QueryDslUtil.parseSearch(search));
+    }
+
+    @Override
+    public PageResponse<T> page(PageRequest pageRequest) {
+        return dao.page(pageRequest);
+    }
+
+    @Override
+    public PageResponse<T> page(PageRequest pageRequest, T search) {
+        return dao.page(pageRequest, QueryDslUtil.parseSearch(search));
     }
 
     @Override

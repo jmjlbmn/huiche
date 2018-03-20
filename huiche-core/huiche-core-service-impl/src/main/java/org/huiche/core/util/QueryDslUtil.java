@@ -1,6 +1,7 @@
 package org.huiche.core.util;
 
 import com.querydsl.core.QueryResults;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.sql.SQLQuery;
 import com.querydsl.sql.SQLSerializer;
 import org.huiche.core.dao.QueryDsl;
@@ -48,6 +49,8 @@ public class QueryDslUtil {
     public static <T> T one(SQLQuery<T> query) {
         return query.fetchFirst();
     }
-
+    public static Predicate parseSearch(Object obj){
+        return null;
+    }
 
 }

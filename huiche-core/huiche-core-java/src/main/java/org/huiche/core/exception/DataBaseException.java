@@ -14,10 +14,10 @@ import java.util.Collection;
 @Getter
 public class DataBaseException extends BaseException {
     public DataBaseException(String... msg) {
-        super(SystemError.DB_NOT_ALLOW_FIELD__ERROR, StringUtil.join(msg));
+        super(SystemError.DB_NOT_ALLOW_FIELD_ERROR, StringUtil.join(msg));
     }
 
     public DataBaseException(Collection<String> msg) {
-        super(SystemError.DB_NOT_ALLOW_FIELD__ERROR, StringUtil.join(msg));
+        super(SystemError.DB_NOT_ALLOW_FIELD_ERROR, StringUtil.join(msg));
     }
 }
