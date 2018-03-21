@@ -95,7 +95,7 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseServi
 
     @Override
     public PageResponse<T> page(PageRequest pageRequest, T search) {
-        return dao.page(pageRequest, QueryDslUtil.parsePageRequest(search, pageRequest), QueryDslUtil.parseSearch(search));
+        return dao.page(pageRequest, QueryDslUtil.parseSearch(search));
     }
 
     @Override

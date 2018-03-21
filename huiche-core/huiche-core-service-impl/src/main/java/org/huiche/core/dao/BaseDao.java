@@ -58,7 +58,7 @@ public abstract class BaseDao<T extends BaseEntity> {
         Assert.isNull("新增数据时ID不能有值", entity.getId());
         Long id = sqlQueryFactory.insert(root())
                 .populate(entity)
-                .executeWithKey(long.class);
+                .executeWithKey(pk());
         Assert.ok("新增数据失败", null != id);
         entity.setId(id);
         return id;
@@ -113,12 +113,12 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param entity 实体
      * @return ID
      */
-    public long update(T entity) {
+    public Long update(T entity) {
         Assert.notNull(SystemError.NOT_NULL, entity);
         Assert.notNull("更新数据时,实体必须设置ID", entity.getId());
         entity = beforeUpdate(entity);
         validRegular(entity);
-        Long change = sqlQueryFactory.update(root()).populate(entity).where(pk().eq(entity.getId())).execute();
+        long change = sqlQueryFactory.update(root()).populate(entity).where(pk().eq(entity.getId())).execute();
         Assert.ok("更新失败,没有数据变动", change > 0);
         return entity.getId();
     }
@@ -127,7 +127,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * 根据ID更新实体列表,必须设置ID,不设置ID将跳过
      *
      * @param entityList 实体列表
-     * @return ID
+     * @return 变动条数
      */
     public long update(Collection<T> entityList) {
         Assert.ok(SystemError.NOT_NULL, null != entityList);
@@ -179,7 +179,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param id 主键
      * @return 变更条数
      */
-    public Long delete(Long... id) {
+    public long delete(Long... id) {
         return sqlQueryFactory.delete(root()).where(pk().in(id)).execute();
     }
 
@@ -189,7 +189,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param ids 主键
      * @return 变更条数
      */
-    public Long delete(Collection<Long> ids) {
+    public long delete(Collection<Long> ids) {
         return sqlQueryFactory.delete(root()).where(pk().in(ids)).execute();
     }
 
@@ -199,7 +199,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param ids 逗号分隔的id
      * @return 变更条数
      */
-    public Long delete(String ids) {
+    public long delete(String ids) {
         return sqlQueryFactory.delete(root()).where(pk().in(StringUtil.split2ListLong(ids))).execute();
     }
 
@@ -245,25 +245,6 @@ public abstract class BaseDao<T extends BaseEntity> {
         return QueryDslUtil.one(sqlQueryFactory.selectFrom(root()).where(pk().eq(id)));
     }
 
-    /**
-     * 根据ID列表获取数据
-     *
-     * @param ids ID列表
-     * @return 数据
-     */
-    public List<T> list(Collection<Long> ids) {
-        return QueryDslUtil.list(sqlQueryFactory.selectFrom(root()).where(pk().in(ids)));
-    }
-
-    /**
-     * 根据ID列表获取数据
-     *
-     * @param ids ID列表
-     * @return 数据
-     */
-    public List<T> list(Long[] ids) {
-        return QueryDslUtil.list(sqlQueryFactory.selectFrom(root()).where(pk().in(ids)));
-    }
 
     /**
      * 获取单条数据
@@ -286,6 +267,57 @@ public abstract class BaseDao<T extends BaseEntity> {
     public T get(OrderSpecifier<?> order, Predicate... predicate) {
         Assert.notNull("单记录查询,比如传入查询条件且保证该条件可以取得最多一条数据", (Object[]) predicate);
         SQLQuery<T> query = sqlQueryFactory.selectFrom(root()).where(predicate);
+        if (null != order) {
+            query = query.orderBy(order);
+        }
+        return QueryDslUtil.one(query);
+    }
+
+    /**
+     * 获取单条数据,有排序
+     *
+     * @param order     排序
+     * @param predicate 条件
+     * @return 数据
+     */
+    public T get(Predicate predicate, OrderSpecifier<?>... order) {
+        Assert.notNull("单记录查询,比如传入查询条件且保证该条件可以取得最多一条数据", predicate);
+        SQLQuery<T> query = sqlQueryFactory.selectFrom(root()).where(predicate);
+        if (null != order && order.length > 0) {
+            query = query.orderBy(order);
+        }
+        return QueryDslUtil.one(query);
+    }
+
+    /**
+     * 查询单条数据的某些字段
+     *
+     * @param predicate 条件
+     * @param columns   字段
+     * @return 数据
+     */
+    public T getColumns(Predicate predicate, Expression<?>... columns) {
+        Assert.notNull("单记录查询,比如传入查询条件且保证该条件可以取得最多一条数据", predicate);
+        Assert.ok("查询字段不可为空", null != columns && columns.length > 0);
+        return QueryDslUtil.one(sqlQueryFactory.select(
+                Projections.fields(root(), columns)
+        ).from(root()).where(predicate));
+    }
+
+    /**
+     * 查询单条数据的某些字段
+     *
+     * @param predicate 条件
+     * @param order     字段
+     * @param columns   获取的字段
+     * @return 数据
+     */
+    public T getColumns(Predicate predicate, OrderSpecifier<?> order, Expression<?>... columns) {
+        Assert.notNull("单记录查询,比如传入查询条件且保证该条件可以取得最多一条数据", predicate);
+        Assert.ok("查询字段不可为空", null != columns && columns.length > 0);
+        SQLQuery<T> query = sqlQueryFactory.select(
+                Projections.fields(root(), columns)
+        ).from(root()).where(predicate);
         if (null != order) {
             query = query.orderBy(order);
         }
@@ -325,98 +357,38 @@ public abstract class BaseDao<T extends BaseEntity> {
     }
 
     /**
-     * 获取某个字段的列表
-     *
-     * @param column    字段
-     * @param predicate 条件
-     * @param <Col>     字段
-     * @return 字段的列表
-     */
-    public <Col> List<Col> listColumn(Expression<Col> column, Predicate... predicate) {
-        return listColumn(column, null, null, predicate);
-    }
-
-    /**
-     * 获取某个字段的列表
-     *
-     * @param column 字段
-     * @param <Col>  字段
-     * @return 字段的列表
-     */
-    public <Col> List<Col> listColumn(Expression<Col> column) {
-        return listColumn(column, null, null, (Predicate[]) null);
-    }
-
-    /**
-     * 获取某个字段的列表
-     *
-     * @param column    字段
-     * @param order     排序
-     * @param predicate 条件
-     * @param <Col>     字段
-     * @return 字段的列表
-     */
-    public <Col> List<Col> listColumn(Expression<Col> column, OrderSpecifier<?> order, Predicate... predicate) {
-        return listColumn(column, order, null, predicate);
-    }
-
-    /**
-     * 获取某个字段的列表
-     *
-     * @param column    字段
-     * @param order     排序
-     * @param limit     获取数量
-     * @param predicate 条件
-     * @param <Col>     字段
-     * @return 字段的列表
-     */
-    public <Col> List<Col> listColumn(Expression<Col> column, OrderSpecifier<?> order, Long limit, Predicate... predicate) {
-        SQLQuery<Col> query = sqlQueryFactory.select(column).from(root());
-        if (null != predicate) {
-            query = query.where(predicate);
-        }
-        if (null != order) {
-            query = query.orderBy(order);
-        }
-        if (null != limit) {
-            query = query.limit(limit);
-        }
-        return QueryDslUtil.list(query);
-    }
-
-    /**
-     * 查询单条数据的某些字段
+     * 获取单个字段
      *
      * @param predicate 条件
-     * @param columns   字段
-     * @return 数据
+     * @return 字段数据
      */
-    public T getColumns(Predicate predicate, Expression<?>... columns) {
-        Assert.notNull("单记录查询,比如传入查询条件且保证该条件可以取得最多一条数据", predicate);
-        Assert.ok("查询字段不可为空", null != columns && columns.length > 0);
-        return QueryDslUtil.one(sqlQueryFactory.select(
-                Projections.fields(root(), columns)
-        ).from(root()).where(predicate));
-    }
-
-    /**
-     * 查询单条数据的某些字段
-     *
-     * @param predicate 条件
-     * @param order     字段
-     * @param columns   获取的字段
-     * @return 数据
-     */
-    public T getColumns(Predicate predicate, OrderSpecifier<?> order, Expression<?>... columns) {
-        Assert.notNull("单记录查询,比如传入查询条件且保证该条件可以取得最多一条数据", predicate);
-        Assert.ok("查询字段不可为空", null != columns && columns.length > 0);
-        SQLQuery<T> query = sqlQueryFactory.select(
-                Projections.fields(root(), columns)
-        ).from(root()).where(predicate);
-        if (null != order) {
+    public <Col> Col getOneColumn(Expression<Col> column, OrderSpecifier<?>[] order, Predicate... predicate) {
+        Assert.notNull("单记录查询,比如传入查询条件且保证该条件可以取得最多一条数据", (Object[]) predicate);
+        SQLQuery<Col> query = sqlQueryFactory.select(column).from(root()).where(predicate);
+        if (null != order && order.length > 0) {
             query = query.orderBy(order);
         }
         return QueryDslUtil.one(query);
+    }
+
+    /**
+     * 根据ID列表获取数据
+     *
+     * @param ids ID列表
+     * @return 数据
+     */
+    public List<T> list(Collection<Long> ids) {
+        return QueryDslUtil.list(sqlQueryFactory.selectFrom(root()).where(pk().in(ids)));
+    }
+
+    /**
+     * 根据ID列表获取数据
+     *
+     * @param ids ID列表
+     * @return 数据
+     */
+    public List<T> list(Long[] ids) {
+        return QueryDslUtil.list(sqlQueryFactory.selectFrom(root()).where(pk().in(ids)));
     }
 
     /**
@@ -455,6 +427,8 @@ public abstract class BaseDao<T extends BaseEntity> {
         }
         if (null != order) {
             query = query.orderBy(order);
+        } else {
+            query = query.orderBy(defaultOrder());
         }
         if (null != limit) {
             query = query.limit(limit);
@@ -525,6 +499,8 @@ public abstract class BaseDao<T extends BaseEntity> {
         }
         if (null != order) {
             query = query.orderBy(order);
+        } else {
+            query = query.orderBy(defaultOrder());
         }
         if (null != limit) {
             query = query.limit(limit);
@@ -533,61 +509,96 @@ public abstract class BaseDao<T extends BaseEntity> {
     }
 
     /**
-     * 分页获取列表数据,返回列表
+     * 获取某个字段的列表
      *
-     * @param predicate   条件
-     * @param pageRequest 分页
-     * @param columns     获取的列
-     * @return 数据
+     * @param column    字段
+     * @param predicate 条件
+     * @param <Col>     字段
+     * @return 字段的列表
      */
-    public List<T> listColumnsFromPage(Predicate predicate, PageRequest pageRequest, Expression<?>... columns) {
-        return listColumnsFromPage(predicate, null, pageRequest, columns);
+    public <Col> List<Col> listColumn(Expression<Col> column, Predicate... predicate) {
+        return listColumn(column, null, null, predicate);
     }
 
     /**
-     * 分页获取列表数据,返回列表
+     * 获取某个字段的列表
      *
-     * @param order       排序
-     * @param pageRequest 分页
-     * @param columns     获取的列
-     * @return 数据
+     * @param column 字段
+     * @param <Col>  字段
+     * @return 字段的列表
      */
-    public List<T> listColumnsFromPage(OrderSpecifier<?> order, PageRequest pageRequest, Expression<?>... columns) {
-        return listColumnsFromPage(null, order, pageRequest, columns);
+    public <Col> List<Col> listColumn(Expression<Col> column) {
+        return listColumn(column, null, null, (Predicate[]) null);
     }
 
     /**
-     * 分页获取列表数据,返回列表
+     * 获取某个字段的列表
      *
-     * @param pageRequest 分页
-     * @param columns     获取的列
-     * @return 数据
+     * @param column    字段
+     * @param order     排序
+     * @param predicate 条件
+     * @param <Col>     字段
+     * @return 字段的列表
      */
-    public List<T> listColumnsFromPage(PageRequest pageRequest, Expression<?>... columns) {
-        return listColumnsFromPage(null, null, pageRequest, columns);
+    public <Col> List<Col> listColumn(Expression<Col> column, OrderSpecifier<?> order, Predicate... predicate) {
+        return listColumn(column, order, null, predicate);
     }
 
     /**
-     * 分页获取列表数据,返回列表
+     * 获取某个字段的列表
      *
-     * @param predicate   条件
-     * @param order       排序
-     * @param pageRequest 分页
-     * @param columns     获取的列
-     * @return 数据
+     * @param column    字段
+     * @param order     排序
+     * @param limit     获取数量
+     * @param predicate 条件
+     * @param <Col>     字段
+     * @return 字段的列表
      */
-    public List<T> listColumnsFromPage(Predicate predicate, OrderSpecifier<?> order, PageRequest pageRequest, Expression<?>... columns) {
-        Assert.ok("查询字段不可为空", null != columns && columns.length > 0);
-        SQLQuery<T> query = sqlQueryFactory.select(
-                Projections.fields(root(), columns)
-        ).from(root());
+    public <Col> List<Col> listColumn(Expression<Col> column, OrderSpecifier<?> order, Long limit, Predicate... predicate) {
+        SQLQuery<Col> query = sqlQueryFactory.select(column).from(root());
         if (null != predicate) {
             query = query.where(predicate);
         }
         if (null != order) {
             query = query.orderBy(order);
+        } else {
+            query = query.orderBy(defaultOrder());
         }
-        return QueryDslUtil.listFromPage(pageRequest, query);
+        if (null != limit) {
+            query = query.limit(limit);
+        }
+        return QueryDslUtil.list(query);
+    }
+
+    /**
+     * 获取分页数据,默认方法,表结构简单时可以调用,结构复杂时请务必选择pageColumns
+     *
+     * @param pageRequest 分页请求
+     * @return 分页数据
+     */
+    public PageResponse<T> page(PageRequest pageRequest) {
+        return page(pageRequest, (Predicate[]) null);
+    }
+
+    /**
+     * 获取分页数据,默认方法,表结构简单时可以调用,结构复杂时请务必选择pageColumns
+     *
+     * @param pageRequest 分页请求
+     * @param predicate   条件
+     * @return 分页数据
+     */
+    public PageResponse<T> page(PageRequest pageRequest, Predicate... predicate) {
+        SQLQuery<T> query = sqlQueryFactory.selectFrom(root());
+        if (null != predicate && predicate.length > 0) {
+            query = query.where(predicate);
+        }
+        OrderSpecifier[] order = QueryDslUtil.parsePageRequest(pageRequest);
+        if (null != order && order.length > 0) {
+            query = query.orderBy(order);
+        } else {
+            query = query.orderBy(defaultOrder());
+        }
+        return QueryDslUtil.page(pageRequest, query);
     }
 
     /**
@@ -601,14 +612,19 @@ public abstract class BaseDao<T extends BaseEntity> {
      */
     public PageResponse<T> pageColumns(Predicate predicate, OrderSpecifier<?> order, PageRequest pageRequest, Expression<?>... columns) {
         Assert.ok("查询字段不可为空", null != columns && columns.length > 0);
-        SQLQuery<T> query = sqlQueryFactory.select(
-                Projections.fields(root(), columns)
-        ).from(root());
+        SQLQuery<T> query = sqlQueryFactory.select(Projections.fields(root(), columns)).from(root());
         if (null != predicate) {
             query = query.where(predicate);
         }
         if (null != order) {
             query = query.orderBy(order);
+        } else {
+            OrderSpecifier[] orders = QueryDslUtil.parsePageRequest(pageRequest);
+            if (null != orders && orders.length > 0) {
+                query = query.orderBy(orders);
+            } else {
+                query = query.orderBy(defaultOrder());
+            }
         }
         return QueryDslUtil.page(pageRequest, query);
     }
@@ -676,41 +692,6 @@ public abstract class BaseDao<T extends BaseEntity> {
     }
 
     /**
-     * 获取分页数据,默认方法,表结构简单时可以调用,结构复杂时请务必选择pageColumns
-     *
-     * @param pageRequest 分页请求
-     * @return 分页数据
-     */
-    public PageResponse<T> page(PageRequest pageRequest) {
-        return QueryDslUtil.page(pageRequest, sqlQueryFactory.selectFrom(root()));
-    }
-
-    /**
-     * 获取分页数据,默认方法,表结构简单时可以调用,结构复杂时请务必选择pageColumns
-     *
-     * @param pageRequest 分页请求
-     * @param predicate   条件
-     * @return 分页数据
-     */
-    public PageResponse<T> page(PageRequest pageRequest, Predicate... predicate) {
-        return QueryDslUtil.page(pageRequest, sqlQueryFactory.selectFrom(root()).where(predicate));
-    }
-    /**
-     * 获取分页数据,默认方法,表结构简单时可以调用,结构复杂时请务必选择pageColumns
-     *
-     * @param pageRequest 分页请求
-     * @param predicate   条件
-     * @return 分页数据
-     */
-    public PageResponse<T> page(PageRequest pageRequest,OrderSpecifier orderSpecifier, Predicate... predicate) {
-        SQLQuery<T> query = sqlQueryFactory.selectFrom(root()).where(predicate);
-        if(null!=orderSpecifier){
-            query = query.orderBy(orderSpecifier);
-        }
-        return QueryDslUtil.page(pageRequest, query);
-    }
-
-    /**
      * 表
      *
      * @return 表
@@ -749,4 +730,14 @@ public abstract class BaseDao<T extends BaseEntity> {
     protected boolean doValid() {
         return true;
     }
+
+    /**
+     * 默认排序
+     *
+     * @return 主键倒序
+     */
+    protected OrderSpecifier defaultOrder() {
+        return pk().desc();
+    }
+
 }

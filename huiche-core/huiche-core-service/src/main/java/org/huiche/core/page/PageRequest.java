@@ -17,8 +17,8 @@ public class PageRequest implements Serializable {
     /**
      * 多列排序时,以逗号分隔
      */
-    private String sort = "id";
-    private String order = "desc";
+    private String sort;
+    private String order;
 
     public int getOffset() {
         return (page - 1) * rows;

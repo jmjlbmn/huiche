@@ -14,6 +14,8 @@ import org.huiche.core.entity.BaseEntity;
 import org.huiche.core.page.PageRequest;
 import org.huiche.core.page.PageResponse;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +61,7 @@ public class QueryDslUtil {
     }
 
     /**
-     * 解析筛选成条件,仅支持单表
+     * 解析筛选成条件,仅支持单表(字段名不会重复)
      *
      * @param search 检索
      * @param <T>    表
@@ -88,6 +90,12 @@ public class QueryDslUtil {
                         } else if (String.class.isAssignableFrom(type)) {
                             String resultVal = (String) result;
                             predicates.add(Expressions.stringPath(fieldName).contains(resultVal));
+                        } else if (Float.class.isAssignableFrom(type)) {
+                            Float resultVal = (Float) result;
+                            predicates.add(Expressions.numberPath(Float.class, fieldName).eq(resultVal));
+                        } else if (Double.class.isAssignableFrom(type)) {
+                            Double resultVal = (Double) result;
+                            predicates.add(Expressions.numberPath(Double.class, fieldName).eq(resultVal));
                         }
                     }
                 }
@@ -101,41 +109,45 @@ public class QueryDslUtil {
         }
     }
 
-    public static <T> OrderSpecifier parsePageRequest(T bean, PageRequest request) {
-        if (null == request) {
-            return null;
+    /**
+     * 解析分页请求的排序,仅支持单表(字段名不会重复)
+     *
+     * @param request 分页请求
+     * @return 条件
+     */
+    public static OrderSpecifier[] parsePageRequest(@Nullable PageRequest request) {
+        if (null != request) {
+            String sort = request.getSort();
+            String order = request.getOrder();
+            if (null != sort && sort.contains(Const.COMMA)) {
+                String[] sorts = sort.split(Const.COMMA);
+                String[] orders = order.split(Const.COMMA);
+                int length = sorts.length;
+                if (length == orders.length) {
+                    OrderSpecifier[] arr = new OrderSpecifier[length];
+                    for (int i = 0; i < length; i++) {
+                        arr[i] = parseOrder(sorts[i], orders[i]);
+                    }
+                    return arr;
+                }
+            } else if (StringUtil.isNotEmpty(sort)) {
+                return new OrderSpecifier[]{parseOrder(sort, order)};
+            }
         }
-        String sort = request.getSort();
-        String order = request.getOrder();
-        if (sort.contains(Const.COMMA)) {
-
-        } else {
-        }
-        return parseOrder(bean,sort, order);
+        return new OrderSpecifier[0];
     }
 
-    public static <T> OrderSpecifier parseOrder(T bean, String sortStr, String orderStr) {
-        if (null == sortStr) {
-            return null;
-        }
+    /**
+     * 解析排序
+     *
+     * @param sortStr  排序字段名
+     * @param orderStr 正序倒序
+     * @return 排序
+     */
+
+    public static OrderSpecifier parseOrder(@Nonnull String sortStr, String orderStr) {
+        Order order = Order.ASC.name().equalsIgnoreCase(orderStr) ? Order.ASC : Order.DESC;
         String fieldName = StringUtil.toDb(sortStr);
-        return new OrderSpecifier<Comparable>(Order.DESC,Expressions.comparablePath(Comparable.class,fieldName));
-//        try {
-//            Method method = bean.getClass().getMethod("get" + StringUtil.convertFristToUpperCase(sortStr));
-//            Class<?> type = method.getReturnType();
-//            Expression<?> sort = null;
-//            if (Integer.class.isAssignableFrom(type)) {
-//                sort = Expressions.numberPath(Integer.class, fieldName);
-//            } else if (Long.class.isAssignableFrom(type)) {
-//                sort = Expressions.numberPath(Long.class, fieldName);
-//            } else if (Float.class.isAssignableFrom(type)) {
-//                sort = Expressions.numberPath(Float.class, fieldName);
-//            } else if (Double.class.isAssignableFrom(type)) {
-//                sort = Expressions.numberPath(Double.class, fieldName);
-//            } else if (String.class.isAssignableFrom(type)) {
-//            }
-//        } catch (NoSuchMethodException e) {
-//            e.printStackTrace();
-//        }
+        return new OrderSpecifier<Comparable>(order, Expressions.comparablePath(Comparable.class, fieldName));
     }
 }
