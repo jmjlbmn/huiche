@@ -16,16 +16,33 @@ import java.util.Locale;
  * @version 2017/8/6
  */
 public class StringUtil {
-
+    /**
+     * 是否null或空字符串
+     *
+     * @param str 字符串
+     * @return 是否
+     */
     public static boolean isEmpty(String str) {
         return BaseUtil.isEmpty(str);
     }
 
+    /**
+     * 是否不是null或空字符串
+     *
+     * @param str 字符串
+     * @return 是否
+     */
     public static boolean isNotEmpty(String str) {
         return !isEmpty(str);
     }
 
-    public static String toCamel(String str) {
+    /**
+     * 属性名转数据库字段名
+     *
+     * @param str 属性名
+     * @return 字段名
+     */
+    public static String fromDb(String str) {
         StringBuilder result = new StringBuilder();
         if (str == null || str.isEmpty()) {
             return "";
@@ -48,12 +65,56 @@ public class StringUtil {
 
     }
 
-    public static String convertFristToUpperCase(String temp) {
-        String first = temp.substring(0, 1);
-        String other = temp.substring(1);
+    /**
+     * 数据库字段名转属性名
+     *
+     * @param dbStr 数据库字段名
+     * @return 属性名
+     */
+    public static String toDb(String dbStr) {
+        if (dbStr == null || dbStr.isEmpty()) {
+            return "";
+        }
+        StringBuilder column = new StringBuilder();
+        column.append(dbStr.substring(0, 1).toLowerCase());
+        for (int i = 1; i < dbStr.length(); i++) {
+            String s = dbStr.substring(i, i + 1);
+            if (!Character.isDigit(s.charAt(0)) && s.equals(s.toUpperCase())) {
+                column.append(Const.UNDERLINE);
+            }
+            column.append(s.toLowerCase());
+        }
+        return column.toString();
+    }
+
+    /**
+     * get方法名转数据库字段名
+     *
+     * @param methodName 方法名
+     * @return 字段名
+     */
+    public static String getMethodName2FieldName(String methodName) {
+        return toDb(methodName.substring(3));
+    }
+
+    /**
+     * 字符串首字母大写
+     *
+     * @param str 要转换的字符串
+     * @return 转换后的字符串
+     */
+    public static String convertFristToUpperCase(String str) {
+        String first = str.substring(0, 1);
+        String other = str.substring(1);
         return first.toUpperCase(Locale.getDefault()) + other;
     }
 
+    /**
+     * 身份证号码部分隐藏
+     *
+     * @param idNumber 身份证号码
+     * @return 处理后的身份证号码
+     */
     public static String hideIdNumber(String idNumber) {
         StringBuilder sb = new StringBuilder("");
         if (StringUtil.isNotEmpty(idNumber)) {
@@ -72,6 +133,12 @@ public class StringUtil {
         return sb.toString();
     }
 
+    /**
+     * 隐藏真实姓名(只显示姓)
+     *
+     * @param realName 姓名
+     * @return 处理后的姓名
+     */
     public static String hideRealName(String realName) {
         StringBuilder sb = new StringBuilder("");
         if (StringUtil.isNotEmpty(realName)) {
@@ -85,6 +152,12 @@ public class StringUtil {
         return sb.toString();
     }
 
+    /**
+     * 隐藏部分银行卡号
+     *
+     * @param cardNumber 银行卡号
+     * @return 处理后的银行卡号
+     */
     public static String hideCardNumber(String cardNumber) {
         int showSize = 4;
         int allSize = 16;
@@ -102,6 +175,12 @@ public class StringUtil {
         return sb.toString();
     }
 
+    /**
+     * 隐藏手机号中间四位
+     *
+     * @param phone 手机号
+     * @return 处理后的手机号
+     */
     public static String hidePhone(String phone) {
         int length = 11;
         StringBuilder sb = new StringBuilder("");
@@ -118,10 +197,23 @@ public class StringUtil {
         return sb.toString();
     }
 
-    public static String join(String[] arr) {
+    /**
+     * 字符串数组用逗号分隔拼接的字符串
+     *
+     * @param arr 字符串数组
+     * @return 拼接和的字符串
+     */
+    public static String join(String... arr) {
         return join(arr, Const.COMMA);
     }
 
+    /**
+     * 字符串数组用分隔符拼接的字符串
+     *
+     * @param arr 字符串数组
+     * @param sep 分隔符
+     * @return 拼接和的字符串
+     */
     public static String join(String[] arr, String sep) {
         StringBuilder sb = new StringBuilder();
         if (null != arr && arr.length > 0) {
@@ -132,10 +224,23 @@ public class StringUtil {
         return sb.toString().replaceFirst(sep, "");
     }
 
+    /**
+     * 字符串集合用逗号分隔拼接的字符串
+     *
+     * @param list 字符串集合
+     * @return 拼接和的字符串
+     */
     public static String join(Collection<String> list) {
         return join(list, Const.COMMA);
     }
 
+    /**
+     * 字符串集合用分隔符拼接的字符串
+     *
+     * @param list 字符串集合
+     * @param sep  分隔符
+     * @return 拼接和的字符串
+     */
     public static String join(Collection<String> list, String sep) {
         StringBuilder sb = new StringBuilder();
         if (null != list && list.size() > 0) {
@@ -146,33 +251,36 @@ public class StringUtil {
         return sb.toString().replaceFirst(sep, "");
     }
 
-    public static String[] list2Arr(List<String> list) {
+    /**
+     * 字符串集合转字符串数组
+     *
+     * @param list 集合
+     * @return 数组
+     */
+    public static String[] list2Arr(Collection<String> list) {
         if (BaseUtil.isNotEmpty(list)) {
             return list.toArray(new String[list.size()]);
         }
         return new String[0];
     }
 
-    public static String fromCamel(String camelStr) {
-        if (camelStr == null || camelStr.isEmpty()) {
-            return "";
-        }
-        StringBuilder column = new StringBuilder();
-        column.append(camelStr.substring(0, 1).toLowerCase());
-        for (int i = 1; i < camelStr.length(); i++) {
-            String s = camelStr.substring(i, i + 1);
-            if (!Character.isDigit(s.charAt(0)) && s.equals(s.toUpperCase())) {
-                column.append(Const.UNDERLINE);
-            }
-            column.append(s.toLowerCase());
-        }
-        return column.toString();
-    }
-
+    /**
+     * 获取字符串的字节长度,默认UTF-8编码
+     *
+     * @param str 字符串
+     * @return 长度
+     */
     public static int getCharLength(String str) {
         return getCharLength(str, null);
     }
 
+    /**
+     * 获取字符串的字节长度
+     *
+     * @param str     字符串
+     * @param charset 字符串编码
+     * @return 长度
+     */
     public static int getCharLength(String str, String charset) {
         if (isEmpty(str)) {
             return 0;
@@ -188,6 +296,11 @@ public class StringUtil {
         }
     }
 
+    /**
+     * 逗号分隔的字符串
+     * @param str 逗号分隔的字符串
+     * @return 字符串list
+     */
     public static List<String> split2List(String str) {
         List<String> list = new ArrayList<>();
         if (isNotEmpty(str)) {
@@ -202,7 +315,11 @@ public class StringUtil {
         }
         return list;
     }
-
+    /**
+     * 逗号分隔的字符串
+     * @param str 逗号分隔的int
+     * @return list
+     */
     public static List<Integer> split2ListInt(String str) {
         List<Integer> list = new ArrayList<>();
         try {
@@ -221,6 +338,11 @@ public class StringUtil {
         }
         return list;
     }
+    /**
+     * 逗号分隔的字符串
+     * @param str 逗号分隔的long
+     * @return list
+     */
     public static List<Long> split2ListLong(String str) {
         List<Long> list = new ArrayList<>();
         try {

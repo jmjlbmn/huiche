@@ -14,6 +14,9 @@ public class PageRequest implements Serializable {
     private static final int MAX_ROWS = 100;
     private Integer page = 1;
     private Integer rows = DEFAULT_ROWS;
+    /**
+     * 多列排序时,以逗号分隔
+     */
     private String sort = "id";
     private String order = "desc";
 

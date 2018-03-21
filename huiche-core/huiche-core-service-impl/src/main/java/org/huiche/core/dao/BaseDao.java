@@ -695,6 +695,20 @@ public abstract class BaseDao<T extends BaseEntity> {
     public PageResponse<T> page(PageRequest pageRequest, Predicate... predicate) {
         return QueryDslUtil.page(pageRequest, sqlQueryFactory.selectFrom(root()).where(predicate));
     }
+    /**
+     * 获取分页数据,默认方法,表结构简单时可以调用,结构复杂时请务必选择pageColumns
+     *
+     * @param pageRequest 分页请求
+     * @param predicate   条件
+     * @return 分页数据
+     */
+    public PageResponse<T> page(PageRequest pageRequest,OrderSpecifier orderSpecifier, Predicate... predicate) {
+        SQLQuery<T> query = sqlQueryFactory.selectFrom(root()).where(predicate);
+        if(null!=orderSpecifier){
+            query = query.orderBy(orderSpecifier);
+        }
+        return QueryDslUtil.page(pageRequest, query);
+    }
 
     /**
      * 表

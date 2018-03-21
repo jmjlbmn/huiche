@@ -25,7 +25,7 @@ import java.util.Map;
  * @version 2017/11/2
  */
 public class QueryDsl {
-    private static final Logger LOG = LoggerFactory.getLogger("SQL监听");
+    private static final Logger LOG = LoggerFactory.getLogger(QueryDsl.class);
     public static final Configuration CONFIG;
 
     static {
