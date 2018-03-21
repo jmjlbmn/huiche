@@ -1,5 +1,8 @@
 package org.huiche.core.controller;
 
+import org.huiche.core.api.Api;
+import org.huiche.core.api.DelOne;
+import org.huiche.core.api.GetOne;
 import org.huiche.core.entity.BaseEntity;
 import org.huiche.core.response.BaseResult;
 import org.huiche.core.service.BaseService;
@@ -11,20 +14,9 @@ import org.springframework.web.bind.annotation.*;
  *
  * @author Maning
  */
-public class RestCrudController<T extends BaseEntity> extends BaseController {
+public class RestCrudController<T extends BaseEntity> extends BaseController implements Api<T>, GetOne<T>, DelOne<T> {
     @Autowired
     protected BaseService<T> service;
-
-    /**
-     * 获取一条数据
-     *
-     * @param id id
-     * @return 数据
-     */
-    @GetMapping("{id}")
-    public BaseResult<T> get(@PathVariable Long id) {
-        return json(service.get(id));
-    }
 
     /**
      * 新增或更新,传入id更新,不传入新增
@@ -37,15 +29,8 @@ public class RestCrudController<T extends BaseEntity> extends BaseController {
         return json(service.save(entity));
     }
 
-    /**
-     * 删除
-     *
-     * @param id ID
-     * @return 成功
-     */
-    @DeleteMapping("{id}")
-    public BaseResult del(@PathVariable Long id) {
-        service.delete(id);
-        return json();
+    @Override
+    public BaseService<T> service() {
+        return service;
     }
 }
