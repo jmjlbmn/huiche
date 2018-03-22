@@ -13,21 +13,29 @@ import java.lang.annotation.*;
 public @interface Table {
     /**
      * 表名
+     *
+     * @return 值
      */
     String value() default "";
 
     /**
      * 表注释
+     *
+     * @return 值
      */
     String comment() default "";
 
     /**
      * 编码
+     *
+     * @return 值
      */
     String charset() default "utf8mb4";
 
     /**
      * 数据库引擎
+     *
+     * @return 值
      */
     String engine() default "InnoDB";
 }
