@@ -15,7 +15,7 @@ import java.util.List;
  * @author Maning
  */
 @Transactional(rollbackFor = Exception.class, readOnly = true)
-public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseService<T> {
+public class BaseServiceImpl<T extends BaseEntity> implements BaseService<T> {
     /**
      * 获取dao
      */
@@ -30,7 +30,7 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseServi
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Long create(T entity) {
+    public long create(T entity) {
         checkOnCreate(entity);
         checkRegular(entity);
         return dao.create(entity);
@@ -40,42 +40,47 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseServi
      * 更新
      *
      * @param entity 实体
-     * @return ID
+     * @return 更新条数
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Long update(T entity) {
+    public long update(T entity) {
         checkRegular(entity);
         return dao.update(entity);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void delete(Long id) {
-        dao.delete(id);
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public Long delete(Long... id) {
+    public long delete(Long id) {
         return dao.delete(id);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Long delete(List<Long> id) {
+    public long delete(Long... id) {
         return dao.delete(id);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Long delete(String ids) {
+    public long delete(List<Long> id) {
+        return dao.delete(id);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public long delete(String ids) {
         return dao.delete(ids);
     }
 
     @Override
     public T get(Long id) {
         return dao.get(id);
+    }
+
+    @Override
+    public List<T> get(String ids) {
+        return dao.list(ids);
     }
 
     @Override
@@ -100,7 +105,7 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseServi
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Long save(T entity) {
+    public long save(T entity) {
         if (entity.getId() == null) {
             return dao.create(entity);
         } else {

@@ -16,6 +16,7 @@ import org.huiche.core.exception.DataBaseException;
 import org.huiche.core.exception.SystemError;
 import org.huiche.core.page.PageRequest;
 import org.huiche.core.page.PageResponse;
+import org.huiche.core.util.BaseUtil;
 import org.huiche.core.util.DateUtil;
 import org.huiche.core.util.QueryDslUtil;
 import org.huiche.core.util.StringUtil;
@@ -49,9 +50,9 @@ public abstract class BaseDao<T extends BaseEntity> {
      * 新增数据
      *
      * @param entity 实体
-     * @return 实体ID
+     * @return 变更条数
      */
-    public Long create(T entity) {
+    public long create(T entity) {
         Assert.notNull(SystemError.NOT_NULL, entity);
         entity = beforeCreate(entity);
         validOnCreate(entity);
@@ -59,9 +60,9 @@ public abstract class BaseDao<T extends BaseEntity> {
         Long id = sqlQueryFactory.insert(root())
                 .populate(entity)
                 .executeWithKey(pk());
-        Assert.ok("新增数据失败", null != id);
+        Assert.ok("新增数据失败", BaseUtil.equals(1, id));
         entity.setId(id);
-        return id;
+        return 1;
     }
 
     /**
@@ -70,7 +71,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param entityList 实体
      * @return ID
      */
-    public List<Long> create(Collection<T> entityList) {
+    public long create(Collection<T> entityList) {
         return create(entityList, false);
     }
 
@@ -79,9 +80,9 @@ public abstract class BaseDao<T extends BaseEntity> {
      *
      * @param entityList 实体
      * @param fast       是否快速插入,快速插入仅插入需要设置的字段忽略null,但要注意快速插入时,须保证插入的要插入的字段一致,例如要插入name,sex,age字段,批量插入的所有实体都必须设置且只能设置这三个属性的值,不能有null(可以空字符串),不能设置其他属性
-     * @return ID
+     * @return 变更条数
      */
-    public List<Long> create(Collection<T> entityList, boolean fast) {
+    public long create(Collection<T> entityList, boolean fast) {
         Assert.ok(SystemError.NOT_NULL, null != entityList);
         SQLInsertClause insert = sqlQueryFactory.insert(root());
         entityList.forEach(t -> {
@@ -100,10 +101,10 @@ public abstract class BaseDao<T extends BaseEntity> {
                     t.setId(ids.poll());
                 });
             }
-            return ids;
+            return ids.size();
         } else {
             insert.clear();
-            return new ArrayList<>();
+            return 0;
         }
     }
 
@@ -111,16 +112,14 @@ public abstract class BaseDao<T extends BaseEntity> {
      * 根据ID更新实体
      *
      * @param entity 实体
-     * @return ID
+     * @return 变更条数
      */
-    public Long update(T entity) {
+    public long update(T entity) {
         Assert.notNull(SystemError.NOT_NULL, entity);
         Assert.notNull("更新数据时,实体必须设置ID", entity.getId());
         entity = beforeUpdate(entity);
         validRegular(entity);
-        long change = sqlQueryFactory.update(root()).populate(entity).where(pk().eq(entity.getId())).execute();
-        Assert.ok("更新失败,没有数据变动", change > 0);
-        return entity.getId();
+        return sqlQueryFactory.update(root()).populate(entity).where(pk().eq(entity.getId())).execute();
     }
 
     /**
@@ -369,6 +368,16 @@ public abstract class BaseDao<T extends BaseEntity> {
             query = query.orderBy(order);
         }
         return QueryDslUtil.one(query);
+    }
+
+    /**
+     * 根据ID列表获取数据
+     *
+     * @param ids 逗号分隔的ID列表
+     * @return 数据
+     */
+    public List<T> list(String ids) {
+        return QueryDslUtil.list(sqlQueryFactory.selectFrom(root()).where(pk().in(StringUtil.split2ListLong(ids))));
     }
 
     /**

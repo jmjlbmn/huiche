@@ -2,6 +2,7 @@ package org.huiche.core.util;
 
 
 import org.huiche.core.exception.BaseError;
+import org.huiche.core.exception.BaseException;
 import org.huiche.core.exception.SystemError;
 import org.huiche.core.response.BaseResult;
 
@@ -29,8 +30,16 @@ public class ResultUtil {
         return fail(SystemError.FAIL);
     }
 
+    public static BaseResult fail(String msg) {
+        return fail(SystemError.FAIL, msg);
+    }
+
     public static BaseResult fail(BaseError e) {
         return fail(e.code(), e.msg());
+    }
+
+    public static BaseResult fail(BaseException e) {
+        return fail(e.getCode(), e.getMsg());
     }
 
     public static BaseResult fail(Integer code, String msg) {

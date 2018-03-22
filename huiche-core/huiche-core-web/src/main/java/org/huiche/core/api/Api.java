@@ -13,6 +13,4 @@ public interface Api<T extends BaseEntity> {
      * @return service
      */
     BaseService<T> service();
-
-
 }

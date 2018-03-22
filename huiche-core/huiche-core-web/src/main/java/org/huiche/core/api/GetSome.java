@@ -4,20 +4,21 @@ import org.huiche.core.entity.BaseEntity;
 import org.huiche.core.response.BaseResult;
 import org.huiche.core.util.ResultUtil;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.List;
 
 /**
  * @author Maning
  */
-public interface GetOne<T extends BaseEntity> extends Api<T> {
+public interface GetSome<T extends BaseEntity> extends Api<T> {
     /**
      * 获取单条数据
      *
-     * @param id id
+     * @param ids 逗号分隔的
      * @return 数据
      */
-    @GetMapping("{id}")
-    default BaseResult<T> getOne(@PathVariable Long id) {
-        return ResultUtil.ok(service().get(id));
+    @GetMapping("some")
+    default BaseResult<List<T>> get(String ids) {
+        return ResultUtil.ok(service().get(ids));
     }
 }

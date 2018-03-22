@@ -16,24 +16,17 @@ public interface BaseService<T extends BaseEntity> {
      * 保存
      *
      * @param entity 实体
-     * @return ID
+     * @return 新增条数
      */
-    Long create(T entity);
+    long create(T entity);
 
     /**
      * 更新
      *
      * @param entity 实体
-     * @return ID
+     * @return 更新条数
      */
-    Long update(T entity);
-
-    /**
-     * 删除
-     *
-     * @param id ID
-     */
-    void delete(Long id);
+    long update(T entity);
 
     /**
      * 删除
@@ -41,7 +34,7 @@ public interface BaseService<T extends BaseEntity> {
      * @param id ID
      * @return 删除条数
      */
-    Long delete(Long... id);
+    long delete(Long id);
 
     /**
      * 删除
@@ -49,7 +42,15 @@ public interface BaseService<T extends BaseEntity> {
      * @param id ID
      * @return 删除条数
      */
-    Long delete(List<Long> id);
+    long delete(Long... id);
+
+    /**
+     * 删除
+     *
+     * @param id ID
+     * @return 删除条数
+     */
+    long delete(List<Long> id);
 
     /**
      * 删除
@@ -57,23 +58,30 @@ public interface BaseService<T extends BaseEntity> {
      * @param ids ID
      * @return 删除条数
      */
-    Long delete(String ids);
+    long delete(String ids);
 
     /**
      * 保存数据
      *
      * @param entity 实体
-     * @return ID
+     * @return 更新条数
      */
-    Long save(T entity);
+    long save(T entity);
 
     /**
      * 删除
      *
      * @param id ID
-     * @return 删除数量
+     * @return 数据
      */
     T get(Long id);
+    /**
+     * 删除
+     *
+     * @param ids 逗号分隔的ID
+     * @return 删除数量
+     */
+    List<T> get(String ids);
 
     /**
      * 获取数据列表

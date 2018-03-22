@@ -61,7 +61,7 @@ public class QueryDslUtil {
     }
 
     /**
-     * 解析筛选成条件,仅支持单表(字段名不会重复)
+     * 解析筛选成条件,仅支持单表(或字段名不重复)
      *
      * @param search 检索
      * @param <T>    表
