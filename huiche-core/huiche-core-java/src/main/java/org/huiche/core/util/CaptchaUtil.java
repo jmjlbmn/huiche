@@ -8,7 +8,6 @@ import java.util.Random;
  * 验证码工具类
  *
  * @author Maning
- * @version 2017/9/30
  */
 public class CaptchaUtil {
     public static String getNumber() {

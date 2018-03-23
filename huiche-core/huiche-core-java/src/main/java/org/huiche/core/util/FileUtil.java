@@ -15,7 +15,6 @@ import java.util.Random;
  * 文件工具类
  *
  * @author Maning
- * @version 2017/8/12
  */
 public class FileUtil {
     private static final long NIO_LIMIT = 10;

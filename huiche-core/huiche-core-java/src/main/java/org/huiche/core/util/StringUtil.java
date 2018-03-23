@@ -13,7 +13,6 @@ import java.util.Locale;
  * 字符工具类
  *
  * @author Maning
- * @version 2017/8/6
  */
 public class StringUtil {
     /**

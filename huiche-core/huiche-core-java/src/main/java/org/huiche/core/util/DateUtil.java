@@ -12,7 +12,6 @@ import java.util.Date;
  * 日期时间工具类
  *
  * @author Maning
- * @version 2017/6/27
  */
 public class DateUtil {
     public static String nowTime() {

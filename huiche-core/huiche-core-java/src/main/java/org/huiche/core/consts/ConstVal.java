@@ -5,8 +5,6 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
-import javax.annotation.Nonnull;
-
 /**
  * 常量值bean
  *
@@ -21,14 +19,14 @@ public class ConstVal {
     public String text;
     public String extra;
 
-    public static ConstVal put(@Nonnull String value, @Nonnull String text) {
+    public static ConstVal put(String value, String text) {
         ConstVal constVal = new ConstVal();
         constVal.value = value;
         constVal.text = text;
         return constVal;
     }
 
-    public static ConstVal put(@Nonnull String value, @Nonnull String text, String extra) {
+    public static ConstVal put(String value, String text, String extra) {
         ConstVal constVal = new ConstVal();
         constVal.value = value;
         constVal.text = text;

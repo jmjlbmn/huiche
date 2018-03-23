@@ -11,7 +11,6 @@ import java.util.Stack;
  * 数字工具类
  *
  * @author Maning
- * @version 2017/8/17
  */
 public class NumberUtil {
     private static final char[] CHARSET_62 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".toCharArray();

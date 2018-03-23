@@ -1,10 +1,9 @@
 package org.huiche.core.util;
 
-import org.huiche.core.consts.ConstClass;
 import org.huiche.core.annotation.ConstField;
+import org.huiche.core.consts.ConstClass;
 import org.huiche.core.consts.ConstVal;
 
-import javax.annotation.Nonnull;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -48,7 +47,7 @@ public class ConstUtil {
         return list;
     }
 
-    public static <T extends ConstClass> String getTextByValue(@Nonnull Class<T> constant, @Nonnull Object value) {
+    public static <T extends ConstClass> String getTextByValue(Class<T> constant, Object value) {
         for (ConstVal val : getValList(constant)) {
             if (val.getValue().equals(value.toString())) {
                 return val.getText();
@@ -57,7 +56,7 @@ public class ConstUtil {
         return value + "";
     }
 
-    public static <T extends ConstClass> String getFormatJavaScript(@Nonnull Class<T> constant) {
+    public static <T extends ConstClass> String getFormatJavaScript(Class<T> constant) {
         StringBuilder sb = new StringBuilder();
         for (ConstVal val : getValList(constant)) {
             sb.append("if(val===");

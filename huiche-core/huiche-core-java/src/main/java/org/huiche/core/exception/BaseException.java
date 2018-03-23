@@ -4,8 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * @author Maning
  * 默认异常
+ *
+ * @author Maning
  */
 @Setter
 @Getter

@@ -9,7 +9,6 @@ import java.util.List;
  * 实体工具类
  *
  * @author Maning
- * @version 2017/9/19
  */
 public class BeanUtil {
     public static String[] getNullFields(Object bean) {

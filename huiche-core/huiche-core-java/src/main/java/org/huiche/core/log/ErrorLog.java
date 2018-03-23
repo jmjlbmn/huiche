@@ -11,7 +11,7 @@ import java.io.StringWriter;
  */
 public class ErrorLog {
     public static final String BR = System.lineSeparator();
-    public static final Logger LOG = LoggerFactory.getLogger("异常追踪");
+    public static final Logger LOG = LoggerFactory.getLogger(ErrorLog.class);
 
     public static void error(String msg, Throwable ex) {
         LOG.error(msg + BR + printStackTrace(ex));

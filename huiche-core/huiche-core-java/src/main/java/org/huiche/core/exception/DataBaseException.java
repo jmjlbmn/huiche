@@ -7,8 +7,9 @@ import org.huiche.core.util.StringUtil;
 import java.util.Collection;
 
 /**
- * @author Maning
  * 数据库异常
+ *
+ * @author Maning
  */
 @Setter
 @Getter

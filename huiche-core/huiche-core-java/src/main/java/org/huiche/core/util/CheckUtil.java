@@ -13,7 +13,6 @@ import java.util.regex.Pattern;
  * 验证工具类
  *
  * @author Maning
- * @version 2017/9/14
  */
 public class CheckUtil {
 	/**

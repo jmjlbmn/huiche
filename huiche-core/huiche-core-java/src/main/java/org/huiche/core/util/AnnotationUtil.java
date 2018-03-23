@@ -9,7 +9,6 @@ import java.util.List;
  * 注解工具类
  *
  * @author Maning
- * @version 2017/7/12
  */
 public class AnnotationUtil {
 	public <T extends Annotation> Field getByAnnotation(Object obj, Class<T> annotationClass) {

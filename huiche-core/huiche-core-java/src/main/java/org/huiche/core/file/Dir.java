@@ -2,7 +2,6 @@ package org.huiche.core.file;
 
 /**
  * @author Maning
- * @version 2017/8/12
  */
 public interface Dir {
     /**

@@ -2,7 +2,6 @@ package org.huiche.core.exception;
 
 /**
  * @author Maning
- * @version 2017/8/6
  */
 public enum SystemError implements BaseError {
     /**

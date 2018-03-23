@@ -5,7 +5,6 @@ import org.huiche.core.util.BaseUtil;
 
 /**
  * @author Maning
- * @version 2017/7/11
  */
 public class Assert {
     /**

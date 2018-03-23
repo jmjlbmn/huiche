@@ -14,7 +14,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * @author Maning
- * @version 2017/7/12
  */
 @Slf4j
 @SuppressWarnings("unchecked")

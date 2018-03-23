@@ -9,11 +9,9 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * Created by Maning on 2017/6/26.
  * 基础工具类
  *
  * @author Maning
- * @version 1.0
  */
 public class BaseUtil {
     public static boolean isListOrArray(Object o) {
