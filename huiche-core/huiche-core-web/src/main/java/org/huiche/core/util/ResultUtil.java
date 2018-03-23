@@ -10,7 +10,6 @@ import org.huiche.core.response.BaseResult;
  * 响应返回数据结果工具
  *
  * @author Maning
- * @version 1.0
  */
 public class ResultUtil {
     public static BaseResult ok() {

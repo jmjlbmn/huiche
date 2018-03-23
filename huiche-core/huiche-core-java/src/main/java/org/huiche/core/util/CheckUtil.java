@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
  */
 public class CheckUtil {
 	/**
-	 * 验证字符串是否是手机号码<br>
+	 * 验证字符串是否是手机号码
 	 *
 	 * @param str 要验证的字符串
 	 * @return 是否是手机号码

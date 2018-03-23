@@ -14,6 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class PostCrudPageController<T extends BaseEntity> extends PostCrudController<T> {
     @PostMapping("page")
     public BaseResult<PageResponse<T>> page(PageRequest pageRequest, T search) {
-        return json(service.page(pageRequest, search));
+        return ok(service.page(pageRequest, search));
     }
 }

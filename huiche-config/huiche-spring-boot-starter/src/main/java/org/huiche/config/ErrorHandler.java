@@ -3,18 +3,27 @@ package org.huiche.config;
 import org.huiche.core.exception.BaseException;
 import org.huiche.core.response.BaseResult;
 import org.huiche.core.util.ResultUtil;
+import org.springframework.beans.ConversionNotSupportedException;
+import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.http.converter.HttpMessageNotWritableException;
+import org.springframework.validation.BindException;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
+import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.context.request.async.AsyncRequestTimeoutException;
+import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -37,11 +46,6 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
     }
 
     @Override
-    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        return super.handleExceptionInternal(ex, body, headers, status, request);
-    }
-
-    @Override
     protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         return error(status, request, "不支持 [" + ex.getMethod() + "] 请求");
     }
@@ -53,7 +57,11 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(HttpMediaTypeNotSupportedException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        return error(status, request, "不支持 [" + ex.getContentType() + "] 格式的请求");
+        String contentType = "contentType";
+        if (null != ex.getContentType()) {
+            contentType = ex.getContentType().toString();
+        }
+        return error(status, request, "请求不被支持 [" + ex.getContentType() + "]");
     }
 
     @Override
@@ -71,7 +79,69 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
         return error(status, request, "请求参数: " + ex.getParameterName() + "[" + ex.getParameterType() + "]" + "不匹配");
     }
 
+
+    @Override
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        return error(status, request, "HttpMessage不可读 " + ex.getLocalizedMessage());
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleHttpMessageNotWritable(HttpMessageNotWritableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        return error(status, request, "HttpMessage不可写 " + ex.getLocalizedMessage());
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        return error(status, request, "方法参数无效 " + ex.getLocalizedMessage());
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleMissingServletRequestPart(MissingServletRequestPartException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        return error(status, request, "请求不完整 " + ex.getLocalizedMessage());
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleBindException(BindException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        return error(status, request, "请求参数验证不通过 " + ex.getLocalizedMessage());
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleAsyncRequestTimeoutException(AsyncRequestTimeoutException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        return error(status, request, "异步请求超时 " + ex.getLocalizedMessage());
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleServletRequestBindingException(ServletRequestBindingException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        return error(status, request, "请求绑定出错 " + ex.getLocalizedMessage());
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        return error(status, request, "未处理的服务器内部错误,请稍后再试或联系工作人员 " + ex.getLocalizedMessage());
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleConversionNotSupported(ConversionNotSupportedException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        return handleTypeMismatch(ex, headers, status, request);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        StringBuilder msg = new StringBuilder("参数类型不匹配且转换失败");
+        if (null != ex.getPropertyName()) {
+            msg.append(" 属性:").append(ex.getPropertyName());
+        }
+        if (null != ex.getRequiredType()) {
+            msg.append(" 需要是[ ").append(ex.getRequiredType().getSimpleName()).append(" ]类型");
+        }
+        Object value = ex.getValue();
+        if (null != value) {
+            msg.append(" 当前传入值为:[ ").append(value).append(" ](").append(value.getClass().getSimpleName()).append(" 类型)");
+        }
+        return error(status, request, msg.toString());
+    }
+
     private ResponseEntity<Object> error(HttpStatus status, WebRequest request, String msg) {
-        return new ResponseEntity<>(new BaseResult().setCode(status.value()).setMsg(msg + "," + request.getDescription(false) + "(" + status.getReasonPhrase() + ")"), status);
+        return new ResponseEntity<>(new BaseResult().setCode(status.value()).setMsg(msg + "," + request.getDescription(false) + " (" + status.getReasonPhrase() + ")"), status);
     }
 }

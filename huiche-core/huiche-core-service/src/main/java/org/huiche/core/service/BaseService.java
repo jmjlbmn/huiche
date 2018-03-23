@@ -9,7 +9,6 @@ import java.util.List;
 
 /**
  * @author Maning
- * @version 2017/7/12
  */
 public interface BaseService<T extends BaseEntity> {
     /**

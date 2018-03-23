@@ -23,7 +23,7 @@ public class PostCrudController<T extends BaseEntity> extends BaseController {
      */
     @PostMapping("get")
     public BaseResult<T> get(Long id) {
-        return json(service.get(id));
+        return ok(service.get(id));
     }
 
     /**
@@ -34,7 +34,7 @@ public class PostCrudController<T extends BaseEntity> extends BaseController {
      */
     @PostMapping("save")
     public BaseResult<Long> save(T entity) {
-        return json(service.save(entity));
+        return ok(service.save(entity));
     }
 
     /**
@@ -46,6 +46,6 @@ public class PostCrudController<T extends BaseEntity> extends BaseController {
     @PostMapping("del")
     public BaseResult del(Long id) {
         service.delete(id);
-        return json();
+        return ok();
     }
 }

@@ -1,4 +1,4 @@
-package org.huiche.core.api;
+package org.huiche.core.api.base;
 
 import org.huiche.core.entity.BaseEntity;
 import org.huiche.core.service.BaseService;
@@ -6,9 +6,9 @@ import org.huiche.core.service.BaseService;
 /**
  * @author Maning
  */
-public interface Api<T extends BaseEntity> {
+public interface ServiceProvider<T extends BaseEntity> {
     /**
-     * service
+     * 提供service
      *
      * @return service
      */

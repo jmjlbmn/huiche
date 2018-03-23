@@ -3,11 +3,9 @@ package org.huiche.core.page;
 import java.io.Serializable;
 
 /**
- * 基本分页请求,对Spring原生PageRequest封装<br>
- * 兼容EasyUI
+ * 基本分页请求,对Spring原生PageRequest封装
  *
  * @author Maning
- * @version 0.1
  */
 public class PageRequest implements Serializable {
     private static final int DEFAULT_ROWS = 10;

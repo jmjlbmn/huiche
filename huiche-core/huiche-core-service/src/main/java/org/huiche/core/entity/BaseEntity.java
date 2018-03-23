@@ -9,7 +9,6 @@ import java.io.Serializable;
  * 基础实体类
  *
  * @author Maning
- * @version 2017/6/27
  */
 @SuppressWarnings("unchecked")
 public class BaseEntity<T extends BaseEntity> implements Serializable {

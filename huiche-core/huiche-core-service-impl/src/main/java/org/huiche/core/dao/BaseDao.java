@@ -9,7 +9,6 @@ import com.querydsl.sql.SQLQueryFactory;
 import com.querydsl.sql.dml.DefaultMapper;
 import com.querydsl.sql.dml.SQLInsertClause;
 import com.querydsl.sql.dml.SQLUpdateClause;
-import org.hibernate.validator.HibernateValidator;
 import org.huiche.core.entity.BaseEntity;
 import org.huiche.core.exception.Assert;
 import org.huiche.core.exception.DataBaseException;
@@ -23,13 +22,17 @@ import org.huiche.core.util.StringUtil;
 import org.huiche.core.validation.ValidOnlyCreate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.annotation.Resource;
 import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.groups.Default;
-import java.util.*;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -39,12 +42,12 @@ import java.util.stream.Collectors;
  */
 public abstract class BaseDao<T extends BaseEntity> {
     protected final Logger log = LoggerFactory.getLogger(getClass());
-    protected static final Validator VALIDATOR = Validation.byProvider(HibernateValidator.class)
-            .configure()
-            .failFast(true)
-            .buildValidatorFactory().getValidator();
     @Resource
     protected SQLQueryFactory sqlQueryFactory;
+
+    @Qualifier("fastValidator")
+    @Autowired(required = false)
+    protected Validator validator;
 
     /**
      * 新增数据
@@ -54,7 +57,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      */
     public long create(T entity) {
         Assert.notNull(SystemError.NOT_NULL, entity);
-        entity = beforeCreate(entity);
+        beforeCreate(entity);
         validOnCreate(entity);
         Assert.isNull("新增数据时ID不能有值", entity.getId());
         Long id = sqlQueryFactory.insert(root())
@@ -117,7 +120,7 @@ public abstract class BaseDao<T extends BaseEntity> {
     public long update(T entity) {
         Assert.notNull(SystemError.NOT_NULL, entity);
         Assert.notNull("更新数据时,实体必须设置ID", entity.getId());
-        entity = beforeUpdate(entity);
+        beforeUpdate(entity);
         validRegular(entity);
         return sqlQueryFactory.update(root()).populate(entity).where(pk().eq(entity.getId())).execute();
     }
@@ -674,30 +677,28 @@ public abstract class BaseDao<T extends BaseEntity> {
     }
 
     /**
-     * 创建之前方法,在validOnCreate之前执行<br>
-     * 主要用于需要初始化默认值的情况,如发布时间,状态,类型,关注数,访问数等等<br>
+     * 创建之前方法,在validOnCreate之前执行
+     * 主要用于需要初始化默认值的情况,如发布时间,状态,类型,关注数,访问数等等
      * 默认进行创建时间和修改时间的处理
      *
      * @param entity 实体
      * @return 变更后的实体
      */
-    protected T beforeCreate(T entity) {
+    protected void beforeCreate(T entity) {
         String time = DateUtil.nowTime();
         entity.setCreateTime(time).setModifyTime(time);
-        return entity;
     }
 
     /**
-     * 更新之前方法,在validOnUpdate之前执行<br>
+     * 更新之前方法,在validOnUpdate之前执行
      * 这个一般很少用,比如用户类,更新之前,需要加密密码
      *
      * @param entity 实体
      * @return 变更后的实体
      */
-    protected T beforeUpdate(T entity) {
+    protected void beforeUpdate(T entity) {
         entity.setCreateTime(null);
         entity.setModifyTime(DateUtil.nowTime());
-        return entity;
     }
 
     /**
@@ -727,9 +728,9 @@ public abstract class BaseDao<T extends BaseEntity> {
     }
 
     private void valid(T entity, Class<?>... groups) {
-        if (doValid()) {
+        if (doValid() && null != validator) {
             Assert.notNull(entity);
-            Set<ConstraintViolation<T>> errors = VALIDATOR.validate(entity, groups);
+            Set<ConstraintViolation<T>> errors = validator.validate(entity, groups);
             if (!errors.isEmpty()) {
                 throw new DataBaseException(errors.stream().map(ConstraintViolation::getMessage).collect(Collectors.toList()));
             }

@@ -8,7 +8,6 @@ import java.net.UnknownHostException;
 
 /**
  * @author Maning
- * @version 2017/7/13
  */
 public class RequestUtil {
     private static final String UN_KNOWN = "unknown";

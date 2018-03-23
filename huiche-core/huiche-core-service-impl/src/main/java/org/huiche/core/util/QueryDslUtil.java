@@ -1,10 +1,7 @@
 package org.huiche.core.util;
 
 import com.querydsl.core.QueryResults;
-import com.querydsl.core.types.ExpressionUtils;
-import com.querydsl.core.types.Order;
-import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.*;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.sql.SQLQuery;
 import com.querydsl.sql.SQLSerializer;
@@ -14,15 +11,14 @@ import org.huiche.core.entity.BaseEntity;
 import org.huiche.core.page.PageRequest;
 import org.huiche.core.page.PageResponse;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * @author Maning
- * @version 2017/8/9
  */
 public class QueryDslUtil {
 
@@ -58,6 +54,21 @@ public class QueryDslUtil {
 
     public static <T> T one(SQLQuery<T> query) {
         return query.fetchFirst();
+    }
+
+    /**
+     * 排除某些列,注意,因性能考虑,应尽可能的定义常量来接收该方法的返回值,保证只需要执行一次
+     *
+     * @param columns 列
+     * @param exclude 排除列
+     * @return 排除后的列表
+     */
+    public static Path<?>[] pathExclude(List<Path<?>> columns, Path<?>... exclude) {
+        if (null != exclude && exclude.length > 0) {
+            List<Path<?>> excludeList = Arrays.asList(exclude);
+            columns.removeIf(excludeList::contains);
+        }
+        return columns.toArray(new Path[columns.size()]);
     }
 
     /**
@@ -145,7 +156,7 @@ public class QueryDslUtil {
      * @return 排序
      */
 
-    public static OrderSpecifier parseOrder(@Nonnull String sortStr, String orderStr) {
+    public static OrderSpecifier parseOrder(String sortStr, String orderStr) {
         Order order = Order.ASC.name().equalsIgnoreCase(orderStr) ? Order.ASC : Order.DESC;
         String fieldName = StringUtil.toDb(sortStr);
         return new OrderSpecifier<Comparable>(order, Expressions.comparablePath(Comparable.class, fieldName));

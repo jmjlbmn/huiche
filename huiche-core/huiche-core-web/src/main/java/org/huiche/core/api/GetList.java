@@ -1,8 +1,9 @@
 package org.huiche.core.api;
 
+import org.huiche.core.api.base.Api;
+import org.huiche.core.api.base.ServiceProvider;
 import org.huiche.core.entity.BaseEntity;
 import org.huiche.core.response.BaseResult;
-import org.huiche.core.util.ResultUtil;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
 /**
  * @author Maning
  */
-public interface GetList<T extends BaseEntity> extends Api<T> {
+public interface GetList<T extends BaseEntity> extends Api, ServiceProvider<T> {
     /**
      * 获取数据集合
      *
@@ -19,6 +20,6 @@ public interface GetList<T extends BaseEntity> extends Api<T> {
      */
     @GetMapping("list")
     default BaseResult<List<T>> list(T search) {
-        return ResultUtil.ok(service().list(search));
+        return ok(service().list(search));
     }
 }

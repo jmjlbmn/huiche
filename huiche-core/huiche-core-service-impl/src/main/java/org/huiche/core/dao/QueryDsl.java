@@ -22,7 +22,6 @@ import java.util.Map;
  * QueryDsl配置,事务管理器已经自动配置,不再手动配置
  *
  * @author Maning
- * @version 2017/11/2
  */
 public class QueryDsl {
     private static final Logger LOG = LoggerFactory.getLogger(QueryDsl.class);

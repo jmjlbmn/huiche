@@ -1,14 +1,15 @@
 package org.huiche.core.api;
 
+import org.huiche.core.api.base.Api;
+import org.huiche.core.api.base.ServiceProvider;
 import org.huiche.core.entity.BaseEntity;
 import org.huiche.core.response.BaseResult;
-import org.huiche.core.util.ResultUtil;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
 /**
  * @author Maning
  */
-public interface DelSome<T extends BaseEntity> extends Api<T> {
+public interface DelSome<T extends BaseEntity> extends Api, ServiceProvider<T> {
     /**
      * 删除一条数据
      *
@@ -17,6 +18,6 @@ public interface DelSome<T extends BaseEntity> extends Api<T> {
      */
     @DeleteMapping("some")
     default BaseResult<Long> del(String ids) {
-        return ResultUtil.ok(service().delete(ids));
+        return ok(service().delete(ids));
     }
 }

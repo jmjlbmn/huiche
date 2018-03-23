@@ -1,4 +1,4 @@
-package org.huiche.core.controller;
+package org.huiche.core.api.rest;
 
 import org.huiche.core.api.Page;
 import org.huiche.core.entity.BaseEntity;
@@ -8,5 +8,5 @@ import org.huiche.core.entity.BaseEntity;
  *
  * @author Maning
  */
-public class RestCrudPageController<T extends BaseEntity> extends RestCrudController<T> implements Page<T> {
+public class RestCrudPageApi<T extends BaseEntity> extends RestCrudApi<T> implements Page<T> {
 }

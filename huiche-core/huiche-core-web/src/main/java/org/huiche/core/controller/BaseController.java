@@ -1,25 +1,14 @@
 package org.huiche.core.controller;
 
-import org.huiche.core.response.BaseResult;
+import org.huiche.core.api.base.Api;
 import org.huiche.core.response.SimpleView;
-import org.huiche.core.util.ResultUtil;
 import org.huiche.core.util.StringUtil;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @author Maning
- * @version 2017/8/3
  */
-public class BaseController {
-
-    protected <J> BaseResult<J> json(J j) {
-        return ResultUtil.ok(j);
-    }
-
-    protected BaseResult json() {
-        return ResultUtil.ok();
-    }
-
+public class BaseController implements Api {
     protected ModelAndView view(String page) {
         return new ModelAndView(page);
     }

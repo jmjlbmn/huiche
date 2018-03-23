@@ -1,4 +1,4 @@
-package org.huiche.core.controller;
+package org.huiche.core.api.rest;
 
 import org.huiche.core.api.Del;
 import org.huiche.core.api.Get;
@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  * @author Maning
  */
-public class RestCrudController<T extends BaseEntity> extends BaseController implements Get<T>, Del<T>, Save<T> {
+public class RestCrudApi<T extends BaseEntity> implements Get<T>, Del<T>, Save<T> {
     @Autowired
     protected BaseService<T> service;
 
