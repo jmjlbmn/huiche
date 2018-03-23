@@ -1,5 +1,6 @@
 package org.huiche.core.util;
 
+import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.huiche.core.bean.BeanInfo;
 import org.huiche.core.bean.PropertyInfo;
@@ -13,6 +14,7 @@ import java.util.*;
  * @author Maning
  */
 @Slf4j
+@UtilityClass
 public class ReflectUtil {
     private static final Map<String, Map<String, PropertyInfo>> CACHE = new WeakHashMap<>();
 

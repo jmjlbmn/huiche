@@ -19,15 +19,15 @@ public class PropertyInfo {
 
     private Method readMethod;
     private Method writeMethod;
-    private Field field;
-    private String name;
+    private final Field field;
+    private final String name;
 
     PropertyInfo(Class<?> clazz, Field field) {
         this.field = field;
-        Method[] methods = BeanInfo.declaredMethodCache.get(clazz);
+        Method[] methods = BeanInfo.DECLARED_METHOD_CACHE.get(clazz);
         Class<?> type = field.getType();
         name = field.getName();
-        String fileName = StringUtil.convertFristToUpperCase(name);
+        String fileName = StringUtil.convertFirstToUpperCase(name);
         String isReadMethodName = PropertyInfo.IS + fileName;
         String getReadMethodName = PropertyInfo.GET + fileName;
 

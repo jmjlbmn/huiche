@@ -1,5 +1,6 @@
 package org.huiche.core.util;
 
+import lombok.experimental.UtilityClass;
 import org.huiche.core.enums.ValEnum;
 
 import java.util.Objects;
@@ -9,6 +10,7 @@ import java.util.Objects;
  *
  * @author Maning
  */
+@UtilityClass
 public class EnumUtil {
     /**
      * 枚举转换

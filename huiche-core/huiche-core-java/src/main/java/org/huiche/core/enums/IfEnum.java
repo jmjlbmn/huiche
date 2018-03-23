@@ -14,7 +14,7 @@ public enum IfEnum implements ValEnum {
      * 否
      */
     NO(If.NO);
-    private int val;
+    private final int val;
 
 
     IfEnum(int val) {

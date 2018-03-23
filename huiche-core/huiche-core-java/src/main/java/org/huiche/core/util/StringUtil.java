@@ -1,5 +1,6 @@
 package org.huiche.core.util;
 
+import lombok.experimental.UtilityClass;
 import org.huiche.core.consts.Const;
 import org.huiche.core.exception.BaseException;
 
@@ -14,6 +15,7 @@ import java.util.Locale;
  *
  * @author Maning
  */
+@UtilityClass
 public class StringUtil {
     /**
      * 是否null或空字符串
@@ -50,7 +52,7 @@ public class StringUtil {
         } else {
             String[] columns = str.split(Const.UNDERLINE);
             for (String columnSplit : columns) {
-                if (columnSplit.isEmpty()) {
+                if (columnSplit.length() == 0) {
                     continue;
                 }
                 if (result.length() == 0) {
@@ -102,7 +104,7 @@ public class StringUtil {
      * @param str 要转换的字符串
      * @return 转换后的字符串
      */
-    public static String convertFristToUpperCase(String str) {
+    public static String convertFirstToUpperCase(String str) {
         String first = str.substring(0, 1);
         String other = str.substring(1);
         return first.toUpperCase(Locale.getDefault()) + other;
@@ -115,7 +117,7 @@ public class StringUtil {
      * @return 处理后的身份证号码
      */
     public static String hideIdNumber(String idNumber) {
-        StringBuilder sb = new StringBuilder("");
+        StringBuilder sb = new StringBuilder();
         if (StringUtil.isNotEmpty(idNumber)) {
             idNumber = idNumber.trim();
             String[] arr = idNumber.split("");
@@ -139,7 +141,7 @@ public class StringUtil {
      * @return 处理后的姓名
      */
     public static String hideRealName(String realName) {
-        StringBuilder sb = new StringBuilder("");
+        StringBuilder sb = new StringBuilder();
         if (StringUtil.isNotEmpty(realName)) {
             realName = realName.trim();
             String[] arr = realName.split("");
@@ -160,7 +162,7 @@ public class StringUtil {
     public static String hideCardNumber(String cardNumber) {
         int showSize = 4;
         int allSize = 16;
-        StringBuilder sb = new StringBuilder("");
+        StringBuilder sb = new StringBuilder();
         if (StringUtil.isNotEmpty(cardNumber)) {
             cardNumber = cardNumber.trim();
             String[] arr = cardNumber.split("");
@@ -182,13 +184,13 @@ public class StringUtil {
      */
     public static String hidePhone(String phone) {
         int length = 11;
-        StringBuilder sb = new StringBuilder("");
+        StringBuilder sb = new StringBuilder();
         if (StringUtil.isNotEmpty(phone)) {
             phone = phone.trim();
             if (CheckUtil.isPhoneNumber(phone) || phone.length() == length) {
-                sb.append(phone.substring(0, 3));
+                sb.append(phone, 0, 3);
                 sb.append("****");
-                sb.append(phone.substring(7, 11));
+                sb.append(phone, 7, 11);
             } else {
                 sb.append(phone);
             }
@@ -258,7 +260,7 @@ public class StringUtil {
      */
     public static String[] list2Arr(Collection<String> list) {
         if (BaseUtil.isNotEmpty(list)) {
-            return list.toArray(new String[list.size()]);
+            return list.toArray(new String[0]);
         }
         return new String[0];
     }
@@ -297,6 +299,7 @@ public class StringUtil {
 
     /**
      * 逗号分隔的字符串
+     *
      * @param str 逗号分隔的字符串
      * @return 字符串list
      */
@@ -314,8 +317,10 @@ public class StringUtil {
         }
         return list;
     }
+
     /**
      * 逗号分隔的字符串
+     *
      * @param str 逗号分隔的int
      * @return list
      */
@@ -337,8 +342,10 @@ public class StringUtil {
         }
         return list;
     }
+
     /**
      * 逗号分隔的字符串
+     *
      * @param str 逗号分隔的long
      * @return list
      */

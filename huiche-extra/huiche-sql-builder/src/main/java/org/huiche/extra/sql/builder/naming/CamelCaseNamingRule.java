@@ -46,12 +46,12 @@ public class CamelCaseNamingRule implements NamingRule {
         }
     }
 
-    private static CamelCaseNamingRule instance = new CamelCaseNamingRule() {
+    private static final CamelCaseNamingRule INSTANCE = new CamelCaseNamingRule() {
 
     };
 
     public static NamingRule getInstance() {
-        return instance;
+        return INSTANCE;
     }
 
     private CamelCaseNamingRule() {

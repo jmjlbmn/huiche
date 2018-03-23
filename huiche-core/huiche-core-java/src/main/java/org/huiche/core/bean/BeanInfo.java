@@ -14,26 +14,28 @@ public class BeanInfo {
     /**
      * 方法缓存
      */
-    protected static Map<Class<?>, Method[]> declaredMethodCache = new WeakHashMap<>();
+    static final Map<Class<?>, Method[]> DECLARED_METHOD_CACHE = new WeakHashMap<>();
     /**
      * 属性信息缓存
      */
-    private static Map<Class<?>, PropertyInfo[]> declaredFieldCache = new WeakHashMap<>();
+    private static final Map<Class<?>, PropertyInfo[]> DECLARED_FIELD_CACHE = new WeakHashMap<>();
 
-    private Class<?> clazz;
+    private final Class<?> clazz;
 
     public BeanInfo(Class<?> clazz) {
         this.clazz = clazz;
-        declaredMethodCache.put(clazz, getMethods(clazz));
-        declaredFieldCache.put(clazz, getPropertyInfo(clazz));
+        DECLARED_METHOD_CACHE.put(clazz, getMethods(clazz));
+        DECLARED_FIELD_CACHE.put(clazz, getPropertyInfo(clazz));
     }
 
     /**
      * 获取这个bean的属性信息
+     *
+     * @return 属性信息
      */
     public PropertyInfo[] getPropertyInfo() {
-        PropertyInfo[] propertyInfo = null;
-        propertyInfo = declaredFieldCache.get(clazz);
+        PropertyInfo[] propertyInfo;
+        propertyInfo = DECLARED_FIELD_CACHE.get(clazz);
         if (propertyInfo == null) {
             propertyInfo = getPropertyInfo(clazz);
         }
@@ -57,7 +59,7 @@ public class BeanInfo {
             PropertyInfo info = new PropertyInfo(clazz, field);
             ps.add(info);
         }
-        return ps.toArray(new PropertyInfo[ps.size()]);
+        return ps.toArray(new PropertyInfo[0]);
     }
 
     /**
@@ -68,11 +70,11 @@ public class BeanInfo {
      * @return 字段信息
      */
     public static <T> Field[] getFields(Class<T> clazz) {
-        List<Field> fleids = new ArrayList<>();
+        List<Field> fields = new ArrayList<>();
         for (Class<?> c = clazz; c != Object.class; c = c.getSuperclass()) {
-            fleids.addAll(Arrays.asList(c.getDeclaredFields()));
+            fields.addAll(Arrays.asList(c.getDeclaredFields()));
         }
-        return fleids.toArray(new Field[fleids.size()]);
+        return fields.toArray(new Field[0]);
     }
 
     /**
@@ -87,6 +89,6 @@ public class BeanInfo {
         for (Class<?> c = clazz; c != Object.class; c = c.getSuperclass()) {
             methods.addAll(Arrays.asList(c.getDeclaredMethods()));
         }
-        return methods.toArray(new Method[methods.size()]);
+        return methods.toArray(new Method[0]);
     }
 }

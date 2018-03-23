@@ -364,8 +364,8 @@ public interface Sql {
         while (dbIterator.hasNext()) {
             ColumnInfo db = dbIterator.next();
             if (!javaList.contains(db)) {
-                delList.add(db);
                 dbIterator.remove();
+                delList.add(db);
             }
         }
         columnCompareInfo.setDelList(delList);

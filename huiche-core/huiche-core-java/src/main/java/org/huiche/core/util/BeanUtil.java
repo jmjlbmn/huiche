@@ -1,5 +1,7 @@
 package org.huiche.core.util;
 
+import lombok.experimental.UtilityClass;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -10,6 +12,7 @@ import java.util.List;
  *
  * @author Maning
  */
+@UtilityClass
 public class BeanUtil {
     public static String[] getNullFields(Object bean) {
         List<Field> list = getNullFieldList(bean);
@@ -22,7 +25,7 @@ public class BeanUtil {
                 result.add(field.getName());
             }
         }
-        return result.toArray(new String[result.size()]);
+        return result.toArray(new String[0]);
     }
 
 

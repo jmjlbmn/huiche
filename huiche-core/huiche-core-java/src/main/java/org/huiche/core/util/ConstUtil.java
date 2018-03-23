@@ -1,5 +1,6 @@
 package org.huiche.core.util;
 
+import lombok.experimental.UtilityClass;
 import org.huiche.core.annotation.ConstField;
 import org.huiche.core.consts.ConstClass;
 import org.huiche.core.consts.ConstVal;
@@ -14,6 +15,7 @@ import java.util.List;
  *
  * @author Maning
  */
+@UtilityClass
 public class ConstUtil {
     public static <T extends ConstClass> List<ConstVal> getValList(Class<T> constant) {
         if (null == constant) {
@@ -55,18 +57,4 @@ public class ConstUtil {
         }
         return value + "";
     }
-
-    public static <T extends ConstClass> String getFormatJavaScript(Class<T> constant) {
-        StringBuilder sb = new StringBuilder();
-        for (ConstVal val : getValList(constant)) {
-            sb.append("if(val===");
-            sb.append(val.getValue());
-            sb.append(") return '");
-            sb.append(val.getText());
-            sb.append("';");
-        }
-        sb.append("return val;");
-        return sb.toString();
-    }
-
 }

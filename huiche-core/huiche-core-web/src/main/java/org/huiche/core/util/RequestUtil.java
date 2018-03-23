@@ -28,8 +28,8 @@ public class RequestUtil {
             ipAddress = request.getRemoteAddr();
             if (LOCALHOST_V4.equals(ipAddress) || LOCALHOST_V6.equals(ipAddress)) {
                 try {
-                    InetAddress inet = InetAddress.getLocalHost();
-                    ipAddress = inet.getHostAddress();
+                    InetAddress address = InetAddress.getLocalHost();
+                    ipAddress = address.getHostAddress();
                 } catch (UnknownHostException e) {
                     e.printStackTrace();
                 }

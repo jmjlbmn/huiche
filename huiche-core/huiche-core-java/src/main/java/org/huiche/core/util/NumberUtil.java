@@ -1,6 +1,7 @@
 package org.huiche.core.util;
 
 
+import lombok.experimental.UtilityClass;
 import org.huiche.core.exception.Assert;
 
 import java.math.BigDecimal;
@@ -12,6 +13,7 @@ import java.util.Stack;
  *
  * @author Maning
  */
+@UtilityClass
 public class NumberUtil {
     private static final char[] CHARSET_62 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".toCharArray();
 

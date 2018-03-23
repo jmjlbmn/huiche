@@ -1,5 +1,6 @@
 package org.huiche.core.util;
 
+import lombok.experimental.UtilityClass;
 import org.huiche.core.consts.Const;
 import org.huiche.core.exception.Assert;
 import org.huiche.core.exception.SystemError;
@@ -13,6 +14,7 @@ import java.util.Objects;
  *
  * @author Maning
  */
+@UtilityClass
 public class BaseUtil {
     public static boolean isListOrArray(Object o) {
         Assert.ok(SystemError.NOT_NULL, null != o);
@@ -64,6 +66,9 @@ public class BaseUtil {
 
     /**
      * 判断是否全是空,只要一个非空返回false
+     *
+     * @param obj 对象
+     * @return 是否全是空
      */
     public static boolean isEmpty(Object... obj) {
         for (Object o : obj) {
@@ -92,6 +97,9 @@ public class BaseUtil {
 
     /**
      * 判断是否全是非空,只要又一个空,返回false
+     *
+     * @param obj 对象
+     * @return 是否全是非空
      */
     public static boolean isNotEmpty(Object... obj) {
         for (Object o : obj) {

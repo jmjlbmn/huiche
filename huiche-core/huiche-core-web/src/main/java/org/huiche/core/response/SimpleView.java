@@ -1,6 +1,8 @@
 package org.huiche.core.response;
 
 
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.RedirectView;
@@ -13,8 +15,8 @@ import java.util.Map;
  * @author Maning
  */
 public class SimpleView implements View {
-    private String content;
-    private String contentType;
+    private final String content;
+    private final String contentType;
 
     public SimpleView(String content, String contentType) {
         this.content = content;
@@ -27,7 +29,7 @@ public class SimpleView implements View {
     }
 
     @Override
-    public void render(Map<String, ?> model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void render(Map<String, ?> model, @Nullable HttpServletRequest request, @NonNull HttpServletResponse response) throws Exception {
         response.setCharacterEncoding("UTF-8");
         response.setContentType(contentType);
         response.getWriter().write(content);

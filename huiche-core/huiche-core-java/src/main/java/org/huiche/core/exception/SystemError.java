@@ -23,8 +23,8 @@ public enum SystemError implements BaseError {
     DB_NOT_ALLOW_FIELD_ERROR(6, "字段不符合数据库要求");
 
 
-    private int id;
-    private String msg;
+    private final int id;
+    private final String msg;
 
     SystemError(int id, String msg) {
         this.id = id;

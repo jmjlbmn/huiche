@@ -1,5 +1,7 @@
 package org.huiche.core.util;
 
+import lombok.experimental.UtilityClass;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -13,6 +15,7 @@ import java.util.Date;
  *
  * @author Maning
  */
+@UtilityClass
 public class DateUtil {
     public static String nowTime() {
         return now();
@@ -28,6 +31,8 @@ public class DateUtil {
 
     /**
      * 建议使用LocalDate/LocalDateTime,而不是Date
+     * @param time 时间字符串
+     * @return Date
      */
     public static Date from(String time) {
         return from(time, "yyyy-MM-dd HH:mm:ss");
@@ -35,6 +40,9 @@ public class DateUtil {
 
     /**
      * 建议使用LocalDate/LocalDateTime,而不是Date
+     * @param time 时间字符串
+     * @param format 格式化
+     * @return Date
      */
     public static Date from(String time, String format) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);

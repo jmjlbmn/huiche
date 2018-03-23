@@ -6,7 +6,7 @@
 
     <groupId>com.github.jmjlbmn</groupId>
     <artifactId>huiche</artifactId>
-    <version>1.0.5</version>
+    <version>1.0.6-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
         <module>huiche-core</module>
@@ -29,7 +29,7 @@
         </developer>
     </developers>
     <properties>
-        <huiche.version>1.0.5</huiche.version>
+        <huiche.version>1.0.6-SNAPSHOT</huiche.version>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -37,7 +37,7 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <spring-boot.version>2.0.0.RELEASE</spring-boot.version>
         <druid.version>1.1.9</druid.version>
-        <querydsl.version>4.1.4</querydsl.version>
+        <querydsl.version>4.2.1</querydsl.version>
         <!--预设依赖版本,没用到,但常用的依赖-->
         <reflections.version>0.9.11</reflections.version>
     </properties>
@@ -131,6 +131,38 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+    <repositories>
+        <!--优先阿里云-->
+        <repository>
+            <id>aliyun</id>
+            <name>Aliyun Maven</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+        </repository>
+        <!--替补,再找一次中心仓库-->
+        <repository>
+            <id>central-bench</id>
+            <name>Maven Central Bench</name>
+            <url>http://central.maven.org/maven2/</url>
+        </repository>
+        <!--OSS Snapshots-->
+        <repository>
+            <id>oss-snapshots</id>
+            <name>OSS Snapshots</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <!--Spring Snapshots-->
+        <repository>
+            <id>spring-snapshots</id>
+            <name>Spring Snapshots</name>
+            <url>https://repo.spring.io/libs-snapshot</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
     <build>
         <pluginManagement>
             <plugins>

@@ -4,6 +4,9 @@ package org.huiche.extra.sql.builder;
 import org.huiche.extra.sql.builder.sql.Mysql;
 import org.huiche.extra.sql.builder.sql.Sql;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @author Maning
  */
@@ -11,13 +14,13 @@ public enum DataBase {
     /**
      * MySql数据库
      */
-    MYSQL(Mysql.sql(), "jdbc:mysql", "com.mysql.jdbc.Driver", "com.mysql.cj.jdbc.Driver");
+    MYSQL(Mysql.sql(), "jdbc:mysql", Arrays.asList("com.mysql.jdbc.Driver", "com.mysql.cj.jdbc.Driver"));
 
-    private Sql sql;
-    private String prefix;
-    private String[] driverClass;
+    private final Sql sql;
+    private final String prefix;
+    private final List<String> driverClass;
 
-    DataBase(Sql sql, String prefix, String... driverClass) {
+    DataBase(Sql sql, String prefix, List<String> driverClass) {
         this.sql = sql;
         this.prefix = prefix;
         this.driverClass = driverClass;

@@ -1,6 +1,7 @@
 package org.huiche.core.util;
 
 
+import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.huiche.core.bean.PropertyInfo;
 import org.huiche.core.consts.If;
@@ -16,6 +17,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * @author Maning
  */
 @Slf4j
+@UtilityClass
 @SuppressWarnings("unchecked")
 public class DataUtil {
     /**
@@ -284,7 +286,7 @@ public class DataUtil {
     public static <T> List<T> arr2List(T[] t) {
         List<T> list = new ArrayList<>();
         if (null != t && t.length > 0) {
-            list = new ArrayList<>(Arrays.asList(t));
+            list = Arrays.asList(t);
         }
         return list;
     }

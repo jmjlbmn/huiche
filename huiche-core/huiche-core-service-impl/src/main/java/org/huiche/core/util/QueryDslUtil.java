@@ -68,7 +68,7 @@ public class QueryDslUtil {
             List<Path<?>> excludeList = Arrays.asList(exclude);
             columns.removeIf(excludeList::contains);
         }
-        return columns.toArray(new Path[columns.size()]);
+        return columns.toArray(new Path[0]);
     }
 
     /**

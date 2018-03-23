@@ -97,16 +97,4 @@ public class ColumnInfo implements Serializable {
     public String toString() {
         return name;
     }
-    public String toStringDetail() {
-        return "ColumnInfo{" +
-                "name='" + name + '\'' +
-                ", type=" + type +
-                ", length=" + length +
-                ", precision=" + precision +
-                ", unique=" + unique +
-                ", notNull=" + notNull +
-                ", isPrimaryKey=" + isPrimaryKey +
-                ", comment='" + comment + '\'' +
-                '}';
-    }
 }

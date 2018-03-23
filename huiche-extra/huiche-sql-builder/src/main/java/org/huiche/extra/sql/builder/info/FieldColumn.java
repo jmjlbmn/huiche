@@ -40,9 +40,6 @@ public class FieldColumn {
         this.column = column;
     }
 
-    public FieldColumn() {
-    }
-
     @Override
     public String toString() {
         return "FieldColumn{" +

@@ -125,7 +125,7 @@ public class Util {
             if (defaultFilePredicate.test(file)) {
                 boolean fitFile = null != filePredicate && filePredicate.test(file);
                 if (null == filePredicate || fitFile) {
-                    String className = path.substring(8 + path.lastIndexOf("classes"), path.indexOf(".class")).replaceAll("\\\\", ".").replaceAll("\\/",".");
+                    String className = path.substring(8 + path.lastIndexOf("classes"), path.indexOf(".class")).replaceAll("\\\\", ".").replaceAll("\\/", ".");
                     try {
                         Class<?> clazz = Class.forName(className);
                         boolean fitClass = null != classPredicate && classPredicate.test(clazz);
@@ -145,15 +145,15 @@ public class Util {
     }
 
     public static void fetchFileList(File dir, List<File> fileList) {
-        if (dir.isDirectory()) {
+        if (!dir.isDirectory() && dir.isFile()) {
+            fileList.add(dir);
+        } else {
             File[] list = dir.listFiles();
             if (null != list) {
                 for (File f : list) {
                     fetchFileList(f, fileList);
                 }
             }
-        } else {
-            fileList.add(dir);
         }
     }
 }

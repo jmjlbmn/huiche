@@ -100,9 +100,7 @@ public abstract class BaseDao<T extends BaseEntity> {
         if (!insert.isEmpty()) {
             LinkedList<Long> ids = new LinkedList<>(insert.executeWithKeys(pk()));
             if (entityList.size() == ids.size()) {
-                entityList.forEach(t -> {
-                    t.setId(ids.poll());
-                });
+                entityList.forEach(t -> t.setId(ids.poll()));
             }
             return ids.size();
         } else {
@@ -329,7 +327,9 @@ public abstract class BaseDao<T extends BaseEntity> {
     /**
      * 获取单个字段
      *
-     * @param id id
+     * @param column 列
+     * @param <Col>  列类型
+     * @param id     id
      * @return 字段数据
      */
     public <Col> Col getOneColumn(Expression<Col> column, Long id) {
@@ -339,6 +339,8 @@ public abstract class BaseDao<T extends BaseEntity> {
     /**
      * 获取单个字段
      *
+     * @param column    列
+     * @param <Col>     列类型
      * @param predicate 条件
      * @return 字段数据
      */
@@ -350,6 +352,9 @@ public abstract class BaseDao<T extends BaseEntity> {
     /**
      * 获取单个字段
      *
+     * @param column    列
+     * @param <Col>     列类型
+     * @param order     排序
      * @param predicate 条件
      * @return 字段数据
      */
@@ -361,6 +366,9 @@ public abstract class BaseDao<T extends BaseEntity> {
     /**
      * 获取单个字段
      *
+     * @param column    列
+     * @param <Col>     列类型
+     * @param order     排序
      * @param predicate 条件
      * @return 字段数据
      */
@@ -682,7 +690,6 @@ public abstract class BaseDao<T extends BaseEntity> {
      * 默认进行创建时间和修改时间的处理
      *
      * @param entity 实体
-     * @return 变更后的实体
      */
     protected void beforeCreate(T entity) {
         String time = DateUtil.nowTime();
@@ -694,7 +701,6 @@ public abstract class BaseDao<T extends BaseEntity> {
      * 这个一般很少用,比如用户类,更新之前,需要加密密码
      *
      * @param entity 实体
-     * @return 变更后的实体
      */
     protected void beforeUpdate(T entity) {
         entity.setCreateTime(null);
@@ -717,7 +723,7 @@ public abstract class BaseDao<T extends BaseEntity> {
         return pk;
     }
 
-    protected NumberPath<Long> pk = Expressions.numberPath(Long.class, PathMetadataFactory.forProperty(root(), "id"));
+    protected final NumberPath<Long> pk = Expressions.numberPath(Long.class, PathMetadataFactory.forProperty(root(), "id"));
 
     protected void validOnCreate(T entity) {
         valid(entity, ValidOnlyCreate.class, Default.class);

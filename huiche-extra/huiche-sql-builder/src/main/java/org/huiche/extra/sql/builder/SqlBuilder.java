@@ -26,7 +26,7 @@ public class SqlBuilder {
     private String rootPath;
     private Sql dbSql;
     private NamingRule namingRule;
-    private static SqlBuilder TOOL = new SqlBuilder();
+    private static final SqlBuilder TOOL = new SqlBuilder();
     private List<String> sqlList;
     private List<String> manualSqlList;
 

@@ -1,5 +1,6 @@
 package org.huiche.core.util;
 
+import lombok.experimental.UtilityClass;
 import org.huiche.core.consts.Const;
 
 import java.io.*;
@@ -16,6 +17,7 @@ import java.util.Random;
  *
  * @author Maning
  */
+@UtilityClass
 public class FileUtil {
     private static final long NIO_LIMIT = 10;
 

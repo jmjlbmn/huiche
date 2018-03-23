@@ -3,7 +3,6 @@ package org.huiche.config;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.validator.HibernateValidator;
-import org.huiche.core.exception.BaseError;
 import org.huiche.core.exception.BaseException;
 import org.huiche.core.exception.SystemError;
 import org.huiche.core.json.JsonApi;
