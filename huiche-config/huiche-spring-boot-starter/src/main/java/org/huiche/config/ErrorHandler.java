@@ -1,7 +1,7 @@
 package org.huiche.config;
 
 import org.huiche.core.exception.BaseException;
-import org.huiche.core.response.BaseResult;
+import org.huiche.core.web.response.BaseResult;
 import org.huiche.core.util.ResultUtil;
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;
@@ -44,6 +44,7 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
     @ResponseBody
     public BaseResult handleException(Exception e) {
         String msg = e.getLocalizedMessage();
+        e.printStackTrace();
         return ResultUtil.fail("系统错误" + (null == msg ? "" : ": " + msg));
     }
 

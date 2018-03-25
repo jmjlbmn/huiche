@@ -1,7 +1,7 @@
-package org.huiche.core.api.base;
+package org.huiche.core.web;
 
 import org.huiche.core.entity.BaseEntity;
-import org.huiche.core.service.BaseService;
+import org.huiche.core.service.BaseCrudService;
 
 /**
  * @author Maning
@@ -12,5 +12,5 @@ public interface ServiceProvider<T extends BaseEntity> {
      *
      * @return service
      */
-    BaseService<T> service();
+    BaseCrudService<T> service();
 }

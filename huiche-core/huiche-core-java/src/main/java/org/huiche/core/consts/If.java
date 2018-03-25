@@ -1,6 +1,6 @@
 package org.huiche.core.consts;
 
-import org.huiche.core.annotation.ConstField;
+import org.huiche.core.annotation.consts.ConstVal;
 
 /**
  * 是否,用于所有判断是否的情况
@@ -8,9 +8,9 @@ import org.huiche.core.annotation.ConstField;
  * @author Maning
  */
 public interface If extends ConstClass {
-    @ConstField("是")
+    @ConstVal("是")
     int YES = 1;
-    @ConstField("否")
+    @ConstVal("否")
     int NO = 0;
 
     /**

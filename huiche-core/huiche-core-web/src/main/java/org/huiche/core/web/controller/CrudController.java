@@ -1,8 +1,8 @@
-package org.huiche.core.controller;
+package org.huiche.core.web.controller;
 
 import org.huiche.core.entity.BaseEntity;
-import org.huiche.core.response.BaseResult;
-import org.huiche.core.service.BaseService;
+import org.huiche.core.service.BaseCrudService;
+import org.huiche.core.web.response.BaseResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
  *
  * @author Maning
  */
-public class PostCrudController<T extends BaseEntity> extends BaseController {
+public class CrudController<T extends BaseEntity> extends BaseController {
     @Autowired
-    protected BaseService<T> service;
+    protected BaseCrudService<T> service;
 
     /**
      * 获取一条数据

@@ -1,4 +1,4 @@
-package org.huiche.core.annotation;
+package org.huiche.core.annotation.sql;
 
 import java.lang.annotation.*;
 

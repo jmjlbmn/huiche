@@ -1,6 +1,6 @@
 package org.huiche.extra.sql.builder.info;
 
-import org.huiche.core.annotation.Column;
+import org.huiche.core.annotation.sql.Column;
 
 /**
  * @author Maning

@@ -1,4 +1,4 @@
-package org.huiche.core.response;
+package org.huiche.core.web.response;
 
 
 import org.springframework.lang.NonNull;

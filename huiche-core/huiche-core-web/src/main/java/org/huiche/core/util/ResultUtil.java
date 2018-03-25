@@ -4,7 +4,7 @@ package org.huiche.core.util;
 import org.huiche.core.exception.BaseError;
 import org.huiche.core.exception.BaseException;
 import org.huiche.core.exception.SystemError;
-import org.huiche.core.response.BaseResult;
+import org.huiche.core.web.response.BaseResult;
 
 /**
  * 响应返回数据结果工具

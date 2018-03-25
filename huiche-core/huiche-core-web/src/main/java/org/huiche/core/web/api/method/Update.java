@@ -1,10 +1,10 @@
-package org.huiche.core.api;
+package org.huiche.core.web.api.method;
 
-import org.huiche.core.api.base.Api;
-import org.huiche.core.api.base.ServiceProvider;
+import org.huiche.core.web.api.Api;
+import org.huiche.core.web.ServiceProvider;
 import org.huiche.core.entity.BaseEntity;
 import org.huiche.core.exception.Assert;
-import org.huiche.core.response.BaseResult;
+import org.huiche.core.web.response.BaseResult;
 import org.huiche.core.util.BaseUtil;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;

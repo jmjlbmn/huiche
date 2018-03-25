@@ -1,6 +1,6 @@
 package org.huiche.extra.sql.builder;
 
-import org.huiche.core.annotation.Table;
+import org.huiche.core.annotation.sql.Table;
 import org.huiche.extra.sql.builder.info.ColumnCompareInfo;
 import org.huiche.extra.sql.builder.info.ColumnInfo;
 import org.huiche.extra.sql.builder.info.TableInfo;

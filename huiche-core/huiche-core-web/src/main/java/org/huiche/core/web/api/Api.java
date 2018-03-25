@@ -1,6 +1,6 @@
-package org.huiche.core.api.base;
+package org.huiche.core.web.api;
 
-import org.huiche.core.response.BaseResult;
+import org.huiche.core.web.response.BaseResult;
 import org.huiche.core.util.ResultUtil;
 
 /**

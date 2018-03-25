@@ -1,7 +1,7 @@
 package org.huiche.core.entity;
 
 
-import org.huiche.core.annotation.Column;
+import org.huiche.core.annotation.sql.Column;
 
 import java.io.Serializable;
 
