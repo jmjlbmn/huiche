@@ -3,6 +3,7 @@ package org.huiche.core.service;
 import org.huiche.core.dao.BaseDao;
 import org.huiche.core.entity.BaseEntity;
 import org.huiche.core.exception.Assert;
+import org.huiche.core.exception.SystemError;
 import org.huiche.core.page.PageRequest;
 import org.huiche.core.page.PageResponse;
 import org.huiche.core.search.Search;
@@ -75,7 +76,9 @@ public class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServiceImpl i
 
     @Override
     public T get(Long id) {
-        return dao.get(id);
+        T t = dao.get(id);
+        Assert.notNull(SystemError.NO_EXISTS, t);
+        return t;
     }
 
     @Override
@@ -105,7 +108,7 @@ public class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServiceImpl i
 
     @Override
     public <S extends Search> PageResponse<T> page(PageRequest pageRequest, S search) {
-        return dao.page(pageRequest,search.get());
+        return dao.page(pageRequest, search.get());
     }
 
     @Override

@@ -19,10 +19,11 @@ import java.util.List;
  * @author Maning
  */
 @UtilityClass
+@SuppressWarnings("unchecked")
 public class SearchUtil {
-    public static final String STAR = "*";
-    public static final String LINE = "_";
-    public static final String PERCENT = "%";
+    private static final String STAR = "*";
+    private static final String LINE = "_";
+    private static final String PERCENT = "%";
 
     public static <S extends Search> Predicate of(S search) {
         if (null == search) {
@@ -153,11 +154,11 @@ public class SearchUtil {
         }
     }
 
-    public static Predicate predicate(String table, String column, Operator operator, Expression valueExpression) {
+    private static Predicate predicate(String table, String column, Operator operator, Expression valueExpression) {
         return Expressions.predicate(operator, Expressions.path(valueExpression.getType(), meta(table, column)), valueExpression);
     }
 
-    public static PathMetadata meta(String table, String column) {
+    private static PathMetadata meta(String table, String column) {
         if ("".equals(table)) {
             return PathMetadataFactory.forVariable(column);
         } else {
