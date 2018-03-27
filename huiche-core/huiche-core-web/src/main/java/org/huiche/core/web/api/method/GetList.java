@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
 
 /**
+ * 获取数据集合
+ *
  * @author Maning
  */
 public interface GetList<T extends BaseEntity> extends Api, ServiceProvider<T> {

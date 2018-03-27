@@ -1,6 +1,7 @@
 package org.huiche.extra.sql.builder.naming;
 
 /**
+ * 驼峰命名规则转下划线小写
  * @author Maning
  */
 public class CamelCaseNamingRule implements NamingRule {

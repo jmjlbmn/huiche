@@ -9,6 +9,7 @@ import org.huiche.core.web.response.BaseResult;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
+ * 分页获取数据
  * @author Maning
  */
 public interface Page<T extends BaseEntity> extends Api, ServiceProvider<T> {

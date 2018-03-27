@@ -17,6 +17,13 @@ import java.util.Stack;
 public class NumberUtil {
     private static final char[] CHARSET_62 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".toCharArray();
 
+    /**
+     * 四舍五入
+     *
+     * @param d     数字
+     * @param scale 保留几位小数
+     * @return 四舍五入后的数字
+     */
     public static double round(Double d, Integer scale) {
         double num = 0;
         if (null != d) {
@@ -26,6 +33,13 @@ public class NumberUtil {
         return bg.doubleValue();
     }
 
+    /**
+     * 四舍五入
+     *
+     * @param d     数字
+     * @param scale 保留几位小数
+     * @return 四舍五入后的数字
+     */
     public static double round(BigDecimal d, Integer scale) {
         double num = 0;
         if (null != d) {
@@ -35,14 +49,33 @@ public class NumberUtil {
         return bg.doubleValue();
     }
 
+    /**
+     * 四舍五入保留2位小数
+     *
+     * @param d 数字
+     * @return 四舍五入后的数字
+     */
     public static double round(BigDecimal d) {
         return round(d, 2);
     }
+
+    /**
+     * 四舍五入保留2位小数
+     *
+     * @param d 数字
+     * @return 四舍五入后的数字
+     */
 
     public static double round(Double d) {
         return round(d, 2);
     }
 
+    /**
+     * 包装类++操作
+     *
+     * @param num 数值
+     * @return 增加后的值
+     */
     public static long plusPlus(Long num) {
         if (null == num) {
             return 1;
@@ -51,6 +84,12 @@ public class NumberUtil {
         }
     }
 
+    /**
+     * 包装类++操作
+     *
+     * @param num 数值
+     * @return 增加后的值
+     */
     public static int plusPlus(Integer num) {
         if (null == num) {
             return 1;
@@ -59,6 +98,12 @@ public class NumberUtil {
         }
     }
 
+    /**
+     * 包装类--操作
+     *
+     * @param num 数值
+     * @return 减小后的值
+     */
     public static long minMin(Long num) {
         if (null == num || num < 1) {
             return 0L;
@@ -67,6 +112,12 @@ public class NumberUtil {
         }
     }
 
+    /**
+     * 包装类--操作
+     *
+     * @param num 数值
+     * @return 减小后的值
+     */
     public static int minMin(Integer num) {
         if (null == num || num < 1) {
             return 0;
@@ -75,6 +126,13 @@ public class NumberUtil {
         }
     }
 
+    /**
+     * 包装类相加操作
+     *
+     * @param a 对象a
+     * @param b 对象b
+     * @return a+b
+     */
     public static int add(Integer a, Integer b) {
         int sum = 0;
         if (null != a) {
@@ -86,6 +144,13 @@ public class NumberUtil {
         return sum;
     }
 
+    /**
+     * 包装类相加操作
+     *
+     * @param a 对象a
+     * @param b 对象b
+     * @return a+b
+     */
     public static long add(Long a, Long b) {
         long sum = 0;
         if (null != a) {
@@ -97,6 +162,12 @@ public class NumberUtil {
         return sum;
     }
 
+    /**
+     * 转62进制
+     *
+     * @param number 数字
+     * @return 62进制数字
+     */
     public static String turn62(long number) {
         return turn62(number, false);
     }

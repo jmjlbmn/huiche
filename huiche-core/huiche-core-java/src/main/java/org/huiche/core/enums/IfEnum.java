@@ -3,6 +3,7 @@ package org.huiche.core.enums;
 import org.huiche.core.consts.If;
 
 /**
+ * int是否的枚举
  * @author Maning
  */
 public enum IfEnum implements ValEnum {

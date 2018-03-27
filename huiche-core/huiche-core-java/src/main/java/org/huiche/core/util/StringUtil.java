@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * 字符工具类
+ * 字符串工具类
  *
  * @author Maning
  */

@@ -6,6 +6,7 @@ import org.huiche.core.util.StringUtil;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
+ * 基础控制器
  * @author Maning
  */
 public class BaseController implements Api {

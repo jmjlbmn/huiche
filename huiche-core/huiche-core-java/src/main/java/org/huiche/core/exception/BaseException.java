@@ -4,14 +4,20 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 默认异常
+ * 基础异常
  *
  * @author Maning
  */
 @Setter
 @Getter
 public class BaseException extends RuntimeException {
+    /**
+     * 错误代码
+     */
     private Integer code;
+    /**
+     * 错误信息描述
+     */
     private String msg;
 
 

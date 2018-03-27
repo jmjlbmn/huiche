@@ -9,6 +9,7 @@ import org.huiche.core.search.Search;
 import java.util.List;
 
 /**
+ * 基础的增删改查Service接口
  * @author Maning
  */
 public interface BaseCrudService<T extends BaseEntity> extends BaseService {
@@ -69,7 +70,7 @@ public interface BaseCrudService<T extends BaseEntity> extends BaseService {
     long save(T entity);
 
     /**
-     * 删除
+     * 根据ID获取一条数据
      *
      * @param id ID
      * @return 数据
@@ -77,7 +78,7 @@ public interface BaseCrudService<T extends BaseEntity> extends BaseService {
     T get(Long id);
 
     /**
-     * 删除
+     * 根据ID获取数据
      *
      * @param ids 逗号分隔的ID
      * @return 删除数量

@@ -723,16 +723,32 @@ public abstract class BaseDao<T extends BaseEntity> {
         return pk;
     }
 
+    /**
+     * 主键
+     */
     protected final NumberPath<Long> pk = Expressions.numberPath(Long.class, PathMetadataFactory.forProperty(root(), "id"));
 
+    /**
+     * 创建时验证,建议验证非空
+     * @param entity 实体对象
+     */
     protected void validOnCreate(T entity) {
         valid(entity, ValidOnlyCreate.class, Default.class);
     }
 
+    /**
+     * 严重规则,建议验证长度
+     * @param entity 实体对象
+     */
     protected void validRegular(T entity) {
         valid(entity, Default.class);
     }
 
+    /**
+     * 进行验证
+     * @param entity 实体对象
+     * @param groups 验证分组
+     */
     private void valid(T entity, Class<?>... groups) {
         if (doValid() && null != validator) {
             Assert.notNull(entity);
@@ -743,6 +759,10 @@ public abstract class BaseDao<T extends BaseEntity> {
         }
     }
 
+    /**
+     * 是否进行验证,重写此方法不再进行验证
+     * @return 是否进行验证
+     */
     protected boolean doValid() {
         return true;
     }

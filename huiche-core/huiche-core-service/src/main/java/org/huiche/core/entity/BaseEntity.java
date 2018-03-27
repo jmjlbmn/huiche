@@ -12,10 +12,19 @@ import java.io.Serializable;
  */
 @SuppressWarnings("unchecked")
 public class BaseEntity<T extends BaseEntity> implements Serializable {
+    /**
+     * 主键
+     */
     @Column(isPrimaryKey = true, comment = "主键ID")
     private Long id;
+    /**
+     * 创建时间
+     */
     @Column(length = 19, notNull = true, comment = "创建时间,yyyy-MM-dd HH:mm:ss")
     private String createTime;
+    /**
+     * 修改时间
+     */
     @Column(length = 19, notNull = true, comment = "修改时间,yyyy-MM-dd HH:mm:ss")
     private String modifyTime;
 

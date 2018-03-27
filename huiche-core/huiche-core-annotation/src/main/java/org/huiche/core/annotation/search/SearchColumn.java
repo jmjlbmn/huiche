@@ -32,6 +32,10 @@ public @interface SearchColumn {
      */
     Op operator() default Op.EQ;
 
+    /**
+     * 是否取反
+     * @return 取反
+     */
     boolean not() default false;
 
     /**

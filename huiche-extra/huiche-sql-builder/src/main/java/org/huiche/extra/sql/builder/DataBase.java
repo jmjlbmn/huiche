@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * 已实现支持的数据库
+ *
  * @author Maning
  */
 public enum DataBase {
@@ -26,6 +28,12 @@ public enum DataBase {
         this.driverClass = driverClass;
     }
 
+    /**
+     * 初始化
+     *
+     * @param url JDBC URL
+     * @return 数据库
+     */
     public static DataBase init(String url) {
         if (null == url) {
             throw new RuntimeException("传入JDBC URL不能为null");

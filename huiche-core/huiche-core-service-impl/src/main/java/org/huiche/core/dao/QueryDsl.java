@@ -3,10 +3,7 @@ package org.huiche.core.dao;
 import com.google.common.collect.ImmutableList;
 import com.querydsl.core.QueryMetadata;
 import com.querydsl.core.types.*;
-import com.querydsl.sql.Configuration;
-import com.querydsl.sql.RelationalPath;
-import com.querydsl.sql.SQLListener;
-import com.querydsl.sql.SQLSerializer;
+import com.querydsl.sql.*;
 import com.querydsl.sql.dml.SQLInsertBatch;
 import com.querydsl.sql.dml.SQLMergeBatch;
 import com.querydsl.sql.dml.SQLUpdateBatch;
@@ -19,16 +16,16 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * QueryDsl配置,事务管理器已经自动配置,不再手动配置
+ * QueryDsl配置
  *
  * @author Maning
  */
 public class QueryDsl {
     private static final Logger LOG = LoggerFactory.getLogger(QueryDsl.class);
-    public static final Configuration CONFIG;
+    public static Configuration CONFIG = new Configuration(SQLTemplates.DEFAULT);
 
-    static {
-        CONFIG = new Configuration(new MySqlExTemplates());
+    public static void init(SQLTemplates templates) {
+        CONFIG = new Configuration(templates);
         CONFIG.setExceptionTranslator(new SpringExceptionTranslator());
         CONFIG.addListener(new SQLListener() {
             @Override

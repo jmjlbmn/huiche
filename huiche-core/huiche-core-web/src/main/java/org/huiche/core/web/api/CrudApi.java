@@ -14,6 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author Maning
  */
 public class CrudApi<T extends BaseEntity> implements Get<T>, Del<T>, Save<T>, Page<T> {
+    /**
+     * 注入CrudService
+     */
     @Autowired
     protected BaseCrudService<T> service;
 

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.JDBCType;
 
 /**
+ * 列信息对象
  * @author Maning
  */
 public class ColumnInfo implements Serializable {

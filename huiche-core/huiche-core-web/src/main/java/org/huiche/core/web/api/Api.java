@@ -4,6 +4,7 @@ import org.huiche.core.web.response.BaseResult;
 import org.huiche.core.util.ResultUtil;
 
 /**
+ * 基础Api
  * @author Maning
  */
 public interface Api {

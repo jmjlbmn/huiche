@@ -4,6 +4,8 @@ import org.huiche.core.entity.BaseEntity;
 import org.huiche.core.service.BaseCrudService;
 
 /**
+ * Service提供者
+ *
  * @author Maning
  */
 public interface ServiceProvider<T extends BaseEntity> {

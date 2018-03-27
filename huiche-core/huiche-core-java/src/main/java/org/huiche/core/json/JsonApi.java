@@ -1,6 +1,7 @@
 package org.huiche.core.json;
 
 /**
+ * Json Api
  * @author Maning
  */
 public interface JsonApi {

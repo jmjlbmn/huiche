@@ -3,9 +3,9 @@ package org.huiche.core.web.response;
 import org.huiche.core.exception.BaseError;
 
 /**
+ * 默认全局返回结果类
  *
  * @author Maning
- * 默认全局返回结果类
  */
 public class BaseResult<T> {
     private Integer code;

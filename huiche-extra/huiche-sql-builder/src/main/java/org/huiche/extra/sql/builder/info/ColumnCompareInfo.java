@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
+ * 列比较信息对象
  * @author Maning
  */
 public class ColumnCompareInfo implements Serializable {

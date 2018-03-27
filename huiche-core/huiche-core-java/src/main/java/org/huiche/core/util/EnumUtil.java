@@ -32,6 +32,13 @@ public class EnumUtil {
         return null;
     }
 
+    /**
+     * 值转枚举
+     * @param val 值
+     * @param enumClazz 枚举类
+     * @param <T> 枚举类型
+     * @return 枚举
+     */
     public static <T extends Enum<T> & ValEnum> T of(Integer val, Class<T> enumClazz) {
         if (null != val && null != enumClazz) {
             for (T t : enumClazz.getEnumConstants()) {

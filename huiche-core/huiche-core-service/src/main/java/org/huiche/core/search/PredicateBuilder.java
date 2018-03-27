@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.function.Supplier;
 
 /**
+ * 查询条件构造器
+ *
  * @author Maning
  */
 public class PredicateBuilder {
@@ -18,6 +20,15 @@ public class PredicateBuilder {
         list = new ArrayList<>();
     }
 
+    /**
+     * 添加条件
+     *
+     * @param column   字段
+     * @param operator 操作
+     * @param value    值的提供
+     * @param <T>      值的类型
+     * @return 构造器
+     */
     public <T> PredicateBuilder predicate(Path<T> column, Operator operator, Supplier<T> value) {
         Predicate predicate = null;
         T val = value.get();
@@ -34,7 +45,13 @@ public class PredicateBuilder {
         list.add(predicate);
         return this;
     }
-    public Predicate build(){
+
+    /**
+     * 构造筛选条件
+     *
+     * @return 筛选条件
+     */
+    public Predicate build() {
         return ExpressionUtils.allOf(list);
     }
 }

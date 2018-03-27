@@ -9,11 +9,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
 
 /**
+ * 获取几条数据
+ *
  * @author Maning
  */
 public interface GetSome<T extends BaseEntity> extends Api, ServiceProvider<T> {
     /**
-     * 获取单条数据
+     * 获取几条数据
      *
      * @param ids 逗号分隔的
      * @return 数据

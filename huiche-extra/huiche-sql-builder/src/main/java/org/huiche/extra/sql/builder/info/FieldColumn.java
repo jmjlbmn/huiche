@@ -3,6 +3,7 @@ package org.huiche.extra.sql.builder.info;
 import org.huiche.core.annotation.sql.Column;
 
 /**
+ * 字段对象
  * @author Maning
  */
 public class FieldColumn {

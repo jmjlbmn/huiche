@@ -1,6 +1,7 @@
 package org.huiche.core.exception;
 
 /**
+ * 系统内置基本异常
  * @author Maning
  */
 public enum SystemError implements BaseError {

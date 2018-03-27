@@ -7,6 +7,8 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 /**
+ * 错误日志
+ *
  * @author Maning
  */
 public class ErrorLog {

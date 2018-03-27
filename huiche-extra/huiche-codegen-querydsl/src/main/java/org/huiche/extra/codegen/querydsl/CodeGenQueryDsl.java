@@ -9,6 +9,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
+ * QueryDsl查询实体生成
+ *
  * @author Maning
  */
 public class CodeGenQueryDsl {
@@ -20,6 +22,15 @@ public class CodeGenQueryDsl {
     private CodeGenQueryDsl() {
     }
 
+    /**
+     * 初始化
+     *
+     * @param jdbcUrl      jdbcUrl
+     * @param user         user
+     * @param password     password
+     * @param exporterPath 生成文件的导出路径
+     * @return 生成器
+     */
     public static CodeGenQueryDsl init(String jdbcUrl, String user, String password, String exporterPath) {
         initDriver(jdbcUrl);
         CodeGenQueryDsl codeGenQueryDsl = new CodeGenQueryDsl();
@@ -30,10 +41,18 @@ public class CodeGenQueryDsl {
         return codeGenQueryDsl;
     }
 
+    /**
+     * 生成表
+     */
     public void exportTable() {
         exportTable(null);
     }
 
+    /**
+     * 生成表
+     *
+     * @param packageName 包名
+     */
     public void exportTable(String packageName) {
         try (Connection conn = DriverManager.getConnection(jdbcUrl, user, password)) {
             MetaDataExporter exporter = new MetaDataExporter();
@@ -49,10 +68,18 @@ public class CodeGenQueryDsl {
         }
     }
 
+    /**
+     * 生成视图
+     */
     public void exportView() {
         exportView(null);
     }
 
+    /**
+     * 生成视图
+     *
+     * @param packageName 包名
+     */
     public void exportView(String packageName) {
         try (Connection conn = DriverManager.getConnection(jdbcUrl, user, password)) {
             MetaDataExporter exporter = new MetaDataExporter();
@@ -86,6 +113,9 @@ public class CodeGenQueryDsl {
         }
     }
 
+    /**
+     * sql类型
+     */
     interface Sql {
         String MY_SQL = "jdbc:mysql";
     }

@@ -53,18 +53,34 @@ public class PropertyInfo {
         }
     }
 
+    /**
+     * 获取属性名
+     * @return 属性名
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * 获取get方法
+     * @return get方法
+     */
     public Method getReadMethod() {
         return readMethod;
     }
 
+    /**
+     * 获取set方法
+     * @return set方法
+     */
     public Method getWriteMethod() {
         return writeMethod;
     }
 
+    /**
+     * 获取字段
+     * @return 字段
+     */
     public Field getField() {
         return field;
     }

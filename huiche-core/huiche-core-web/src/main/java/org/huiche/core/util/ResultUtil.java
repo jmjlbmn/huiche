@@ -12,12 +12,24 @@ import org.huiche.core.web.response.BaseResult;
  * @author Maning
  */
 public class ResultUtil {
+    /**
+     * 成功
+     *
+     * @return 结果
+     */
     public static BaseResult ok() {
         BaseResult baseResult = new BaseResult();
         baseResult.setCode(SystemError.OK.code());
         return baseResult;
     }
 
+    /**
+     * 成功
+     *
+     * @param data 数据
+     * @param <T>  数据类型
+     * @return 结果
+     */
     public static <T> BaseResult<T> ok(T data) {
         BaseResult<T> baseResult = new BaseResult<>();
         baseResult.setCode(SystemError.OK.code());
@@ -25,22 +37,52 @@ public class ResultUtil {
         return baseResult;
     }
 
+    /**
+     * 失败
+     *
+     * @return 结果
+     */
     public static BaseResult fail() {
         return fail(SystemError.FAIL);
     }
 
+    /**
+     * 失败
+     *
+     * @param msg 错误消息
+     * @return 结果
+     */
     public static BaseResult fail(String msg) {
         return fail(SystemError.FAIL, msg);
     }
 
+    /**
+     * 失败
+     *
+     * @param e 错误对象
+     * @return 结果
+     */
     public static BaseResult fail(BaseError e) {
         return fail(e.code(), e.msg());
     }
 
+    /**
+     * 失败
+     *
+     * @param e 异常
+     * @return 结果
+     */
     public static BaseResult fail(BaseException e) {
         return fail(e.getCode(), e.getMsg());
     }
 
+    /**
+     * 失败
+     *
+     * @param code 错误编号
+     * @param msg  错误消息
+     * @return 结果
+     */
     public static BaseResult fail(Integer code, String msg) {
         BaseResult baseResult = new BaseResult();
         baseResult.setCode(code);
@@ -48,6 +90,13 @@ public class ResultUtil {
         return baseResult;
     }
 
+    /**
+     * 失败
+     *
+     * @param e   错误对象
+     * @param msg 错误消息
+     * @return 结果
+     */
     public static BaseResult fail(BaseError e, String msg) {
         return fail(e.code(), msg);
     }

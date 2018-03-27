@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 筛选工具类
  * @author Maning
  */
 @UtilityClass
@@ -25,6 +26,12 @@ public class SearchUtil {
     private static final String LINE = "_";
     private static final String PERCENT = "%";
 
+    /**
+     * 通过注解解析search数据
+     * @param search 搜索对象
+     * @param <S> 搜索对象类型
+     * @return 搜索条件
+     */
     public static <S extends Search> Predicate of(S search) {
         if (null == search) {
             return null;
@@ -153,7 +160,6 @@ public class SearchUtil {
             return ExpressionUtils.allOf(list);
         }
     }
-
     private static Predicate predicate(String table, String column, Operator operator, Expression valueExpression) {
         return Expressions.predicate(operator, Expressions.path(valueExpression.getType(), meta(table, column)), valueExpression);
     }
@@ -182,7 +188,7 @@ public class SearchUtil {
         for (Method method : tableClass.getMethods()) {
             try {
                 String name = method.getName();
-                if (name.startsWith("get") && !"getClass".equals(name)) {
+                if (name.startsWith("get") && !"getClass".equals(name) && !"get".equals(name) && method.getParameterCount() == 0) {
                     Object value = method.invoke(entity);
                     if (null != value) {
                         String fieldName = StringUtil.getMethodName2FieldName(name);
@@ -195,7 +201,7 @@ public class SearchUtil {
                                     predicates.add(predicate(Const.EMPTY_STR, fieldName, Ops.STRING_CONTAINS_IC, ConstantImpl.create(value)));
                                 }
                             }
-                        } else {
+                        } else if (value instanceof Number || value instanceof Boolean) {
                             predicates.add(predicate(Const.EMPTY_STR, fieldName, Ops.EQ, ConstantImpl.create(value)));
                         }
                     }

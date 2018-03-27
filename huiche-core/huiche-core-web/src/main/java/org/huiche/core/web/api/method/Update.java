@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 /**
+ * 更新
+ *
  * @author Maning
  */
 public interface Update<T extends BaseEntity> extends Api, ServiceProvider<T> {

@@ -16,15 +16,33 @@ import java.util.Objects;
  */
 @UtilityClass
 public class BaseUtil {
+    /**
+     * 是否是空集合或数组
+     *
+     * @param o 集合/数组
+     * @return 是否空
+     */
     public static boolean isListOrArray(Object o) {
         Assert.ok(SystemError.NOT_NULL, null != o);
         return o instanceof Iterable || o.getClass().isArray();
     }
 
+    /**
+     * 是否不是空集合/数组
+     *
+     * @param o 集合/数组
+     * @return 是否不是空
+     */
     public static boolean isNotListAndArray(Object o) {
         return !isListOrArray(o);
     }
 
+    /**
+     * 是否是空对象/字符串/集合/数组等等
+     *
+     * @param obj 对象
+     * @return 是否空
+     */
     public static boolean isEmpty(Object obj) {
         if (obj == null) {
             return true;
@@ -41,6 +59,12 @@ public class BaseUtil {
         }
     }
 
+    /**
+     * 是否是空字符
+     *
+     * @param obj 字符对象
+     * @return 是否是空
+     */
     public static boolean isEmpty(CharSequence obj) {
         if (obj == null) {
             return true;
@@ -56,10 +80,22 @@ public class BaseUtil {
         }
     }
 
+    /**
+     * 是否是空集合
+     *
+     * @param obj 集合
+     * @return 是否空
+     */
     public static boolean isEmpty(Collection obj) {
         return obj == null || obj.isEmpty();
     }
 
+    /**
+     * 是否是空map
+     *
+     * @param obj map
+     * @return 是否空
+     */
     public static boolean isEmpty(Map obj) {
         return obj == null || obj.isEmpty();
     }
@@ -79,18 +115,42 @@ public class BaseUtil {
         return true;
     }
 
+    /**
+     * 是否不是空对象
+     *
+     * @param obj 对象
+     * @return 是否不是空
+     */
     public static boolean isNotEmpty(Object obj) {
         return !isEmpty(obj);
     }
 
+    /**
+     * 是否不是空字符
+     *
+     * @param obj 字符
+     * @return 是否不是空
+     */
     public static boolean isNotEmpty(CharSequence obj) {
         return !isEmpty(obj);
     }
 
+    /**
+     * 是否不是空集合
+     *
+     * @param obj 集合对象
+     * @return 是否不是空
+     */
     public static boolean isNotEmpty(Collection obj) {
         return !isEmpty(obj);
     }
 
+    /**
+     * 是否不是空map
+     *
+     * @param obj map
+     * @return 是否不是空
+     */
     public static boolean isNotEmpty(Map obj) {
         return !isEmpty(obj);
     }
@@ -110,18 +170,37 @@ public class BaseUtil {
         return true;
     }
 
-    public static Object empty2Null(Object obj) {
-        return isEmpty(obj) ? null : obj;
-    }
-
+    /**
+     * 是否相等比较
+     *
+     * @param a   对象a
+     * @param b   对象b
+     * @param <T> 对象类型
+     * @return 是否相等
+     */
     public static <T> boolean equals(T a, T b) {
         return Objects.equals(a, b);
     }
 
+    /**
+     * 是否不相等比较
+     *
+     * @param a   对象a
+     * @param b   对象b
+     * @param <T> 对象类型
+     * @return 是否不相等
+     */
     public static <T> boolean noEquals(T a, T b) {
         return !equals(a, b);
     }
 
+    /**
+     * 对象是否在对象数组中
+     *
+     * @param src    对象
+     * @param target 对象数组
+     * @return 是否在
+     */
     public static boolean in(Object src, Object... target) {
         if (null != target) {
             for (Object t : target) {
@@ -134,7 +213,14 @@ public class BaseUtil {
         return Objects.equals(src, null);
     }
 
-    public static <T> T if2Null(T t) {
+    /**
+     * 如果是空返回null
+     *
+     * @param t   对象
+     * @param <T> 对象类型
+     * @return 转换后对象
+     */
+    public static <T> T empty2Null(T t) {
         return isEmpty(t) ? null : t;
     }
 

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 /**
+ * 新增或更新,传入id更新,不传入新增
+ *
  * @author Maning
  */
 public interface Save<T extends BaseEntity> extends Api, ServiceProvider<T> {

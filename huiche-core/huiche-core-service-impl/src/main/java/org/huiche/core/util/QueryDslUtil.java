@@ -16,10 +16,19 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * QueryDsl工具类
+ *
  * @author Maning
  */
 public class QueryDslUtil {
-
+    /**
+     * 分页查询
+     *
+     * @param pageRequest 分页请求
+     * @param query       查询
+     * @param <T>         类型
+     * @return 数据
+     */
     public static <T> PageResponse<T> page(PageRequest pageRequest, SQLQuery<T> query) {
         if (null == pageRequest) {
             pageRequest = PageRequest.dft();
@@ -33,23 +42,34 @@ public class QueryDslUtil {
         return new PageResponse<T>().setRows(results.getResults()).setTotal(results.getTotal());
     }
 
-    public static <T> List<T> listFromPage(PageRequest pageRequest, SQLQuery<T> query) {
-        if (null == pageRequest) {
-            pageRequest = PageRequest.dft();
-        }
-        query.offset(pageRequest.getOffset());
-        query.limit(pageRequest.getRows());
-        return query.fetch();
-    }
-
+    /**
+     * 列表查询
+     *
+     * @param query 查询
+     * @param <T>   类型
+     * @return 数据
+     */
     public static <T> List<T> list(SQLQuery<T> query) {
         return query.fetch();
     }
 
+    /**
+     * 数量查询
+     *
+     * @param query 查询
+     * @return 数量
+     */
     public static long count(SQLQuery<?> query) {
         return query.fetchCount();
     }
 
+    /**
+     * 获取一条数据
+     *
+     * @param query 查询
+     * @param <T>   类型
+     * @return 数据
+     */
     public static <T> T one(SQLQuery<T> query) {
         return query.fetchFirst();
     }

@@ -9,9 +9,15 @@ import java.util.*;
 import java.util.function.Predicate;
 
 /**
+ * 工具类
  * @author Maning
  */
 public class Util {
+    /**
+     * 获取泛型map
+     * @param clazz 类
+     * @return 泛型map
+     */
     public static Map<String, Class<?>> getParameterizedTypeMap(Class<?> clazz) {
         if (clazz != Object.class) {
             Type type = clazz.getGenericSuperclass();
@@ -34,6 +40,11 @@ public class Util {
         return Collections.emptyMap();
     }
 
+    /**
+     * 处理字段,排序等
+     * @param clazz 类
+     * @param fieldList 字段list
+     */
     public static void handleField(Class<?> clazz, List<Field> fieldList) {
         if (clazz != Object.class) {
             Field[] fields = clazz.getDeclaredFields();
@@ -42,6 +53,11 @@ public class Util {
         }
     }
 
+    /**
+     * 获取字段信息
+     * @param clazz 类
+     * @return 字段信息
+     */
     public static List<FieldColumn> getField(Class<?> clazz) {
         Map<String, Field> map = new LinkedHashMap<>(16);
         List<Field> fieldList = new ArrayList<>();

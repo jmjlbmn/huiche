@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 /**
+ * 获取单条数据
+ *
  * @author Maning
  */
 public interface Get<T extends BaseEntity> extends Api, ServiceProvider<T> {

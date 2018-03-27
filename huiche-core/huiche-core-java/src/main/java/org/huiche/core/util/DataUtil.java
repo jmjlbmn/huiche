@@ -14,6 +14,8 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
+ * 数据工具类
+ *
  * @author Maning
  */
 @Slf4j
@@ -260,7 +262,15 @@ public class DataUtil {
         return target;
     }
 
-
+    /**
+     * 复制列表
+     *
+     * @param source 源集合
+     * @param copy   复制实现
+     * @param <S>    源类型
+     * @param <T>    目标类型
+     * @return 目标数据集合
+     */
     public static <S, T> List<T> copyList(Collection<S> source, Copy<S, T> copy) {
         List<T> target = new ArrayList<>();
         if (BaseUtil.isEmpty(source)) {
@@ -272,6 +282,15 @@ public class DataUtil {
         return target;
     }
 
+    /**
+     * 复制数组为新的对象列表
+     *
+     * @param source 源数组
+     * @param copy   复制实现
+     * @param <S>    源类型
+     * @param <T>    目标类型
+     * @return 目标数据集合
+     */
     public static <S, T> List<T> copyArray2List(S[] source, Copy<S, T> copy) {
         List<T> target = new ArrayList<>();
         if (BaseUtil.isEmpty((Object[]) source)) {
@@ -283,6 +302,13 @@ public class DataUtil {
         return target;
     }
 
+    /**
+     * 数组转集合
+     *
+     * @param t   数组
+     * @param <T> 类
+     * @return 集合
+     */
     public static <T> List<T> arr2List(T[] t) {
         List<T> list = new ArrayList<>();
         if (null != t && t.length > 0) {
@@ -291,6 +317,14 @@ public class DataUtil {
         return list;
     }
 
+    /**
+     * 在一个集合中随机取出N个对象
+     *
+     * @param list   集合
+     * @param length 随机取出数量
+     * @param <T>    对象类
+     * @return 随机对象
+     */
     public static <T> List<T> randomList(List<T> list, Integer length) {
         if (null != length && null != list && list.size() > 0) {
             int size = list.size();
@@ -308,6 +342,13 @@ public class DataUtil {
         return list;
     }
 
+    /**
+     * 集合去重
+     *
+     * @param list 集合
+     * @param <T>  对象类
+     * @return 去重后的集合
+     */
     public static <T> List<T> distinctList(List<T> list) {
         if (BaseUtil.isNotEmpty(list)) {
             List<T> newList = new ArrayList<>();
@@ -324,6 +365,12 @@ public class DataUtil {
         }
     }
 
+    /**
+     * 复制接口
+     *
+     * @param <S> 源对象
+     * @param <T> 目标对象
+     */
     @FunctionalInterface
     public interface Copy<S, T> {
         /**

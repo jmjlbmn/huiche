@@ -11,6 +11,8 @@ import java.lang.reflect.Type;
 import java.util.*;
 
 /**
+ * 反射工具类
+ *
  * @author Maning
  */
 @Slf4j
@@ -18,6 +20,12 @@ import java.util.*;
 public class ReflectUtil {
     private static final Map<String, Map<String, PropertyInfo>> CACHE = new WeakHashMap<>();
 
+    /**
+     * 获取类的属性map
+     *
+     * @param clazz 类
+     * @return 熟悉map
+     */
     public static Map<String, PropertyInfo> getPropertyMap(Class<?> clazz) {
         String className = clazz.getName();
         if (CACHE.containsKey(className)) {
@@ -31,6 +39,12 @@ public class ReflectUtil {
         return map;
     }
 
+    /**
+     * 获取字段的泛型类型
+     *
+     * @param field 字段
+     * @return 泛型类型
+     */
     public static Type[] getActualTypes(Field field) {
         Type type = field.getGenericType();
         if (type instanceof ParameterizedType) {
@@ -39,6 +53,12 @@ public class ReflectUtil {
         return null;
     }
 
+    /**
+     * 获取字段的第一个泛型类型
+     *
+     * @param field 字段
+     * @return 泛型类型
+     */
     public static Type getActualType(Field field) {
         Type type = field.getGenericType();
         if (type instanceof ParameterizedType) {
@@ -47,15 +67,12 @@ public class ReflectUtil {
         return null;
     }
 
-
-    public static List<Field> getAllField(Class<?> clazz) {
-        List<Field> list = new ArrayList<>();
-        for (; clazz != Object.class; clazz = clazz.getSuperclass()) {
-            list.addAll(Arrays.asList(clazz.getDeclaredFields()));
-        }
-        return list;
-    }
-
+    /**
+     * 获取类的属性信息列表
+     *
+     * @param clazz 类
+     * @return 属性列表
+     */
     public static List<PropertyInfo> getAllPropertyDescriptor(Class<?> clazz) {
         return Arrays.asList(new BeanInfo(clazz).getPropertyInfo());
     }

@@ -7,6 +7,8 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 /**
+ * 请求工具类
+ *
  * @author Maning
  */
 public class RequestUtil {
@@ -16,6 +18,12 @@ public class RequestUtil {
     private static final int HTTP_PORT = 80;
     private static final int HTTPS_PORT = 443;
 
+    /**
+     * 获取真实的IP地址
+     *
+     * @param request 请求
+     * @return IP地址
+     */
     public static String getIp(HttpServletRequest request) {
         String ipAddress = request.getHeader("x-forwarded-for");
         if (ipAddress == null || ipAddress.length() == 0 || UN_KNOWN.equalsIgnoreCase(ipAddress)) {
@@ -42,6 +50,12 @@ public class RequestUtil {
         return ipAddress;
     }
 
+    /**
+     * 获取app运行的url
+     *
+     * @param req 请求
+     * @return url
+     */
     public static String getRequestURL(HttpServletRequest req) {
         StringBuilder url = new StringBuilder();
         String scheme = req.getScheme();

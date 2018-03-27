@@ -7,6 +7,7 @@ import org.huiche.core.web.response.BaseResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
 /**
+ * 删除一条数据
  * @author Maning
  */
 public interface DelSome<T extends BaseEntity> extends Api, ServiceProvider<T> {

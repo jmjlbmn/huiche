@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 /**
+ * 新增
  * @author Maning
  */
 public interface Create<T extends BaseEntity> extends Api, ServiceProvider<T> {

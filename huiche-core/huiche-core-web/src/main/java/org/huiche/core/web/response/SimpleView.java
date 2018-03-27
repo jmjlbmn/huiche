@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 /**
+ * 简单视图
+ *
  * @author Maning
  */
 public class SimpleView implements View {

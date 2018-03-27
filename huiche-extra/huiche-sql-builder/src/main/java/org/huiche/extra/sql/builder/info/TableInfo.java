@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
+ * 表信息对象
  * @author Maning
  */
 public class TableInfo implements Serializable {

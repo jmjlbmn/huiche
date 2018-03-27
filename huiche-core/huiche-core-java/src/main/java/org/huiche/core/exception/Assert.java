@@ -4,6 +4,7 @@ package org.huiche.core.exception;
 import org.huiche.core.util.BaseUtil;
 
 /**
+ * 断言工具
  * @author Maning
  */
 public class Assert {

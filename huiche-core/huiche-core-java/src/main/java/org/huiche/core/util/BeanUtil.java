@@ -8,12 +8,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 实体工具类
+ * Bean工具类
  *
  * @author Maning
  */
 @UtilityClass
 public class BeanUtil {
+    /**
+     * 获取值是null的字段名称
+     *
+     * @param bean 对象
+     * @return null的字段名称
+     */
     public static String[] getNullFields(Object bean) {
         List<Field> list = getNullFieldList(bean);
         if (null == list) {
@@ -28,7 +34,12 @@ public class BeanUtil {
         return result.toArray(new String[0]);
     }
 
-
+    /**
+     * 获取值是null的字段
+     *
+     * @param bean 对象
+     * @return null的字段
+     */
     public static List<Field> getNullFieldList(Object bean) {
         if (null == bean) {
             return null;
@@ -51,6 +62,12 @@ public class BeanUtil {
         return result;
     }
 
+    /**
+     * 获取类声明的私有字段(不含父类)
+     *
+     * @param clazz 类
+     * @return 字段
+     */
     public static List<Field> getFields(Class clazz) {
         Field[] fields = clazz.getDeclaredFields();
         List<Field> list = new ArrayList<>();
@@ -63,6 +80,12 @@ public class BeanUtil {
         return list;
     }
 
+    /**
+     * 获取类及其父类声明的所有私有字段
+     *
+     * @param clazz 类
+     * @return 字段
+     */
     public static List<Field> getFieldsWithSuper(Class clazz) {
         List<Field> fields = new ArrayList<>();
         while (!clazz.equals(Object.class)) {

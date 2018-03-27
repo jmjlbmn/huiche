@@ -19,11 +19,17 @@ import javax.validation.Validator;
 import java.io.IOException;
 
 /**
+ * HuiChe自动配置
  * @author Maning
  */
 @Configuration
 @AutoConfigureOrder(Integer.MAX_VALUE)
 public class HuiCheAutoConfigure {
+    /**
+     * 默认实现一个JsonApi
+     * @param objectMapper 注入jackson
+     * @return jsonApi
+     */
     @Bean
     @ConditionalOnBean(ObjectMapper.class)
     public JsonApi jsonUtil(ObjectMapper objectMapper) {
@@ -48,6 +54,10 @@ public class HuiCheAutoConfigure {
         };
     }
 
+    /**
+     * 注册全局异常处理
+     * @return 异常处理
+     */
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnWebApplication
@@ -55,6 +65,10 @@ public class HuiCheAutoConfigure {
         return new ErrorHandler();
     }
 
+    /**
+     * 注册dao的快速验证器
+     * @return 验证器
+     */
     @Bean("fastValidator")
     @ConditionalOnClass(HibernateValidator.class)
     public Validator fastValidator() {

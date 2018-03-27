@@ -7,11 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 
 /**
- * 传统Post风格控制器
+ * 传统Post风格增删改查控制器
  *
  * @author Maning
  */
 public class CrudController<T extends BaseEntity> extends BaseController {
+    /**
+     * 注入CrudService
+     */
     @Autowired
     protected BaseCrudService<T> service;
 

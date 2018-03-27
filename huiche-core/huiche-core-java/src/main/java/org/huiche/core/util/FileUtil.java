@@ -21,10 +21,21 @@ import java.util.Random;
 public class FileUtil {
     private static final long NIO_LIMIT = 10;
 
+    /**
+     * 获取随机文件名称
+     *
+     * @return 文件名称
+     */
     public static String getRandomName() {
         return DateUtil.now("yyyyMMddHHmmssSSS") + new Random().nextInt(1000);
     }
 
+    /**
+     * 获取文件大小
+     *
+     * @param size 字节长度
+     * @return 大小描述
+     */
     public static String getFileSize(long size) {
         DecimalFormat df = new DecimalFormat("#.00");
         if (size < Const.FILE_SCALE) {
@@ -38,6 +49,13 @@ public class FileUtil {
         }
     }
 
+    /**
+     * ba保存文件
+     *
+     * @param path  路径
+     * @param bytes 文件字节数组
+     * @return 是否存储成功
+     */
     public static boolean saveFile(String path, byte[] bytes) {
         if (bytes.length > Const.FILE_SCALE * Const.FILE_SCALE * NIO_LIMIT) {
             return saveFileNIO(path, bytes);
@@ -46,6 +64,13 @@ public class FileUtil {
         }
     }
 
+    /**
+     * 直接IO存储文件
+     *
+     * @param path  路径
+     * @param bytes 字节数组
+     * @return 是否存储成功
+     */
     public static boolean saveFileIO(String path, byte[] bytes) {
         File file = new File(path);
         try (FileOutputStream fileOutputStream = new FileOutputStream(file);
@@ -58,6 +83,13 @@ public class FileUtil {
         return true;
     }
 
+    /**
+     * 使用nio存储文件
+     *
+     * @param path  路径
+     * @param bytes 字节数组
+     * @return 是否存储成功
+     */
     public static boolean saveFileNIO(String path, byte[] bytes) {
         File file = new File(path);
         try (FileOutputStream fileOutputStream = new FileOutputStream(file);
@@ -91,6 +123,12 @@ public class FileUtil {
         }
     }
 
+    /**
+     * 文件转 字节数组
+     *
+     * @param file 文件
+     * @return 字节数组
+     */
     public static byte[] file2Bytes(File file) {
         if (null == file || !file.exists()) {
             return new byte[]{};
@@ -114,10 +152,22 @@ public class FileUtil {
         return buffer;
     }
 
+    /**
+     * 文件转字节数组
+     *
+     * @param path 文件路径
+     * @return 字节数组
+     */
     public static byte[] file2Bytes(String path) {
         return file2Bytes(new File(path));
     }
 
+    /**
+     * 获取文件的contentType
+     *
+     * @param filePath 文件路径
+     * @return ContentType
+     */
     public static String getContentType(String filePath) {
         String type = null;
         try {
@@ -128,6 +178,12 @@ public class FileUtil {
         return type;
     }
 
+    /**
+     * 获取所有文件列表
+     *
+     * @param dir      路径
+     * @param fileList 文件列表
+     */
     public static void fetchFileList(File dir, List<File> fileList) {
         if (dir.isDirectory()) {
             File[] list = dir.listFiles();

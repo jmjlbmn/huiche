@@ -30,16 +30,27 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 /**
+ * 全局异常处理
  * @author Maning
  */
 @ControllerAdvice
 public class ErrorHandler extends ResponseEntityExceptionHandler {
+    /**
+     * 捕获自定义异常
+     * @param e 异常
+     * @return json
+     */
     @ExceptionHandler(BaseException.class)
     @ResponseBody
     public BaseResult handleException(BaseException e) {
         return ResultUtil.fail(e.getCode(), e.getMsg());
     }
 
+    /**
+     * 捕获未处理异常
+     * @param e 异常
+     * @return json
+     */
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public BaseResult handleException(Exception e) {
@@ -159,6 +170,13 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
         return error(status, request, msg.toString());
     }
 
+    /**
+     * 异常处理
+     * @param status http状态
+     * @param request 请求
+     * @param msg 错误消息
+     * @return 响应
+     */
     private ResponseEntity<Object> error(HttpStatus status, WebRequest request, String msg) {
         return new ResponseEntity<>(new BaseResult().setCode(status.value()).setMsg(msg + "," + request.getDescription(false) + " (" + status.getReasonPhrase() + ")"), status);
     }

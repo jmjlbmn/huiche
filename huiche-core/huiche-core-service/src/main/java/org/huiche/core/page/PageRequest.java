@@ -8,8 +8,14 @@ import java.io.Serializable;
  * @author Maning
  */
 public class PageRequest implements Serializable {
+    /**
+     * 默认获取10条
+     */
     private static final int DEFAULT_ROWS = 10;
-    private static final int MAX_ROWS = 100;
+    /**
+     * 最多获取1000条
+     */
+    private static final int MAX_ROWS = 1000;
     private Integer page = 1;
     private Integer rows = DEFAULT_ROWS;
     /**

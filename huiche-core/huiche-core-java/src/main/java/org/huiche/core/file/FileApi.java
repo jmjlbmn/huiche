@@ -2,6 +2,7 @@ package org.huiche.core.file;
 
 
 /**
+ * 上传文件Api
  * @author Maning
  */
 public interface FileApi {

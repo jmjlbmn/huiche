@@ -7,6 +7,7 @@ import java.sql.JDBCType;
 import java.util.Iterator;
 
 /**
+ * MySql
  * @author Maning
  */
 public class Mysql implements Sql {
