@@ -2,6 +2,7 @@ package org.huiche.core.util;
 
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.*;
+import com.querydsl.core.types.dsl.ComparablePath;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.sql.SQLQuery;
 import com.querydsl.sql.SQLSerializer;
@@ -158,18 +159,7 @@ public class QueryDslUtil {
      */
     private static OrderSpecifier<?> parseOrder(String sortStr, String orderStr) {
         String fieldName = StringUtil.toDb(sortStr);
-        return parseOrder(Expressions.comparablePath(Comparable.class, fieldName), orderStr);
-    }
-
-    /**
-     * 解析排序
-     *
-     * @param sortColumn 排序字段
-     * @param orderStr   正序倒序
-     * @return 排序
-     */
-    private static OrderSpecifier<?> parseOrder(Expression<? extends Comparable> sortColumn, String orderStr) {
-        Order order = Order.ASC.name().equalsIgnoreCase(orderStr) ? Order.ASC : Order.DESC;
-        return new OrderSpecifier<>(order, sortColumn);
+        ComparablePath<? extends Comparable> path = Expressions.comparablePath(Comparable.class, fieldName);
+        return Order.ASC.name().equalsIgnoreCase(orderStr) ? path.asc() : path.desc();
     }
 }
