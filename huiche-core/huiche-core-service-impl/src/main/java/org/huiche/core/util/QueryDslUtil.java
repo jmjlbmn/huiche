@@ -124,7 +124,7 @@ public class QueryDslUtil {
      * @param request   分页请求
      * @return 条件
      */
-    public static OrderSpecifier[] parsePageRequest(PageRequest request, Map<String, Expression<Comparable>> columnMap) {
+    public static OrderSpecifier[] parsePageRequest(PageRequest request, Map<String, Expression<? extends Comparable>> columnMap) {
         if (null != request && null != columnMap && !columnMap.isEmpty()) {
             String sort = request.getSort();
             String order = request.getOrder();
@@ -133,7 +133,7 @@ public class QueryDslUtil {
                 String[] orders = order.split(Const.COMMA);
                 int length = sorts.length;
                 if (length == orders.length) {
-                    List<OrderSpecifier<Comparable>> list = new ArrayList<>();
+                    List<OrderSpecifier<?>> list = new ArrayList<>();
                     for (int i = 0; i < length; i++) {
                         String column = sorts[i];
                         if (columnMap.containsKey(column)) {
@@ -156,7 +156,7 @@ public class QueryDslUtil {
      * @param orderStr 正序倒序
      * @return 排序
      */
-    public static OrderSpecifier<Comparable> parseOrder(String sortStr, String orderStr) {
+    private static OrderSpecifier<?> parseOrder(String sortStr, String orderStr) {
         String fieldName = StringUtil.toDb(sortStr);
         return parseOrder(Expressions.comparablePath(Comparable.class, fieldName), orderStr);
     }
@@ -168,7 +168,7 @@ public class QueryDslUtil {
      * @param orderStr   正序倒序
      * @return 排序
      */
-    public static OrderSpecifier<Comparable> parseOrder(Expression<Comparable> sortColumn, String orderStr) {
+    private static OrderSpecifier<?> parseOrder(Expression<? extends Comparable> sortColumn, String orderStr) {
         Order order = Order.ASC.name().equalsIgnoreCase(orderStr) ? Order.ASC : Order.DESC;
         return new OrderSpecifier<>(order, sortColumn);
     }

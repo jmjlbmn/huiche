@@ -6,7 +6,6 @@ import org.huiche.core.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
 
 /**
  * 查询条件构造器
@@ -24,14 +23,13 @@ public class PredicateBuilder {
      * 添加条件
      *
      * @param column   字段
-     * @param operator 操作
-     * @param value    值的提供
+     * @param operator 操作,比较符
+     * @param val      值
      * @param <T>      值的类型
      * @return 构造器
      */
-    public <T> PredicateBuilder predicate(Path<T> column, Operator operator, Supplier<T> value) {
+    public <T> PredicateBuilder predicate(Path<T> column, Operator operator, T val) {
         Predicate predicate = null;
-        T val = value.get();
         if (null != val) {
             if (val instanceof String) {
                 String valStr = (String) val;
@@ -42,6 +40,17 @@ public class PredicateBuilder {
                 predicate = Expressions.predicate(operator, column, ConstantImpl.create(val));
             }
         }
+        list.add(predicate);
+        return this;
+    }
+
+    /**
+     * 添加条件
+     *
+     * @param predicate 条件
+     * @return 构造器
+     */
+    public PredicateBuilder predicate(Predicate predicate) {
         list.add(predicate);
         return this;
     }

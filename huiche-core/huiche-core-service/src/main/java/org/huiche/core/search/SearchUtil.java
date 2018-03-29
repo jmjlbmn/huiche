@@ -42,9 +42,6 @@ public class SearchUtil {
         if (null != searchTable) {
             table = searchTable.value();
         }
-        if ("".equals(table)) {
-            table = StringUtil.toDb(clazz.getSimpleName().split("Search")[0]);
-        }
         List<Predicate> list = new ArrayList<>();
         for (Field field : clazz.getDeclaredFields()) {
             int mod = field.getModifiers();
