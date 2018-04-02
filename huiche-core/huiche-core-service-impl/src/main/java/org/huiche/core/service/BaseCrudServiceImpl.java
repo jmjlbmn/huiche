@@ -8,7 +8,6 @@ import org.huiche.core.page.PageRequest;
 import org.huiche.core.page.PageResponse;
 import org.huiche.core.search.Search;
 import org.huiche.core.search.SearchUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -18,13 +17,7 @@ import java.util.List;
  *
  * @author Maning
  */
-public class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServiceImpl implements BaseCrudService<T> {
-    /**
-     * 获取dao
-     */
-    @Autowired
-    protected BaseDao<T> dao;
-
+public abstract class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServiceImpl implements BaseCrudService<T> {
     /**
      * 保存
      *
@@ -34,9 +27,10 @@ public class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServiceImpl i
     @Override
     @Transactional(rollbackFor = Exception.class)
     public long create(T entity) {
+        beforeOnCreate(entity);
         checkOnCreate(entity);
         checkRegular(entity);
-        return dao.create(entity);
+        return dao().create(entity);
     }
 
     /**
@@ -48,8 +42,9 @@ public class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServiceImpl i
     @Override
     @Transactional(rollbackFor = Exception.class)
     public long update(T entity) {
+        beforeOnUpdate(entity);
         checkRegular(entity);
-        return dao.update(entity);
+        return dao().update(entity);
     }
 
     /**
@@ -61,7 +56,7 @@ public class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServiceImpl i
     @Override
     @Transactional(rollbackFor = Exception.class)
     public long delete(Long id) {
-        return dao.delete(id);
+        return dao().delete(id);
     }
 
     /**
@@ -73,7 +68,7 @@ public class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServiceImpl i
     @Override
     @Transactional(rollbackFor = Exception.class)
     public long delete(Long... id) {
-        return dao.delete(id);
+        return dao().delete(id);
     }
 
     /**
@@ -85,7 +80,7 @@ public class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServiceImpl i
     @Override
     @Transactional(rollbackFor = Exception.class)
     public long delete(List<Long> id) {
-        return dao.delete(id);
+        return dao().delete(id);
     }
 
     /**
@@ -97,7 +92,7 @@ public class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServiceImpl i
     @Override
     @Transactional(rollbackFor = Exception.class)
     public long delete(String ids) {
-        return dao.delete(ids);
+        return dao().delete(ids);
     }
 
     /**
@@ -108,7 +103,7 @@ public class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServiceImpl i
      */
     @Override
     public T get(Long id) {
-        T t = dao.get(id);
+        T t = dao().get(id);
         Assert.notNull(SystemError.NO_EXISTS, t);
         return t;
     }
@@ -121,7 +116,7 @@ public class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServiceImpl i
      */
     @Override
     public List<T> get(String ids) {
-        return dao.list(ids);
+        return dao().list(ids);
     }
 
     /**
@@ -131,7 +126,7 @@ public class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServiceImpl i
      */
     @Override
     public List<T> list() {
-        return dao.list();
+        return dao().list();
     }
 
     /**
@@ -142,7 +137,7 @@ public class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServiceImpl i
      */
     @Override
     public List<T> list(T search) {
-        return dao.list(SearchUtil.ofEntity(search));
+        return dao().list(SearchUtil.ofEntity(search));
     }
 
     /**
@@ -153,7 +148,7 @@ public class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServiceImpl i
      */
     @Override
     public PageResponse<T> page(PageRequest pageRequest) {
-        return dao.page(pageRequest);
+        return dao().page(pageRequest);
     }
 
     /**
@@ -165,7 +160,7 @@ public class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServiceImpl i
      */
     @Override
     public PageResponse<T> page(PageRequest pageRequest, T search) {
-        return dao.page(pageRequest, SearchUtil.ofEntity(search));
+        return dao().page(pageRequest, SearchUtil.ofEntity(search));
     }
 
     /**
@@ -178,7 +173,7 @@ public class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServiceImpl i
      */
     @Override
     public <S extends Search> PageResponse<T> page(PageRequest pageRequest, S search) {
-        return dao.page(pageRequest, search.get());
+        return dao().page(pageRequest, search.get());
     }
 
     /**
@@ -191,9 +186,9 @@ public class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServiceImpl i
     @Transactional(rollbackFor = Exception.class)
     public long save(T entity) {
         if (entity.getId() == null) {
-            return dao.create(entity);
+            return dao().create(entity);
         } else {
-            return dao.update(entity);
+            return dao().update(entity);
         }
     }
 
@@ -214,4 +209,25 @@ public class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServiceImpl i
     protected void checkRegular(T entity) {
         Assert.notNull(entity);
     }
+    /**
+     * 创建之前
+     *
+     * @param entity 实体
+     */
+    protected void beforeOnCreate(T entity) {
+    }
+
+    /**
+     * 更新之前
+     *
+     * @param entity 实体
+     */
+    protected void beforeOnUpdate(T entity) {
+    }
+
+    /**
+     * 提供dao
+     * @return dao
+     */
+    protected abstract BaseDao<T> dao();
 }

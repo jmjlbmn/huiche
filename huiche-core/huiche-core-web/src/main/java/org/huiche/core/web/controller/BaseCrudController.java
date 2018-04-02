@@ -1,9 +1,8 @@
 package org.huiche.core.web.controller;
 
 import org.huiche.core.entity.BaseEntity;
-import org.huiche.core.service.BaseCrudService;
+import org.huiche.core.web.ServiceProvider;
 import org.huiche.core.web.response.BaseResult;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 
 /**
@@ -11,12 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
  *
  * @author Maning
  */
-public class CrudController<T extends BaseEntity> extends BaseController {
-    /**
-     * 注入CrudService
-     */
-    @Autowired
-    protected BaseCrudService<T> service;
+public abstract class BaseCrudController<T extends BaseEntity> extends BaseController implements ServiceProvider<T> {
 
     /**
      * 获取一条数据
@@ -26,7 +20,7 @@ public class CrudController<T extends BaseEntity> extends BaseController {
      */
     @PostMapping("get")
     public BaseResult<T> get(Long id) {
-        return ok(service.get(id));
+        return ok(service().get(id));
     }
 
     /**
@@ -37,7 +31,7 @@ public class CrudController<T extends BaseEntity> extends BaseController {
      */
     @PostMapping("save")
     public BaseResult<Long> save(T entity) {
-        return ok(service.save(entity));
+        return ok(service().save(entity));
     }
 
     /**
@@ -48,7 +42,7 @@ public class CrudController<T extends BaseEntity> extends BaseController {
      */
     @PostMapping("del")
     public BaseResult del(Long id) {
-        service.delete(id);
+        service().delete(id);
         return ok();
     }
 }

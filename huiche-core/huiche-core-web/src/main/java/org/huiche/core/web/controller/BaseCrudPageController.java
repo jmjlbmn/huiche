@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
  *
  * @author Maning
  */
-public class CrudPageController<T extends BaseEntity> extends CrudController<T> {
+public abstract class BaseCrudPageController<T extends BaseEntity> extends BaseCrudController<T> {
     /**
      * 分页获取数据
      *
@@ -21,6 +21,6 @@ public class CrudPageController<T extends BaseEntity> extends CrudController<T> 
      */
     @PostMapping("page")
     public BaseResult<PageResponse<T>> page(PageRequest pageRequest, T search) {
-        return ok(service.page(pageRequest, search));
+        return ok(service().page(pageRequest, search));
     }
 }

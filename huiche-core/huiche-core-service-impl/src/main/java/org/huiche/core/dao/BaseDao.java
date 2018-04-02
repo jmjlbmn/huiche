@@ -274,22 +274,6 @@ public abstract class BaseDao<T extends BaseEntity> {
     }
 
     /**
-     * 获取单条数据,有排序
-     *
-     * @param order     排序
-     * @param predicate 条件
-     * @return 数据
-     */
-    public T get(Predicate predicate, OrderSpecifier<?>... order) {
-        Assert.notNull("单记录查询,比如传入查询条件且保证该条件可以取得最多一条数据", predicate);
-        SQLQuery<T> query = sqlQueryFactory.selectFrom(root()).where(predicate);
-        if (null != order && order.length > 0) {
-            query = query.orderBy(order);
-        }
-        return QueryDslUtil.one(query);
-    }
-
-    /**
      * 查询单条数据的某些字段
      *
      * @param predicate 条件
