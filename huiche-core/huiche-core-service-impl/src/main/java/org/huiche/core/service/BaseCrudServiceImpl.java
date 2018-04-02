@@ -27,7 +27,7 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServ
     @Override
     @Transactional(rollbackFor = Exception.class)
     public long create(T entity) {
-        beforeOnCreate(entity);
+        beforeCreate(entity);
         checkOnCreate(entity);
         checkRegular(entity);
         return dao().create(entity);
@@ -42,7 +42,7 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServ
     @Override
     @Transactional(rollbackFor = Exception.class)
     public long update(T entity) {
-        beforeOnUpdate(entity);
+        beforeUpdate(entity);
         checkRegular(entity);
         return dao().update(entity);
     }
@@ -214,7 +214,7 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServ
      *
      * @param entity 实体
      */
-    protected void beforeOnCreate(T entity) {
+    protected void beforeCreate(T entity) {
     }
 
     /**
@@ -222,7 +222,7 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServ
      *
      * @param entity 实体
      */
-    protected void beforeOnUpdate(T entity) {
+    protected void beforeUpdate(T entity) {
     }
 
     /**
