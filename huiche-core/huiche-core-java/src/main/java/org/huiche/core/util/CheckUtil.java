@@ -71,7 +71,7 @@ public class CheckUtil {
      * @return 是否在范围内
      */
     public static boolean checkLength(String str, int min, int max) {
-        Assert.notNull("字符串不能为空", str);
+        Assert.notNullWithMsg("字符串不能为空", str);
         Assert.ok("传入长度不符合规则", min >= 0 && max >= 0 && max >= min);
         return str.trim().length() >= min && str.trim().length() <= max;
     }

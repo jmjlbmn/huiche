@@ -1,6 +1,10 @@
 package org.huiche.core.dao;
 
-import com.querydsl.core.types.*;
+import com.querydsl.core.types.Expression;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.PathMetadataFactory;
+import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.sql.RelationalPath;
@@ -12,7 +16,6 @@ import com.querydsl.sql.dml.SQLUpdateClause;
 import org.huiche.core.entity.BaseEntity;
 import org.huiche.core.exception.Assert;
 import org.huiche.core.exception.DataBaseException;
-import org.huiche.core.exception.SystemError;
 import org.huiche.core.page.PageRequest;
 import org.huiche.core.page.PageResponse;
 import org.huiche.core.util.BaseUtil;
@@ -25,6 +28,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.Resource;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
@@ -55,11 +60,10 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param entity 实体
      * @return 变更条数
      */
-    public long create(T entity) {
-        Assert.notNull(SystemError.NOT_NULL, entity);
+    public long create(@Nonnull T entity) {
+        Assert.isNullWithMsg("新增数据时ID不能有值", entity.getId());
         beforeCreate(entity);
         validOnCreate(entity);
-        Assert.isNull("新增数据时ID不能有值", entity.getId());
         Long id = sqlQueryFactory.insert(root())
                 .populate(entity)
                 .executeWithKey(pk());
@@ -74,7 +78,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param entityList 实体
      * @return ID
      */
-    public long create(Collection<T> entityList) {
+    public long create(@Nonnull Collection<T> entityList) {
         return create(entityList, false);
     }
 
@@ -85,12 +89,11 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param fast       是否快速插入,快速插入仅插入需要设置的字段忽略null,但要注意快速插入时,须保证插入的要插入的字段一致,例如要插入name,sex,age字段,批量插入的所有实体都必须设置且只能设置这三个属性的值,不能有null(可以空字符串),不能设置其他属性
      * @return 变更条数
      */
-    public long create(Collection<T> entityList, boolean fast) {
-        Assert.ok(SystemError.NOT_NULL, null != entityList);
+    public long create(@Nonnull Collection<T> entityList, boolean fast) {
         SQLInsertClause insert = sqlQueryFactory.insert(root());
         entityList.forEach(t -> {
+            Assert.isNullWithMsg("新增数据时ID不能有值", t.getId());
             beforeCreate(t);
-            Assert.isNull("新增数据时ID不能有值", t.getId());
             if (fast) {
                 insert.populate(t).addBatch();
             } else {
@@ -115,9 +118,8 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param entity 实体
      * @return 变更条数
      */
-    public long update(T entity) {
-        Assert.notNull(SystemError.NOT_NULL, entity);
-        Assert.notNull("更新数据时,实体必须设置ID", entity.getId());
+    public long update(@Nonnull T entity) {
+        Assert.notNullWithMsg("更新数据时,实体必须设置ID", entity.getId());
         beforeUpdate(entity);
         validRegular(entity);
         return sqlQueryFactory.update(root()).populate(entity).where(pk().eq(entity.getId())).execute();
@@ -129,8 +131,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param entityList 实体列表
      * @return 变动条数
      */
-    public long update(Collection<T> entityList) {
-        Assert.ok(SystemError.NOT_NULL, null != entityList);
+    public long update(@Nonnull Collection<T> entityList) {
         SQLUpdateClause update = sqlQueryFactory.update(root());
         for (T entity : entityList) {
             Long id = entity.getId();
@@ -155,8 +156,8 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param predicate 条件
      * @return 变更条数
      */
-    public long update(T entity, Predicate... predicate) {
-        Assert.notNull(entity, predicate);
+    public long update(@Nonnull T entity, @Nonnull Predicate... predicate) {
+        Assert.ok("条件不能为空", predicate.length > 0);
         // 强制不更新ID
         entity.setId(null);
         validRegular(entity);
@@ -169,7 +170,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param id 主键
      * @return 变更条数
      */
-    public long delete(Long id) {
+    public long delete(@Nonnull Long id) {
         return sqlQueryFactory.delete(root()).where(pk().eq(id)).execute();
     }
 
@@ -179,7 +180,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param id 主键
      * @return 变更条数
      */
-    public long delete(Long... id) {
+    public long delete(@Nonnull Long... id) {
         return sqlQueryFactory.delete(root()).where(pk().in(id)).execute();
     }
 
@@ -189,7 +190,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param ids 主键
      * @return 变更条数
      */
-    public long delete(Collection<Long> ids) {
+    public long delete(@Nonnull Collection<Long> ids) {
         return sqlQueryFactory.delete(root()).where(pk().in(ids)).execute();
     }
 
@@ -199,7 +200,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param ids 逗号分隔的id
      * @return 变更条数
      */
-    public long delete(String ids) {
+    public long delete(@Nonnull String ids) {
         return sqlQueryFactory.delete(root()).where(pk().in(StringUtil.split2ListLong(ids))).execute();
     }
 
@@ -210,7 +211,8 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param predicate 条件
      * @return 变更条数
      */
-    public long delete(Predicate... predicate) {
+    public long delete(@Nonnull Predicate... predicate) {
+        Assert.ok("条件不能为空", predicate.length > 0);
         return sqlQueryFactory.delete(root()).where(predicate).execute();
     }
 
@@ -220,7 +222,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param id ID
      * @return 是否存在
      */
-    public boolean exists(Long id) {
+    public boolean exists(@Nonnull Long id) {
         return sqlQueryFactory.from(root()).where(pk().eq(id)).fetchCount() > 0;
     }
 
@@ -230,7 +232,8 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param predicate 条件
      * @return 是否存在
      */
-    public boolean exists(Predicate... predicate) {
+    public boolean exists(@Nonnull Predicate... predicate) {
+        Assert.ok("条件不能为空", predicate.length > 0);
         return sqlQueryFactory.from(root()).where(predicate).fetchCount() > 0;
     }
 
@@ -240,8 +243,8 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param id 主键
      * @return 实体
      */
-    public T get(Long id) {
-        Assert.notNull(id);
+    @Nullable
+    public T get(@Nonnull Long id) {
         return QueryDslUtil.one(sqlQueryFactory.selectFrom(root()).where(pk().eq(id)));
     }
 
@@ -252,8 +255,9 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param predicate 条件
      * @return 数据
      */
-    public T get(Predicate... predicate) {
-        Assert.notNull("单记录查询,比如传入查询条件且保证该条件可以取得最多一条数据", (Object[]) predicate);
+    @Nullable
+    public T get(@Nonnull Predicate... predicate) {
+        Assert.ok("条件不能为空", predicate.length > 0);
         return QueryDslUtil.one(sqlQueryFactory.selectFrom(root()).where(predicate));
     }
 
@@ -264,8 +268,9 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param predicate 条件
      * @return 数据
      */
-    public T get(OrderSpecifier<?> order, Predicate... predicate) {
-        Assert.notNull("单记录查询,比如传入查询条件且保证该条件可以取得最多一条数据", (Object[]) predicate);
+    @Nullable
+    public T get(@Nullable OrderSpecifier<?> order, @Nonnull Predicate... predicate) {
+        Assert.ok("条件不能为空", predicate.length > 0);
         SQLQuery<T> query = sqlQueryFactory.selectFrom(root()).where(predicate);
         if (null != order) {
             query = query.orderBy(order);
@@ -280,9 +285,9 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param columns   字段
      * @return 数据
      */
-    public T getColumns(Predicate predicate, Expression<?>... columns) {
-        Assert.notNull("单记录查询,比如传入查询条件且保证该条件可以取得最多一条数据", predicate);
-        Assert.ok("查询字段不可为空", null != columns && columns.length > 0);
+    @Nullable
+    public T getColumns(@Nonnull Predicate predicate, @Nonnull Expression<?>... columns) {
+        Assert.ok("要获取字段不能为空", columns.length > 0);
         return QueryDslUtil.one(sqlQueryFactory.select(
                 Projections.fields(root(), columns)
         ).from(root()).where(predicate));
@@ -296,9 +301,9 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param columns   获取的字段
      * @return 数据
      */
-    public T getColumns(Predicate predicate, OrderSpecifier<?> order, Expression<?>... columns) {
-        Assert.notNull("单记录查询,比如传入查询条件且保证该条件可以取得最多一条数据", predicate);
-        Assert.ok("查询字段不可为空", null != columns && columns.length > 0);
+    @Nullable
+    public T getColumns(@Nonnull Predicate predicate, @Nullable OrderSpecifier<?> order, @Nonnull Expression<?>... columns) {
+        Assert.ok("要获取字段不能为空", columns.length > 0);
         SQLQuery<T> query = sqlQueryFactory.select(
                 Projections.fields(root(), columns)
         ).from(root()).where(predicate);
@@ -316,7 +321,8 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param id     id
      * @return 字段数据
      */
-    public <Col> Col getOneColumn(Expression<Col> column, Long id) {
+    @Nullable
+    public <Col> Col getOneColumn(@Nonnull Expression<Col> column, @Nonnull Long id) {
         return getOneColumn(column, pk().eq(id));
     }
 
@@ -328,8 +334,9 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param predicate 条件
      * @return 字段数据
      */
-    public <Col> Col getOneColumn(Expression<Col> column, Predicate... predicate) {
-        Assert.notNull("单记录查询,比如传入查询条件且保证该条件可以取得最多一条数据", (Object[]) predicate);
+    @Nullable
+    public <Col> Col getOneColumn(@Nonnull Expression<Col> column, @Nonnull Predicate... predicate) {
+        Assert.ok("条件不能为空", predicate.length > 0);
         return QueryDslUtil.one(sqlQueryFactory.select(column).from(root()).where(predicate));
     }
 
@@ -342,8 +349,9 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param predicate 条件
      * @return 字段数据
      */
-    public <Col> Col getOneColumn(Expression<Col> column, OrderSpecifier<?> order, Predicate... predicate) {
-        Assert.notNull("单记录查询,比如传入查询条件且保证该条件可以取得最多一条数据", (Object[]) predicate);
+    @Nullable
+    public <Col> Col getOneColumn(@Nonnull Expression<Col> column, @Nonnull OrderSpecifier<?> order, @Nonnull Predicate... predicate) {
+        Assert.ok("条件不能为空", predicate.length > 0);
         return QueryDslUtil.one(sqlQueryFactory.select(column).from(root()).where(predicate).orderBy(order));
     }
 
@@ -356,8 +364,9 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param predicate 条件
      * @return 字段数据
      */
-    public <Col> Col getOneColumn(Expression<Col> column, OrderSpecifier<?>[] order, Predicate... predicate) {
-        Assert.notNull("单记录查询,比如传入查询条件且保证该条件可以取得最多一条数据", (Object[]) predicate);
+    @Nullable
+    public <Col> Col getOneColumn(@Nonnull Expression<Col> column, @Nullable OrderSpecifier<?>[] order, @Nonnull Predicate... predicate) {
+        Assert.ok("条件不能为空", predicate.length > 0);
         SQLQuery<Col> query = sqlQueryFactory.select(column).from(root()).where(predicate);
         if (null != order && order.length > 0) {
             query = query.orderBy(order);
@@ -371,7 +380,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param ids 逗号分隔的ID列表
      * @return 数据
      */
-    public List<T> list(String ids) {
+    public List<T> list(@Nonnull String ids) {
         return QueryDslUtil.list(sqlQueryFactory.selectFrom(root()).where(pk().in(StringUtil.split2ListLong(ids))));
     }
 
@@ -381,7 +390,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param ids ID列表
      * @return 数据
      */
-    public List<T> list(Collection<Long> ids) {
+    public List<T> list(@Nonnull Collection<Long> ids) {
         return QueryDslUtil.list(sqlQueryFactory.selectFrom(root()).where(pk().in(ids)));
     }
 
@@ -391,7 +400,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param ids ID列表
      * @return 数据
      */
-    public List<T> list(Long[] ids) {
+    public List<T> list(@Nonnull Long[] ids) {
         return QueryDslUtil.list(sqlQueryFactory.selectFrom(root()).where(pk().in(ids)));
     }
 
@@ -401,7 +410,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param predicate 条件
      * @return 数据列表
      */
-    public List<T> list(Predicate... predicate) {
+    public List<T> list(@Nullable Predicate... predicate) {
         return list(null, null, predicate);
     }
 
@@ -412,7 +421,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param predicate 条件
      * @return 数据列表
      */
-    public List<T> list(OrderSpecifier<?> order, Predicate... predicate) {
+    public List<T> list(@Nullable OrderSpecifier<?> order, @Nullable Predicate... predicate) {
         return list(order, null, predicate);
     }
 
@@ -424,9 +433,9 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param predicate 条件
      * @return 数据列表
      */
-    public List<T> list(OrderSpecifier<?> order, Long limit, Predicate... predicate) {
+    public List<T> list(@Nullable OrderSpecifier<?> order, @Nullable Long limit, @Nullable Predicate... predicate) {
         SQLQuery<T> query = sqlQueryFactory.selectFrom(root());
-        if (null != predicate) {
+        if (null != predicate && predicate.length > 0) {
             query = query.where(predicate);
         }
         if (null != order) {
@@ -448,7 +457,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param columns   获取的字段
      * @return 数据
      */
-    public List<T> listColumns(Predicate predicate, OrderSpecifier<?> order, Expression<?>... columns) {
+    public List<T> listColumns(@Nullable Predicate predicate, @Nullable OrderSpecifier<?> order, @Nonnull Expression<?>... columns) {
         return listColumns(predicate, order, null, columns);
     }
 
@@ -459,7 +468,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param columns 获取的字段
      * @return 数据
      */
-    public List<T> listColumns(OrderSpecifier<?> order, Expression<?>... columns) {
+    public List<T> listColumns(@Nullable OrderSpecifier<?> order, @Nonnull Expression<?>... columns) {
         return listColumns(null, order, columns);
     }
 
@@ -470,7 +479,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param columns   获取的字段
      * @return 数据
      */
-    public List<T> listColumns(Predicate predicate, Expression<?>... columns) {
+    public List<T> listColumns(@Nullable Predicate predicate, @Nonnull Expression<?>... columns) {
         return listColumns(predicate, null, columns);
     }
 
@@ -480,7 +489,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param columns 获取的字段
      * @return 数据
      */
-    public List<T> listColumns(Expression<?>... columns) {
+    public List<T> listColumns(@Nonnull Expression<?>... columns) {
         return listColumns(null, null, columns);
     }
 
@@ -493,8 +502,8 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param columns   获取的字段
      * @return 数据
      */
-    public List<T> listColumns(Predicate predicate, OrderSpecifier<?> order, Long limit, Expression<?>... columns) {
-        Assert.ok("查询字段不可为空", null != columns && columns.length > 0);
+    public List<T> listColumns(@Nullable Predicate predicate, @Nullable OrderSpecifier<?> order, @Nullable Long limit, @Nonnull Expression<?>... columns) {
+        Assert.ok("要获取字段不能为空", columns.length > 0);
         SQLQuery<T> query = sqlQueryFactory.select(
                 Projections.fields(root(), columns)
         ).from(root());
@@ -520,7 +529,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param <Col>     字段
      * @return 字段的列表
      */
-    public <Col> List<Col> listColumn(Expression<Col> column, Predicate... predicate) {
+    public <Col> List<Col> listColumn(@Nonnull Expression<Col> column, @Nullable Predicate... predicate) {
         return listColumn(column, null, null, predicate);
     }
 
@@ -531,7 +540,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param <Col>  字段
      * @return 字段的列表
      */
-    public <Col> List<Col> listColumn(Expression<Col> column) {
+    public <Col> List<Col> listColumn(@Nonnull Expression<Col> column) {
         return listColumn(column, null, null, (Predicate[]) null);
     }
 
@@ -544,7 +553,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param <Col>     字段
      * @return 字段的列表
      */
-    public <Col> List<Col> listColumn(Expression<Col> column, OrderSpecifier<?> order, Predicate... predicate) {
+    public <Col> List<Col> listColumn(@Nonnull Expression<Col> column, @Nullable OrderSpecifier<?> order, @Nullable Predicate... predicate) {
         return listColumn(column, order, null, predicate);
     }
 
@@ -558,9 +567,9 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param <Col>     字段
      * @return 字段的列表
      */
-    public <Col> List<Col> listColumn(Expression<Col> column, OrderSpecifier<?> order, Long limit, Predicate... predicate) {
+    public <Col> List<Col> listColumn(@Nonnull Expression<Col> column, @Nullable OrderSpecifier<?> order, @Nullable Long limit, @Nullable Predicate... predicate) {
         SQLQuery<Col> query = sqlQueryFactory.select(column).from(root());
-        if (null != predicate) {
+        if (null != predicate && predicate.length > 0) {
             query = query.where(predicate);
         }
         if (null != order) {
@@ -580,7 +589,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param pageRequest 分页请求
      * @return 分页数据
      */
-    public PageResponse<T> page(PageRequest pageRequest) {
+    public PageResponse<T> page(@Nullable PageRequest pageRequest) {
         return page(pageRequest, (Predicate[]) null);
     }
 
@@ -591,7 +600,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param predicate   条件
      * @return 分页数据
      */
-    public PageResponse<T> page(PageRequest pageRequest, Predicate... predicate) {
+    public PageResponse<T> page(@Nullable PageRequest pageRequest, @Nullable Predicate... predicate) {
         SQLQuery<T> query = sqlQueryFactory.selectFrom(root());
         if (null != predicate && predicate.length > 0) {
             query = query.where(predicate);
@@ -614,8 +623,8 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param columns     字段
      * @return 分页的数据
      */
-    public PageResponse<T> pageColumns(Predicate predicate, OrderSpecifier<?> order, PageRequest pageRequest, Expression<?>... columns) {
-        Assert.ok("查询字段不可为空", null != columns && columns.length > 0);
+    public PageResponse<T> pageColumns(@Nullable Predicate predicate, @Nullable OrderSpecifier<?> order, @Nullable PageRequest pageRequest, @Nonnull Expression<?>... columns) {
+        Assert.ok("查询字段不可为空", columns.length > 0);
         SQLQuery<T> query = sqlQueryFactory.select(Projections.fields(root(), columns)).from(root());
         if (null != predicate) {
             query = query.where(predicate);
@@ -641,7 +650,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param columns     字段
      * @return 分页的数据
      */
-    public PageResponse<T> pageColumns(Predicate predicate, PageRequest pageRequest, Expression<?>... columns) {
+    public PageResponse<T> pageColumns(@Nullable Predicate predicate, @Nullable PageRequest pageRequest, @Nonnull Expression<?>... columns) {
         return pageColumns(predicate, null, pageRequest, columns);
     }
 
@@ -653,7 +662,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param columns     字段
      * @return 分页的数据
      */
-    public PageResponse<T> pageColumns(OrderSpecifier<?> order, PageRequest pageRequest, Expression<?>... columns) {
+    public PageResponse<T> pageColumns(@Nullable OrderSpecifier<?> order, @Nullable PageRequest pageRequest, @Nonnull Expression<?>... columns) {
         return pageColumns(null, order, pageRequest, columns);
     }
 
@@ -664,7 +673,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param columns     字段
      * @return 分页的数据
      */
-    public PageResponse<T> pageColumns(PageRequest pageRequest, Expression<?>... columns) {
+    public PageResponse<T> pageColumns(@Nullable PageRequest pageRequest, @Nonnull Expression<?>... columns) {
         return pageColumns(null, null, pageRequest, columns);
     }
 
@@ -675,7 +684,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      *
      * @param entity 实体
      */
-    protected void beforeCreate(T entity) {
+    protected void beforeCreate(@Nonnull T entity) {
         String time = DateUtil.nowTime();
         entity.setCreateTime(time).setModifyTime(time);
     }
@@ -686,7 +695,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      *
      * @param entity 实体
      */
-    protected void beforeUpdate(T entity) {
+    protected void beforeUpdate(@Nonnull T entity) {
         entity.setCreateTime(null);
         entity.setModifyTime(DateUtil.nowTime());
     }
@@ -714,6 +723,7 @@ public abstract class BaseDao<T extends BaseEntity> {
 
     /**
      * 创建时验证,建议验证非空
+     *
      * @param entity 实体对象
      */
     protected void validOnCreate(T entity) {
@@ -722,6 +732,7 @@ public abstract class BaseDao<T extends BaseEntity> {
 
     /**
      * 严重规则,建议验证长度
+     *
      * @param entity 实体对象
      */
     protected void validRegular(T entity) {
@@ -730,10 +741,11 @@ public abstract class BaseDao<T extends BaseEntity> {
 
     /**
      * 进行验证
+     *
      * @param entity 实体对象
      * @param groups 验证分组
      */
-    private void valid(T entity, Class<?>... groups) {
+    private void valid(@Nonnull T entity, @Nonnull Class<?>... groups) {
         if (doValid() && null != validator) {
             Assert.notNull(entity);
             Set<ConstraintViolation<T>> errors = validator.validate(entity, groups);
@@ -745,6 +757,7 @@ public abstract class BaseDao<T extends BaseEntity> {
 
     /**
      * 是否进行验证,重写此方法不再进行验证
+     *
      * @return 是否进行验证
      */
     protected boolean doValid() {

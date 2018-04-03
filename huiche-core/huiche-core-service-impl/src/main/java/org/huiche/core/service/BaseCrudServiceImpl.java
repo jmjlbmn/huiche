@@ -10,6 +10,8 @@ import org.huiche.core.search.Search;
 import org.huiche.core.search.SearchUtil;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -26,7 +28,7 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServ
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public long create(T entity) {
+    public long create(@Nonnull T entity) {
         beforeCreate(entity);
         checkOnCreate(entity);
         checkRegular(entity);
@@ -41,7 +43,7 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServ
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public long update(T entity) {
+    public long update(@Nonnull T entity) {
         beforeUpdate(entity);
         checkRegular(entity);
         return dao().update(entity);
@@ -55,7 +57,7 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServ
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public long delete(Long id) {
+    public long delete(@Nonnull Long id) {
         return dao().delete(id);
     }
 
@@ -67,7 +69,7 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServ
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public long delete(Long... id) {
+    public long delete(@Nonnull Long... id) {
         return dao().delete(id);
     }
 
@@ -79,7 +81,7 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServ
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public long delete(List<Long> id) {
+    public long delete(@Nonnull List<Long> id) {
         return dao().delete(id);
     }
 
@@ -91,7 +93,7 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServ
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public long delete(String ids) {
+    public long delete(@Nonnull String ids) {
         return dao().delete(ids);
     }
 
@@ -102,7 +104,7 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServ
      * @return 数据
      */
     @Override
-    public T get(Long id) {
+    public T get(@Nonnull Long id) {
         T t = dao().get(id);
         Assert.notNull(SystemError.NO_EXISTS, t);
         return t;
@@ -115,7 +117,7 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServ
      * @return 删除数量
      */
     @Override
-    public List<T> get(String ids) {
+    public List<T> get(@Nonnull String ids) {
         return dao().list(ids);
     }
 
@@ -136,7 +138,7 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServ
      * @return 数据列表
      */
     @Override
-    public List<T> list(T search) {
+    public List<T> list(@Nullable T search) {
         return dao().list(SearchUtil.ofEntity(search));
     }
 
@@ -147,7 +149,7 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServ
      * @return 数据
      */
     @Override
-    public PageResponse<T> page(PageRequest pageRequest) {
+    public PageResponse<T> page(@Nullable PageRequest pageRequest) {
         return dao().page(pageRequest);
     }
 
@@ -159,7 +161,7 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServ
      * @return 数据
      */
     @Override
-    public PageResponse<T> page(PageRequest pageRequest, T search) {
+    public PageResponse<T> page(@Nullable PageRequest pageRequest,@Nullable T search) {
         return dao().page(pageRequest, SearchUtil.ofEntity(search));
     }
 
@@ -172,7 +174,7 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServ
      * @return 数据
      */
     @Override
-    public <S extends Search> PageResponse<T> page(PageRequest pageRequest, S search) {
+    public <S extends Search> PageResponse<T> page(@Nullable PageRequest pageRequest,@Nullable S search) {
         return dao().page(pageRequest, search.get());
     }
 
@@ -184,7 +186,7 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServ
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public long save(T entity) {
+    public long save(@Nonnull T entity) {
         if (entity.getId() == null) {
             return dao().create(entity);
         } else {
@@ -197,8 +199,8 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServ
      *
      * @param entity 实体
      */
-    protected void checkOnCreate(T entity) {
-        Assert.notNull(entity);
+    protected void checkOnCreate(@Nonnull T entity) {
+
     }
 
     /**
@@ -206,15 +208,15 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServ
      *
      * @param entity 实体
      */
-    protected void checkRegular(T entity) {
-        Assert.notNull(entity);
+    protected void checkRegular(@Nonnull T entity) {
+
     }
     /**
      * 创建之前
      *
      * @param entity 实体
      */
-    protected void beforeCreate(T entity) {
+    protected void beforeCreate(@Nonnull T entity) {
     }
 
     /**
@@ -222,7 +224,7 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServ
      *
      * @param entity 实体
      */
-    protected void beforeUpdate(T entity) {
+    protected void beforeUpdate(@Nonnull T entity) {
     }
 
     /**

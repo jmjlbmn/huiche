@@ -11,6 +11,8 @@ import org.huiche.core.dao.QueryDsl;
 import org.huiche.core.page.PageRequest;
 import org.huiche.core.page.PageResponse;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,7 +32,7 @@ public class QueryDslUtil {
      * @param <T>         类型
      * @return 数据
      */
-    public static <T> PageResponse<T> page(PageRequest pageRequest, SQLQuery<T> query) {
+    public static <T> PageResponse<T> page(@Nullable PageRequest pageRequest, @Nonnull SQLQuery<T> query) {
         if (null == pageRequest) {
             pageRequest = PageRequest.dft();
         }
@@ -50,7 +52,7 @@ public class QueryDslUtil {
      * @param <T>   类型
      * @return 数据
      */
-    public static <T> List<T> list(SQLQuery<T> query) {
+    public static <T> List<T> list(@Nonnull SQLQuery<T> query) {
         return query.fetch();
     }
 
@@ -60,7 +62,7 @@ public class QueryDslUtil {
      * @param query 查询
      * @return 数量
      */
-    public static long count(SQLQuery<?> query) {
+    public static long count(@Nonnull SQLQuery<?> query) {
         return query.fetchCount();
     }
 
@@ -71,7 +73,7 @@ public class QueryDslUtil {
      * @param <T>   类型
      * @return 数据
      */
-    public static <T> T one(SQLQuery<T> query) {
+    public static <T> T one(@Nonnull SQLQuery<T> query) {
         return query.fetchFirst();
     }
 
@@ -82,8 +84,8 @@ public class QueryDslUtil {
      * @param exclude 排除列
      * @return 排除后的列表
      */
-    public static Path<?>[] pathExclude(List<Path<?>> columns, Path<?>... exclude) {
-        if (null != exclude && exclude.length > 0) {
+    public static Path<?>[] pathExclude(@Nonnull List<Path<?>> columns, @Nonnull Path<?>... exclude) {
+        if (exclude.length > 0) {
             List<Path<?>> excludeList = Arrays.asList(exclude);
             columns.removeIf(excludeList::contains);
         }
@@ -96,7 +98,7 @@ public class QueryDslUtil {
      * @param request 分页请求
      * @return 条件
      */
-    public static OrderSpecifier[] parsePageRequest(PageRequest request) {
+    public static OrderSpecifier[] parsePageRequest(@Nullable PageRequest request) {
         if (null != request) {
             String sort = request.getSort();
             String order = request.getOrder();
@@ -125,8 +127,8 @@ public class QueryDslUtil {
      * @param request   分页请求
      * @return 条件
      */
-    public static OrderSpecifier[] parsePageRequest(PageRequest request, Map<String, Expression<? extends Comparable>> columnMap) {
-        if (null != request && null != columnMap && !columnMap.isEmpty()) {
+    public static OrderSpecifier[] parsePageRequest(@Nullable PageRequest request, @Nonnull Map<String, Expression<? extends Comparable>> columnMap) {
+        if (null != request && !columnMap.isEmpty()) {
             String sort = request.getSort();
             String order = request.getOrder();
             if (null != sort && sort.contains(Const.COMMA)) {
@@ -157,7 +159,7 @@ public class QueryDslUtil {
      * @param orderStr 正序倒序
      * @return 排序
      */
-    private static OrderSpecifier<?> parseOrder(String sortStr, String orderStr) {
+    private static OrderSpecifier<?> parseOrder(@Nonnull String sortStr, @Nonnull String orderStr) {
         String fieldName = StringUtil.toDb(sortStr);
         ComparablePath<? extends Comparable> path = Expressions.comparablePath(Comparable.class, fieldName);
         return Order.ASC.name().equalsIgnoreCase(orderStr) ? path.asc() : path.desc();

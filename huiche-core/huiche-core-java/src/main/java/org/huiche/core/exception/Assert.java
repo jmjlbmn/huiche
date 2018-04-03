@@ -5,6 +5,7 @@ import org.huiche.core.util.BaseUtil;
 
 /**
  * 断言工具
+ *
  * @author Maning
  */
 public class Assert {
@@ -103,7 +104,13 @@ public class Assert {
      * @param obj 对象
      */
     public static void isNull(BaseError e, Object... obj) {
-        isNull(e.msg(), obj);
+        if (null != obj && obj.length > 0) {
+            for (Object o : obj) {
+                if (BaseUtil.isNotEmpty(o)) {
+                    throw new BaseException(e);
+                }
+            }
+        }
     }
 
     /**
@@ -112,7 +119,7 @@ public class Assert {
      * @param failMsg 错误说明
      * @param obj     对象
      */
-    public static void isNull(String failMsg, Object... obj) {
+    public static void isNullWithMsg(String failMsg, Object... obj) {
         if (null != obj && obj.length > 0) {
             for (Object o : obj) {
                 if (BaseUtil.isNotEmpty(o)) {
@@ -171,7 +178,7 @@ public class Assert {
      * @param failMsg 错误说明
      * @param obj     对象
      */
-    public static void notNull(String failMsg, Object... obj) {
+    public static void notNullWithMsg(String failMsg, Object... obj) {
         if (null != obj && obj.length > 0) {
             for (Object o : obj) {
                 if (BaseUtil.isEmpty(o)) {
