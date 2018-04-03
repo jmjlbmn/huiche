@@ -9,6 +9,8 @@ import org.huiche.extra.sql.builder.info.FieldColumn;
 import org.huiche.extra.sql.builder.info.TableInfo;
 import org.huiche.extra.sql.builder.naming.NamingRule;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,6 +19,7 @@ import java.util.List;
 
 /**
  * Sql
+ *
  * @author Maning
  */
 public interface Sql {
@@ -33,7 +36,8 @@ public interface Sql {
      * @param tableInfo 表信息
      * @return 语句
      */
-    String getCreate(TableInfo tableInfo);
+    @Nonnull
+    String getCreate(@Nonnull TableInfo tableInfo);
 
     /**
      * 获取创建表的语句(最开头)
@@ -41,7 +45,8 @@ public interface Sql {
      * @param tableInfo 表信息
      * @return 语句
      */
-    default String getCreateTableStart(TableInfo tableInfo) {
+    @Nonnull
+    default String getCreateTableStart(@Nonnull TableInfo tableInfo) {
         return "CREATE TABLE " + tableInfo.getName() + SPACE + BRACKETS_START + BR;
     }
 
@@ -51,7 +56,8 @@ public interface Sql {
      * @param tableInfo 表信息
      * @return 语句
      */
-    default String getCreateTableEnd(TableInfo tableInfo) {
+    @Nonnull
+    default String getCreateTableEnd(@Nonnull TableInfo tableInfo) {
         return BR + BRACKETS_END;
     }
 
@@ -61,7 +67,8 @@ public interface Sql {
      * @param columnInfo 字段信息
      * @return 语句
      */
-    String getCreateColumn(ColumnInfo columnInfo);
+    @Nonnull
+    String getCreateColumn(@Nonnull ColumnInfo columnInfo);
 
 
     /**
@@ -71,7 +78,8 @@ public interface Sql {
      * @param columnName 列
      * @return 语句
      */
-    default String getDropColumn(String tableName, String columnName) {
+    @Nonnull
+    default String getDropColumn(@Nonnull String tableName, @Nonnull String columnName) {
         return "ALTER TABLE " + tableName + " DROP COLUMN " + columnName;
     }
 
@@ -82,7 +90,8 @@ public interface Sql {
      * @param columnInfo 列
      * @return 语句
      */
-    default String getAlterAddColumn(String tableName, ColumnInfo columnInfo) {
+    @Nonnull
+    default String getAlterAddColumn(@Nonnull String tableName, @Nonnull ColumnInfo columnInfo) {
         return "ALTER TABLE " + tableName + " ADD COLUMN " + getCreateColumn(columnInfo);
     }
 
@@ -93,7 +102,8 @@ public interface Sql {
      * @param columnInfo 列
      * @return 语句
      */
-    default String getAlterModifyColumn(String tableName, ColumnInfo columnInfo) {
+    @Nonnull
+    default String getAlterModifyColumn(@Nonnull String tableName, @Nonnull ColumnInfo columnInfo) {
         return "ALTER TABLE " + tableName + " MODIFY COLUMN " + getCreateColumn(columnInfo);
     }
 
@@ -103,7 +113,8 @@ public interface Sql {
      * @param tableInfo 表
      * @return 语句
      */
-    default String getAlterTableComment(TableInfo tableInfo) {
+    @Nonnull
+    default String getAlterTableComment(@Nonnull TableInfo tableInfo) {
         String comment = null == tableInfo.getComment() ? "" : tableInfo.getComment();
         return "ALTER TABLE " + tableInfo.getName() + " COMMENT " + wrap(comment);
     }
@@ -115,7 +126,7 @@ public interface Sql {
      * @param tableName 表名
      * @return 是否存在
      */
-    default boolean checkTableExists(Connection conn, String tableName) {
+    default boolean checkTableExists(@Nonnull Connection conn, @Nonnull String tableName) {
         try {
             conn.prepareStatement("SELECT 1 FROM " + tableName).execute();
         } catch (SQLException e) {
@@ -131,7 +142,8 @@ public interface Sql {
      * @param tableName 表名
      * @return 注释
      */
-    default String getTableComment(Connection conn, String tableName) {
+    @Nonnull
+    default String getTableComment(@Nonnull Connection conn, @Nonnull String tableName) {
         String comment = "";
         try {
             DatabaseMetaData metaData = conn.getMetaData();
@@ -151,6 +163,7 @@ public interface Sql {
      * @param name 名称
      * @return 名称
      */
+    @Nonnull
     default String wrap(String name) {
         return "'" + name + "'";
     }
@@ -179,7 +192,8 @@ public interface Sql {
      * @param name 名称
      * @return 名称
      */
-    static String checkName(String name) {
+    @Nonnull
+    static String checkName(@Nullable String name) {
         String regex = "^[a-zA-Z0-9_]*$";
         if (null == name || "".equals(name.trim())) {
             throw new RuntimeException("名称不能为空");
@@ -201,7 +215,8 @@ public interface Sql {
      * @param namingRule 命名规则
      * @return 表信息
      */
-    static TableInfo getInfo(Class<?> clazz, NamingRule namingRule) {
+    @Nonnull
+    static TableInfo getInfo(@Nonnull Class<?> clazz, @Nonnull NamingRule namingRule) {
         Table table = clazz.getAnnotation(Table.class);
         if (null == table) {
             throw new RuntimeException("实体类必须添加注解:" + Table.class.getName());
@@ -220,8 +235,8 @@ public interface Sql {
                 columnInfo.setName(checkName(namingRule.javaName2SqlName(field.getName())));
                 columnInfo.setNotNull(false);
                 columnInfo.setUnique(false);
-                columnInfo.setPrimaryKey(false);
-                columnInfo.setAutoIncrement(false);
+                columnInfo.setIsPrimaryKey(false);
+                columnInfo.setIsAutoIncrement(false);
             } else {
                 if (!column.isDbField()) {
                     continue;
@@ -229,11 +244,11 @@ public interface Sql {
                 columnInfo.setName(checkName("".equals(column.value().trim()) ? namingRule.javaName2SqlName(field.getName()) : column.value().trim()));
                 columnInfo.setNotNull(column.notNull());
                 columnInfo.setUnique(column.unique());
-                columnInfo.setPrimaryKey(column.isPrimaryKey());
+                columnInfo.setIsPrimaryKey(column.isPrimaryKey());
                 if (column.isPrimaryKey()) {
-                    columnInfo.setAutoIncrement(column.isAutoIncrement());
+                    columnInfo.setIsAutoIncrement(column.isAutoIncrement());
                 } else {
-                    columnInfo.setAutoIncrement(false);
+                    columnInfo.setIsAutoIncrement(false);
                 }
                 columnInfo.setComment("".equals(column.comment().trim()) ? "" : column.comment().trim());
             }
@@ -306,7 +321,8 @@ public interface Sql {
      * @param tableName 表名
      * @return 信息
      */
-    static List<ColumnInfo> getInfo(Connection conn, String tableName) {
+    @Nonnull
+    static List<ColumnInfo> getInfo(@Nonnull Connection conn, @Nonnull String tableName) {
         List<ColumnInfo> list = new ArrayList<>();
         try {
             ResultSet rs = conn.getMetaData().getColumns(null, null, tableName, null);
@@ -346,7 +362,8 @@ public interface Sql {
      * @param dbList   数据库列
      * @return 差异
      */
-    static ColumnCompareInfo compare(List<ColumnInfo> javaList, List<ColumnInfo> dbList) {
+    @Nonnull
+    static ColumnCompareInfo compare(@Nonnull List<ColumnInfo> javaList, @Nonnull List<ColumnInfo> dbList) {
         ColumnCompareInfo columnCompareInfo = new ColumnCompareInfo();
 
         List<ColumnInfo> addList = new ArrayList<>();
@@ -388,7 +405,7 @@ public interface Sql {
                         } else if (null != comment && !"".contentEquals(comment.trim()) && !comment.equals(db.getComment())) {
                             // 注释不同
                             modifyList.add(java);
-                        } else if (!java.getPrimaryKey()) {
+                        } else if (!java.getIsPrimaryKey()) {
                             // 非主键
                             if (!java.getNotNull().equals(db.getNotNull())) {
                                 // 是否非空不同

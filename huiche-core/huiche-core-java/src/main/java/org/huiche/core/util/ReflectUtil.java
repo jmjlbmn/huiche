@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.huiche.core.bean.BeanInfo;
 import org.huiche.core.bean.PropertyInfo;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -26,7 +28,8 @@ public class ReflectUtil {
      * @param clazz 类
      * @return 熟悉map
      */
-    public static Map<String, PropertyInfo> getPropertyMap(Class<?> clazz) {
+    @Nonnull
+    public static Map<String, PropertyInfo> getPropertyMap(@Nonnull Class<?> clazz) {
         String className = clazz.getName();
         if (CACHE.containsKey(className)) {
             return CACHE.get(className);
@@ -45,7 +48,8 @@ public class ReflectUtil {
      * @param field 字段
      * @return 泛型类型
      */
-    public static Type[] getActualTypes(Field field) {
+    @Nullable
+    public static Type[] getActualTypes(@Nonnull Field field) {
         Type type = field.getGenericType();
         if (type instanceof ParameterizedType) {
             return ((ParameterizedType) type).getActualTypeArguments();
@@ -59,7 +63,8 @@ public class ReflectUtil {
      * @param field 字段
      * @return 泛型类型
      */
-    public static Type getActualType(Field field) {
+    @Nullable
+    public static Type getActualType(@Nonnull Field field) {
         Type type = field.getGenericType();
         if (type instanceof ParameterizedType) {
             return ((ParameterizedType) type).getActualTypeArguments()[0];
@@ -73,7 +78,8 @@ public class ReflectUtil {
      * @param clazz 类
      * @return 属性列表
      */
-    public static List<PropertyInfo> getAllPropertyDescriptor(Class<?> clazz) {
+    @Nonnull
+    public static List<PropertyInfo> getAllPropertyDescriptor(@Nonnull Class<?> clazz) {
         return Arrays.asList(new BeanInfo(clazz).getPropertyInfo());
     }
 }

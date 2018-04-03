@@ -3,16 +3,19 @@ package org.huiche.extra.sql.builder.sql;
 import org.huiche.extra.sql.builder.info.ColumnInfo;
 import org.huiche.extra.sql.builder.info.TableInfo;
 
+import javax.annotation.Nonnull;
 import java.sql.JDBCType;
 import java.util.Iterator;
 
 /**
  * MySql
+ *
  * @author Maning
  */
 public class Mysql implements Sql {
     @Override
-    public String getCreate(TableInfo tableInfo) {
+    @Nonnull
+    public String getCreate(@Nonnull TableInfo tableInfo) {
         StringBuilder builder = new StringBuilder();
         builder.append(getCreateTableStart(tableInfo));
         Iterator<ColumnInfo> iterator = tableInfo.getColumnInfoList().iterator();
@@ -30,14 +33,16 @@ public class Mysql implements Sql {
     }
 
     @Override
-    public String getCreateTableEnd(TableInfo tableInfo) {
+    @Nonnull
+    public String getCreateTableEnd(@Nonnull TableInfo tableInfo) {
         String comment = tableInfo.getComment();
         comment = null == comment || "".equals(comment.trim()) ? null : comment;
         return BR + BRACKETS_END + " ENGINE = " + tableInfo.getEngine() + " DEFAULT CHARSET = " + tableInfo.getCharset() + (null == comment ? "" : " COMMENT " + wrap(comment));
     }
 
     @Override
-    public String getCreateColumn(ColumnInfo columnInfo) {
+    @Nonnull
+    public String getCreateColumn(@Nonnull ColumnInfo columnInfo) {
         StringBuilder builder = new StringBuilder();
         builder.append(columnInfo.getName()).append(SPACE);
         switch (columnInfo.getType()) {
@@ -70,8 +75,8 @@ public class Mysql implements Sql {
             default:
                 throw new RuntimeException("目前不支持此JDBC类型:" + columnInfo.getType().getName());
         }
-        if (columnInfo.getPrimaryKey()) {
-            if (columnInfo.getAutoIncrement() && canAutoIncrement(columnInfo)) {
+        if (columnInfo.getIsPrimaryKey()) {
+            if (columnInfo.getIsPrimaryKey() && canAutoIncrement(columnInfo)) {
                 builder.append(" PRIMARY KEY AUTO_INCREMENT");
             } else {
                 builder.append(" PRIMARY KEY");
@@ -91,7 +96,7 @@ public class Mysql implements Sql {
         return builder.toString();
     }
 
-    private static boolean canAutoIncrement(ColumnInfo columnInfo) {
+    private static boolean canAutoIncrement(@Nonnull ColumnInfo columnInfo) {
         return JDBCType.BIGINT.equals(columnInfo.getType()) || JDBCType.INTEGER.equals(columnInfo.getType());
     }
 

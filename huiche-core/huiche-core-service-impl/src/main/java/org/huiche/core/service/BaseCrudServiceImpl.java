@@ -117,6 +117,7 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServ
      * @return 删除数量
      */
     @Override
+    @Nonnull
     public List<T> get(@Nonnull String ids) {
         return dao().list(ids);
     }
@@ -127,6 +128,7 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServ
      * @return 数据列表
      */
     @Override
+    @Nonnull
     public List<T> list() {
         return dao().list();
     }
@@ -138,6 +140,7 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServ
      * @return 数据列表
      */
     @Override
+    @Nonnull
     public List<T> list(@Nullable T search) {
         return dao().list(SearchUtil.ofEntity(search));
     }
@@ -149,6 +152,7 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServ
      * @return 数据
      */
     @Override
+    @Nonnull
     public PageResponse<T> page(@Nullable PageRequest pageRequest) {
         return dao().page(pageRequest);
     }
@@ -161,7 +165,8 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServ
      * @return 数据
      */
     @Override
-    public PageResponse<T> page(@Nullable PageRequest pageRequest,@Nullable T search) {
+    @Nonnull
+    public PageResponse<T> page(@Nullable PageRequest pageRequest, @Nullable T search) {
         return dao().page(pageRequest, SearchUtil.ofEntity(search));
     }
 
@@ -174,8 +179,9 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServ
      * @return 数据
      */
     @Override
-    public <S extends Search> PageResponse<T> page(@Nullable PageRequest pageRequest,@Nullable S search) {
-        return dao().page(pageRequest, search.get());
+    @Nonnull
+    public <S extends Search> PageResponse<T> page(@Nullable PageRequest pageRequest, @Nullable S search) {
+        return dao().page(pageRequest, null == search ? null : search.get());
     }
 
     /**
@@ -211,6 +217,7 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServ
     protected void checkRegular(@Nonnull T entity) {
 
     }
+
     /**
      * 创建之前
      *
@@ -229,6 +236,7 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServ
 
     /**
      * 提供dao
+     *
      * @return dao
      */
     protected abstract BaseDao<T> dao();

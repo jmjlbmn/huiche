@@ -2,6 +2,8 @@ package org.huiche.core.util;
 
 import lombok.experimental.UtilityClass;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -22,7 +24,8 @@ public class AnnotationUtil {
      * @param <T>             注解类型
      * @return 字段
      */
-    public <T extends Annotation> Field getByAnnotation(Object obj, Class<T> annotationClass) {
+    @Nullable
+    public <T extends Annotation> Field getByAnnotation(@Nonnull Object obj, @Nonnull Class<T> annotationClass) {
         for (Field field : obj.getClass().getFields()) {
             T annotation = field.getAnnotation(annotationClass);
             if (annotation != null) {
@@ -40,7 +43,8 @@ public class AnnotationUtil {
      * @param <T>             注解类型
      * @return 字段
      */
-    public <T extends Annotation> List<Field> getListByAnnotation(Object obj, Class<T> annotationClass) {
+    @Nonnull
+    public <T extends Annotation> List<Field> getListByAnnotation(@Nonnull Object obj, @Nonnull Class<T> annotationClass) {
         List<Field> list = new ArrayList<>();
         for (Field field : obj.getClass().getFields()) {
             T annotation = field.getAnnotation(annotationClass);

@@ -14,6 +14,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplicat
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.Nonnull;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import java.io.IOException;
@@ -44,7 +45,7 @@ public class HuiCheAutoConfigure {
             }
 
             @Override
-            public <T> T fromJson(String json, Class<T> clazz) {
+            public <T> T fromJson(String json,@Nonnull Class<T> clazz) {
                 try {
                     return objectMapper.readValue(json, clazz);
                 } catch (IOException e) {

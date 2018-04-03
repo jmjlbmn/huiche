@@ -9,6 +9,8 @@ import org.huiche.core.consts.Const;
 import org.huiche.core.entity.BaseEntity;
 import org.huiche.core.util.StringUtil;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -17,6 +19,7 @@ import java.util.List;
 
 /**
  * 筛选工具类
+ *
  * @author Maning
  */
 @UtilityClass
@@ -28,11 +31,13 @@ public class SearchUtil {
 
     /**
      * 通过注解解析search数据
+     *
      * @param search 搜索对象
-     * @param <S> 搜索对象类型
+     * @param <S>    搜索对象类型
      * @return 搜索条件
      */
-    public static <S extends Search> Predicate of(S search) {
+    @Nullable
+    public static <S extends Search> Predicate of(@Nullable S search) {
         if (null == search) {
             return null;
         }
@@ -157,12 +162,15 @@ public class SearchUtil {
             return ExpressionUtils.allOf(list);
         }
     }
-    private static Predicate predicate(String table, String column, Operator operator, Expression valueExpression) {
+
+    @Nonnull
+    private static Predicate predicate(@Nullable String table, @Nonnull String column, @Nonnull Operator operator, @Nonnull Expression valueExpression) {
         return Expressions.predicate(operator, Expressions.path(valueExpression.getType(), meta(table, column)), valueExpression);
     }
 
-    private static PathMetadata meta(String table, String column) {
-        if ("".equals(table)) {
+    @Nonnull
+    private static PathMetadata meta(@Nullable String table, @Nonnull String column) {
+        if (null == table || "".equals(table)) {
             return PathMetadataFactory.forVariable(column);
         } else {
             return PathMetadataFactory.forProperty(Expressions.path(Object.class, table), column);
@@ -176,7 +184,8 @@ public class SearchUtil {
      * @param <T>    表
      * @return 条件
      */
-    public static <T extends BaseEntity> Predicate ofEntity(T entity) {
+    @Nullable
+    public static <T extends BaseEntity> Predicate ofEntity(@Nullable T entity) {
         if (null == entity) {
             return null;
         }

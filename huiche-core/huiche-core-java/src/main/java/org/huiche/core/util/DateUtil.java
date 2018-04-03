@@ -2,6 +2,8 @@ package org.huiche.core.util;
 
 import lombok.experimental.UtilityClass;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -22,6 +24,7 @@ public class DateUtil {
      *
      * @return 时间字符串
      */
+    @Nonnull
     public static String nowTime() {
         return now("yyyy-MM-dd HH:mm:ss");
     }
@@ -31,6 +34,7 @@ public class DateUtil {
      *
      * @return 时间字符串
      */
+    @Nonnull
     public static String nowMilli() {
         return now("yyyy-MM-dd HH:mm:ss:SSS");
     }
@@ -41,7 +45,8 @@ public class DateUtil {
      * @param time 时间字符串
      * @return Date
      */
-    public static Date from(String time) {
+    @Nullable
+    public static Date from(@Nonnull String time) {
         return from(time, "yyyy-MM-dd HH:mm:ss");
     }
 
@@ -52,7 +57,8 @@ public class DateUtil {
      * @param format 格式化
      * @return Date
      */
-    public static Date from(String time, String format) {
+    @Nullable
+    public static Date from(@Nonnull String time, @Nonnull String format) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
         try {
             return simpleDateFormat.parse(time);
@@ -67,6 +73,7 @@ public class DateUtil {
      *
      * @return 日期字符串
      */
+    @Nonnull
     public static String nowDate() {
         return now("yyyy-MM-dd");
     }
@@ -77,7 +84,8 @@ public class DateUtil {
      * @param format 格式化
      * @return 时间字符串
      */
-    public static String now(String format) {
+    @Nonnull
+    public static String now(@Nonnull String format) {
         return to((LocalDateTime) null, format);
     }
 
@@ -87,7 +95,8 @@ public class DateUtil {
      * @param date 日期
      * @return 日期字符串
      */
-    public static String to(Date date) {
+    @Nonnull
+    public static String to(@Nonnull Date date) {
         return to(date, "yyyy-MM-dd HH:mm:ss");
     }
 
@@ -98,7 +107,8 @@ public class DateUtil {
      * @param format 格式化
      * @return 日期字符串
      */
-    public static String to(Date date, String format) {
+    @Nonnull
+    public static String to(@Nonnull Date date, @Nonnull String format) {
         return to(date2LocalDateTime(date), format);
     }
 
@@ -109,7 +119,8 @@ public class DateUtil {
      * @param format   格式化
      * @return 日期时间字符串
      */
-    public static String to(LocalDateTime dateTime, String format) {
+    @Nonnull
+    public static String to(@Nullable LocalDateTime dateTime, @Nonnull String format) {
         dateTime = null == dateTime ? LocalDateTime.now() : dateTime;
         return dateTime.format(DateTimeFormatter.ofPattern(format));
     }
@@ -121,7 +132,8 @@ public class DateUtil {
      * @param format 格式化
      * @return 日期时间
      */
-    public static LocalDateTime from(CharSequence time, String format) {
+    @Nonnull
+    public static LocalDateTime from(@Nonnull CharSequence time, @Nonnull String format) {
         return LocalDateTime.parse(time, DateTimeFormatter.ofPattern(format));
     }
 
@@ -140,7 +152,8 @@ public class DateUtil {
      * @param time 日期时间
      * @return 日期
      */
-    public static Date local2Date(LocalDateTime time) {
+    @Nonnull
+    public static Date local2Date(@Nonnull LocalDateTime time) {
         return Date.from(time.atZone(ZoneId.systemDefault()).toInstant());
     }
 
@@ -150,7 +163,8 @@ public class DateUtil {
      * @param date 本地日期
      * @return 日期
      */
-    public static Date local2Date(LocalDate date) {
+    @Nonnull
+    public static Date local2Date(@Nonnull LocalDate date) {
         return Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
 
@@ -160,7 +174,8 @@ public class DateUtil {
      * @param date 日期
      * @return 日期时间
      */
-    public static LocalDateTime date2LocalDateTime(Date date) {
+    @Nonnull
+    public static LocalDateTime date2LocalDateTime(@Nullable Date date) {
         date = null == date ? new Date() : date;
         return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
     }
@@ -171,7 +186,8 @@ public class DateUtil {
      * @param date 日期
      * @return 本地日期
      */
-    public static LocalDate date2LocalDate(Date date) {
+    @Nonnull
+    public static LocalDate date2LocalDate(@Nullable Date date) {
         date = null == date ? new Date() : date;
         return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
@@ -183,7 +199,8 @@ public class DateUtil {
      * @param date   日期
      * @return 日期字符串
      */
-    public static String parse(String format, Date date) {
+    @Nonnull
+    public static String parse(@Nonnull String format, @Nonnull Date date) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
         return simpleDateFormat.format(date);
     }
@@ -195,7 +212,8 @@ public class DateUtil {
      * @param time   时间
      * @return 日期字符串
      */
-    public static String parse(String format, Long time) {
+    @Nonnull
+    public static String parse(@Nonnull String format, @Nonnull Long time) {
         return parse(format, new Date(time));
     }
 
@@ -206,10 +224,9 @@ public class DateUtil {
      * @param offset 偏移天数
      * @return 日期字符串
      */
-    public static String getByDayOffset(String format, Integer offset) {
+    @Nonnull
+    public static String getByDayOffset(@Nonnull String format, int offset) {
         long sep = 1000 * 60 * 60 * 24;
-        format = StringUtil.isNotEmpty(format) ? format : "yyyy-MM-dd";
-        offset = null == offset ? 0 : offset;
         return parse(format, System.currentTimeMillis() + sep * offset);
     }
 
@@ -219,8 +236,9 @@ public class DateUtil {
      * @param offset 偏移
      * @return 日期字符串
      */
-    public static String getByDayOffset(Integer offset) {
-        return getByDayOffset(null, offset);
+    @Nonnull
+    public static String getByDayOffset(int offset) {
+        return getByDayOffset("yyyy-MM-dd", offset);
     }
 
     /**
@@ -228,6 +246,7 @@ public class DateUtil {
      *
      * @return 日期字符串
      */
+    @Nonnull
     public static String getDayMonthAgo() {
         return getByDayOffset(-30);
     }
@@ -237,6 +256,7 @@ public class DateUtil {
      *
      * @return 日期字符串
      */
+    @Nonnull
     public static String getDayWeekAgo() {
         return getByDayOffset(-7);
     }

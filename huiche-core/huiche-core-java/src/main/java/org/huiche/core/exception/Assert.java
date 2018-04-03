@@ -3,6 +3,9 @@ package org.huiche.core.exception;
 
 import org.huiche.core.util.BaseUtil;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 /**
  * 断言工具
  *
@@ -15,7 +18,7 @@ public class Assert {
      * @param e  异常
      * @param ok 判断条件
      */
-    public static void ok(BaseError e, boolean ok) {
+    public static void ok(@Nonnull BaseError e, boolean ok) {
         if (!ok) {
             throw new BaseException(e);
         }
@@ -27,7 +30,7 @@ public class Assert {
      * @param failMsg 错误说明
      * @param ok      判断条件
      */
-    public static void ok(String failMsg, boolean ok) {
+    public static void ok(@Nonnull String failMsg, boolean ok) {
         if (!ok) {
             throw BaseException.fail(failMsg);
         }
@@ -40,7 +43,7 @@ public class Assert {
      * @param a 对象a
      * @param b 对象b
      */
-    public static void equals(BaseError e, Object a, Object b) {
+    public static void equals(@Nonnull BaseError e, @Nullable Object a, @Nullable Object b) {
         if (!BaseUtil.equals(a, b)) {
             throw new BaseException(e);
         }
@@ -53,7 +56,7 @@ public class Assert {
      * @param a       对象a
      * @param b       对象b
      */
-    public static void equals(String failMsg, Object a, Object b) {
+    public static void equals(@Nonnull String failMsg, @Nullable Object a, @Nullable Object b) {
         if (!BaseUtil.equals(a, b)) {
             throw BaseException.fail(failMsg);
         }
@@ -66,7 +69,7 @@ public class Assert {
      * @param a 对象a
      * @param b 对象b
      */
-    public static void noEquals(BaseError e, Object a, Object b) {
+    public static void noEquals(@Nonnull BaseError e, @Nullable Object a, @Nullable Object b) {
         if (BaseUtil.equals(a, b)) {
             throw new BaseException(e);
         }
@@ -79,7 +82,7 @@ public class Assert {
      * @param a       对象a
      * @param b       对象b
      */
-    public static void noEquals(String failMsg, Object a, Object b) {
+    public static void noEquals(@Nonnull String failMsg, @Nullable Object a, @Nullable Object b) {
         if (BaseUtil.equals(a, b)) {
             throw BaseException.fail(failMsg);
         }
@@ -91,7 +94,7 @@ public class Assert {
      * @param e   异常
      * @param obj 对象
      */
-    public static void isNull(BaseError e, Object obj) {
+    public static void isNull(@Nonnull BaseError e, @Nullable Object obj) {
         if (BaseUtil.isNotEmpty(obj)) {
             throw new BaseException(e);
         }
@@ -103,8 +106,8 @@ public class Assert {
      * @param e   异常
      * @param obj 对象
      */
-    public static void isNull(BaseError e, Object... obj) {
-        if (null != obj && obj.length > 0) {
+    public static void isNull(@Nonnull BaseError e, @Nonnull Object... obj) {
+        if (obj.length > 0) {
             for (Object o : obj) {
                 if (BaseUtil.isNotEmpty(o)) {
                     throw new BaseException(e);
@@ -119,8 +122,8 @@ public class Assert {
      * @param failMsg 错误说明
      * @param obj     对象
      */
-    public static void isNullWithMsg(String failMsg, Object... obj) {
-        if (null != obj && obj.length > 0) {
+    public static void isNullWithMsg(@Nonnull String failMsg, @Nonnull Object... obj) {
+        if (obj.length > 0) {
             for (Object o : obj) {
                 if (BaseUtil.isNotEmpty(o)) {
                     throw BaseException.fail(failMsg);
@@ -135,7 +138,7 @@ public class Assert {
      * @param e   异常
      * @param obj 对象
      */
-    public static void notNull(BaseError e, Object obj) {
+    public static void notNull(@Nonnull BaseError e, @Nullable Object obj) {
         if (BaseUtil.isEmpty(obj)) {
             throw new BaseException(e);
         }
@@ -147,8 +150,8 @@ public class Assert {
      * @param e   异常
      * @param obj 对象
      */
-    public static void notNull(BaseError e, Object... obj) {
-        if (null != obj && obj.length > 0) {
+    public static void notNull(@Nonnull BaseError e, @Nonnull Object... obj) {
+        if (obj.length > 0) {
             for (Object o : obj) {
                 if (BaseUtil.isEmpty(o)) {
                     throw new BaseException(e);
@@ -162,8 +165,8 @@ public class Assert {
      *
      * @param obj 对象
      */
-    public static void notNull(Object... obj) {
-        if (null != obj && obj.length > 0) {
+    public static void notNull(@Nonnull Object... obj) {
+        if (obj.length > 0) {
             for (Object o : obj) {
                 if (BaseUtil.isEmpty(o)) {
                     throw new BaseException(SystemError.NOT_NULL);
@@ -178,8 +181,8 @@ public class Assert {
      * @param failMsg 错误说明
      * @param obj     对象
      */
-    public static void notNullWithMsg(String failMsg, Object... obj) {
-        if (null != obj && obj.length > 0) {
+    public static void notNullWithMsg(@Nonnull String failMsg, @Nonnull Object... obj) {
+        if (obj.length > 0) {
             for (Object o : obj) {
                 if (BaseUtil.isEmpty(o)) {
                     throw BaseException.fail(failMsg);
@@ -194,7 +197,7 @@ public class Assert {
      * @param e   异常
      * @param obj 对象
      */
-    public static void notAllNull(BaseError e, Object... obj) {
+    public static void notAllNull(@Nonnull BaseError e, @Nonnull Object... obj) {
         ok(e, isAllNull(obj));
     }
 
@@ -204,7 +207,7 @@ public class Assert {
      * @param failMsg 错误说明
      * @param obj     对象
      */
-    public static void notAllNull(String failMsg, Object... obj) {
+    public static void notAllNull(@Nonnull String failMsg, @Nonnull Object... obj) {
         ok(failMsg, isAllNull(obj));
     }
 
@@ -215,7 +218,7 @@ public class Assert {
      * @param testOk 后续判断
      * @param obj    对象
      */
-    public static void ifNotNull(BaseError e, Ok testOk, Object... obj) {
+    public static void ifNotNull(@Nonnull BaseError e, @Nonnull Ok testOk, @Nonnull Object... obj) {
         if (isNotNull(obj)) {
             if (!testOk.ok()) {
                 throw new BaseException(e);
@@ -230,7 +233,7 @@ public class Assert {
      * @param testOk  后续判断
      * @param obj     对象
      */
-    public static void ifNotNull(String failMsg, Ok testOk, Object... obj) {
+    public static void ifNotNull(@Nonnull String failMsg, @Nonnull Ok testOk, @Nonnull Object... obj) {
         if (isNotNull(obj)) {
             if (!testOk.ok()) {
                 throw BaseException.fail(failMsg);
@@ -245,7 +248,7 @@ public class Assert {
      * @param ifOK   异常判断
      * @param testOk 是否执行判断
      */
-    public static void ifTest(BaseError e, Ok ifOK, Ok testOk) {
+    public static void ifTest(@Nonnull BaseError e, @Nonnull Ok ifOK, @Nonnull Ok testOk) {
         if (ifOK.ok()) {
             ok(e, testOk.ok());
         }
@@ -258,14 +261,14 @@ public class Assert {
      * @param ifOK    异常判断
      * @param testOk  是否执行判断
      */
-    public static void ifTest(String failMsg, Ok ifOK, Ok testOk) {
+    public static void ifTest(@Nonnull String failMsg, @Nonnull Ok ifOK, @Nonnull Ok testOk) {
         if (ifOK.ok()) {
             ok(failMsg, testOk.ok());
         }
     }
 
-    private static boolean isAllNull(Object... obj) {
-        if (null != obj && obj.length > 0) {
+    private static boolean isAllNull(@Nonnull Object... obj) {
+        if (obj.length > 0) {
             for (Object o : obj) {
                 if (BaseUtil.isNotEmpty(o)) {
                     return false;
@@ -276,8 +279,8 @@ public class Assert {
         return false;
     }
 
-    private static boolean isNotNull(Object... obj) {
-        if (null != obj && obj.length > 0) {
+    private static boolean isNotNull(@Nonnull Object... obj) {
+        if (obj.length > 0) {
             for (Object o : obj) {
                 if (BaseUtil.isEmpty(o)) {
                     return false;

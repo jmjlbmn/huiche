@@ -4,6 +4,8 @@ import com.querydsl.core.types.*;
 import com.querydsl.core.types.dsl.Expressions;
 import org.huiche.core.util.StringUtil;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +30,8 @@ public class PredicateBuilder {
      * @param <T>      值的类型
      * @return 构造器
      */
-    public <T> PredicateBuilder predicate(Path<T> column, Operator operator, T val) {
+    @Nonnull
+    public <T> PredicateBuilder predicate(@Nonnull Path<T> column,@Nonnull Operator operator,@Nullable T val) {
         Predicate predicate = null;
         if (null != val) {
             if (val instanceof String) {
@@ -50,7 +53,8 @@ public class PredicateBuilder {
      * @param predicate 条件
      * @return 构造器
      */
-    public PredicateBuilder predicate(Predicate predicate) {
+    @Nonnull
+    public PredicateBuilder predicate(@Nullable Predicate predicate) {
         list.add(predicate);
         return this;
     }
@@ -60,6 +64,7 @@ public class PredicateBuilder {
      *
      * @return 筛选条件
      */
+    @Nullable
     public Predicate build() {
         return ExpressionUtils.allOf(list);
     }

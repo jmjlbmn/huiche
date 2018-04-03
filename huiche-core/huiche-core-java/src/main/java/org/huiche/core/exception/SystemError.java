@@ -34,7 +34,7 @@ public enum SystemError implements BaseError {
     }
 
     @Override
-    public Integer code() {
+    public int code() {
         return id;
     }
 

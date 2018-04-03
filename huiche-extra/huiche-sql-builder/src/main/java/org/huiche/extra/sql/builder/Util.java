@@ -3,6 +3,8 @@ package org.huiche.extra.sql.builder;
 import org.huiche.core.annotation.sql.Column;
 import org.huiche.extra.sql.builder.info.FieldColumn;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.File;
 import java.lang.reflect.*;
 import java.util.*;
@@ -10,15 +12,18 @@ import java.util.function.Predicate;
 
 /**
  * 工具类
+ *
  * @author Maning
  */
 public class Util {
     /**
      * 获取泛型map
+     *
      * @param clazz 类
      * @return 泛型map
      */
-    public static Map<String, Class<?>> getParameterizedTypeMap(Class<?> clazz) {
+    @Nonnull
+    public static Map<String, Class<?>> getParameterizedTypeMap(@Nonnull Class<?> clazz) {
         if (clazz != Object.class) {
             Type type = clazz.getGenericSuperclass();
             if (type instanceof ParameterizedType) {
@@ -42,10 +47,11 @@ public class Util {
 
     /**
      * 处理字段,排序等
-     * @param clazz 类
+     *
+     * @param clazz     类
      * @param fieldList 字段list
      */
-    public static void handleField(Class<?> clazz, List<Field> fieldList) {
+    public static void handleField(@Nonnull Class<?> clazz, @Nonnull List<Field> fieldList) {
         if (clazz != Object.class) {
             Field[] fields = clazz.getDeclaredFields();
             pull(fields, fieldList);
@@ -55,10 +61,12 @@ public class Util {
 
     /**
      * 获取字段信息
+     *
      * @param clazz 类
      * @return 字段信息
      */
-    public static List<FieldColumn> getField(Class<?> clazz) {
+    @Nonnull
+    public static List<FieldColumn> getField(@Nonnull Class<?> clazz) {
         Map<String, Field> map = new LinkedHashMap<>(16);
         List<Field> fieldList = new ArrayList<>();
         handleField(clazz, fieldList);
@@ -98,12 +106,12 @@ public class Util {
             Double.class,
             String.class);
 
-    private static boolean isInvalid(Field field) {
+    private static boolean isInvalid(@Nonnull Field field) {
         int modifiers = field.getModifiers();
         return Modifier.isStatic(modifiers) && Modifier.isFinal(modifiers);
     }
 
-    private static void pull(Field[] src, List<Field> target) {
+    private static void pull(@Nonnull Field[] src, @Nonnull List<Field> target) {
         if (src.length > 0) {
             for (int i = src.length - 1; i >= 0; i--) {
                 // 倒序添加进去
@@ -114,7 +122,8 @@ public class Util {
         }
     }
 
-    public static List<Class<?>> scan(String rootPath, Predicate<File> filePredicate, Predicate<Class<?>> classPredicate) {
+    @Nonnull
+    public static List<Class<?>> scan(@Nullable String rootPath, @Nullable Predicate<File> filePredicate, @Nullable Predicate<Class<?>> classPredicate) {
         List<Class<?>> list = new ArrayList<>();
         File dir;
         if (null == rootPath) {
@@ -156,11 +165,12 @@ public class Util {
         return list;
     }
 
-    public static List<Class<?>> scan(String rootPath, Predicate<Class<?>> classPredicate) {
+    @Nonnull
+    public static List<Class<?>> scan(@Nonnull String rootPath, @Nullable Predicate<Class<?>> classPredicate) {
         return scan(rootPath, null, classPredicate);
     }
 
-    public static void fetchFileList(File dir, List<File> fileList) {
+    public static void fetchFileList(@Nonnull File dir, @Nonnull List<File> fileList) {
         if (!dir.isDirectory() && dir.isFile()) {
             fileList.add(dir);
         } else {

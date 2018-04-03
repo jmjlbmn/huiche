@@ -2,11 +2,12 @@ package org.huiche.core.web.response;
 
 
 import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
@@ -20,7 +21,7 @@ public class SimpleView implements View {
     private final String content;
     private final String contentType;
 
-    public SimpleView(String content, String contentType) {
+    public SimpleView(@Nonnull String content, @Nonnull String contentType) {
         this.content = content;
         this.contentType = contentType;
     }
@@ -31,34 +32,34 @@ public class SimpleView implements View {
     }
 
     @Override
-    public void render(Map<String, ?> model, @Nullable HttpServletRequest request, @NonNull HttpServletResponse response) throws Exception {
+    public void render(@Nullable Map<String, ?> model, @NonNull HttpServletRequest request, @NonNull HttpServletResponse response) throws Exception {
         response.setCharacterEncoding("UTF-8");
         response.setContentType(contentType);
         response.getWriter().write(content);
         response.getWriter().flush();
     }
 
-    public static ModelAndView js(String content) {
+    public static ModelAndView js(@Nonnull String content) {
         return new ModelAndView(new SimpleView(content, "text/javascript"));
     }
 
-    public static ModelAndView json(String content) {
+    public static ModelAndView json(@Nonnull String content) {
         return new ModelAndView(new SimpleView(content, "application/json"));
     }
 
-    public static ModelAndView css(String content) {
+    public static ModelAndView css(@Nonnull String content) {
         return new ModelAndView(new SimpleView(content, "text/css"));
     }
 
-    public static ModelAndView html(String content) {
+    public static ModelAndView html(@Nonnull String content) {
         return new ModelAndView(new SimpleView(content, "text/html"));
     }
 
-    public static ModelAndView forward(String url) {
+    public static ModelAndView forward(@Nonnull String url) {
         return new ModelAndView("forward:" + url);
     }
 
-    public static ModelAndView redirect(String url) {
+    public static ModelAndView redirect(@Nonnull String url) {
         return new ModelAndView(new RedirectView(url));
     }
 }

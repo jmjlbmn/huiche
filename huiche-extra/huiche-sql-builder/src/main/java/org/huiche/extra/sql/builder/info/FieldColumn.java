@@ -1,52 +1,30 @@
 package org.huiche.extra.sql.builder.info;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.Accessors;
 import org.huiche.core.annotation.sql.Column;
+
+import javax.annotation.Nonnull;
 
 /**
  * 字段对象
+ *
  * @author Maning
  */
+@Setter
+@Getter
+@Accessors(chain = true)
+@ToString
 public class FieldColumn {
     private String name;
     private Class<?> type;
     private Column column;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Class<?> getType() {
-        return type;
-    }
-
-    public void setType(Class<?> type) {
-        this.type = type;
-    }
-
-    public Column getColumn() {
-        return column;
-    }
-
-    public void setColumn(Column column) {
-        this.column = column;
-    }
-
-    public FieldColumn(String name, Class<?> type, Column column) {
+    public FieldColumn(@Nonnull String name, @Nonnull Class<?> type, @Nonnull Column column) {
         this.name = name;
         this.type = type;
         this.column = column;
-    }
-
-    @Override
-    public String toString() {
-        return "FieldColumn{" +
-                "name='" + name + '\'' +
-                ", type=" + type +
-                ", column=" + column +
-                '}';
     }
 }

@@ -3,6 +3,8 @@ package org.huiche.core.web;
 import org.huiche.core.entity.BaseEntity;
 import org.huiche.core.service.BaseCrudService;
 
+import javax.annotation.Nonnull;
+
 /**
  * Service提供者
  *
@@ -14,5 +16,6 @@ public interface ServiceProvider<T extends BaseEntity> {
      *
      * @return service
      */
+    @Nonnull
     BaseCrudService<T> service();
 }

@@ -86,6 +86,7 @@ public interface BaseCrudService<T extends BaseEntity> extends BaseService {
      * @param ids 逗号分隔的ID
      * @return 删除数量
      */
+    @Nonnull
     List<T> get(@Nonnull String ids);
 
     /**
@@ -93,6 +94,7 @@ public interface BaseCrudService<T extends BaseEntity> extends BaseService {
      *
      * @return 数据列表
      */
+    @Nonnull
     List<T> list();
 
     /**
@@ -101,6 +103,7 @@ public interface BaseCrudService<T extends BaseEntity> extends BaseService {
      * @param search 检索
      * @return 数据列表
      */
+    @Nonnull
     List<T> list(@Nullable T search);
 
     /**
@@ -109,6 +112,7 @@ public interface BaseCrudService<T extends BaseEntity> extends BaseService {
      * @param pageRequest 分页
      * @return 数据
      */
+    @Nonnull
     PageResponse<T> page(@Nullable PageRequest pageRequest);
 
     /**
@@ -118,6 +122,7 @@ public interface BaseCrudService<T extends BaseEntity> extends BaseService {
      * @param pageRequest 分页
      * @return 数据
      */
+    @Nonnull
     PageResponse<T> page(@Nullable PageRequest pageRequest, @Nullable T search);
 
     /**
@@ -128,6 +133,7 @@ public interface BaseCrudService<T extends BaseEntity> extends BaseService {
      * @param <S>         搜索实现类
      * @return 数据
      */
+    @Nonnull
     <S extends Search> PageResponse<T> page(@Nullable PageRequest pageRequest, @Nullable S search);
 
 }

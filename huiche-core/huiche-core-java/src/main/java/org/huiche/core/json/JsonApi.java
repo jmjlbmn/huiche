@@ -1,5 +1,8 @@
 package org.huiche.core.json;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 /**
  * Json Api
  * @author Maning
@@ -11,7 +14,8 @@ public interface JsonApi {
      * @param object 对象
      * @return json字符串
      */
-    String toJson(Object object);
+    @Nullable
+    String toJson(@Nullable Object object);
 
     /**
      * json字符串转对象
@@ -21,5 +25,6 @@ public interface JsonApi {
      * @param <T>   类型
      * @return 对象
      */
-    <T> T fromJson(String json, Class<T> clazz);
+    @Nullable
+    <T> T fromJson(@Nullable String json,@Nonnull Class<T> clazz);
 }

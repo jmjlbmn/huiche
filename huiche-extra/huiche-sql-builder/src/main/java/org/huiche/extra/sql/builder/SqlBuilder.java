@@ -8,6 +8,8 @@ import org.huiche.extra.sql.builder.naming.CamelCaseNamingRule;
 import org.huiche.extra.sql.builder.naming.NamingRule;
 import org.huiche.extra.sql.builder.sql.Sql;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -18,6 +20,7 @@ import java.util.Properties;
 
 /**
  * 建表SQL生成器
+ *
  * @author Maning
  */
 public class SqlBuilder {
@@ -31,35 +34,43 @@ public class SqlBuilder {
     private List<String> sqlList;
     private List<String> manualSqlList;
 
-    public static SqlBuilder init(String jdbcUrl, String user, String password) {
+    @Nonnull
+    public static SqlBuilder init(@Nonnull String jdbcUrl, @Nonnull String user, @Nonnull String password) {
         return init(jdbcUrl, user, password, null, CamelCaseNamingRule.getInstance(), null);
     }
 
-    public static SqlBuilder init(String jdbcUrl, String user, String password, String rootPath) {
+    @Nonnull
+    public static SqlBuilder init(@Nonnull String jdbcUrl, @Nonnull String user, @Nonnull String password, @Nullable String rootPath) {
         return init(jdbcUrl, user, password, rootPath, CamelCaseNamingRule.getInstance(), null);
     }
 
-    public static SqlBuilder init(String jdbcUrl, String user, String password, Sql sql) {
+    @Nonnull
+    public static SqlBuilder init(@Nonnull String jdbcUrl, @Nonnull String user, @Nonnull String password, @Nullable Sql sql) {
         return init(jdbcUrl, user, password, null, CamelCaseNamingRule.getInstance(), sql);
     }
 
-    public static SqlBuilder init(String jdbcUrl, String user, String password, NamingRule namingRule) {
+    @Nonnull
+    public static SqlBuilder init(@Nonnull String jdbcUrl, @Nonnull String user, @Nonnull String password, @Nonnull NamingRule namingRule) {
         return init(jdbcUrl, user, password, namingRule, null);
     }
 
-    public static SqlBuilder init(String jdbcUrl, String user, String password, String rootPath, Sql sql) {
+    @Nonnull
+    public static SqlBuilder init(@Nonnull String jdbcUrl, @Nonnull String user, @Nonnull String password, @Nullable String rootPath, @Nonnull Sql sql) {
         return init(jdbcUrl, user, password, rootPath, CamelCaseNamingRule.getInstance(), sql);
     }
 
-    public static SqlBuilder init(String jdbcUrl, String user, String password, String rootPath, NamingRule namingRule) {
+    @Nonnull
+    public static SqlBuilder init(@Nonnull String jdbcUrl, @Nonnull String user, @Nonnull String password, @Nullable String rootPath, @Nonnull NamingRule namingRule) {
         return init(jdbcUrl, user, password, rootPath, namingRule, null);
     }
 
-    public static SqlBuilder init(String jdbcUrl, String user, String password, NamingRule namingRule, Sql sql) {
+    @Nonnull
+    public static SqlBuilder init(@Nonnull String jdbcUrl, @Nonnull String user, @Nonnull String password, @Nonnull NamingRule namingRule, @Nullable Sql sql) {
         return init(jdbcUrl, user, password, null, namingRule, sql);
     }
 
-    public static SqlBuilder init(String jdbcUrl, String user, String password, String rootPath, NamingRule namingRule, Sql sql) {
+    @Nonnull
+    public static SqlBuilder init(@Nonnull String jdbcUrl, @Nonnull String user, @Nonnull String password, @Nullable String rootPath, @Nonnull NamingRule namingRule, @Nullable Sql sql) {
         TOOL.url = jdbcUrl;
         TOOL.user = user;
         TOOL.password = password;
@@ -83,15 +94,15 @@ public class SqlBuilder {
         run(update, new String[]{});
     }
 
-    public void run(Class<?>... classes) {
+    public void run(@Nonnull Class<?>... classes) {
         run(false, classes);
     }
 
-    public void run(String... packageName) {
+    public void run(@Nonnull String... packageName) {
         run(false, packageName);
     }
 
-    public void run(boolean update, String... packageName) {
+    public void run(boolean update, @Nonnull String... packageName) {
         List<Class<?>> classList;
         if (packageName.length > 0) {
             classList = Util.scan(rootPath, clazz -> {
@@ -122,7 +133,7 @@ public class SqlBuilder {
      * @param update  是否执行修改列和删除列操作
      * @param classes 表
      */
-    public void run(boolean update, Class<?>... classes) {
+    public void run(boolean update,@Nonnull Class<?>... classes) {
         if (classes.length == 0) {
             System.err.println("没有要生成SQL的类,不会进行操作");
             return;
@@ -145,7 +156,7 @@ public class SqlBuilder {
         printSql();
     }
 
-    private void create(List<Class<?>> classes, Connection conn, boolean update) {
+    private void create(@Nonnull List<Class<?>> classes,@Nonnull  Connection conn, boolean update) {
         for (Class<?> clazz : classes) {
             TableInfo tableInfo = Sql.getInfo(clazz, namingRule);
             try {
@@ -169,7 +180,7 @@ public class SqlBuilder {
         }
     }
 
-    private void update(TableInfo tableInfo, Connection conn, boolean update) throws SQLException {
+    private void update(@Nonnull TableInfo tableInfo,@Nonnull  Connection conn, boolean update) throws SQLException {
         if (!tableInfo.getComment().equals(dbSql.getTableComment(conn, tableInfo.getName()))) {
             System.out.println("修改表的注释,表: " + tableInfo.getName());
             executeSql(conn, dbSql.getAlterTableComment(tableInfo));
@@ -222,7 +233,7 @@ public class SqlBuilder {
         System.out.println(Sql.TAB + "修改表: " + tableInfo.getName() + " ... 结束");
     }
 
-    private void executeSql(Connection conn, String sql) throws SQLException {
+    private void executeSql(@Nonnull Connection conn, @Nonnull String sql) throws SQLException {
         sqlList.add(sql + ";");
         try {
             conn.prepareStatement(sql).execute();
@@ -233,7 +244,7 @@ public class SqlBuilder {
         sqlList.add("#执行成功==================>" + Sql.BR);
     }
 
-    private void manualSql(String sql) {
+    private void manualSql(@Nonnull String sql) {
         System.out.println(Sql.TAB + Sql.TAB + "请手动执行:");
         System.out.println(Sql.TAB + Sql.TAB + sql);
         manualSqlList.add(sql + ";");

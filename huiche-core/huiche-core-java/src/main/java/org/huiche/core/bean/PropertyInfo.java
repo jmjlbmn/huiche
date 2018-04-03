@@ -3,6 +3,8 @@ package org.huiche.core.bean;
 
 import org.huiche.core.util.StringUtil;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
@@ -22,7 +24,7 @@ public class PropertyInfo {
     private final Field field;
     private final String name;
 
-    PropertyInfo(Class<?> clazz, Field field) {
+    PropertyInfo(@Nonnull Class<?> clazz, @Nonnull Field field) {
         this.field = field;
         Method[] methods = BeanInfo.DECLARED_METHOD_CACHE.get(clazz);
         Class<?> type = field.getType();
@@ -57,6 +59,7 @@ public class PropertyInfo {
      * 获取属性名
      * @return 属性名
      */
+    @Nonnull
     public String getName() {
         return name;
     }
@@ -65,6 +68,7 @@ public class PropertyInfo {
      * 获取get方法
      * @return get方法
      */
+    @Nullable
     public Method getReadMethod() {
         return readMethod;
     }
@@ -73,6 +77,7 @@ public class PropertyInfo {
      * 获取set方法
      * @return set方法
      */
+    @Nullable
     public Method getWriteMethod() {
         return writeMethod;
     }
@@ -81,6 +86,7 @@ public class PropertyInfo {
      * 获取字段
      * @return 字段
      */
+    @Nonnull
     public Field getField() {
         return field;
     }

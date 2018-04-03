@@ -1,5 +1,6 @@
 package org.huiche.core.bean;
 
+import javax.annotation.Nonnull;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -22,7 +23,7 @@ public class BeanInfo {
 
     private final Class<?> clazz;
 
-    public BeanInfo(Class<?> clazz) {
+    public BeanInfo(@Nonnull Class<?> clazz) {
         this.clazz = clazz;
         DECLARED_METHOD_CACHE.put(clazz, getMethods(clazz));
         DECLARED_FIELD_CACHE.put(clazz, getPropertyInfo(clazz));
@@ -33,6 +34,7 @@ public class BeanInfo {
      *
      * @return 属性信息
      */
+    @Nonnull
     public PropertyInfo[] getPropertyInfo() {
         PropertyInfo[] propertyInfo;
         propertyInfo = DECLARED_FIELD_CACHE.get(clazz);
@@ -49,7 +51,8 @@ public class BeanInfo {
      * @param <T>   泛型类型
      * @return 属性信息
      */
-    public static <T> PropertyInfo[] getPropertyInfo(Class<T> clazz) {
+    @Nonnull
+    public static <T> PropertyInfo[] getPropertyInfo(@Nonnull Class<T> clazz) {
         List<PropertyInfo> ps = new ArrayList<>();
         Field[] fields = getFields(clazz);
         for (Field field : fields) {
@@ -69,7 +72,8 @@ public class BeanInfo {
      * @param <T>   泛型类型
      * @return 字段信息
      */
-    public static <T> Field[] getFields(Class<T> clazz) {
+    @Nonnull
+    public static <T> Field[] getFields(@Nonnull Class<T> clazz) {
         List<Field> fields = new ArrayList<>();
         for (Class<?> c = clazz; c != Object.class; c = c.getSuperclass()) {
             fields.addAll(Arrays.asList(c.getDeclaredFields()));
@@ -84,7 +88,8 @@ public class BeanInfo {
      * @param <T>   泛型类型
      * @return 方法信息
      */
-    public static <T> Method[] getMethods(Class<T> clazz) {
+    @Nonnull
+    public static <T> Method[] getMethods(@Nonnull Class<T> clazz) {
         List<Method> methods = new ArrayList<>();
         for (Class<?> c = clazz; c != Object.class; c = c.getSuperclass()) {
             methods.addAll(Arrays.asList(c.getDeclaredMethods()));

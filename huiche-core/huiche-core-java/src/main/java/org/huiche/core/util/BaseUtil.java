@@ -2,9 +2,9 @@ package org.huiche.core.util;
 
 import lombok.experimental.UtilityClass;
 import org.huiche.core.consts.Const;
-import org.huiche.core.exception.Assert;
-import org.huiche.core.exception.SystemError;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Objects;
@@ -22,8 +22,7 @@ public class BaseUtil {
      * @param o 集合/数组
      * @return 是否空
      */
-    public static boolean isListOrArray(Object o) {
-        Assert.ok(SystemError.NOT_NULL, null != o);
+    public static boolean isListOrArray(@Nonnull Object o) {
         return o instanceof Iterable || o.getClass().isArray();
     }
 
@@ -33,7 +32,7 @@ public class BaseUtil {
      * @param o 集合/数组
      * @return 是否不是空
      */
-    public static boolean isNotListAndArray(Object o) {
+    public static boolean isNotListAndArray(@Nonnull Object o) {
         return !isListOrArray(o);
     }
 
@@ -43,7 +42,7 @@ public class BaseUtil {
      * @param obj 对象
      * @return 是否空
      */
-    public static boolean isEmpty(Object obj) {
+    public static boolean isEmpty(@Nullable Object obj) {
         if (obj == null) {
             return true;
         } else {
@@ -65,7 +64,7 @@ public class BaseUtil {
      * @param obj 字符对象
      * @return 是否是空
      */
-    public static boolean isEmpty(CharSequence obj) {
+    public static boolean isEmpty(@Nullable CharSequence obj) {
         if (obj == null) {
             return true;
         } else {
@@ -86,7 +85,7 @@ public class BaseUtil {
      * @param obj 集合
      * @return 是否空
      */
-    public static boolean isEmpty(Collection obj) {
+    public static boolean isEmpty(@Nullable Collection obj) {
         return obj == null || obj.isEmpty();
     }
 
@@ -96,7 +95,7 @@ public class BaseUtil {
      * @param obj map
      * @return 是否空
      */
-    public static boolean isEmpty(Map obj) {
+    public static boolean isEmpty(@Nullable Map obj) {
         return obj == null || obj.isEmpty();
     }
 
@@ -106,7 +105,7 @@ public class BaseUtil {
      * @param obj 对象
      * @return 是否全是空
      */
-    public static boolean isEmpty(Object... obj) {
+    public static boolean isEmpty(@Nonnull Object... obj) {
         for (Object o : obj) {
             if (isNotEmpty(o)) {
                 return false;
@@ -121,7 +120,7 @@ public class BaseUtil {
      * @param obj 对象
      * @return 是否不是空
      */
-    public static boolean isNotEmpty(Object obj) {
+    public static boolean isNotEmpty(@Nullable Object obj) {
         return !isEmpty(obj);
     }
 
@@ -131,7 +130,7 @@ public class BaseUtil {
      * @param obj 字符
      * @return 是否不是空
      */
-    public static boolean isNotEmpty(CharSequence obj) {
+    public static boolean isNotEmpty(@Nullable CharSequence obj) {
         return !isEmpty(obj);
     }
 
@@ -141,7 +140,7 @@ public class BaseUtil {
      * @param obj 集合对象
      * @return 是否不是空
      */
-    public static boolean isNotEmpty(Collection obj) {
+    public static boolean isNotEmpty(@Nullable Collection obj) {
         return !isEmpty(obj);
     }
 
@@ -151,7 +150,7 @@ public class BaseUtil {
      * @param obj map
      * @return 是否不是空
      */
-    public static boolean isNotEmpty(Map obj) {
+    public static boolean isNotEmpty(@Nullable Map obj) {
         return !isEmpty(obj);
     }
 
@@ -161,7 +160,7 @@ public class BaseUtil {
      * @param obj 对象
      * @return 是否全是非空
      */
-    public static boolean isNotEmpty(Object... obj) {
+    public static boolean isNotEmpty(@Nonnull Object... obj) {
         for (Object o : obj) {
             if (isEmpty(o)) {
                 return false;
@@ -178,7 +177,7 @@ public class BaseUtil {
      * @param <T> 对象类型
      * @return 是否相等
      */
-    public static <T> boolean equals(T a, T b) {
+    public static <T> boolean equals(@Nullable T a, @Nullable T b) {
         return Objects.equals(a, b);
     }
 
@@ -190,7 +189,7 @@ public class BaseUtil {
      * @param <T> 对象类型
      * @return 是否不相等
      */
-    public static <T> boolean noEquals(T a, T b) {
+    public static <T> boolean noEquals(@Nullable T a, @Nullable T b) {
         return !equals(a, b);
     }
 
@@ -201,7 +200,7 @@ public class BaseUtil {
      * @param target 对象数组
      * @return 是否在
      */
-    public static boolean in(Object src, Object... target) {
+    public static boolean in(@Nonnull Object src, @Nullable Object... target) {
         if (null != target) {
             for (Object t : target) {
                 if (Objects.equals(src, t)) {
@@ -220,7 +219,8 @@ public class BaseUtil {
      * @param <T> 对象类型
      * @return 转换后对象
      */
-    public static <T> T empty2Null(T t) {
+    @Nullable
+    public static <T> T empty2Null(@Nullable T t) {
         return isEmpty(t) ? null : t;
     }
 

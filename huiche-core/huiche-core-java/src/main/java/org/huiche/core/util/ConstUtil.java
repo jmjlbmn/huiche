@@ -5,9 +5,9 @@ import org.huiche.core.annotation.consts.ConstVal;
 import org.huiche.core.consts.ConstClass;
 import org.huiche.core.consts.ConstValue;
 
+import javax.annotation.Nonnull;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -24,10 +24,8 @@ public class ConstUtil {
      * @param <T>      常量类
      * @return 值
      */
-    public static <T extends ConstClass> List<ConstValue> getValList(Class<T> constant) {
-        if (null == constant) {
-            return Collections.emptyList();
-        }
+    @Nonnull
+    public static <T extends ConstClass> List<ConstValue> getValList(@Nonnull Class<T> constant) {
         List<ConstValue> list = new ArrayList<>();
         for (Field field : constant.getFields()) {
             ConstVal annotation = field.getAnnotation(ConstVal.class);
@@ -47,10 +45,8 @@ public class ConstUtil {
      * @param <T>      常量类
      * @return 值和扩展数据
      */
-    public static <T extends ConstClass> List<ConstValue> getValListWithExtra(Class<T> constant) {
-        if (null == constant) {
-            return Collections.emptyList();
-        }
+    @Nonnull
+    public static <T extends ConstClass> List<ConstValue> getValListWithExtra(@Nonnull Class<T> constant) {
         List<ConstValue> list = new ArrayList<>();
         for (Field field : constant.getFields()) {
             ConstVal annotation = field.getAnnotation(ConstVal.class);
@@ -71,7 +67,8 @@ public class ConstUtil {
      * @param <T>      常量类
      * @return 描述
      */
-    public static <T extends ConstClass> String getTextByValue(Class<T> constant, Object value) {
+    @Nonnull
+    public static <T extends ConstClass> String getTextByValue(@Nonnull Class<T> constant, @Nonnull Object value) {
         for (ConstValue val : getValList(constant)) {
             if (val.getValue().equals(value.toString())) {
                 return val.getText();

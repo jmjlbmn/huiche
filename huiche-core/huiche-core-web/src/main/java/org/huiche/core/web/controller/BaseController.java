@@ -5,20 +5,24 @@ import org.huiche.core.web.response.SimpleView;
 import org.huiche.core.util.StringUtil;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 /**
  * 基础控制器
+ *
  * @author Maning
  */
 public class BaseController implements Api {
-    protected ModelAndView view(String page) {
+    protected ModelAndView view(@Nonnull String page) {
         return new ModelAndView(page);
     }
 
-    protected ModelAndView jump(String url) {
+    protected ModelAndView jump(@Nonnull String url) {
         return jump(url, null);
     }
 
-    protected ModelAndView jump(String url, String msg) {
+    protected ModelAndView jump(@Nonnull String url, @Nullable String msg) {
         ModelAndView mv = new ModelAndView();
         mv.addObject("url", url);
         if (StringUtil.isNotEmpty(msg)) {
@@ -28,11 +32,11 @@ public class BaseController implements Api {
         return mv;
     }
 
-    protected ModelAndView redirect(String url) {
+    protected ModelAndView redirect(@Nonnull String url) {
         return SimpleView.redirect(url);
     }
 
-    protected ModelAndView forward(String url) {
+    protected ModelAndView forward(@Nonnull String url) {
         return SimpleView.forward(url);
     }
 

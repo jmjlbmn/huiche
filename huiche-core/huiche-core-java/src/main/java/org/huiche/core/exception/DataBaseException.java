@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.huiche.core.util.StringUtil;
 
+import javax.annotation.Nonnull;
 import java.util.Collection;
 
 /**
@@ -14,11 +15,11 @@ import java.util.Collection;
 @Setter
 @Getter
 public class DataBaseException extends BaseException {
-    public DataBaseException(String... msg) {
+    public DataBaseException(@Nonnull String... msg) {
         super(SystemError.DB_NOT_ALLOW_FIELD_ERROR, StringUtil.join(msg));
     }
 
-    public DataBaseException(Collection<String> msg) {
+    public DataBaseException(@Nonnull Collection<String> msg) {
         super(SystemError.DB_NOT_ALLOW_FIELD_ERROR, StringUtil.join(msg));
     }
 }

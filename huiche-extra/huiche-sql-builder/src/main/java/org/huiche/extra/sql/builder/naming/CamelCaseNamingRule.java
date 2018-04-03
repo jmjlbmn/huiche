@@ -1,15 +1,19 @@
 package org.huiche.extra.sql.builder.naming;
 
+import javax.annotation.Nonnull;
+
 /**
  * 驼峰命名规则转下划线小写
+ *
  * @author Maning
  */
 public class CamelCaseNamingRule implements NamingRule {
     private static final String UNDERLINE = "_";
 
     @Override
-    public String javaName2SqlName(String javaName) {
-        if (javaName == null || javaName.isEmpty()) {
+    @Nonnull
+    public String javaName2SqlName(@Nonnull String javaName) {
+        if (javaName.isEmpty()) {
             return "";
         }
         StringBuilder column = new StringBuilder();
@@ -25,9 +29,10 @@ public class CamelCaseNamingRule implements NamingRule {
     }
 
     @Override
-    public String sqlName2JavaName(String sqlName) {
+    @Nonnull
+    public String sqlName2JavaName(@Nonnull String sqlName) {
         StringBuilder result = new StringBuilder();
-        if (sqlName == null || sqlName.isEmpty()) {
+        if (sqlName.isEmpty()) {
             return "";
         } else if (!sqlName.contains(UNDERLINE)) {
             return sqlName.substring(0, 1).toLowerCase() + sqlName.substring(1);
@@ -48,7 +53,6 @@ public class CamelCaseNamingRule implements NamingRule {
     }
 
     private static final CamelCaseNamingRule INSTANCE = new CamelCaseNamingRule() {
-
     };
 
     public static NamingRule getInstance() {

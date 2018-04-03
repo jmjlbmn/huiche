@@ -1,8 +1,12 @@
 package org.huiche.core.file;
 
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 /**
  * 上传文件Api
+ *
  * @author Maning
  */
 public interface FileApi {
@@ -14,7 +18,7 @@ public interface FileApi {
      * @param suffix 后缀
      * @return 文件访问地址
      */
-    String uploadFile(byte[] bytes, Dir dir, String suffix);
+    String uploadFile(@Nonnull byte[] bytes, @Nonnull Dir dir, @Nullable String suffix);
 
     /**
      * 上传文件
@@ -24,7 +28,7 @@ public interface FileApi {
      * @param fileName 文件名
      * @return 文件访问地址
      */
-    String uploadFileKeepName(byte[] bytes, Dir dir, String fileName);
+    String uploadFileKeepName(@Nonnull byte[] bytes, @Nonnull Dir dir, @Nonnull String fileName);
 
 
     /**
@@ -34,7 +38,7 @@ public interface FileApi {
      * @param dir   目录
      * @return 文件访问地址
      */
-    default String uploadFile(byte[] bytes, Dir dir) {
+    default String uploadFile(@Nonnull byte[] bytes, @Nonnull Dir dir) {
         return uploadFile(bytes, dir, null);
     }
 

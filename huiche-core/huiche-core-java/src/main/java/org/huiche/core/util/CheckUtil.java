@@ -5,6 +5,7 @@ import org.huiche.core.consts.ConstClass;
 import org.huiche.core.consts.ConstValue;
 import org.huiche.core.exception.Assert;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,7 +23,7 @@ public class CheckUtil {
      * @param str 要验证的字符串
      * @return 是否是手机号码
      */
-    public static boolean isPhoneNumber(String str) {
+    public static boolean isPhoneNumber(@Nonnull String str) {
         return checkRegExp(str, "^(1[3-9])\\d{9}$");
     }
 
@@ -32,7 +33,7 @@ public class CheckUtil {
      * @param str 字符串
      * @return 是否是身份证
      */
-    public static boolean isIdNumber(String str) {
+    public static boolean isIdNumber(@Nonnull String str) {
         return checkRegExp(str, "^[1-9]\\d{5}(18|19|([23]\\d))\\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\\d{3}[0-9Xx]$");
     }
 
@@ -42,7 +43,7 @@ public class CheckUtil {
      * @param str 字符串
      * @return 是否中文
      */
-    public static boolean isChinaName(String str) {
+    public static boolean isChinaName(@Nonnull String str) {
         return checkRegExp(str, "^[\\u4e00-\\u9fa5]+(·[\\u4e00-\\u9fa5]+)*$");
     }
 
@@ -53,7 +54,7 @@ public class CheckUtil {
      * @param regExp 正则
      * @return 是否匹配
      */
-    public static boolean checkRegExp(String str, String regExp) {
+    public static boolean checkRegExp(@Nonnull String str, @Nonnull String regExp) {
         if (StringUtil.isEmpty(str)) {
             return false;
         }
@@ -70,7 +71,7 @@ public class CheckUtil {
      * @param max 最大
      * @return 是否在范围内
      */
-    public static boolean checkLength(String str, int min, int max) {
+    public static boolean checkLength(@Nonnull String str, int min, int max) {
         Assert.notNullWithMsg("字符串不能为空", str);
         Assert.ok("传入长度不符合规则", min >= 0 && max >= 0 && max >= min);
         return str.trim().length() >= min && str.trim().length() <= max;
@@ -83,7 +84,7 @@ public class CheckUtil {
      * @param max 最大字符
      * @return 是否不超过
      */
-    public static boolean checkLength(String str, int max) {
+    public static boolean checkLength(@Nonnull String str, int max) {
         return checkLength(str, 0, max);
     }
 
@@ -95,7 +96,7 @@ public class CheckUtil {
      * @param <T>   常量类
      * @return 是否是常量值之一
      */
-    public static <T extends ConstClass> boolean inConstant(Class<T> t, Object value) {
+    public static <T extends ConstClass> boolean inConstant(@Nonnull Class<T> t, @Nonnull Object value) {
         List<ConstValue> list = ConstUtil.getValList(t);
         for (ConstValue val : list) {
             if (BaseUtil.equals(value.toString(), val.value)) {

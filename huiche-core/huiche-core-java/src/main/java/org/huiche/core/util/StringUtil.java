@@ -4,6 +4,8 @@ import lombok.experimental.UtilityClass;
 import org.huiche.core.consts.Const;
 import org.huiche.core.exception.BaseException;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,7 +25,7 @@ public class StringUtil {
      * @param str 字符串
      * @return 是否
      */
-    public static boolean isEmpty(String str) {
+    public static boolean isEmpty(@Nullable String str) {
         return BaseUtil.isEmpty(str);
     }
 
@@ -33,7 +35,7 @@ public class StringUtil {
      * @param str 字符串
      * @return 是否
      */
-    public static boolean isNotEmpty(String str) {
+    public static boolean isNotEmpty(@Nullable String str) {
         return !isEmpty(str);
     }
 
@@ -43,11 +45,10 @@ public class StringUtil {
      * @param str 属性名
      * @return 字段名
      */
-    public static String fromDb(String str) {
+    @Nonnull
+    public static String fromDb(@Nonnull String str) {
         StringBuilder result = new StringBuilder();
-        if (str == null || str.isEmpty()) {
-            return "";
-        } else if (!str.contains(Const.UNDERLINE)) {
+        if (!str.contains(Const.UNDERLINE)) {
             return str.substring(0, 1).toLowerCase() + str.substring(1);
         } else {
             String[] columns = str.split(Const.UNDERLINE);
@@ -72,10 +73,8 @@ public class StringUtil {
      * @param dbStr 数据库字段名
      * @return 属性名
      */
-    public static String toDb(String dbStr) {
-        if (dbStr == null || dbStr.isEmpty()) {
-            return "";
-        }
+    @Nonnull
+    public static String toDb(@Nonnull String dbStr) {
         StringBuilder column = new StringBuilder();
         column.append(dbStr.substring(0, 1).toLowerCase());
         for (int i = 1; i < dbStr.length(); i++) {
@@ -94,7 +93,8 @@ public class StringUtil {
      * @param methodName 方法名
      * @return 字段名
      */
-    public static String getMethodName2FieldName(String methodName) {
+    @Nonnull
+    public static String getMethodName2FieldName(@Nonnull String methodName) {
         return toDb(methodName.substring(3));
     }
 
@@ -104,7 +104,8 @@ public class StringUtil {
      * @param str 要转换的字符串
      * @return 转换后的字符串
      */
-    public static String convertFirstToUpperCase(String str) {
+    @Nonnull
+    public static String convertFirstToUpperCase(@Nonnull String str) {
         String first = str.substring(0, 1);
         String other = str.substring(1);
         return first.toUpperCase(Locale.getDefault()) + other;
@@ -116,7 +117,8 @@ public class StringUtil {
      * @param idNumber 身份证号码
      * @return 处理后的身份证号码
      */
-    public static String hideIdNumber(String idNumber) {
+    @Nonnull
+    public static String hideIdNumber(@Nonnull String idNumber) {
         StringBuilder sb = new StringBuilder();
         if (StringUtil.isNotEmpty(idNumber)) {
             idNumber = idNumber.trim();
@@ -140,7 +142,8 @@ public class StringUtil {
      * @param realName 姓名
      * @return 处理后的姓名
      */
-    public static String hideRealName(String realName) {
+    @Nonnull
+    public static String hideRealName(@Nonnull String realName) {
         StringBuilder sb = new StringBuilder();
         if (StringUtil.isNotEmpty(realName)) {
             realName = realName.trim();
@@ -159,7 +162,8 @@ public class StringUtil {
      * @param cardNumber 银行卡号
      * @return 处理后的银行卡号
      */
-    public static String hideCardNumber(String cardNumber) {
+    @Nonnull
+    public static String hideCardNumber(@Nonnull String cardNumber) {
         int showSize = 4;
         int allSize = 16;
         StringBuilder sb = new StringBuilder();
@@ -182,7 +186,8 @@ public class StringUtil {
      * @param phone 手机号
      * @return 处理后的手机号
      */
-    public static String hidePhone(String phone) {
+    @Nonnull
+    public static String hidePhone(@Nonnull String phone) {
         int length = 11;
         StringBuilder sb = new StringBuilder();
         if (StringUtil.isNotEmpty(phone)) {
@@ -204,7 +209,8 @@ public class StringUtil {
      * @param arr 字符串数组
      * @return 拼接和的字符串
      */
-    public static String join(String... arr) {
+    @Nonnull
+    public static String join(@Nonnull String... arr) {
         return join(arr, Const.COMMA);
     }
 
@@ -215,9 +221,10 @@ public class StringUtil {
      * @param sep 分隔符
      * @return 拼接和的字符串
      */
-    public static String join(String[] arr, String sep) {
+    @Nonnull
+    public static String join(@Nonnull String[] arr,@Nonnull  String sep) {
         StringBuilder sb = new StringBuilder();
-        if (null != arr && arr.length > 0) {
+        if (arr.length > 0) {
             for (String s : arr) {
                 sb.append(sep).append(s);
             }
@@ -231,7 +238,8 @@ public class StringUtil {
      * @param list 字符串集合
      * @return 拼接和的字符串
      */
-    public static String join(Collection<String> list) {
+    @Nonnull
+    public static String join(@Nonnull Collection<String> list) {
         return join(list, Const.COMMA);
     }
 
@@ -242,9 +250,10 @@ public class StringUtil {
      * @param sep  分隔符
      * @return 拼接和的字符串
      */
-    public static String join(Collection<String> list, String sep) {
+    @Nonnull
+    public static String join(@Nonnull Collection<String> list,@Nonnull  String sep) {
         StringBuilder sb = new StringBuilder();
-        if (null != list && list.size() > 0) {
+        if (list.size() > 0) {
             for (String s : list) {
                 sb.append(sep).append(s);
             }
@@ -258,7 +267,8 @@ public class StringUtil {
      * @param list 集合
      * @return 数组
      */
-    public static String[] list2Arr(Collection<String> list) {
+    @Nonnull
+    public static String[] list2Arr(@Nonnull Collection<String> list) {
         if (BaseUtil.isNotEmpty(list)) {
             return list.toArray(new String[0]);
         }
@@ -271,7 +281,7 @@ public class StringUtil {
      * @param str 字符串
      * @return 长度
      */
-    public static int getCharLength(String str) {
+    public static int getCharLength(@Nonnull String str) {
         return getCharLength(str, null);
     }
 
@@ -282,7 +292,7 @@ public class StringUtil {
      * @param charset 字符串编码
      * @return 长度
      */
-    public static int getCharLength(String str, String charset) {
+    public static int getCharLength(@Nonnull String str, @Nullable String charset) {
         if (isEmpty(str)) {
             return 0;
         }
@@ -303,7 +313,8 @@ public class StringUtil {
      * @param str 逗号分隔的字符串
      * @return 字符串list
      */
-    public static List<String> split2List(String str) {
+    @Nonnull
+    public static List<String> split2List(@Nonnull String str) {
         List<String> list = new ArrayList<>();
         if (isNotEmpty(str)) {
             String[] arr = str.split(Const.COMMA);
@@ -324,7 +335,8 @@ public class StringUtil {
      * @param str 逗号分隔的int
      * @return list
      */
-    public static List<Integer> split2ListInt(String str) {
+    @Nonnull
+    public static List<Integer> split2ListInt(@Nonnull String str) {
         List<Integer> list = new ArrayList<>();
         try {
             if (isNotEmpty(str)) {
@@ -349,7 +361,8 @@ public class StringUtil {
      * @param str 逗号分隔的long
      * @return list
      */
-    public static List<Long> split2ListLong(String str) {
+    @Nonnull
+    public static List<Long> split2ListLong(@Nonnull String str) {
         List<Long> list = new ArrayList<>();
         try {
             if (isNotEmpty(str)) {

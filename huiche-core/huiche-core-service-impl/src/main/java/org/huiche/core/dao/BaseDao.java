@@ -380,6 +380,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param ids 逗号分隔的ID列表
      * @return 数据
      */
+    @Nonnull
     public List<T> list(@Nonnull String ids) {
         return QueryDslUtil.list(sqlQueryFactory.selectFrom(root()).where(pk().in(StringUtil.split2ListLong(ids))));
     }
@@ -390,6 +391,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param ids ID列表
      * @return 数据
      */
+    @Nonnull
     public List<T> list(@Nonnull Collection<Long> ids) {
         return QueryDslUtil.list(sqlQueryFactory.selectFrom(root()).where(pk().in(ids)));
     }
@@ -400,6 +402,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param ids ID列表
      * @return 数据
      */
+    @Nonnull
     public List<T> list(@Nonnull Long[] ids) {
         return QueryDslUtil.list(sqlQueryFactory.selectFrom(root()).where(pk().in(ids)));
     }
@@ -410,6 +413,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param predicate 条件
      * @return 数据列表
      */
+    @Nonnull
     public List<T> list(@Nullable Predicate... predicate) {
         return list(null, null, predicate);
     }
@@ -421,6 +425,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param predicate 条件
      * @return 数据列表
      */
+    @Nonnull
     public List<T> list(@Nullable OrderSpecifier<?> order, @Nullable Predicate... predicate) {
         return list(order, null, predicate);
     }
@@ -433,6 +438,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param predicate 条件
      * @return 数据列表
      */
+    @Nonnull
     public List<T> list(@Nullable OrderSpecifier<?> order, @Nullable Long limit, @Nullable Predicate... predicate) {
         SQLQuery<T> query = sqlQueryFactory.selectFrom(root());
         if (null != predicate && predicate.length > 0) {
@@ -457,6 +463,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param columns   获取的字段
      * @return 数据
      */
+    @Nonnull
     public List<T> listColumns(@Nullable Predicate predicate, @Nullable OrderSpecifier<?> order, @Nonnull Expression<?>... columns) {
         return listColumns(predicate, order, null, columns);
     }
@@ -468,6 +475,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param columns 获取的字段
      * @return 数据
      */
+    @Nonnull
     public List<T> listColumns(@Nullable OrderSpecifier<?> order, @Nonnull Expression<?>... columns) {
         return listColumns(null, order, columns);
     }
@@ -479,6 +487,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param columns   获取的字段
      * @return 数据
      */
+    @Nonnull
     public List<T> listColumns(@Nullable Predicate predicate, @Nonnull Expression<?>... columns) {
         return listColumns(predicate, null, columns);
     }
@@ -489,6 +498,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param columns 获取的字段
      * @return 数据
      */
+    @Nonnull
     public List<T> listColumns(@Nonnull Expression<?>... columns) {
         return listColumns(null, null, columns);
     }
@@ -502,6 +512,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param columns   获取的字段
      * @return 数据
      */
+    @Nonnull
     public List<T> listColumns(@Nullable Predicate predicate, @Nullable OrderSpecifier<?> order, @Nullable Long limit, @Nonnull Expression<?>... columns) {
         Assert.ok("要获取字段不能为空", columns.length > 0);
         SQLQuery<T> query = sqlQueryFactory.select(
@@ -529,6 +540,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param <Col>     字段
      * @return 字段的列表
      */
+    @Nonnull
     public <Col> List<Col> listColumn(@Nonnull Expression<Col> column, @Nullable Predicate... predicate) {
         return listColumn(column, null, null, predicate);
     }
@@ -540,6 +552,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param <Col>  字段
      * @return 字段的列表
      */
+    @Nonnull
     public <Col> List<Col> listColumn(@Nonnull Expression<Col> column) {
         return listColumn(column, null, null, (Predicate[]) null);
     }
@@ -553,6 +566,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param <Col>     字段
      * @return 字段的列表
      */
+    @Nonnull
     public <Col> List<Col> listColumn(@Nonnull Expression<Col> column, @Nullable OrderSpecifier<?> order, @Nullable Predicate... predicate) {
         return listColumn(column, order, null, predicate);
     }
@@ -567,6 +581,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param <Col>     字段
      * @return 字段的列表
      */
+    @Nonnull
     public <Col> List<Col> listColumn(@Nonnull Expression<Col> column, @Nullable OrderSpecifier<?> order, @Nullable Long limit, @Nullable Predicate... predicate) {
         SQLQuery<Col> query = sqlQueryFactory.select(column).from(root());
         if (null != predicate && predicate.length > 0) {
@@ -589,6 +604,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param pageRequest 分页请求
      * @return 分页数据
      */
+    @Nonnull
     public PageResponse<T> page(@Nullable PageRequest pageRequest) {
         return page(pageRequest, (Predicate[]) null);
     }
@@ -600,13 +616,14 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param predicate   条件
      * @return 分页数据
      */
+    @Nonnull
     public PageResponse<T> page(@Nullable PageRequest pageRequest, @Nullable Predicate... predicate) {
         SQLQuery<T> query = sqlQueryFactory.selectFrom(root());
         if (null != predicate && predicate.length > 0) {
             query = query.where(predicate);
         }
         OrderSpecifier[] order = QueryDslUtil.parsePageRequest(pageRequest);
-        if (null != order && order.length > 0) {
+        if (order.length > 0) {
             query = query.orderBy(order);
         } else {
             query = query.orderBy(defaultOrder());
@@ -623,6 +640,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param columns     字段
      * @return 分页的数据
      */
+    @Nonnull
     public PageResponse<T> pageColumns(@Nullable Predicate predicate, @Nullable OrderSpecifier<?> order, @Nullable PageRequest pageRequest, @Nonnull Expression<?>... columns) {
         Assert.ok("查询字段不可为空", columns.length > 0);
         SQLQuery<T> query = sqlQueryFactory.select(Projections.fields(root(), columns)).from(root());
@@ -633,7 +651,7 @@ public abstract class BaseDao<T extends BaseEntity> {
             query = query.orderBy(order);
         } else {
             OrderSpecifier[] orders = QueryDslUtil.parsePageRequest(pageRequest);
-            if (null != orders && orders.length > 0) {
+            if (orders.length > 0) {
                 query = query.orderBy(orders);
             } else {
                 query = query.orderBy(defaultOrder());
@@ -650,6 +668,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param columns     字段
      * @return 分页的数据
      */
+    @Nonnull
     public PageResponse<T> pageColumns(@Nullable Predicate predicate, @Nullable PageRequest pageRequest, @Nonnull Expression<?>... columns) {
         return pageColumns(predicate, null, pageRequest, columns);
     }
@@ -662,6 +681,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param columns     字段
      * @return 分页的数据
      */
+    @Nonnull
     public PageResponse<T> pageColumns(@Nullable OrderSpecifier<?> order, @Nullable PageRequest pageRequest, @Nonnull Expression<?>... columns) {
         return pageColumns(null, order, pageRequest, columns);
     }
@@ -673,6 +693,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param columns     字段
      * @return 分页的数据
      */
+    @Nonnull
     public PageResponse<T> pageColumns(@Nullable PageRequest pageRequest, @Nonnull Expression<?>... columns) {
         return pageColumns(null, null, pageRequest, columns);
     }
@@ -705,6 +726,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      *
      * @return 表
      */
+    @Nonnull
     protected abstract RelationalPath<T> root();
 
     /**
@@ -712,6 +734,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      *
      * @return 主键
      */
+    @Nonnull
     protected NumberPath<Long> pk() {
         return pk;
     }
@@ -726,7 +749,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      *
      * @param entity 实体对象
      */
-    protected void validOnCreate(T entity) {
+    protected void validOnCreate(@Nonnull T entity) {
         valid(entity, ValidOnlyCreate.class, Default.class);
     }
 
@@ -735,7 +758,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      *
      * @param entity 实体对象
      */
-    protected void validRegular(T entity) {
+    protected void validRegular(@Nonnull T entity) {
         valid(entity, Default.class);
     }
 
@@ -769,6 +792,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      *
      * @return 主键倒序
      */
+    @Nonnull
     protected OrderSpecifier defaultOrder() {
         return pk().desc();
     }

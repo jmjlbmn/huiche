@@ -2,6 +2,8 @@ package org.huiche.core.util;
 
 import org.huiche.core.consts.Const;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -24,7 +26,8 @@ public class RequestUtil {
      * @param request 请求
      * @return IP地址
      */
-    public static String getIp(HttpServletRequest request) {
+    @Nullable
+    public static String getIp(@Nonnull HttpServletRequest request) {
         String ipAddress = request.getHeader("x-forwarded-for");
         if (ipAddress == null || ipAddress.length() == 0 || UN_KNOWN.equalsIgnoreCase(ipAddress)) {
             ipAddress = request.getHeader("Proxy-Client-IP");
@@ -56,7 +59,8 @@ public class RequestUtil {
      * @param req 请求
      * @return url
      */
-    public static String getRequestURL(HttpServletRequest req) {
+    @Nonnull
+    public static String getRequestURL(@Nonnull HttpServletRequest req) {
         StringBuilder url = new StringBuilder();
         String scheme = req.getScheme();
         int port = req.getServerPort();

@@ -8,6 +8,9 @@ import org.huiche.core.consts.If;
 import org.huiche.core.enums.ValEnum;
 import org.huiche.core.exception.Assert;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.util.*;
@@ -31,8 +34,9 @@ public class DataUtil {
      * @param <T>    目标类型
      * @return 复制后的对象, 如果src为null, 直接返回target对象
      */
-    public static <S, T> T copy(S source, T target) {
-        return copyProperties(source, target, false, true);
+    @Nonnull
+    public static <S, T> T copy(@Nullable S source, @Nonnull T target) {
+        return copyProperties(source, target, true);
     }
 
     /**
@@ -44,42 +48,27 @@ public class DataUtil {
      * @param <T>    目标类型
      * @return 复制后的对象, 如果src为null, 直接返回target对象
      */
-    public static <S, T> T copyIgnoreNull(S source, T target) {
-        return copyProperties(source, target, false, false);
+    @Nonnull
+    public static <S, T> T copyIgnoreNull(@Nullable S source, @Nonnull T target) {
+        return copyProperties(source, target, false);
     }
 
-    /**
-     * 复制对象属性,包含源对象中值为null的属性
-     *
-     * @param source 源对象
-     * @param target 目标对象
-     * @param <S>    源类型
-     * @param <T>    目标类型
-     * @return 复制后的对象, 如果src为null, 直接返回null
-     */
-    public static <S, T> T copyDftNull(S source, T target) {
-        return copyProperties(source, target, true, true);
-    }
 
     /**
      * 复制属性
      *
      * @param source   源对象
      * @param target   目标对象
-     * @param if2Null  如果源对象为空返回target还是null
      * @param copyNull 是否复制null
      * @param <S>      源类型
      * @param <T>      目标类型
      * @return 复制后的target对象
      */
-    private static <S, T> T copyProperties(S source, T target, boolean if2Null, boolean copyNull) {
+    @Nonnull
+    private static <S, T> T copyProperties(@Nullable S source, @Nonnull T target, boolean copyNull) {
         if (null == source) {
-            log.debug("传入转换对象为空");
-            return if2Null ? null : target;
-        }
-        if (null == target) {
-            log.debug("传入目标对象为空");
-            return null;
+            log.debug("传入转换对象为空,直接返回传入的target");
+            return target;
         }
         Assert.ok("复制集合或数组请使用copyList或copyArray", BaseUtil.isNotListAndArray(source) && BaseUtil.isNotListAndArray(target));
         Map<String, PropertyInfo> sourceMap = ReflectUtil.getPropertyMap(source.getClass());
@@ -91,42 +80,56 @@ public class DataUtil {
                     PropertyInfo targetInfo = targetMap.get(propertyName);
                     Class<?> sourceType = sourceInfo.getField().getType();
                     Class<?> targetType = targetInfo.getField().getType();
-                    Object sourceVal = sourceInfo.getReadMethod().invoke(source);
+                    Method readMethod = sourceInfo.getReadMethod();
+                    Method writeMethod = targetInfo.getWriteMethod();
+                    if (null == readMethod) {
+                        log.warn("[数据复制] {} 的 {} 属性找不到Get方法,将跳过", source.getClass().getSimpleName(), propertyName);
+                        continue;
+                    }
+                    if (null == writeMethod) {
+                        log.warn("[数据复制] {} 的 {} 属性找不到Set方法,将跳过 ", target.getClass().getSimpleName(), propertyName);
+                        continue;
+                    }
+                    Object sourceVal = readMethod.invoke(source);
                     if (null != sourceVal || copyNull) {
                         if (null == sourceVal) {
-                            Object targetVal = targetInfo.getReadMethod().invoke(target);
-                            if (null != targetVal) {
-                                targetInfo.getWriteMethod().invoke(target, (Object) null);
-                                log.warn("[数据复制][复写] {} 的 {} 被复写为 null ,原值为 {}", target.getClass().getSimpleName(), propertyName, targetVal);
+                            Method targetReadMethod = targetInfo.getReadMethod();
+                            if (null != targetReadMethod) {
+                                Object targetVal = targetReadMethod.invoke(target);
+                                if (null != targetVal) {
+                                    writeMethod.invoke(target, (Object) null);
+                                    log.warn("[数据复制][复写] {} 的 {} 被复写为 null ,原值为 {}", target.getClass().getSimpleName(), propertyName, targetVal);
+                                }
                             }
+
                         } else {
                             if (sourceType.equals(targetType) && !Collection.class.isAssignableFrom(targetType)) {
                                 // 类型相同且不是集合,直接赋值
-                                targetInfo.getWriteMethod().invoke(target, sourceVal);
+                                writeMethod.invoke(target, sourceVal);
                             } else if (Boolean.class.equals(sourceType) && Integer.class.equals(targetType)) {
                                 // 原类型Boolean,目标类型Integer
                                 Boolean ok = (Boolean) sourceVal;
-                                targetInfo.getWriteMethod().invoke(target, ok ? If.YES : If.NO);
+                                writeMethod.invoke(target, ok ? If.YES : If.NO);
                             } else if (Integer.class.equals(sourceType) && Boolean.class.equals(targetType)) {
                                 // 原类型Integer,目标类型Boolean
                                 Integer val = (Integer) sourceVal;
-                                targetInfo.getWriteMethod().invoke(target, BaseUtil.equals(If.YES, val));
+                                writeMethod.invoke(target, BaseUtil.equals(If.YES, val));
                             } else if (BigDecimal.class.equals(sourceType) && Double.class.equals(targetType)) {
                                 // 原类型BigDecimal,目标类型Double
                                 BigDecimal val = (BigDecimal) sourceVal;
-                                targetInfo.getWriteMethod().invoke(target, val.doubleValue());
+                                writeMethod.invoke(target, val.doubleValue());
                             } else if (Double.class.equals(sourceType) && BigDecimal.class.equals(targetType)) {
                                 // 原类型Double,目标类型BigDecimal
                                 Double val = Double.class.cast(sourceVal);
-                                targetInfo.getWriteMethod().invoke(target, new BigDecimal(val));
+                                writeMethod.invoke(target, new BigDecimal(val));
                             } else if (sourceType.isEnum() && Integer.class.equals(targetType)) {
                                 //原类型枚举,目标类型Integer
                                 if (ValEnum.class.isAssignableFrom(sourceType)) {
                                     ValEnum valEnum = (ValEnum) sourceVal;
-                                    targetInfo.getWriteMethod().invoke(target, valEnum.val());
+                                    writeMethod.invoke(target, valEnum.val());
                                 } else {
                                     Enum valEnum = (Enum) sourceVal;
-                                    targetInfo.getWriteMethod().invoke(target, valEnum.ordinal());
+                                    writeMethod.invoke(target, valEnum.ordinal());
                                     log.warn("[数据复制][警告] 源对象 {} 的 {} 是枚举类型 {},而目标对象 {} 的 {} 是Integer 现在根据ordinal赋值,极有可能不准确,请调整让枚举实现ValEnum接口或手动赋值",
                                             source.getClass().getSimpleName(),
                                             propertyName,
@@ -140,7 +143,7 @@ public class DataUtil {
                                     for (Object object : targetType.getEnumConstants()) {
                                         ValEnum valEnum = (ValEnum) object;
                                         if (BaseUtil.equals(valEnum.val(), sourceVal)) {
-                                            targetInfo.getWriteMethod().invoke(target, valEnum);
+                                            writeMethod.invoke(target, valEnum);
                                             break;
                                         }
                                     }
@@ -154,7 +157,7 @@ public class DataUtil {
                                     for (Object object : targetType.getEnumConstants()) {
                                         Enum valEnum = (Enum) object;
                                         if (BaseUtil.equals(valEnum.ordinal(), sourceVal)) {
-                                            targetInfo.getWriteMethod().invoke(target, valEnum);
+                                            writeMethod.invoke(target, valEnum);
                                             break;
                                         }
                                     }
@@ -166,7 +169,7 @@ public class DataUtil {
                                 for (Object oItem : targetType.getEnumConstants()) {
                                     Enum item = (Enum) oItem;
                                     if (item.name().equals(enumVal.name())) {
-                                        targetInfo.getWriteMethod().invoke(target, item);
+                                        writeMethod.invoke(target, item);
                                         break;
                                     }
                                 }
@@ -176,7 +179,7 @@ public class DataUtil {
                                     Type sourceItemType = ReflectUtil.getActualType(sourceInfo.getField());
                                     if (null != targetItemType && null != sourceItemType) {
                                         if (targetItemType.equals(sourceItemType)) {
-                                            targetInfo.getWriteMethod().invoke(target, sourceVal);
+                                            writeMethod.invoke(target, sourceVal);
                                             List<Object> list = new ArrayList<>();
                                             if (sourceType.isArray()) {
                                                 list.addAll(Arrays.asList((Object[]) sourceVal));
@@ -191,22 +194,22 @@ public class DataUtil {
                                                         propertyName,
                                                         targetType.getName());
                                             }
-                                            targetInfo.getWriteMethod().invoke(target, list);
+                                            writeMethod.invoke(target, list);
                                         } else {
                                             Class<?> targetItemClass = (Class<?>) targetItemType;
                                             Class<?> sourceItemClass = (Class<?>) sourceItemType;
                                             if (targetItemClass.isPrimitive() || sourceItemClass.isPrimitive()) {
-                                                targetInfo.getWriteMethod().invoke(target, targetItemClass.cast(sourceVal));
+                                                writeMethod.invoke(target, targetItemClass.cast(sourceVal));
                                             } else {
                                                 List<Object> list = new ArrayList<>();
                                                 if (sourceType.isArray()) {
                                                     for (Object item : (Object[]) sourceVal) {
-                                                        list.add(copyProperties(item, targetItemClass.newInstance(), if2Null, copyNull));
+                                                        list.add(copyProperties(item, targetItemClass.newInstance(), copyNull));
                                                     }
                                                 } else if (Collection.class.isAssignableFrom(sourceType)) {
                                                     Collection collection = ((Collection) sourceVal);
                                                     for (Object item : collection) {
-                                                        list.add(copyProperties(item, targetItemClass.newInstance(), if2Null, copyNull));
+                                                        list.add(copyProperties(item, targetItemClass.newInstance(), copyNull));
                                                     }
 
                                                 } else {
@@ -218,7 +221,7 @@ public class DataUtil {
                                                             propertyName,
                                                             targetType.getName());
                                                 }
-                                                targetInfo.getWriteMethod().invoke(target, list);
+                                                writeMethod.invoke(target, list);
                                             }
                                         }
                                     }
@@ -234,7 +237,7 @@ public class DataUtil {
                                 }
                             } else {
                                 try {
-                                    copyProperties(sourceVal, targetType.newInstance(), if2Null, copyNull);
+                                    copyProperties(sourceVal, targetType.newInstance(), copyNull);
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                     log.warn("[数据复制][跳过] {} 的 {}({}) 与 {} 的 {}({}) 类型不一致,跳过复制,如需要赋值请手动赋值",
@@ -271,7 +274,8 @@ public class DataUtil {
      * @param <T>    目标类型
      * @return 目标数据集合
      */
-    public static <S, T> List<T> copyList(Collection<S> source, Copy<S, T> copy) {
+    @Nonnull
+    public static <S, T> List<T> copyList(@Nullable Collection<S> source, @Nonnull Copy<S, T> copy) {
         List<T> target = new ArrayList<>();
         if (BaseUtil.isEmpty(source)) {
             return target;
@@ -291,7 +295,8 @@ public class DataUtil {
      * @param <T>    目标类型
      * @return 目标数据集合
      */
-    public static <S, T> List<T> copyArray2List(S[] source, Copy<S, T> copy) {
+    @Nonnull
+    public static <S, T> List<T> copyArray2List(@Nonnull S[] source, @Nonnull Copy<S, T> copy) {
         List<T> target = new ArrayList<>();
         if (BaseUtil.isEmpty((Object[]) source)) {
             return target;
@@ -309,9 +314,10 @@ public class DataUtil {
      * @param <T> 类
      * @return 集合
      */
-    public static <T> List<T> arr2List(T[] t) {
+    @Nonnull
+    public static <T> List<T> arr2List(@Nonnull T[] t) {
         List<T> list = new ArrayList<>();
-        if (null != t && t.length > 0) {
+        if (t.length > 0) {
             list = Arrays.asList(t);
         }
         return list;
@@ -325,8 +331,9 @@ public class DataUtil {
      * @param <T>    对象类
      * @return 随机对象
      */
-    public static <T> List<T> randomList(List<T> list, Integer length) {
-        if (null != length && null != list && list.size() > 0) {
+    @Nonnull
+    public static <T> List<T> randomList(@Nonnull List<T> list, int length) {
+        if (list.size() > 0) {
             int size = list.size();
             if (length >= size) {
                 return list;
@@ -349,7 +356,8 @@ public class DataUtil {
      * @param <T>  对象类
      * @return 去重后的集合
      */
-    public static <T> List<T> distinctList(List<T> list) {
+    @Nonnull
+    public static <T> List<T> distinctList(@Nonnull List<T> list) {
         if (BaseUtil.isNotEmpty(list)) {
             List<T> newList = new ArrayList<>();
             Set<T> set = new TreeSet<>();
@@ -379,6 +387,7 @@ public class DataUtil {
          * @param item 对象
          * @return 复制后的对象
          */
-        T copy(S item);
+        @Nullable
+        T copy(@Nullable S item);
     }
 }

@@ -3,8 +3,11 @@ package org.huiche.core.web.api;
 import org.huiche.core.web.response.BaseResult;
 import org.huiche.core.util.ResultUtil;
 
+import javax.annotation.Nonnull;
+
 /**
  * 基础Api
+ *
  * @author Maning
  */
 public interface Api {
@@ -15,7 +18,7 @@ public interface Api {
      * @param <J> 数据类型
      * @return 数据
      */
-    default <J> BaseResult<J> ok(J j) {
+    default <J> BaseResult<J> ok(@Nonnull J j) {
         return ResultUtil.ok(j);
     }
 

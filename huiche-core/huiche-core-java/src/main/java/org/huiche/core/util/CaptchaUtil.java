@@ -3,6 +3,7 @@ package org.huiche.core.util;
 import lombok.experimental.UtilityClass;
 import org.huiche.core.exception.Assert;
 
+import javax.annotation.Nonnull;
 import java.util.Random;
 
 /**
@@ -12,6 +13,12 @@ import java.util.Random;
  */
 @UtilityClass
 public class CaptchaUtil {
+    /**
+     * 获取六位随机验证码
+     *
+     * @return 随机验证码
+     */
+    @Nonnull
     public static String getNumber() {
         return getNumber(6);
     }
@@ -22,6 +29,7 @@ public class CaptchaUtil {
      * @param size 长度
      * @return 验证码
      */
+    @Nonnull
     public static String getNumber(int size) {
         Assert.ok("长度应在1-16位之间", size > 0 && size <= 16);
         String result = "000000000000000" + new Random().nextInt((int) Math.pow(10, size));

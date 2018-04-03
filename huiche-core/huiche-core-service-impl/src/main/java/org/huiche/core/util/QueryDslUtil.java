@@ -32,6 +32,7 @@ public class QueryDslUtil {
      * @param <T>         类型
      * @return 数据
      */
+    @Nonnull
     public static <T> PageResponse<T> page(@Nullable PageRequest pageRequest, @Nonnull SQLQuery<T> query) {
         if (null == pageRequest) {
             pageRequest = PageRequest.dft();
@@ -52,6 +53,7 @@ public class QueryDslUtil {
      * @param <T>   类型
      * @return 数据
      */
+    @Nonnull
     public static <T> List<T> list(@Nonnull SQLQuery<T> query) {
         return query.fetch();
     }
@@ -73,6 +75,7 @@ public class QueryDslUtil {
      * @param <T>   类型
      * @return 数据
      */
+    @Nullable
     public static <T> T one(@Nonnull SQLQuery<T> query) {
         return query.fetchFirst();
     }
@@ -84,6 +87,7 @@ public class QueryDslUtil {
      * @param exclude 排除列
      * @return 排除后的列表
      */
+    @Nonnull
     public static Path<?>[] pathExclude(@Nonnull List<Path<?>> columns, @Nonnull Path<?>... exclude) {
         if (exclude.length > 0) {
             List<Path<?>> excludeList = Arrays.asList(exclude);
@@ -98,6 +102,7 @@ public class QueryDslUtil {
      * @param request 分页请求
      * @return 条件
      */
+    @Nonnull
     public static OrderSpecifier[] parsePageRequest(@Nullable PageRequest request) {
         if (null != request) {
             String sort = request.getSort();
@@ -127,6 +132,7 @@ public class QueryDslUtil {
      * @param request   分页请求
      * @return 条件
      */
+    @Nonnull
     public static OrderSpecifier[] parsePageRequest(@Nullable PageRequest request, @Nonnull Map<String, Expression<? extends Comparable>> columnMap) {
         if (null != request && !columnMap.isEmpty()) {
             String sort = request.getSort();
@@ -159,6 +165,7 @@ public class QueryDslUtil {
      * @param orderStr 正序倒序
      * @return 排序
      */
+    @Nonnull
     private static OrderSpecifier<?> parseOrder(@Nonnull String sortStr, @Nonnull String orderStr) {
         String fieldName = StringUtil.toDb(sortStr);
         ComparablePath<? extends Comparable> path = Expressions.comparablePath(Comparable.class, fieldName);

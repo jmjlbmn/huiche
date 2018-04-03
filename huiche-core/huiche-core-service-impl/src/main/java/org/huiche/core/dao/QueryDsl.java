@@ -12,6 +12,7 @@ import com.querydsl.sql.types.Null;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
 
@@ -106,7 +107,7 @@ public class QueryDsl {
         });
     }
 
-    public static void logSql(QueryMetadata md, SQLSerializer serializer) {
+    public static void logSql(@Nonnull QueryMetadata md, @Nonnull SQLSerializer serializer) {
         ImmutableList.Builder<Object> args = ImmutableList.builder();
         Map<ParamExpression<?>, Object> params = md.getParams();
         for (Object o : serializer.getConstants()) {

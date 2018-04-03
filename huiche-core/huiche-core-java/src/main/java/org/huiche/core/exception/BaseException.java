@@ -3,6 +3,8 @@ package org.huiche.core.exception;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.annotation.Nonnull;
+
 /**
  * 基础异常
  *
@@ -14,30 +16,32 @@ public class BaseException extends RuntimeException {
     /**
      * 错误代码
      */
-    private Integer code;
+    private int code;
     /**
      * 错误信息描述
      */
     private String msg;
 
 
-    public BaseException(BaseError e, String msg) {
+    public BaseException(@Nonnull BaseError e, @Nonnull String msg) {
         super();
         this.code = e.code();
         this.msg = msg;
     }
 
-    public BaseException(BaseError e) {
+    public BaseException(@Nonnull BaseError e) {
         super();
         this.msg = e.msg();
         this.code = e.code();
     }
 
-    public static BaseException error(String errorMsg) {
+    @Nonnull
+    public static BaseException error(@Nonnull String errorMsg) {
         return new BaseException(SystemError.ERROR, errorMsg);
     }
 
-    public static BaseException fail(String failMsg) {
+    @Nonnull
+    public static BaseException fail(@Nonnull String failMsg) {
         return new BaseException(SystemError.FAIL, failMsg);
     }
 

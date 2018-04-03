@@ -3,6 +3,8 @@ package org.huiche.core.util;
 import lombok.experimental.UtilityClass;
 import org.huiche.core.enums.ValEnum;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Objects;
 
 /**
@@ -21,7 +23,8 @@ public class EnumUtil {
      * @param <T>      目标枚举
      * @return 转换后的枚举类型
      */
-    public static <S extends Enum<S>, T extends Enum<T>> T turn(S instance, Class<T> target) {
+    @Nullable
+    public static <S extends Enum<S>, T extends Enum<T>> T turn(@Nullable S instance, @Nonnull Class<T> target) {
         if (null != instance) {
             for (T t : target.getEnumConstants()) {
                 if (instance.name().equals(t.name())) {
@@ -34,13 +37,15 @@ public class EnumUtil {
 
     /**
      * 值转枚举
-     * @param val 值
+     *
+     * @param val       值
      * @param enumClazz 枚举类
-     * @param <T> 枚举类型
+     * @param <T>       枚举类型
      * @return 枚举
      */
-    public static <T extends Enum<T> & ValEnum> T of(Integer val, Class<T> enumClazz) {
-        if (null != val && null != enumClazz) {
+    @Nullable
+    public static <T extends Enum<T> & ValEnum> T of(@Nullable Integer val, @Nonnull Class<T> enumClazz) {
+        if (null != val) {
             for (T t : enumClazz.getEnumConstants()) {
                 if (Objects.equals(t.val(), val)) {
                     return t;

@@ -3,6 +3,8 @@ package org.huiche.core.util;
 import lombok.experimental.UtilityClass;
 import org.huiche.core.consts.Const;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
@@ -26,6 +28,7 @@ public class FileUtil {
      *
      * @return 文件名称
      */
+    @Nonnull
     public static String getRandomName() {
         return DateUtil.now("yyyyMMddHHmmssSSS") + new Random().nextInt(1000);
     }
@@ -36,6 +39,7 @@ public class FileUtil {
      * @param size 字节长度
      * @return 大小描述
      */
+    @Nonnull
     public static String getFileSize(long size) {
         DecimalFormat df = new DecimalFormat("#.00");
         if (size < Const.FILE_SCALE) {
@@ -50,13 +54,13 @@ public class FileUtil {
     }
 
     /**
-     * ba保存文件
+     * 保存文件
      *
      * @param path  路径
      * @param bytes 文件字节数组
      * @return 是否存储成功
      */
-    public static boolean saveFile(String path, byte[] bytes) {
+    public static boolean saveFile(@Nonnull String path, @Nonnull byte[] bytes) {
         if (bytes.length > Const.FILE_SCALE * Const.FILE_SCALE * NIO_LIMIT) {
             return saveFileNIO(path, bytes);
         } else {
@@ -71,7 +75,7 @@ public class FileUtil {
      * @param bytes 字节数组
      * @return 是否存储成功
      */
-    public static boolean saveFileIO(String path, byte[] bytes) {
+    public static boolean saveFileIO(@Nonnull String path, @Nonnull byte[] bytes) {
         File file = new File(path);
         try (FileOutputStream fileOutputStream = new FileOutputStream(file);
              BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(fileOutputStream)) {
@@ -90,7 +94,7 @@ public class FileUtil {
      * @param bytes 字节数组
      * @return 是否存储成功
      */
-    public static boolean saveFileNIO(String path, byte[] bytes) {
+    public static boolean saveFileNIO(@Nonnull String path, @Nonnull byte[] bytes) {
         File file = new File(path);
         try (FileOutputStream fileOutputStream = new FileOutputStream(file);
              FileChannel fileChannel = fileOutputStream.getChannel()) {
@@ -111,7 +115,7 @@ public class FileUtil {
      *
      * @param path 路径
      */
-    public static void createFile(String path) {
+    public static void createFile(@Nonnull String path) {
         File file = new File(path.substring(0, path.lastIndexOf("/")));
         if (!file.exists()) {
             try {
@@ -129,7 +133,8 @@ public class FileUtil {
      * @param file 文件
      * @return 字节数组
      */
-    public static byte[] file2Bytes(File file) {
+    @Nonnull
+    public static byte[] file2Bytes(@Nullable File file) {
         if (null == file || !file.exists()) {
             return new byte[]{};
         }
@@ -158,7 +163,8 @@ public class FileUtil {
      * @param path 文件路径
      * @return 字节数组
      */
-    public static byte[] file2Bytes(String path) {
+    @Nonnull
+    public static byte[] file2Bytes(@Nonnull String path) {
         return file2Bytes(new File(path));
     }
 
@@ -168,7 +174,8 @@ public class FileUtil {
      * @param filePath 文件路径
      * @return ContentType
      */
-    public static String getContentType(String filePath) {
+    @Nullable
+    public static String getContentType(@Nonnull String filePath) {
         String type = null;
         try {
             type = Files.probeContentType(Paths.get(filePath));
@@ -184,7 +191,7 @@ public class FileUtil {
      * @param dir      路径
      * @param fileList 文件列表
      */
-    public static void fetchFileList(File dir, List<File> fileList) {
+    public static void fetchFileList(@Nonnull File dir, @Nonnull List<File> fileList) {
         if (dir.isDirectory()) {
             File[] list = dir.listFiles();
             if (null != list) {

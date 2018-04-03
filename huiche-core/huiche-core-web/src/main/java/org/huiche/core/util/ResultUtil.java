@@ -6,6 +6,9 @@ import org.huiche.core.exception.BaseException;
 import org.huiche.core.exception.SystemError;
 import org.huiche.core.web.response.BaseResult;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 /**
  * 响应返回数据结果工具
  *
@@ -30,7 +33,7 @@ public class ResultUtil {
      * @param <T>  数据类型
      * @return 结果
      */
-    public static <T> BaseResult<T> ok(T data) {
+    public static <T> BaseResult<T> ok(@Nonnull T data) {
         BaseResult<T> baseResult = new BaseResult<>();
         baseResult.setCode(SystemError.OK.code());
         baseResult.setData(data);
@@ -52,7 +55,7 @@ public class ResultUtil {
      * @param msg 错误消息
      * @return 结果
      */
-    public static BaseResult fail(String msg) {
+    public static BaseResult fail(@Nonnull String msg) {
         return fail(SystemError.FAIL, msg);
     }
 
@@ -62,7 +65,7 @@ public class ResultUtil {
      * @param e 错误对象
      * @return 结果
      */
-    public static BaseResult fail(BaseError e) {
+    public static BaseResult fail(@Nonnull BaseError e) {
         return fail(e.code(), e.msg());
     }
 
@@ -72,7 +75,7 @@ public class ResultUtil {
      * @param e 异常
      * @return 结果
      */
-    public static BaseResult fail(BaseException e) {
+    public static BaseResult fail(@Nonnull BaseException e) {
         return fail(e.getCode(), e.getMsg());
     }
 
@@ -83,7 +86,7 @@ public class ResultUtil {
      * @param msg  错误消息
      * @return 结果
      */
-    public static BaseResult fail(Integer code, String msg) {
+    public static BaseResult fail(@Nonnull Integer code, @Nullable String msg) {
         BaseResult baseResult = new BaseResult();
         baseResult.setCode(code);
         baseResult.setMsg(msg);
@@ -97,7 +100,7 @@ public class ResultUtil {
      * @param msg 错误消息
      * @return 结果
      */
-    public static BaseResult fail(BaseError e, String msg) {
+    public static BaseResult fail(@Nonnull BaseError e, @Nonnull String msg) {
         return fail(e.code(), msg);
     }
 }

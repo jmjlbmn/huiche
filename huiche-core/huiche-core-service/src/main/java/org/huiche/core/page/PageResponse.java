@@ -1,5 +1,10 @@
 package org.huiche.core.page;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.Accessors;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +14,10 @@ import java.util.List;
  * @param <T> 类型
  * @author Maning
  */
+@Getter
+@Setter
+@Accessors(chain = true)
+@ToString
 public class PageResponse<T> {
     /**
      * 总条数
@@ -18,24 +27,6 @@ public class PageResponse<T> {
      * 数据List
      */
     private List<T> rows = new ArrayList<>();
-
-    public PageResponse<T> setTotal(Long total) {
-        this.total = total;
-        return this;
-    }
-
-    public PageResponse<T> setRows(List<T> rows) {
-        this.rows = rows;
-        return this;
-    }
-
-    public Long getTotal() {
-        return total;
-    }
-
-    public List<T> getRows() {
-        return rows;
-    }
 
     public PageResponse() {
     }

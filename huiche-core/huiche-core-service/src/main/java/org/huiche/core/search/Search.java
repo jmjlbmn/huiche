@@ -3,6 +3,8 @@ package org.huiche.core.search;
 
 import com.querydsl.core.types.Predicate;
 
+import javax.annotation.Nullable;
+
 /**
  * 筛选接口
  *
@@ -15,6 +17,7 @@ public interface Search {
      *
      * @return 检索条件
      */
+    @Nullable
     default Predicate get() {
         return SearchUtil.of(this);
     }

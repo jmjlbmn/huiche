@@ -3,6 +3,8 @@ package org.huiche.extra.codegen.querydsl;
 import com.querydsl.codegen.BeanSerializer;
 import com.querydsl.sql.codegen.MetaDataExporter;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -31,7 +33,8 @@ public class CodeGenQueryDsl {
      * @param exporterPath 生成文件的导出路径
      * @return 生成器
      */
-    public static CodeGenQueryDsl init(String jdbcUrl, String user, String password, String exporterPath) {
+    @Nonnull
+    public static CodeGenQueryDsl init(@Nonnull String jdbcUrl, @Nonnull String user, @Nonnull String password, @Nonnull String exporterPath) {
         initDriver(jdbcUrl);
         CodeGenQueryDsl codeGenQueryDsl = new CodeGenQueryDsl();
         codeGenQueryDsl.jdbcUrl = jdbcUrl;
@@ -53,7 +56,7 @@ public class CodeGenQueryDsl {
      *
      * @param packageName 包名
      */
-    public void exportTable(String packageName) {
+    public void exportTable(@Nullable String packageName) {
         try (Connection conn = DriverManager.getConnection(jdbcUrl, user, password)) {
             MetaDataExporter exporter = new MetaDataExporter();
             exporter.setPackageName(null == packageName ? "table" : packageName);
@@ -80,7 +83,7 @@ public class CodeGenQueryDsl {
      *
      * @param packageName 包名
      */
-    public void exportView(String packageName) {
+    public void exportView(@Nullable String packageName) {
         try (Connection conn = DriverManager.getConnection(jdbcUrl, user, password)) {
             MetaDataExporter exporter = new MetaDataExporter();
             exporter.setPackageName(null == packageName ? "view" : packageName);
@@ -98,7 +101,7 @@ public class CodeGenQueryDsl {
      *
      * @param url JDBC_URL
      */
-    private static void initDriver(String url) {
+    private static void initDriver(@Nonnull String url) {
         if (url.startsWith(Sql.MY_SQL)) {
             try {
                 Class.forName("com.mysql.jdbc.Driver");

@@ -4,6 +4,7 @@ package org.huiche.extra.sql.builder;
 import org.huiche.extra.sql.builder.sql.Mysql;
 import org.huiche.extra.sql.builder.sql.Sql;
 
+import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public enum DataBase {
     private final String prefix;
     private final List<String> driverClass;
 
-    DataBase(Sql sql, String prefix, List<String> driverClass) {
+    DataBase(@Nonnull Sql sql, @Nonnull String prefix, @Nonnull List<String> driverClass) {
         this.sql = sql;
         this.prefix = prefix;
         this.driverClass = driverClass;
@@ -34,10 +35,8 @@ public enum DataBase {
      * @param url JDBC URL
      * @return 数据库
      */
-    public static DataBase init(String url) {
-        if (null == url) {
-            throw new RuntimeException("传入JDBC URL不能为null");
-        }
+    @Nonnull
+    public static DataBase init(@Nonnull String url) {
         DataBase dataBase = null;
         for (DataBase db : DataBase.values()) {
             if (url.startsWith(db.prefix)) {
@@ -63,7 +62,6 @@ public enum DataBase {
         }
         return dataBase;
     }
-
     public Sql sql() {
         return sql;
     }
