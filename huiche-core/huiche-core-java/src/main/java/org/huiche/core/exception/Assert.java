@@ -158,7 +158,7 @@ public class Assert {
      */
     @Contract(value = "_,null->fail", pure = true)
     public static void notNull(@Nonnull BaseError error, @Nullable Object obj) {
-        if (null == obj || BaseUtil.isEmpty(obj)) {
+        if (BaseUtil.isEmpty(obj)) {
             throw new BaseException(error);
         }
     }
@@ -173,10 +173,10 @@ public class Assert {
      */
     @Contract(value = "_,null,_->fail;_,_,null->fail", pure = true)
     public static void notNull(@Nonnull BaseError error, @Nullable Object obj1, @Nullable Object obj2) {
-        if (null == obj1 || BaseUtil.isEmpty(obj1)) {
+        if (BaseUtil.isEmpty(obj1)) {
             throw new BaseException(error);
         }
-        if (null == obj2 || BaseUtil.isEmpty(obj2)) {
+        if (BaseUtil.isEmpty(obj2)) {
             throw new BaseException(error);
         }
     }
@@ -192,13 +192,13 @@ public class Assert {
      */
     @Contract(value = "_,null,_,_->fail;_,_,null,_->fail;_,_,_,null->fail", pure = true)
     public static void notNull(@Nonnull BaseError error, @Nullable Object obj1, @Nullable Object obj2, @Nullable Object obj3) {
-        if (null == obj1 || BaseUtil.isEmpty(obj1)) {
+        if (BaseUtil.isEmpty(obj1)) {
             throw new BaseException(error);
         }
-        if (null == obj2 || BaseUtil.isEmpty(obj2)) {
+        if (BaseUtil.isEmpty(obj2)) {
             throw new BaseException(error);
         }
-        if (null == obj3 || BaseUtil.isEmpty(obj3)) {
+        if (BaseUtil.isEmpty(obj3)) {
             throw new BaseException(error);
         }
     }
@@ -215,16 +215,16 @@ public class Assert {
      */
     @Contract(value = "_,null,_,_,_->fail;_,_,null,_,_->fail;_,_,_,null,_->fail;_,_,_,_,null->fail", pure = true)
     public static void notNull(@Nonnull BaseError error, @Nullable Object obj1, @Nullable Object obj2, @Nullable Object obj3, @Nullable Object obj4) {
-        if (null == obj1 || BaseUtil.isEmpty(obj1)) {
+        if (BaseUtil.isEmpty(obj1)) {
             throw new BaseException(error);
         }
-        if (null == obj2 || BaseUtil.isEmpty(obj2)) {
+        if (BaseUtil.isEmpty(obj2)) {
             throw new BaseException(error);
         }
-        if (null == obj3 || BaseUtil.isEmpty(obj3)) {
+        if (BaseUtil.isEmpty(obj3)) {
             throw new BaseException(error);
         }
-        if (null == obj4 || BaseUtil.isEmpty(obj4)) {
+        if (BaseUtil.isEmpty(obj4)) {
             throw new BaseException(error);
         }
     }
@@ -242,19 +242,19 @@ public class Assert {
      */
     @Contract(value = "_,null,_,_,_,_->fail;_,_,null,_,_,_->fail;_,_,_,null,_,_->fail;_,_,_,_,null,_->fail;_,_,_,_,_,null->fail", pure = true)
     public static void notNull(@Nonnull BaseError error, @Nullable Object obj1, @Nullable Object obj2, @Nullable Object obj3, @Nullable Object obj4, @Nullable Object obj5) {
-        if (null == obj1 || BaseUtil.isEmpty(obj1)) {
+        if (BaseUtil.isEmpty(obj1)) {
             throw new BaseException(error);
         }
-        if (null == obj2 || BaseUtil.isEmpty(obj2)) {
+        if (BaseUtil.isEmpty(obj2)) {
             throw new BaseException(error);
         }
-        if (null == obj3 || BaseUtil.isEmpty(obj3)) {
+        if (BaseUtil.isEmpty(obj3)) {
             throw new BaseException(error);
         }
-        if (null == obj4 || BaseUtil.isEmpty(obj4)) {
+        if (BaseUtil.isEmpty(obj4)) {
             throw new BaseException(error);
         }
-        if (null == obj5 || BaseUtil.isEmpty(obj5)) {
+        if (BaseUtil.isEmpty(obj5)) {
             throw new BaseException(error);
         }
     }
@@ -286,7 +286,7 @@ public class Assert {
      */
     @Contract("_, null -> fail")
     public static void notNull(@Nonnull String msg, @Nullable Object obj) {
-        if (null == obj || BaseUtil.isEmpty(obj)) {
+        if (BaseUtil.isEmpty(obj)) {
             throw BaseException.fail(msg);
         }
     }
@@ -301,10 +301,10 @@ public class Assert {
      */
     @Contract("_, null,_ -> fail;_, _,null -> fail")
     public static void notNull(@Nonnull String msg, @Nullable Object obj1, @Nullable Object obj2) {
-        if (null == obj1 || BaseUtil.isEmpty(obj1)) {
+        if (BaseUtil.isEmpty(obj1)) {
             throw BaseException.fail(msg);
         }
-        if (null == obj2 || BaseUtil.isEmpty(obj2)) {
+        if (BaseUtil.isEmpty(obj2)) {
             throw BaseException.fail(msg);
         }
     }
@@ -320,13 +320,13 @@ public class Assert {
      */
     @Contract("_, null,_,_ -> fail;_, _,null,_ -> fail;_, _,_,null -> fail")
     public static void notNull(@Nonnull String msg, @Nullable Object obj1, @Nullable Object obj2, @Nullable Object obj3) {
-        if (null == obj1 || BaseUtil.isEmpty(obj1)) {
+        if (BaseUtil.isEmpty(obj1)) {
             throw BaseException.fail(msg);
         }
-        if (null == obj2 || BaseUtil.isEmpty(obj2)) {
+        if (BaseUtil.isEmpty(obj2)) {
             throw BaseException.fail(msg);
         }
-        if (null == obj3 || BaseUtil.isEmpty(obj3)) {
+        if (BaseUtil.isEmpty(obj3)) {
             throw BaseException.fail(msg);
         }
     }
@@ -343,16 +343,16 @@ public class Assert {
      */
     @Contract(value = "_,null,_,_,_->fail;_,_,null,_,_->fail;_,_,_,null,_->fail;_,_,_,_,null->fail", pure = true)
     public static void notNull(@Nonnull String msg, @Nullable Object obj1, @Nullable Object obj2, @Nullable Object obj3, @Nullable Object obj4) {
-        if (null == obj1 || BaseUtil.isEmpty(obj1)) {
+        if (BaseUtil.isEmpty(obj1)) {
             throw BaseException.fail(msg);
         }
-        if (null == obj2 || BaseUtil.isEmpty(obj2)) {
+        if (BaseUtil.isEmpty(obj2)) {
             throw BaseException.fail(msg);
         }
-        if (null == obj3 || BaseUtil.isEmpty(obj3)) {
+        if (BaseUtil.isEmpty(obj3)) {
             throw BaseException.fail(msg);
         }
-        if (null == obj4 || BaseUtil.isEmpty(obj4)) {
+        if (BaseUtil.isEmpty(obj4)) {
             throw BaseException.fail(msg);
         }
     }
@@ -370,19 +370,19 @@ public class Assert {
      */
     @Contract(value = "_,null,_,_,_,_->fail;_,_,null,_,_,_->fail;_,_,_,null,_,_->fail;_,_,_,_,null,_->fail;_,_,_,_,_,null->fail", pure = true)
     public static void notNull(@Nonnull String msg, @Nullable Object obj1, @Nullable Object obj2, @Nullable Object obj3, @Nullable Object obj4, @Nullable Object obj5) {
-        if (null == obj1 || BaseUtil.isEmpty(obj1)) {
+        if (BaseUtil.isEmpty(obj1)) {
             throw BaseException.fail(msg);
         }
-        if (null == obj2 || BaseUtil.isEmpty(obj2)) {
+        if (BaseUtil.isEmpty(obj2)) {
             throw BaseException.fail(msg);
         }
-        if (null == obj3 || BaseUtil.isEmpty(obj3)) {
+        if (BaseUtil.isEmpty(obj3)) {
             throw BaseException.fail(msg);
         }
-        if (null == obj4 || BaseUtil.isEmpty(obj4)) {
+        if (BaseUtil.isEmpty(obj4)) {
             throw BaseException.fail(msg);
         }
-        if (null == obj5 || BaseUtil.isEmpty(obj5)) {
+        if (BaseUtil.isEmpty(obj5)) {
             throw BaseException.fail(msg);
         }
     }
