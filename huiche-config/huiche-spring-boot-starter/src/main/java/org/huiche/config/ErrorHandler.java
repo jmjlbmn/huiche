@@ -1,6 +1,7 @@
 package org.huiche.config;
 
 import org.huiche.core.exception.BaseException;
+import org.huiche.core.log.ErrorLog;
 import org.huiche.core.util.ResultUtil;
 import org.huiche.core.web.response.BaseResult;
 import org.springframework.beans.ConversionNotSupportedException;
@@ -45,6 +46,7 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(BaseException.class)
     @ResponseBody
     public BaseResult handleException(BaseException e) {
+        ErrorLog.error(e);
         return ResultUtil.fail(e.getCode(), e.getMsg());
     }
 
@@ -58,7 +60,7 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
     @ResponseBody
     public BaseResult handleException(Exception e) {
         String msg = e.getLocalizedMessage();
-        e.printStackTrace();
+        ErrorLog.error(e);
         return ResultUtil.fail("系统错误" + (null == msg ? "" : ": " + msg));
     }
 
