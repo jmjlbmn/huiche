@@ -1,16 +1,21 @@
 package org.huiche.core.web.controller;
 
 import org.huiche.core.entity.BaseEntity;
+import org.huiche.core.exception.Assert;
+import org.huiche.core.exception.SystemError;
 import org.huiche.core.web.ServiceProvider;
 import org.huiche.core.web.response.BaseResult;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * 传统Post风格增删改查控制器
  *
  * @author Maning
  */
-public abstract class BaseCrudController<T extends BaseEntity> extends BaseController implements ServiceProvider<T> {
+public abstract class BaseCrudController<T extends BaseEntity<T>> extends BaseController implements ServiceProvider<T> {
 
     /**
      * 获取一条数据
@@ -19,7 +24,8 @@ public abstract class BaseCrudController<T extends BaseEntity> extends BaseContr
      * @return 数据
      */
     @PostMapping("get")
-    public BaseResult<T> get(Long id) {
+    public BaseResult<T> get(@Nullable Long id) {
+        Assert.notNull(SystemError.NOT_NULL, id);
         return ok(service().get(id));
     }
 
@@ -30,7 +36,7 @@ public abstract class BaseCrudController<T extends BaseEntity> extends BaseContr
      * @return ID
      */
     @PostMapping("save")
-    public BaseResult<Long> save(T entity) {
+    public BaseResult<Long> save(@Nonnull T entity) {
         return ok(service().save(entity));
     }
 
@@ -41,7 +47,8 @@ public abstract class BaseCrudController<T extends BaseEntity> extends BaseContr
      * @return 成功
      */
     @PostMapping("del")
-    public BaseResult del(Long id) {
+    public BaseResult del(@Nullable Long id) {
+        Assert.notNull(SystemError.NOT_NULL, id);
         service().delete(id);
         return ok();
     }

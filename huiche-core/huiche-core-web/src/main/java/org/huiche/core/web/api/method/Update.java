@@ -10,12 +10,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 /**
  * 更新
  *
  * @author Maning
  */
-public interface Update<T extends BaseEntity> extends Api, ServiceProvider<T> {
+public interface Update<T extends BaseEntity<T>> extends Api, ServiceProvider<T> {
     /**
      * 更新
      *
@@ -24,7 +27,7 @@ public interface Update<T extends BaseEntity> extends Api, ServiceProvider<T> {
      * @return ID
      */
     @PutMapping("{id}")
-    default BaseResult<Long> update(@RequestBody T entity, @PathVariable Long id) {
+    default BaseResult<Long> update(@Nonnull @RequestBody T entity, @Nullable @PathVariable Long id) {
         Long eId = entity.getId();
         Assert.ok("要更新的对象ID不一致", null == eId || BaseUtil.equals(eId, id));
         return ok(service().update(entity));

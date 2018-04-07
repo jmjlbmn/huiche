@@ -16,6 +16,7 @@ import com.querydsl.sql.dml.SQLUpdateClause;
 import org.huiche.core.entity.BaseEntity;
 import org.huiche.core.exception.Assert;
 import org.huiche.core.exception.DataBaseException;
+import org.huiche.core.exception.SystemError;
 import org.huiche.core.page.PageRequest;
 import org.huiche.core.page.PageResponse;
 import org.huiche.core.util.BaseUtil;
@@ -65,7 +66,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @return 变更条数
      */
     public long create(@Nonnull T entity) {
-        Assert.isNull("新增数据时ID不能有值", entity.getId());
+        Assert.isNull(SystemError.CREATE_CAN_NOT_HAS_ID, entity.getId());
         beforeCreate(entity);
         validOnCreate(entity);
         Long id = sqlQueryFactory.insert(root())
@@ -96,7 +97,7 @@ public abstract class BaseDao<T extends BaseEntity> {
     public long create(@Nonnull Collection<T> entityList, boolean fast) {
         SQLInsertClause insert = sqlQueryFactory.insert(root());
         entityList.forEach(t -> {
-            Assert.isNull("新增数据时ID不能有值", t.getId());
+            Assert.isNull(SystemError.CREATE_CAN_NOT_HAS_ID, t.getId());
             beforeCreate(t);
             if (fast) {
                 insert.populate(t).addBatch();
@@ -123,7 +124,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @return 变更条数
      */
     public long update(@Nonnull T entity) {
-        Assert.notNull("更新数据时,实体必须设置ID", entity.getId());
+        Assert.notNull(SystemError.UPDATE_MUST_HAVA_ID, entity.getId());
         beforeUpdate(entity);
         validRegular(entity);
         return sqlQueryFactory.update(root()).populate(entity).where(pk().eq(entity.getId())).execute();
@@ -765,7 +766,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param entity 实体对象
      * @param groups 验证分组
      */
-    private void valid(@Nonnull T entity, @Nonnull Class<?>... groups) {
+    private void valid(T entity, Class<?>... groups) {
         if (doValid() && null != validator) {
             Set<ConstraintViolation<T>> errors = validator.validate(entity, groups);
             if (!errors.isEmpty()) {

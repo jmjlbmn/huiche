@@ -13,6 +13,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.Nullable;
 import javax.inject.Provider;
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -35,7 +36,7 @@ public class QueryDslAutoConfigure {
     @Bean
     @ConditionalOnBean(DataSource.class)
     @ConditionalOnMissingBean
-    public SQLQueryFactory sqlQueryFactory(DataSource dataSource, @Autowired(required = false) SQLTemplates sqlTemplates) {
+    public SQLQueryFactory sqlQueryFactory(DataSource dataSource, @Nullable @Autowired(required = false) SQLTemplates sqlTemplates) {
         Provider<Connection> provider = new SpringConnectionProvider(dataSource);
         if (null == sqlTemplates) {
             sqlTemplates = new MySqlExTemplates();

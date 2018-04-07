@@ -6,7 +6,7 @@
 
     <groupId>com.github.jmjlbmn</groupId>
     <artifactId>huiche</artifactId>
-    <version>1.0.7-SNAPSHOT</version>
+    <version>1.0.7</version>
     <packaging>pom</packaging>
     <modules>
         <module>huiche-core</module>
@@ -29,7 +29,7 @@
         </developer>
     </developers>
     <properties>
-        <huiche.version>1.0.7-SNAPSHOT</huiche.version>
+        <huiche.version>1.0.7</huiche.version>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>

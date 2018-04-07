@@ -10,5 +10,5 @@ import org.huiche.core.web.api.method.Save;
  *
  * @author Maning
  */
-public abstract class BaseCrudApi<T extends BaseEntity> implements Get<T>, Del<T>, Save<T> {
+public abstract class BaseCrudApi<T extends BaseEntity<T>> implements Get<T>, Del<T>, Save<T> {
 }

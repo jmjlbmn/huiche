@@ -18,8 +18,8 @@ public enum SystemError implements BaseError {
      * 操作失败(用户原因造成错误导致)
      */
     FAIL(1, "操作失败"),
-    NOT_LOGIN(2, "未登录或登录超时"),
-    NOT_AUTH(3, "没有权限"),
+    CREATE_CAN_NOT_HAS_ID(2, "创建时不允许有ID"),
+    UPDATE_MUST_HAVA_ID(3, "更新数据时,实体必须设置ID"),
     NOT_NULL(4, "请求参数不能为空"),
     JSON_ERROR(5, "JSON转换失败"),
     DB_NOT_ALLOW_FIELD_ERROR(6, "字段不符合数据库要求"),

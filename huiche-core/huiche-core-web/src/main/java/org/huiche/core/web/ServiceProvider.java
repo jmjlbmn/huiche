@@ -10,7 +10,7 @@ import javax.annotation.Nonnull;
  *
  * @author Maning
  */
-public interface ServiceProvider<T extends BaseEntity> {
+public interface ServiceProvider<T extends BaseEntity<T>> {
     /**
      * 提供service
      *

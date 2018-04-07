@@ -8,5 +8,5 @@ import org.huiche.core.web.api.method.Page;
  *
  * @author Maning
  */
-public abstract class BaseCrudPageApi<T extends BaseEntity> extends BaseCrudApi<T> implements Page<T> {
+public abstract class BaseCrudPageApi<T extends BaseEntity<T>> extends BaseCrudApi<T> implements Page<T> {
 }

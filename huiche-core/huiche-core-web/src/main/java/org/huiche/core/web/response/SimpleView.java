@@ -1,7 +1,6 @@
 package org.huiche.core.web.response;
 
 
-import org.springframework.lang.NonNull;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.RedirectView;
@@ -56,10 +55,12 @@ public class SimpleView implements View {
     }
 
     @Override
-    public void render(@Nullable Map<String, ?> model, @NonNull HttpServletRequest request, @NonNull HttpServletResponse response) throws Exception {
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType(contentType);
-        response.getWriter().write(content);
-        response.getWriter().flush();
+    public void render(@Nullable Map<String, ?> model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        if (null != response) {
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType(contentType);
+            response.getWriter().write(content);
+            response.getWriter().flush();
+        }
     }
 }

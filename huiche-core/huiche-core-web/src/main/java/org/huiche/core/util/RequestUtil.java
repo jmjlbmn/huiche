@@ -26,8 +26,11 @@ public class RequestUtil {
      * @param request 请求
      * @return IP地址
      */
-    @Nullable
-    public static String getIp(@Nonnull HttpServletRequest request) {
+    @Nonnull
+    public static String getIp(@Nullable HttpServletRequest request) {
+        if (null == request) {
+            return UN_KNOWN;
+        }
         String ipAddress = request.getHeader("x-forwarded-for");
         if (ipAddress == null || ipAddress.length() == 0 || UN_KNOWN.equalsIgnoreCase(ipAddress)) {
             ipAddress = request.getHeader("Proxy-Client-IP");
@@ -50,29 +53,32 @@ public class RequestUtil {
         if (ipAddress != null && ipAddress.indexOf(Const.COMMA) > 0) {
             ipAddress = ipAddress.substring(0, ipAddress.indexOf(Const.COMMA));
         }
-        return ipAddress;
+        return null == ipAddress ? UN_KNOWN : ipAddress;
     }
 
     /**
      * 获取app运行的url
      *
-     * @param req 请求
+     * @param request 请求
      * @return url
      */
     @Nonnull
-    public static String getRequestURL(@Nonnull HttpServletRequest req) {
+    public static String getRequestURL(@Nullable HttpServletRequest request) {
+        if (null == request) {
+            return "/";
+        }
         StringBuilder url = new StringBuilder();
-        String scheme = req.getScheme();
-        int port = req.getServerPort();
+        String scheme = request.getScheme();
+        int port = request.getServerPort();
         url.append(scheme);
         url.append("://");
 
-        url.append(req.getServerName());
+        url.append(request.getServerName());
         if (port != HTTP_PORT && port != HTTPS_PORT) {
             url.append(':');
-            url.append(req.getServerPort());
+            url.append(request.getServerPort());
         }
-        url.append(req.getContextPath());
+        url.append(request.getContextPath());
         return url.toString();
     }
 }

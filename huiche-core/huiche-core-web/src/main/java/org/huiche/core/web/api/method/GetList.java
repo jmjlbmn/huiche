@@ -6,6 +6,7 @@ import org.huiche.core.web.api.Api;
 import org.huiche.core.web.response.BaseResult;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 /**
@@ -13,7 +14,7 @@ import java.util.List;
  *
  * @author Maning
  */
-public interface GetList<T extends BaseEntity> extends Api, ServiceProvider<T> {
+public interface GetList<T extends BaseEntity<T>> extends Api, ServiceProvider<T> {
     /**
      * 获取数据集合
      *
@@ -21,7 +22,7 @@ public interface GetList<T extends BaseEntity> extends Api, ServiceProvider<T> {
      * @return ID
      */
     @GetMapping("list")
-    default BaseResult<List<T>> list(T search) {
+    default BaseResult<List<T>> list(@Nonnull T search) {
         return ok(service().list(search));
     }
 }
