@@ -48,9 +48,12 @@ import java.util.stream.Collectors;
  */
 public abstract class BaseDao<T extends BaseEntity> {
     protected final Logger log = LoggerFactory.getLogger(getClass());
+    /**
+     * 主键
+     */
+    protected final NumberPath<Long> pk = Expressions.numberPath(Long.class, PathMetadataFactory.forProperty(root(), "id"));
     @Resource
     protected SQLQueryFactory sqlQueryFactory;
-
     @Qualifier("fastValidator")
     @Autowired(required = false)
     protected Validator validator;
@@ -205,7 +208,6 @@ public abstract class BaseDao<T extends BaseEntity> {
         return sqlQueryFactory.delete(root()).where(pk().in(StringUtil.split2ListLong(ids))).execute();
     }
 
-
     /**
      * 删除
      *
@@ -248,7 +250,6 @@ public abstract class BaseDao<T extends BaseEntity> {
     public T get(@Nonnull Long id) {
         return QueryDslUtil.one(sqlQueryFactory.selectFrom(root()).where(pk().eq(id)));
     }
-
 
     /**
      * 获取单条数据
@@ -739,11 +740,6 @@ public abstract class BaseDao<T extends BaseEntity> {
     protected NumberPath<Long> pk() {
         return pk;
     }
-
-    /**
-     * 主键
-     */
-    protected final NumberPath<Long> pk = Expressions.numberPath(Long.class, PathMetadataFactory.forProperty(root(), "id"));
 
     /**
      * 创建时验证,建议验证非空

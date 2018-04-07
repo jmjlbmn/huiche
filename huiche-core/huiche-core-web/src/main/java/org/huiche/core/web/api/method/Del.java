@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 /**
  * 删除一条数据
+ *
  * @author Maning
  */
 public interface Del<T extends BaseEntity> extends Api, ServiceProvider<T> {

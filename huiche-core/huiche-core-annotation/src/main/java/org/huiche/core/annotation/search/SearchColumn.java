@@ -38,6 +38,7 @@ public @interface SearchColumn {
 
     /**
      * 是否取反
+     *
      * @return 取反
      */
     boolean not() default false;

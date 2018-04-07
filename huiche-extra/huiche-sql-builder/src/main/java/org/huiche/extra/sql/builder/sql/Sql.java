@@ -33,145 +33,6 @@ public interface Sql {
     String BRACKETS_START = "(";
     String BRACKETS_END = ")";
     String COMMA = ",";
-
-    /**
-     * 获取创建表语句
-     *
-     * @param tableInfo 表信息
-     * @return 语句
-     */
-    @Nonnull
-    String getCreate(@Nonnull TableInfo tableInfo);
-
-    /**
-     * 获取创建表的语句(最开头)
-     *
-     * @param tableInfo 表信息
-     * @return 语句
-     */
-    @Nonnull
-    default String getCreateTableStart(@Nonnull TableInfo tableInfo) {
-        return "CREATE TABLE " + tableInfo.getName() + SPACE + BRACKETS_START + BR;
-    }
-
-    /**
-     * 获取创建表的额外语句(结尾)
-     *
-     * @param tableInfo 表信息
-     * @return 语句
-     */
-    @Nonnull
-    default String getCreateTableEnd(@Nonnull TableInfo tableInfo) {
-        return BR + BRACKETS_END;
-    }
-
-    /**
-     * 获取创建字段语句
-     *
-     * @param columnInfo 字段信息
-     * @return 语句
-     */
-    @Nonnull
-    String getCreateColumn(@Nonnull ColumnInfo columnInfo);
-
-
-    /**
-     * 获取删除列语句
-     *
-     * @param tableName  表
-     * @param columnName 列
-     * @return 语句
-     */
-    @Nonnull
-    default String getDropColumn(@Nonnull String tableName, @Nonnull String columnName) {
-        return "ALTER TABLE " + tableName + " DROP COLUMN " + columnName;
-    }
-
-    /**
-     * 获取修改表增加字段语句
-     *
-     * @param tableName  表
-     * @param columnInfo 列
-     * @return 语句
-     */
-    @Nonnull
-    default String getAlterAddColumn(@Nonnull String tableName, @Nonnull ColumnInfo columnInfo) {
-        return "ALTER TABLE " + tableName + " ADD COLUMN " + getCreateColumn(columnInfo);
-    }
-
-    /**
-     * 获取修改表修改字段语句
-     *
-     * @param tableName  表
-     * @param columnInfo 列
-     * @return 语句
-     */
-    @Nonnull
-    default String getAlterModifyColumn(@Nonnull String tableName, @Nonnull ColumnInfo columnInfo) {
-        return "ALTER TABLE " + tableName + " MODIFY COLUMN " + getCreateColumn(columnInfo);
-    }
-
-    /**
-     * 获取修改表注释语句
-     *
-     * @param tableInfo 表
-     * @return 语句
-     */
-    @Nonnull
-    default String getAlterTableComment(@Nonnull TableInfo tableInfo) {
-        String comment = null == tableInfo.getComment() ? "" : tableInfo.getComment();
-        return "ALTER TABLE " + tableInfo.getName() + " COMMENT " + wrap(comment);
-    }
-
-    /**
-     * 检查表是否存在
-     *
-     * @param conn      链接
-     * @param tableName 表名
-     * @return 是否存在
-     */
-    default boolean checkTableExists(@Nonnull Connection conn, @Nonnull String tableName) {
-        try {
-            conn.prepareStatement("SELECT 1 FROM " + tableName).execute();
-        } catch (SQLException e) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * 获取表的注释
-     *
-     * @param conn      连接
-     * @param tableName 表名
-     * @return 注释
-     */
-    @Nonnull
-    default String getTableComment(@Nonnull Connection conn, @Nonnull String tableName) {
-        String comment = "";
-        try {
-            DatabaseMetaData metaData = conn.getMetaData();
-            ResultSet resultSet = metaData.getTables(null, null, tableName, null);
-            if (resultSet.next()) {
-                return resultSet.getString("REMARKS");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return comment;
-    }
-
-    /**
-     * 中文格式化
-     *
-     * @param name 名称
-     * @return 名称
-     */
-    @Nonnull
-    default String wrap(String name) {
-        return "'" + name + "'";
-    }
-
     List<String> KEYWORD = Arrays.asList(
             "select", "insert", "update", "delete",
             "create", "alter", "drop", "truncate",
@@ -443,5 +304,142 @@ public interface Sql {
         }
         columnCompareInfo.setModifyList(modifyList);
         return columnCompareInfo;
+    }
+
+    /**
+     * 获取创建表语句
+     *
+     * @param tableInfo 表信息
+     * @return 语句
+     */
+    @Nonnull
+    String getCreate(@Nonnull TableInfo tableInfo);
+
+    /**
+     * 获取创建表的语句(最开头)
+     *
+     * @param tableInfo 表信息
+     * @return 语句
+     */
+    @Nonnull
+    default String getCreateTableStart(@Nonnull TableInfo tableInfo) {
+        return "CREATE TABLE " + tableInfo.getName() + SPACE + BRACKETS_START + BR;
+    }
+
+    /**
+     * 获取创建表的额外语句(结尾)
+     *
+     * @param tableInfo 表信息
+     * @return 语句
+     */
+    @Nonnull
+    default String getCreateTableEnd(@Nonnull TableInfo tableInfo) {
+        return BR + BRACKETS_END;
+    }
+
+    /**
+     * 获取创建字段语句
+     *
+     * @param columnInfo 字段信息
+     * @return 语句
+     */
+    @Nonnull
+    String getCreateColumn(@Nonnull ColumnInfo columnInfo);
+
+    /**
+     * 获取删除列语句
+     *
+     * @param tableName  表
+     * @param columnName 列
+     * @return 语句
+     */
+    @Nonnull
+    default String getDropColumn(@Nonnull String tableName, @Nonnull String columnName) {
+        return "ALTER TABLE " + tableName + " DROP COLUMN " + columnName;
+    }
+
+    /**
+     * 获取修改表增加字段语句
+     *
+     * @param tableName  表
+     * @param columnInfo 列
+     * @return 语句
+     */
+    @Nonnull
+    default String getAlterAddColumn(@Nonnull String tableName, @Nonnull ColumnInfo columnInfo) {
+        return "ALTER TABLE " + tableName + " ADD COLUMN " + getCreateColumn(columnInfo);
+    }
+
+    /**
+     * 获取修改表修改字段语句
+     *
+     * @param tableName  表
+     * @param columnInfo 列
+     * @return 语句
+     */
+    @Nonnull
+    default String getAlterModifyColumn(@Nonnull String tableName, @Nonnull ColumnInfo columnInfo) {
+        return "ALTER TABLE " + tableName + " MODIFY COLUMN " + getCreateColumn(columnInfo);
+    }
+
+    /**
+     * 获取修改表注释语句
+     *
+     * @param tableInfo 表
+     * @return 语句
+     */
+    @Nonnull
+    default String getAlterTableComment(@Nonnull TableInfo tableInfo) {
+        String comment = null == tableInfo.getComment() ? "" : tableInfo.getComment();
+        return "ALTER TABLE " + tableInfo.getName() + " COMMENT " + wrap(comment);
+    }
+
+    /**
+     * 检查表是否存在
+     *
+     * @param conn      链接
+     * @param tableName 表名
+     * @return 是否存在
+     */
+    default boolean checkTableExists(@Nonnull Connection conn, @Nonnull String tableName) {
+        try {
+            conn.prepareStatement("SELECT 1 FROM " + tableName).execute();
+        } catch (SQLException e) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 获取表的注释
+     *
+     * @param conn      连接
+     * @param tableName 表名
+     * @return 注释
+     */
+    @Nonnull
+    default String getTableComment(@Nonnull Connection conn, @Nonnull String tableName) {
+        String comment = "";
+        try {
+            DatabaseMetaData metaData = conn.getMetaData();
+            ResultSet resultSet = metaData.getTables(null, null, tableName, null);
+            if (resultSet.next()) {
+                return resultSet.getString("REMARKS");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return comment;
+    }
+
+    /**
+     * 中文格式化
+     *
+     * @param name 名称
+     * @return 名称
+     */
+    @Nonnull
+    default String wrap(String name) {
+        return "'" + name + "'";
     }
 }

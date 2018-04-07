@@ -19,12 +19,11 @@ public class PropertyInfo {
     private static final String GET = "get";
     private static final String SET = "set";
     private static final String IS = "is";
-
-    private Method readMethod;
-    private Method writeMethod;
     @NotNull
     private final Field field;
     private final String name;
+    private Method readMethod;
+    private Method writeMethod;
 
     PropertyInfo(@Nonnull Class<?> clazz, @Nonnull Field field) {
         this.field = field;
@@ -59,6 +58,7 @@ public class PropertyInfo {
 
     /**
      * 获取属性名
+     *
      * @return 属性名
      */
     @Nonnull
@@ -68,6 +68,7 @@ public class PropertyInfo {
 
     /**
      * 获取get方法
+     *
      * @return get方法
      */
     @Nullable
@@ -77,6 +78,7 @@ public class PropertyInfo {
 
     /**
      * 获取set方法
+     *
      * @return set方法
      */
     @Nullable
@@ -86,6 +88,7 @@ public class PropertyInfo {
 
     /**
      * 获取字段
+     *
      * @return 字段
      */
     @Nonnull

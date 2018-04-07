@@ -26,6 +26,14 @@ import java.util.function.Predicate;
  * @author Maning
  */
 public class Util {
+    private static final List<Class> SUPPORT_TYPE_LIST = Arrays.asList(
+            Boolean.class,
+            Integer.class,
+            Long.class,
+            Float.class,
+            Double.class,
+            String.class);
+
     /**
      * 获取泛型map
      *
@@ -107,14 +115,6 @@ public class Util {
         }
         return list;
     }
-
-    private static final List<Class> SUPPORT_TYPE_LIST = Arrays.asList(
-            Boolean.class,
-            Integer.class,
-            Long.class,
-            Float.class,
-            Double.class,
-            String.class);
 
     private static boolean isInvalid(@Nonnull Field field) {
         int modifiers = field.getModifiers();

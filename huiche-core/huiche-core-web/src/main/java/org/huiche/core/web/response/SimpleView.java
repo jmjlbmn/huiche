@@ -26,19 +26,6 @@ public class SimpleView implements View {
         this.contentType = contentType;
     }
 
-    @Override
-    public String getContentType() {
-        return contentType;
-    }
-
-    @Override
-    public void render(@Nullable Map<String, ?> model, @NonNull HttpServletRequest request, @NonNull HttpServletResponse response) throws Exception {
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType(contentType);
-        response.getWriter().write(content);
-        response.getWriter().flush();
-    }
-
     public static ModelAndView js(@Nonnull String content) {
         return new ModelAndView(new SimpleView(content, "text/javascript"));
     }
@@ -61,5 +48,18 @@ public class SimpleView implements View {
 
     public static ModelAndView redirect(@Nonnull String url) {
         return new ModelAndView(new RedirectView(url));
+    }
+
+    @Override
+    public String getContentType() {
+        return contentType;
+    }
+
+    @Override
+    public void render(@Nullable Map<String, ?> model, @NonNull HttpServletRequest request, @NonNull HttpServletResponse response) throws Exception {
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType(contentType);
+        response.getWriter().write(content);
+        response.getWriter().flush();
     }
 }

@@ -2,6 +2,7 @@ package org.huiche.core.exception;
 
 /**
  * 系统内置基本异常
+ *
  * @author Maning
  */
 public enum SystemError implements BaseError {
@@ -22,7 +23,7 @@ public enum SystemError implements BaseError {
     NOT_NULL(4, "请求参数不能为空"),
     JSON_ERROR(5, "JSON转换失败"),
     DB_NOT_ALLOW_FIELD_ERROR(6, "字段不符合数据库要求"),
-    NO_EXISTS(7,"指定对象不存在");
+    NO_EXISTS(7, "指定对象不存在");
 
 
     private final int id;

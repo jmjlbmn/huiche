@@ -222,7 +222,7 @@ public class StringUtil {
      * @return 拼接和的字符串
      */
     @Nonnull
-    public static String join(@Nonnull String[] arr,@Nonnull  String sep) {
+    public static String join(@Nonnull String[] arr, @Nonnull String sep) {
         StringBuilder sb = new StringBuilder();
         if (arr.length > 0) {
             for (String s : arr) {
@@ -251,7 +251,7 @@ public class StringUtil {
      * @return 拼接和的字符串
      */
     @Nonnull
-    public static String join(@Nonnull Collection<String> list,@Nonnull  String sep) {
+    public static String join(@Nonnull Collection<String> list, @Nonnull String sep) {
         StringBuilder sb = new StringBuilder();
         if (list.size() > 0) {
             for (String s : list) {

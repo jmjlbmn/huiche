@@ -13,6 +13,19 @@ import java.util.Iterator;
  * @author Maning
  */
 public class Mysql implements Sql {
+    private static final Mysql SQL = new Mysql();
+
+    private Mysql() {
+    }
+
+    private static boolean canAutoIncrement(@Nonnull ColumnInfo columnInfo) {
+        return JDBCType.BIGINT.equals(columnInfo.getType()) || JDBCType.INTEGER.equals(columnInfo.getType());
+    }
+
+    public static Sql sql() {
+        return SQL;
+    }
+
     @Override
     @Nonnull
     public String getCreate(@Nonnull TableInfo tableInfo) {
@@ -94,19 +107,6 @@ public class Mysql implements Sql {
             builder.append(" COMMENT ").append(wrap(comment));
         }
         return builder.toString();
-    }
-
-    private static boolean canAutoIncrement(@Nonnull ColumnInfo columnInfo) {
-        return JDBCType.BIGINT.equals(columnInfo.getType()) || JDBCType.INTEGER.equals(columnInfo.getType());
-    }
-
-    private static final Mysql SQL = new Mysql();
-
-    public static Sql sql() {
-        return SQL;
-    }
-
-    private Mysql() {
     }
 
     interface Length {

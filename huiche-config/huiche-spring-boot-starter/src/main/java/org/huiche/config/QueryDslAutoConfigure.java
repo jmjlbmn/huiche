@@ -27,7 +27,8 @@ import java.sql.Connection;
 public class QueryDslAutoConfigure {
     /**
      * 注册SQLQueryFactory,默认MySql,如用其他db请注册SQLTemplates的bean 或自行注册SQLQueryFactory
-     * @param dataSource 数据源
+     *
+     * @param dataSource   数据源
      * @param sqlTemplates SQL模板
      * @return SQLQueryFactory
      */

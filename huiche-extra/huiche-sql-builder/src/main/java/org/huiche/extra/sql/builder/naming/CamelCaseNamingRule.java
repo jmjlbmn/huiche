@@ -9,6 +9,15 @@ import javax.annotation.Nonnull;
  */
 public class CamelCaseNamingRule implements NamingRule {
     private static final String UNDERLINE = "_";
+    private static final CamelCaseNamingRule INSTANCE = new CamelCaseNamingRule() {
+    };
+
+    private CamelCaseNamingRule() {
+    }
+
+    public static NamingRule getInstance() {
+        return INSTANCE;
+    }
 
     @Override
     @Nonnull
@@ -50,15 +59,5 @@ public class CamelCaseNamingRule implements NamingRule {
             }
             return result.toString();
         }
-    }
-
-    private static final CamelCaseNamingRule INSTANCE = new CamelCaseNamingRule() {
-    };
-
-    public static NamingRule getInstance() {
-        return INSTANCE;
-    }
-
-    private CamelCaseNamingRule() {
     }
 }

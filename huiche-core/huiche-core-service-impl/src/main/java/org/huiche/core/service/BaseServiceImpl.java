@@ -6,5 +6,5 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Maning
  */
 @Transactional(rollbackFor = Exception.class, readOnly = true)
-public class BaseServiceImpl implements BaseService{
+public class BaseServiceImpl implements BaseService {
 }

@@ -24,15 +24,18 @@ import java.util.Properties;
  * @author Maning
  */
 public class SqlBuilder {
+    private static final SqlBuilder TOOL = new SqlBuilder();
     private String url;
     private String user;
     private String password;
     private String rootPath;
     private Sql dbSql;
     private NamingRule namingRule;
-    private static final SqlBuilder TOOL = new SqlBuilder();
     private List<String> sqlList;
     private List<String> manualSqlList;
+
+    private SqlBuilder() {
+    }
 
     @Nonnull
     public static SqlBuilder init(@Nonnull String jdbcUrl, @Nonnull String user, @Nonnull String password) {
@@ -133,7 +136,7 @@ public class SqlBuilder {
      * @param update  是否执行修改列和删除列操作
      * @param classes 表
      */
-    public void run(boolean update,@Nonnull Class<?>... classes) {
+    public void run(boolean update, @Nonnull Class<?>... classes) {
         if (classes.length == 0) {
             System.err.println("没有要生成SQL的类,不会进行操作");
             return;
@@ -156,7 +159,7 @@ public class SqlBuilder {
         printSql();
     }
 
-    private void create(@Nonnull List<Class<?>> classes,@Nonnull  Connection conn, boolean update) {
+    private void create(@Nonnull List<Class<?>> classes, @Nonnull Connection conn, boolean update) {
         for (Class<?> clazz : classes) {
             TableInfo tableInfo = Sql.getInfo(clazz, namingRule);
             try {
@@ -180,7 +183,7 @@ public class SqlBuilder {
         }
     }
 
-    private void update(@Nonnull TableInfo tableInfo,@Nonnull  Connection conn, boolean update) throws SQLException {
+    private void update(@Nonnull TableInfo tableInfo, @Nonnull Connection conn, boolean update) throws SQLException {
         if (!tableInfo.getComment().equals(dbSql.getTableComment(conn, tableInfo.getName()))) {
             System.out.println("修改表的注释,表: " + tableInfo.getName());
             executeSql(conn, dbSql.getAlterTableComment(tableInfo));
@@ -264,9 +267,5 @@ public class SqlBuilder {
                 System.out.println(sql);
             }
         }
-    }
-
-
-    private SqlBuilder() {
     }
 }

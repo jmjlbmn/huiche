@@ -37,21 +37,6 @@ public class BeanInfo {
     }
 
     /**
-     * 获取这个bean的属性信息
-     *
-     * @return 属性信息
-     */
-    @Nonnull
-    public PropertyInfo[] getPropertyInfo() {
-        PropertyInfo[] propertyInfo;
-        propertyInfo = DECLARED_FIELD_CACHE.get(clazz);
-        if (propertyInfo == null) {
-            propertyInfo = getPropertyInfo(clazz);
-        }
-        return propertyInfo;
-    }
-
-    /**
      * 静态方法,获取一个bean封装的属性信息,通过反射
      *
      * @param clazz 类型
@@ -102,5 +87,20 @@ public class BeanInfo {
             methods.addAll(Arrays.asList(c.getDeclaredMethods()));
         }
         return methods.toArray(new Method[0]);
+    }
+
+    /**
+     * 获取这个bean的属性信息
+     *
+     * @return 属性信息
+     */
+    @Nonnull
+    public PropertyInfo[] getPropertyInfo() {
+        PropertyInfo[] propertyInfo;
+        propertyInfo = DECLARED_FIELD_CACHE.get(clazz);
+        if (propertyInfo == null) {
+            propertyInfo = getPropertyInfo(clazz);
+        }
+        return propertyInfo;
     }
 }

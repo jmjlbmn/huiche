@@ -31,12 +31,14 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 /**
  * 全局异常处理
+ *
  * @author Maning
  */
 @ControllerAdvice
 public class ErrorHandler extends ResponseEntityExceptionHandler {
     /**
      * 捕获自定义异常
+     *
      * @param e 异常
      * @return json
      */
@@ -48,6 +50,7 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
 
     /**
      * 捕获未处理异常
+     *
      * @param e 异常
      * @return json
      */
@@ -172,9 +175,10 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
 
     /**
      * 异常处理
-     * @param status http状态
+     *
+     * @param status  http状态
      * @param request 请求
-     * @param msg 错误消息
+     * @param msg     错误消息
      * @return 响应
      */
     private ResponseEntity<Object> error(HttpStatus status, WebRequest request, String msg) {

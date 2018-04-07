@@ -34,10 +34,6 @@ public class PageRequest implements Serializable {
     private String sort;
     private String order;
 
-    public long getOffset() {
-        return (page - 1) * rows;
-    }
-
     public PageRequest() {
     }
 
@@ -52,13 +48,19 @@ public class PageRequest implements Serializable {
         this.sort = sort;
         this.order = order;
     }
+
     @Nonnull
     public static PageRequest dft() {
         return new PageRequest();
     }
+
     @Nonnull
     public static PageRequest of(int page, int rows) {
         return new PageRequest(page, rows);
+    }
+
+    public long getOffset() {
+        return (page - 1) * rows;
     }
 
     public PageRequest setRows(Integer rows) {

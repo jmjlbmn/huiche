@@ -153,7 +153,7 @@ public class NumberUtil {
      * @param b 对象b
      * @return a+b
      */
-    public static long add(@Nullable Long a,@Nullable Long b) {
+    public static long add(@Nullable Long a, @Nullable Long b) {
         long sum = 0;
         if (null != a) {
             sum += a;

@@ -45,6 +45,26 @@ public class CodeGenQueryDsl {
     }
 
     /**
+     * 初始化驱动
+     *
+     * @param url JDBC_URL
+     */
+    private static void initDriver(@Nonnull String url) {
+        if (url.startsWith(Sql.MY_SQL)) {
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+            } catch (ClassNotFoundException e) {
+                try {
+                    Class.forName("com.mysql.cj.jdbc.Driver");
+                } catch (ClassNotFoundException e1) {
+                    e1.printStackTrace();
+                    throw new RuntimeException("请检查是否引入与传入url相匹配的数据库驱动jar包,url: " + url);
+                }
+            }
+        }
+    }
+
+    /**
      * 生成表
      */
     public void exportTable() {
@@ -93,26 +113,6 @@ public class CodeGenQueryDsl {
             exporter.export(conn.getMetaData());
         } catch (SQLException e) {
             throw new RuntimeException("生成视图失败!", e);
-        }
-    }
-
-    /**
-     * 初始化驱动
-     *
-     * @param url JDBC_URL
-     */
-    private static void initDriver(@Nonnull String url) {
-        if (url.startsWith(Sql.MY_SQL)) {
-            try {
-                Class.forName("com.mysql.jdbc.Driver");
-            } catch (ClassNotFoundException e) {
-                try {
-                    Class.forName("com.mysql.cj.jdbc.Driver");
-                } catch (ClassNotFoundException e1) {
-                    e1.printStackTrace();
-                    throw new RuntimeException("请检查是否引入与传入url相匹配的数据库驱动jar包,url: " + url);
-                }
-            }
         }
     }
 

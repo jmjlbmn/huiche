@@ -21,6 +21,7 @@ import java.io.IOException;
 
 /**
  * HuiChe自动配置
+ *
  * @author Maning
  */
 @Configuration
@@ -28,6 +29,7 @@ import java.io.IOException;
 public class HuiCheAutoConfigure {
     /**
      * 默认实现一个JsonApi
+     *
      * @param objectMapper 注入jackson
      * @return jsonApi
      */
@@ -45,7 +47,7 @@ public class HuiCheAutoConfigure {
             }
 
             @Override
-            public <T> T fromJson(String json,@Nonnull Class<T> clazz) {
+            public <T> T fromJson(String json, @Nonnull Class<T> clazz) {
                 try {
                     return objectMapper.readValue(json, clazz);
                 } catch (IOException e) {
@@ -57,6 +59,7 @@ public class HuiCheAutoConfigure {
 
     /**
      * 注册全局异常处理
+     *
      * @return 异常处理
      */
     @Bean
@@ -68,6 +71,7 @@ public class HuiCheAutoConfigure {
 
     /**
      * 注册dao的快速验证器
+     *
      * @return 验证器
      */
     @Bean("fastValidator")

@@ -5,6 +5,7 @@ import javax.annotation.Nullable;
 
 /**
  * Json Api
+ *
  * @author Maning
  */
 public interface JsonApi {
@@ -28,5 +29,5 @@ public interface JsonApi {
      */
     @org.jetbrains.annotations.Nullable
     @Nullable
-    <T> T fromJson(@Nullable String json,@Nonnull Class<T> clazz);
+    <T> T fromJson(@Nullable String json, @Nonnull Class<T> clazz);
 }

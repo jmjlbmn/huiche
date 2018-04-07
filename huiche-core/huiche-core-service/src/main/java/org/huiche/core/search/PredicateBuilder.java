@@ -35,7 +35,7 @@ public class PredicateBuilder {
      * @return 构造器
      */
     @Nonnull
-    public <T> PredicateBuilder predicate(@Nonnull Path<T> column,@Nonnull Operator operator,@Nullable T val) {
+    public <T> PredicateBuilder predicate(@Nonnull Path<T> column, @Nonnull Operator operator, @Nullable T val) {
         Predicate predicate = null;
         if (null != val) {
             if (val instanceof String) {
