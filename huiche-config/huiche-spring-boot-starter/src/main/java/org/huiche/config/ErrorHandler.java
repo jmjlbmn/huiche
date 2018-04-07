@@ -1,8 +1,8 @@
 package org.huiche.config;
 
 import org.huiche.core.exception.BaseException;
-import org.huiche.core.web.response.BaseResult;
 import org.huiche.core.util.ResultUtil;
+import org.huiche.core.web.response.BaseResult;
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;

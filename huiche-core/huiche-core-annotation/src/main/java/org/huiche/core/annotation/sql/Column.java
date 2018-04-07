@@ -1,6 +1,10 @@
 package org.huiche.core.annotation.sql;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * 用于SqlBuilder生成数据库表的字段/列的实体类属性的注解

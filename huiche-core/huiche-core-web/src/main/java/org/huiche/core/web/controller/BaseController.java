@@ -1,8 +1,8 @@
 package org.huiche.core.web.controller;
 
+import org.huiche.core.util.StringUtil;
 import org.huiche.core.web.api.Api;
 import org.huiche.core.web.response.SimpleView;
-import org.huiche.core.util.StringUtil;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Nonnull;

@@ -1,8 +1,8 @@
 package org.huiche.core.web.api.method;
 
-import org.huiche.core.web.api.Api;
-import org.huiche.core.web.ServiceProvider;
 import org.huiche.core.entity.BaseEntity;
+import org.huiche.core.web.ServiceProvider;
+import org.huiche.core.web.api.Api;
 import org.huiche.core.web.response.BaseResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

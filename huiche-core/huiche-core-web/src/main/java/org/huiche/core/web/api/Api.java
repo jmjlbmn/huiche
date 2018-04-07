@@ -1,7 +1,7 @@
 package org.huiche.core.web.api;
 
-import org.huiche.core.web.response.BaseResult;
 import org.huiche.core.util.ResultUtil;
+import org.huiche.core.web.response.BaseResult;
 
 import javax.annotation.Nonnull;
 

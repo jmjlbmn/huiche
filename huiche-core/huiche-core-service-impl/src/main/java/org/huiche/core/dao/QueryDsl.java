@@ -2,8 +2,16 @@ package org.huiche.core.dao;
 
 import com.google.common.collect.ImmutableList;
 import com.querydsl.core.QueryMetadata;
-import com.querydsl.core.types.*;
-import com.querydsl.sql.*;
+import com.querydsl.core.types.Expression;
+import com.querydsl.core.types.ParamExpression;
+import com.querydsl.core.types.ParamNotSetException;
+import com.querydsl.core.types.Path;
+import com.querydsl.core.types.SubQueryExpression;
+import com.querydsl.sql.Configuration;
+import com.querydsl.sql.RelationalPath;
+import com.querydsl.sql.SQLListener;
+import com.querydsl.sql.SQLSerializer;
+import com.querydsl.sql.SQLTemplates;
 import com.querydsl.sql.dml.SQLInsertBatch;
 import com.querydsl.sql.dml.SQLMergeBatch;
 import com.querydsl.sql.dml.SQLUpdateBatch;
