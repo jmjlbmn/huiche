@@ -2,6 +2,7 @@ package org.huiche.core.bean;
 
 
 import org.huiche.core.util.StringUtil;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -21,6 +22,7 @@ public class PropertyInfo {
 
     private Method readMethod;
     private Method writeMethod;
+    @NotNull
     private final Field field;
     private final String name;
 

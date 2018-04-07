@@ -729,7 +729,6 @@ public abstract class BaseDao<T extends BaseEntity> {
      *
      * @return 表
      */
-    @Nonnull
     protected abstract RelationalPath<T> root();
 
     /**
@@ -737,7 +736,6 @@ public abstract class BaseDao<T extends BaseEntity> {
      *
      * @return 主键
      */
-    @Nonnull
     protected NumberPath<Long> pk() {
         return pk;
     }

@@ -39,6 +39,7 @@
         <druid.version>1.1.9</druid.version>
         <querydsl.version>4.2.1</querydsl.version>
         <jsr305.version>3.0.2</jsr305.version>
+        <jetbrains-annotations.version>16.0.1</jetbrains-annotations.version>
         <reflections.version>0.9.11</reflections.version>
     </properties>
     <scm>
@@ -58,6 +59,11 @@
                 <groupId>com.google.code.findbugs</groupId>
                 <artifactId>jsr305</artifactId>
                 <version>${jsr305.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains</groupId>
+                <artifactId>annotations</artifactId>
+                <version>${jetbrains-annotations.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.reflections</groupId>

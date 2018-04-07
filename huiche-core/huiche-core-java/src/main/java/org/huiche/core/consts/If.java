@@ -1,6 +1,7 @@
 package org.huiche.core.consts;
 
 import org.huiche.core.annotation.consts.ConstVal;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * 是否,用于所有判断是否的情况
@@ -19,7 +20,8 @@ public interface If extends ConstClass {
      * @param flag 是否
      * @return Integer 是否
      */
-    static Integer of(Boolean flag) {
+    @Nullable
+    static Integer of(@Nullable Boolean flag) {
         if (null == flag) {
             return null;
         }
@@ -36,7 +38,7 @@ public interface If extends ConstClass {
      * @param flag 是否
      * @return Integer 是否
      */
-    static Integer ofDefaultNo(Boolean flag) {
+    static Integer ofDefaultNo(@Nullable Boolean flag) {
         if (null == flag) {
             return NO;
         }

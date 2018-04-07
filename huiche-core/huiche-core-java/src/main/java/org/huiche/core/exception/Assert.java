@@ -1,10 +1,11 @@
 package org.huiche.core.exception;
 
-
 import org.huiche.core.util.BaseUtil;
+import org.jetbrains.annotations.Contract;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
 
 /**
  * 断言工具
@@ -18,6 +19,7 @@ public class Assert {
      * @param error 异常
      * @param ok    判断条件
      */
+    @Contract(value = "_,false->fail", pure = true)
     public static void ok(@Nonnull BaseError error, boolean ok) {
         if (!ok) {
             throw new BaseException(error);
@@ -30,6 +32,7 @@ public class Assert {
      * @param msg 错误说明
      * @param ok  判断条件
      */
+    @Contract(value = "_,false->fail", pure = true)
     public static void ok(@Nonnull String msg, boolean ok) {
         if (!ok) {
             throw BaseException.fail(msg);
@@ -94,6 +97,7 @@ public class Assert {
      * @param error 异常
      * @param obj   对象
      */
+    @Contract(value = "_,!null->fail", pure = true)
     public static void isNull(@Nonnull BaseError error, @Nullable Object obj) {
         if (BaseUtil.isNotEmpty(obj)) {
             throw new BaseException(error);
@@ -106,6 +110,7 @@ public class Assert {
      * @param msg 错误说明
      * @param obj 对象
      */
+    @Contract(value = "_,!null->fail", pure = true)
     public static void isNull(@Nonnull String msg, @Nullable Object obj) {
         if (BaseUtil.isNotEmpty(obj)) {
             throw BaseException.fail(msg);
@@ -149,7 +154,9 @@ public class Assert {
      *
      * @param error 异常
      * @param obj   对象
+     * @throws BaseException if the object is {@code null}
      */
+    @Contract(value = "_,null->fail", pure = true)
     public static void notNull(@Nonnull BaseError error, @Nullable Object obj) {
         if (null == obj || BaseUtil.isEmpty(obj)) {
             throw new BaseException(error);
@@ -162,7 +169,9 @@ public class Assert {
      * @param error 异常
      * @param obj1  对象1
      * @param obj2  对象2
+     * @throws BaseException if the object is {@code null}
      */
+    @Contract(value = "_,null,_->fail;_,_,null->fail", pure = true)
     public static void notNull(@Nonnull BaseError error, @Nullable Object obj1, @Nullable Object obj2) {
         if (null == obj1 || BaseUtil.isEmpty(obj1)) {
             throw new BaseException(error);
@@ -179,7 +188,9 @@ public class Assert {
      * @param obj1  对象1
      * @param obj2  对象2
      * @param obj3  对象3
+     * @throws BaseException if the object is {@code null}
      */
+    @Contract(value = "_,null,_,_->fail;_,_,null,_->fail;_,_,_,null->fail", pure = true)
     public static void notNull(@Nonnull BaseError error, @Nullable Object obj1, @Nullable Object obj2, @Nullable Object obj3) {
         if (null == obj1 || BaseUtil.isEmpty(obj1)) {
             throw new BaseException(error);
@@ -200,7 +211,9 @@ public class Assert {
      * @param obj2  对象2
      * @param obj3  对象3
      * @param obj4  对象4
+     * @throws BaseException if the object is {@code null}
      */
+    @Contract(value = "_,null,_,_,_->fail;_,_,null,_,_->fail;_,_,_,null,_->fail;_,_,_,_,null->fail", pure = true)
     public static void notNull(@Nonnull BaseError error, @Nullable Object obj1, @Nullable Object obj2, @Nullable Object obj3, @Nullable Object obj4) {
         if (null == obj1 || BaseUtil.isEmpty(obj1)) {
             throw new BaseException(error);
@@ -225,7 +238,9 @@ public class Assert {
      * @param obj3  对象3
      * @param obj4  对象4
      * @param obj5  对象5
+     * @throws BaseException if the object is {@code null}
      */
+    @Contract(value = "_,null,_,_,_,_->fail;_,_,null,_,_,_->fail;_,_,_,null,_,_->fail;_,_,_,_,null,_->fail;_,_,_,_,_,null->fail", pure = true)
     public static void notNull(@Nonnull BaseError error, @Nullable Object obj1, @Nullable Object obj2, @Nullable Object obj3, @Nullable Object obj4, @Nullable Object obj5) {
         if (null == obj1 || BaseUtil.isEmpty(obj1)) {
             throw new BaseException(error);
@@ -249,6 +264,7 @@ public class Assert {
      *
      * @param error 异常
      * @param obj   对象数组
+     * @throws BaseException if the object is {@code null}
      */
     @Deprecated
     public static void notNull(@Nonnull BaseError error, @Nonnull Object... obj) {
@@ -266,7 +282,9 @@ public class Assert {
      *
      * @param msg 错误说明
      * @param obj 对象
+     * @throws BaseException if the object is {@code null}
      */
+    @Contract("_, null -> fail")
     public static void notNull(@Nonnull String msg, @Nullable Object obj) {
         if (null == obj || BaseUtil.isEmpty(obj)) {
             throw BaseException.fail(msg);
@@ -279,7 +297,9 @@ public class Assert {
      * @param msg  错误说明
      * @param obj1 对象1
      * @param obj2 对象2
+     * @throws BaseException if the object is {@code null}
      */
+    @Contract("_, null,_ -> fail;_, _,null -> fail")
     public static void notNull(@Nonnull String msg, @Nullable Object obj1, @Nullable Object obj2) {
         if (null == obj1 || BaseUtil.isEmpty(obj1)) {
             throw BaseException.fail(msg);
@@ -296,7 +316,9 @@ public class Assert {
      * @param obj1 对象1
      * @param obj2 对象2
      * @param obj3 对象3
+     * @throws BaseException if the object is {@code null}
      */
+    @Contract("_, null,_,_ -> fail;_, _,null,_ -> fail;_, _,_,null -> fail")
     public static void notNull(@Nonnull String msg, @Nullable Object obj1, @Nullable Object obj2, @Nullable Object obj3) {
         if (null == obj1 || BaseUtil.isEmpty(obj1)) {
             throw BaseException.fail(msg);
@@ -317,7 +339,9 @@ public class Assert {
      * @param obj2 对象2
      * @param obj3 对象3
      * @param obj4 对象4
+     * @throws BaseException if the object is {@code null}
      */
+    @Contract(value = "_,null,_,_,_->fail;_,_,null,_,_->fail;_,_,_,null,_->fail;_,_,_,_,null->fail", pure = true)
     public static void notNull(@Nonnull String msg, @Nullable Object obj1, @Nullable Object obj2, @Nullable Object obj3, @Nullable Object obj4) {
         if (null == obj1 || BaseUtil.isEmpty(obj1)) {
             throw BaseException.fail(msg);
@@ -342,7 +366,9 @@ public class Assert {
      * @param obj3 对象3
      * @param obj4 对象4
      * @param obj5 对象5
+     * @throws BaseException if the object is {@code null}
      */
+    @Contract(value = "_,null,_,_,_,_->fail;_,_,null,_,_,_->fail;_,_,_,null,_,_->fail;_,_,_,_,null,_->fail;_,_,_,_,_,null->fail", pure = true)
     public static void notNull(@Nonnull String msg, @Nullable Object obj1, @Nullable Object obj2, @Nullable Object obj3, @Nullable Object obj4, @Nullable Object obj5) {
         if (null == obj1 || BaseUtil.isEmpty(obj1)) {
             throw BaseException.fail(msg);
@@ -369,6 +395,7 @@ public class Assert {
      * @param obj 对象数组
      */
     @Deprecated
+    @Contract(value = "_,null->fail", pure = true)
     public static void notNull(@Nonnull String msg, @Nonnull Object... obj) {
         if (obj.length > 0) {
             for (Object o : obj) {
@@ -436,6 +463,7 @@ public class Assert {
      * @param ifOK   异常判断
      * @param testOk 是否执行判断
      */
+    @Contract(value = "_,true,false->fail", pure = true)
     public static void ifTest(@Nonnull BaseError error, @Nonnull Ok ifOK, @Nonnull Ok testOk) {
         if (ifOK.ok()) {
             ok(error, testOk.ok());
@@ -449,6 +477,7 @@ public class Assert {
      * @param ifOK   异常判断
      * @param testOk 是否执行判断
      */
+    @Contract(value = "_,true,false->fail", pure = true)
     public static void ifTest(@Nonnull String msg, @Nonnull Ok ifOK, @Nonnull Ok testOk) {
         if (ifOK.ok()) {
             ok(msg, testOk.ok());
@@ -467,7 +496,7 @@ public class Assert {
         return false;
     }
 
-    private static boolean isNotNull(@Nonnull Object... obj) {
+    private static boolean isNotNull(@Nonnull final Object... obj) {
         if (obj.length > 0) {
             for (Object o : obj) {
                 if (BaseUtil.isEmpty(o)) {

@@ -2,6 +2,8 @@ package org.huiche.core.exception;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
 
@@ -20,6 +22,7 @@ public class BaseException extends RuntimeException {
     /**
      * 错误信息描述
      */
+    @Nullable
     private String msg;
 
 
@@ -45,6 +48,7 @@ public class BaseException extends RuntimeException {
         return new BaseException(SystemError.FAIL, msg);
     }
 
+    @NotNull
     @Override
     public String getMessage() {
         return msg + "(" + code + ")";

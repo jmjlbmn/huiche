@@ -1,5 +1,7 @@
 package org.huiche.core.bean;
 
+import org.jetbrains.annotations.NotNull;
+
 import javax.annotation.Nonnull;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -21,6 +23,7 @@ public class BeanInfo {
      */
     private static final Map<Class<?>, PropertyInfo[]> DECLARED_FIELD_CACHE = new WeakHashMap<>();
 
+    @NotNull
     private final Class<?> clazz;
 
     public BeanInfo(@Nonnull Class<?> clazz) {
