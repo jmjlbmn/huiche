@@ -15,7 +15,7 @@ import java.util.List;
  * @author Maning
  */
 public class PredicateBuilder {
-    private List<Predicate> list;
+    private final List<Predicate> list;
 
     public PredicateBuilder() {
         list = new ArrayList<>();

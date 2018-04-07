@@ -25,7 +25,6 @@ public interface Update<T extends BaseEntity> extends Api, ServiceProvider<T> {
      */
     @PutMapping("{id}")
     default BaseResult<Long> update(@RequestBody T entity, @PathVariable Long id) {
-        Assert.notNull(entity);
         Long eId = entity.getId();
         Assert.ok("要更新的对象ID不一致", null == eId || BaseUtil.equals(eId, id));
         return ok(service().update(entity));

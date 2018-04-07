@@ -35,11 +35,10 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <spring-boot.version>2.0.0.RELEASE</spring-boot.version>
+        <spring-boot.version>2.0.1.RELEASE</spring-boot.version>
         <druid.version>1.1.9</druid.version>
         <querydsl.version>4.2.1</querydsl.version>
         <jsr305.version>3.0.2</jsr305.version>
-        <!--预设依赖版本,没用到,但常用的依赖-->
         <reflections.version>0.9.11</reflections.version>
     </properties>
     <scm>
@@ -59,6 +58,11 @@
                 <groupId>com.google.code.findbugs</groupId>
                 <artifactId>jsr305</artifactId>
                 <version>${jsr305.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.reflections</groupId>
+                <artifactId>reflections</artifactId>
+                <version>${reflections.version}</version>
             </dependency>
             <!--Druid数据库连接池-->
             <dependency>
@@ -128,13 +132,6 @@
                 <artifactId>huiche-codegen-querydsl</artifactId>
                 <version>${huiche.version}</version>
             </dependency>
-
-            <!--预设依赖版本,没用到,但常用的依赖-->
-            <dependency>
-                <groupId>org.reflections</groupId>
-                <artifactId>reflections</artifactId>
-                <version>${reflections.version}</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
     <repositories>
@@ -176,6 +173,13 @@
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
                     <version>${spring-boot.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>repackage</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>

@@ -30,6 +30,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.OverridingMethodsMustInvokeSuper;
 import javax.annotation.Resource;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
@@ -61,7 +62,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @return 变更条数
      */
     public long create(@Nonnull T entity) {
-        Assert.isNullWithMsg("新增数据时ID不能有值", entity.getId());
+        Assert.isNull("新增数据时ID不能有值", entity.getId());
         beforeCreate(entity);
         validOnCreate(entity);
         Long id = sqlQueryFactory.insert(root())
@@ -92,7 +93,7 @@ public abstract class BaseDao<T extends BaseEntity> {
     public long create(@Nonnull Collection<T> entityList, boolean fast) {
         SQLInsertClause insert = sqlQueryFactory.insert(root());
         entityList.forEach(t -> {
-            Assert.isNullWithMsg("新增数据时ID不能有值", t.getId());
+            Assert.isNull("新增数据时ID不能有值", t.getId());
             beforeCreate(t);
             if (fast) {
                 insert.populate(t).addBatch();
@@ -119,7 +120,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @return 变更条数
      */
     public long update(@Nonnull T entity) {
-        Assert.notNullWithMsg("更新数据时,实体必须设置ID", entity.getId());
+        Assert.notNull("更新数据时,实体必须设置ID", entity.getId());
         beforeUpdate(entity);
         validRegular(entity);
         return sqlQueryFactory.update(root()).populate(entity).where(pk().eq(entity.getId())).execute();
@@ -705,6 +706,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      *
      * @param entity 实体
      */
+    @OverridingMethodsMustInvokeSuper
     protected void beforeCreate(@Nonnull T entity) {
         String time = DateUtil.nowTime();
         entity.setCreateTime(time).setModifyTime(time);
@@ -716,6 +718,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      *
      * @param entity 实体
      */
+    @OverridingMethodsMustInvokeSuper
     protected void beforeUpdate(@Nonnull T entity) {
         entity.setCreateTime(null);
         entity.setModifyTime(DateUtil.nowTime());
@@ -770,7 +773,6 @@ public abstract class BaseDao<T extends BaseEntity> {
      */
     private void valid(@Nonnull T entity, @Nonnull Class<?>... groups) {
         if (doValid() && null != validator) {
-            Assert.notNull(entity);
             Set<ConstraintViolation<T>> errors = validator.validate(entity, groups);
             if (!errors.isEmpty()) {
                 throw new DataBaseException(errors.stream().map(ConstraintViolation::getMessage).collect(Collectors.toList()));

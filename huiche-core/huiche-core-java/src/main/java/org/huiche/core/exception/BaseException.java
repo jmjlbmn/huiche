@@ -23,26 +23,26 @@ public class BaseException extends RuntimeException {
     private String msg;
 
 
-    public BaseException(@Nonnull BaseError e, @Nonnull String msg) {
+    public BaseException(@Nonnull BaseError error, @Nonnull String msg) {
         super();
-        this.code = e.code();
+        this.code = error.code();
         this.msg = msg;
     }
 
-    public BaseException(@Nonnull BaseError e) {
+    public BaseException(@Nonnull BaseError error) {
         super();
-        this.msg = e.msg();
-        this.code = e.code();
+        this.msg = error.msg();
+        this.code = error.code();
     }
 
     @Nonnull
-    public static BaseException error(@Nonnull String errorMsg) {
-        return new BaseException(SystemError.ERROR, errorMsg);
+    public static BaseException error(@Nonnull String msg) {
+        return new BaseException(SystemError.ERROR, msg);
     }
 
     @Nonnull
-    public static BaseException fail(@Nonnull String failMsg) {
-        return new BaseException(SystemError.FAIL, failMsg);
+    public static BaseException fail(@Nonnull String msg) {
+        return new BaseException(SystemError.FAIL, msg);
     }
 
     @Override
