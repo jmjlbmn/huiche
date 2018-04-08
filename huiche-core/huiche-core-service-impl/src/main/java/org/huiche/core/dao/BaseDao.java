@@ -19,7 +19,6 @@ import org.huiche.core.exception.DataBaseException;
 import org.huiche.core.exception.SystemError;
 import org.huiche.core.page.PageRequest;
 import org.huiche.core.page.PageResponse;
-import org.huiche.core.util.BaseUtil;
 import org.huiche.core.util.DateUtil;
 import org.huiche.core.util.QueryDslUtil;
 import org.huiche.core.util.StringUtil;
@@ -72,7 +71,7 @@ public abstract class BaseDao<T extends BaseEntity> {
         Long id = sqlQueryFactory.insert(root())
                 .populate(entity)
                 .executeWithKey(pk());
-        Assert.ok("新增数据失败", BaseUtil.equals(1, id));
+        Assert.ok("新增数据失败", null != id && id > 0);
         entity.setId(id);
         return 1;
     }
