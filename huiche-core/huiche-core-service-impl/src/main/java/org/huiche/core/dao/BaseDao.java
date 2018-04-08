@@ -358,22 +358,13 @@ public abstract class BaseDao<T extends BaseEntity> {
     }
 
     /**
-     * 获取单个字段
+     * 列表获取数据
      *
-     * @param column    列
-     * @param <Col>     列类型
-     * @param order     排序
-     * @param predicate 条件
-     * @return 字段数据
+     * @return 数据
      */
-    @Nullable
-    public <Col> Col getOneColumn(@Nonnull Expression<Col> column, @Nullable OrderSpecifier<?>[] order, @Nonnull Predicate... predicate) {
-        Assert.ok("条件不能为空", predicate.length > 0);
-        SQLQuery<Col> query = sqlQueryFactory.select(column).from(root()).where(predicate);
-        if (null != order && order.length > 0) {
-            query = query.orderBy(order);
-        }
-        return QueryDslUtil.one(query);
+    @Nonnull
+    public List<T> list() {
+        return QueryDslUtil.list(sqlQueryFactory.selectFrom(root()).orderBy(defaultOrder()));
     }
 
     /**
@@ -384,7 +375,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      */
     @Nonnull
     public List<T> list(@Nonnull String ids) {
-        return QueryDslUtil.list(sqlQueryFactory.selectFrom(root()).where(pk().in(StringUtil.split2ListLong(ids))));
+        return QueryDslUtil.list(sqlQueryFactory.selectFrom(root()).where(pk().in(StringUtil.split2ListLong(ids))).orderBy(defaultOrder()));
     }
 
     /**
@@ -395,7 +386,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      */
     @Nonnull
     public List<T> list(@Nonnull Collection<Long> ids) {
-        return QueryDslUtil.list(sqlQueryFactory.selectFrom(root()).where(pk().in(ids)));
+        return QueryDslUtil.list(sqlQueryFactory.selectFrom(root()).where(pk().in(ids)).orderBy(defaultOrder()));
     }
 
     /**
@@ -406,7 +397,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      */
     @Nonnull
     public List<T> list(@Nonnull Long[] ids) {
-        return QueryDslUtil.list(sqlQueryFactory.selectFrom(root()).where(pk().in(ids)));
+        return QueryDslUtil.list(sqlQueryFactory.selectFrom(root()).where(pk().in(ids)).orderBy(defaultOrder()));
     }
 
     /**
