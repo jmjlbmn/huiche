@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
 
 /**
  * QueryDsl配置
@@ -136,7 +137,7 @@ public class QueryDsl {
                 } else if (o instanceof Null) {
                     sql = sql.replaceFirst("\\?", "NULL");
                 } else {
-                    sql = sql.replaceFirst("\\?", "'" + String.valueOf(o) + "'");
+                    sql = sql.replaceFirst("\\?", "'" + Matcher.quoteReplacement(String.valueOf(o)) + "'");
                 }
             }
         }
