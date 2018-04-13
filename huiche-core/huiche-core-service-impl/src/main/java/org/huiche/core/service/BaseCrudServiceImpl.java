@@ -194,9 +194,9 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServ
     @Transactional(rollbackFor = Exception.class)
     public long save(@Nonnull T entity) {
         if (entity.getId() == null) {
-            return dao().create(entity);
+            return create(entity);
         } else {
-            return dao().update(entity);
+            return update(entity);
         }
     }
 
