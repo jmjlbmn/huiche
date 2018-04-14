@@ -132,7 +132,12 @@ public interface Sql {
                     columnInfo.setType(JDBCType.BIGINT);
                     break;
                 case "java.lang.Float":
+                    columnInfo.setType(JDBCType.FLOAT);
+                    break;
                 case "java.lang.Double":
+                    columnInfo.setType(JDBCType.DOUBLE);
+                    break;
+                case "java.math.BigDecimal":
                     columnInfo.setType(JDBCType.DECIMAL);
                     break;
                 case "java.lang.String":
@@ -160,7 +165,7 @@ public interface Sql {
                 columnInfo.setLength(length);
             } else if (isBoolean) {
                 columnInfo.setLength(1);
-            } else if (columnInfo.getType().equals(JDBCType.DECIMAL)) {
+            } else if (columnInfo.getType().equals(JDBCType.DECIMAL) || columnInfo.getType().equals(JDBCType.FLOAT) || columnInfo.getType().equals(JDBCType.DOUBLE)) {
                 int length = 10;
                 int precision = 2;
                 if (null != column) {

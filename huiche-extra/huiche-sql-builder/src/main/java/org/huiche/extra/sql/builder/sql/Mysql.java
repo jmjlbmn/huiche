@@ -71,6 +71,14 @@ public class Mysql implements Sql {
             case BIGINT:
                 builder.append("BIGINT");
                 break;
+            case FLOAT:
+                builder.append("FLOAT");
+                builder.append(BRACKETS_START).append(columnInfo.getLength()).append(COMMA).append(columnInfo.getPrecision()).append(BRACKETS_END);
+                break;
+            case DOUBLE:
+                builder.append("DOUBLE");
+                builder.append(BRACKETS_START).append(columnInfo.getLength()).append(COMMA).append(columnInfo.getPrecision()).append(BRACKETS_END);
+                break;
             case DECIMAL:
                 builder.append("DECIMAL");
                 builder.append(BRACKETS_START).append(columnInfo.getLength()).append(COMMA).append(columnInfo.getPrecision()).append(BRACKETS_END);
