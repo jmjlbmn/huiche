@@ -12,7 +12,6 @@ import com.querydsl.core.types.dsl.Expressions;
 import lombok.experimental.UtilityClass;
 import org.huiche.core.annotation.search.SearchColumn;
 import org.huiche.core.annotation.search.SearchTable;
-import org.huiche.core.consts.Const;
 import org.huiche.core.entity.BaseEntity;
 import org.huiche.core.util.StringUtil;
 
@@ -198,6 +197,7 @@ public class SearchUtil {
         }
         List<Predicate> predicates = new ArrayList<>();
         Class<? extends BaseEntity> tableClass = entity.getClass();
+        String tableName = StringUtil.toDb(tableClass.getSimpleName());
         for (Method method : tableClass.getMethods()) {
             try {
                 String name = method.getName();
@@ -209,13 +209,13 @@ public class SearchUtil {
                             String valStr = (String) value;
                             if (StringUtil.isNotEmpty(valStr)) {
                                 if (valStr.contains(STAR) || valStr.contains(LINE)) {
-                                    predicates.add(predicate(Const.EMPTY_STR, fieldName, Ops.LIKE_IC, ConstantImpl.create(valStr.replaceAll("\\*", PERCENT))));
+                                    predicates.add(predicate(tableName, fieldName, Ops.LIKE_IC, ConstantImpl.create(valStr.replaceAll("\\*", PERCENT))));
                                 } else {
-                                    predicates.add(predicate(Const.EMPTY_STR, fieldName, Ops.STRING_CONTAINS_IC, ConstantImpl.create(value)));
+                                    predicates.add(predicate(tableName, fieldName, Ops.STRING_CONTAINS_IC, ConstantImpl.create(value)));
                                 }
                             }
                         } else if (value instanceof Number || value instanceof Boolean) {
-                            predicates.add(predicate(Const.EMPTY_STR, fieldName, Ops.EQ, ConstantImpl.create(value)));
+                            predicates.add(predicate(tableName, fieldName, Ops.EQ, ConstantImpl.create(value)));
                         }
                     }
                 }
