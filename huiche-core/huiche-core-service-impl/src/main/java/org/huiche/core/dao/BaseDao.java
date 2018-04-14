@@ -364,7 +364,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      */
     @Nonnull
     public List<T> list() {
-        return QueryDslUtil.list(sqlQueryFactory.selectFrom(root()).orderBy(defaultOrder()));
+        return QueryDslUtil.list(sqlQueryFactory.selectFrom(root()).orderBy(defaultMultiOrder()));
     }
 
     /**
@@ -375,7 +375,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      */
     @Nonnull
     public List<T> list(@Nonnull String ids) {
-        return QueryDslUtil.list(sqlQueryFactory.selectFrom(root()).where(pk().in(StringUtil.split2ListLong(ids))).orderBy(defaultOrder()));
+        return QueryDslUtil.list(sqlQueryFactory.selectFrom(root()).where(pk().in(StringUtil.split2ListLong(ids))).orderBy(defaultMultiOrder()));
     }
 
     /**
@@ -386,7 +386,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      */
     @Nonnull
     public List<T> list(@Nonnull Collection<Long> ids) {
-        return QueryDslUtil.list(sqlQueryFactory.selectFrom(root()).where(pk().in(ids)).orderBy(defaultOrder()));
+        return QueryDslUtil.list(sqlQueryFactory.selectFrom(root()).where(pk().in(ids)).orderBy(defaultMultiOrder()));
     }
 
     /**
@@ -397,7 +397,7 @@ public abstract class BaseDao<T extends BaseEntity> {
      */
     @Nonnull
     public List<T> list(@Nonnull Long[] ids) {
-        return QueryDslUtil.list(sqlQueryFactory.selectFrom(root()).where(pk().in(ids)).orderBy(defaultOrder()));
+        return QueryDslUtil.list(sqlQueryFactory.selectFrom(root()).where(pk().in(ids)).orderBy(defaultMultiOrder()));
     }
 
     /**
@@ -440,7 +440,7 @@ public abstract class BaseDao<T extends BaseEntity> {
         if (null != order) {
             query = query.orderBy(order);
         } else {
-            query = query.orderBy(defaultOrder());
+            query = query.orderBy(defaultMultiOrder());
         }
         if (null != limit) {
             query = query.limit(limit);
@@ -517,7 +517,7 @@ public abstract class BaseDao<T extends BaseEntity> {
         if (null != order) {
             query = query.orderBy(order);
         } else {
-            query = query.orderBy(defaultOrder());
+            query = query.orderBy(defaultMultiOrder());
         }
         if (null != limit) {
             query = query.limit(limit);
@@ -583,7 +583,7 @@ public abstract class BaseDao<T extends BaseEntity> {
         if (null != order) {
             query = query.orderBy(order);
         } else {
-            query = query.orderBy(defaultOrder());
+            query = query.orderBy(defaultMultiOrder());
         }
         if (null != limit) {
             query = query.limit(limit);
@@ -619,7 +619,7 @@ public abstract class BaseDao<T extends BaseEntity> {
         if (order.length > 0) {
             query = query.orderBy(order);
         } else {
-            query = query.orderBy(defaultOrder());
+            query = query.orderBy(defaultMultiOrder());
         }
         return QueryDslUtil.page(pageRequest, query);
     }
@@ -647,7 +647,7 @@ public abstract class BaseDao<T extends BaseEntity> {
             if (orders.length > 0) {
                 query = query.orderBy(orders);
             } else {
-                query = query.orderBy(defaultOrder());
+                query = query.orderBy(defaultMultiOrder());
             }
         }
         return QueryDslUtil.page(pageRequest, query);
@@ -775,7 +775,17 @@ public abstract class BaseDao<T extends BaseEntity> {
     }
 
     /**
-     * 默认排序
+     * 默认多排序
+     *
+     * @return 主键倒序
+     */
+    @Nonnull
+    protected OrderSpecifier[] defaultMultiOrder() {
+        return new OrderSpecifier[]{defaultOrder()};
+    }
+
+    /**
+     * 默认单排序
      *
      * @return 主键倒序
      */
