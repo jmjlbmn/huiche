@@ -140,38 +140,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-    <repositories>
-        <!--优先阿里云-->
-        <repository>
-            <id>aliyun</id>
-            <name>Aliyun Maven</name>
-            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
-        </repository>
-        <!--替补,再找一次中心仓库-->
-        <repository>
-            <id>central-bench</id>
-            <name>Maven Central Bench</name>
-            <url>http://central.maven.org/maven2/</url>
-        </repository>
-        <!--OSS Snapshots-->
-        <repository>
-            <id>oss-snapshots</id>
-            <name>OSS Snapshots</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <!--Spring Snapshots-->
-        <repository>
-            <id>spring-snapshots</id>
-            <name>Spring Snapshots</name>
-            <url>https://repo.spring.io/libs-snapshot</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
     <build>
         <pluginManagement>
             <plugins>
