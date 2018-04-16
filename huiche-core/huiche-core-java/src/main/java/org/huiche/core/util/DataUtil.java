@@ -283,33 +283,33 @@ public class DataUtil {
      */
     @Nonnull
     public static <S, T> List<T> copyList(@Nullable Collection<S> source, @Nonnull Copy<S, T> copy) {
+        return copyList(source, copy, false);
+    }
+
+    /**
+     * 复制列表
+     *
+     * @param source     源集合
+     * @param copy       复制实现
+     * @param ignoreNull 是否跳过空条目
+     * @param <S>        源类型
+     * @param <T>        目标类型
+     * @return 目标数据集合
+     */
+    @Nonnull
+    public static <S, T> List<T> copyList(@Nullable Collection<S> source, @Nonnull Copy<S, T> copy, boolean ignoreNull) {
         List<T> target = new ArrayList<>();
         if (BaseUtil.isEmpty(source)) {
             return target;
         }
         for (S obj : source) {
-            target.add(copy.copy(obj));
-        }
-        return target;
-    }
-
-    /**
-     * 复制数组为新的对象列表
-     *
-     * @param source 源数组
-     * @param copy   复制实现
-     * @param <S>    源类型
-     * @param <T>    目标类型
-     * @return 目标数据集合
-     */
-    @Nonnull
-    public static <S, T> List<T> copyArray2List(@Nonnull S[] source, @Nonnull Copy<S, T> copy) {
-        List<T> target = new ArrayList<>();
-        if (BaseUtil.isEmpty((Object[]) source)) {
-            return target;
-        }
-        for (S obj : source) {
-            target.add(copy.copy(obj));
+            if (null == obj) {
+                if (!ignoreNull) {
+                    target.add(null);
+                }
+            } else {
+                target.add(copy.copy(obj));
+            }
         }
         return target;
     }
@@ -395,6 +395,6 @@ public class DataUtil {
          * @return 复制后的对象
          */
         @Nullable
-        T copy(@Nullable S item);
+        T copy(@Nonnull S item);
     }
 }
