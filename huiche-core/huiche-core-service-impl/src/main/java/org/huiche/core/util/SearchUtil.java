@@ -24,6 +24,7 @@ import java.util.List;
  * @author Maning
  */
 @UtilityClass
+@SuppressWarnings("unchecked")
 public class SearchUtil {
     private static final String STAR = "*";
     private static final String LINE = "_";
