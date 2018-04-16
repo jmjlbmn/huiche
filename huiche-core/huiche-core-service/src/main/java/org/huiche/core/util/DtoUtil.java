@@ -42,7 +42,7 @@ public class DtoUtil {
      * @return dto
      */
     @Nonnull
-    static <DTO extends T, T extends BaseEntity<T>> QBean<DTO> extendBean(@Nonnull Class<DTO> dtoClass, @Nonnull RelationalPath<T> beanPath, @Nonnull Expression... columns) {
+    public static <DTO extends T, T extends BaseEntity<T>> QBean<DTO> extendBean(@Nonnull Class<DTO> dtoClass, @Nonnull RelationalPath<T> beanPath, @Nonnull Expression... columns) {
         return Projections.fields(dtoClass, extendColumn(beanPath, columns));
     }
 }

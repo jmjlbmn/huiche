@@ -7,7 +7,7 @@ import org.huiche.core.exception.SystemError;
 import org.huiche.core.page.PageRequest;
 import org.huiche.core.page.PageResponse;
 import org.huiche.core.search.Search;
-import org.huiche.core.search.SearchUtil;
+import org.huiche.core.util.SearchUtil;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Nonnull;
