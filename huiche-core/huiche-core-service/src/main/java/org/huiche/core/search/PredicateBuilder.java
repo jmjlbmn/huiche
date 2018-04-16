@@ -1,17 +1,13 @@
 package org.huiche.core.search;
 
-import com.querydsl.core.types.ConstantImpl;
 import com.querydsl.core.types.ExpressionUtils;
-import com.querydsl.core.types.Operator;
-import com.querydsl.core.types.Path;
 import com.querydsl.core.types.Predicate;
-import com.querydsl.core.types.dsl.Expressions;
-import org.huiche.core.util.StringUtil;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * 查询条件构造器
@@ -26,28 +22,19 @@ public class PredicateBuilder {
     }
 
     /**
-     * 添加条件
+     * 添加条件,一般情况下推荐使用此种方式,会自动处理空值
      *
-     * @param column   字段
-     * @param operator 操作,比较符
-     * @param val      值
-     * @param <T>      值的类型
-     * @return 构造器
+     * @param op  操作方法
+     * @param val 值
+     * @param <T> 值类型
+     * @return 条件
      */
     @Nonnull
-    public <T> PredicateBuilder predicate(@Nonnull Path<T> column, @Nonnull Operator operator, @Nullable T val) {
-        Predicate predicate = null;
+    public <T> PredicateBuilder predicate(Function<T, Predicate> op, @Nullable T val) {
         if (null != val) {
-            if (val instanceof String) {
-                String valStr = (String) val;
-                if (StringUtil.isNotEmpty(valStr)) {
-                    predicate = Expressions.predicate(operator, column, ConstantImpl.create(val));
-                }
-            } else {
-                predicate = Expressions.predicate(operator, column, ConstantImpl.create(val));
-            }
+            Predicate predicate = op.apply(val);
+            list.add(predicate);
         }
-        list.add(predicate);
         return this;
     }
 
@@ -58,7 +45,7 @@ public class PredicateBuilder {
      * @return 构造器
      */
     @Nonnull
-    public PredicateBuilder predicate(@Nullable Predicate predicate) {
+    public PredicateBuilder predicate(@Nonnull Predicate predicate) {
         list.add(predicate);
         return this;
     }
