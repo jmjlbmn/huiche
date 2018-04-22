@@ -315,9 +315,21 @@ public class StringUtil {
      */
     @Nonnull
     public static List<String> split2List(@Nonnull String str) {
+        return split2List(str, Const.COMMA);
+    }
+
+    /**
+     * 逗号分隔的字符串
+     *
+     * @param str 分隔的字符串
+     * @param sep 分隔符号
+     * @return 字符串list
+     */
+    @Nonnull
+    public static List<String> split2List(@Nonnull String str, @Nonnull String sep) {
         List<String> list = new ArrayList<>();
         if (isNotEmpty(str)) {
-            String[] arr = str.split(Const.COMMA);
+            String[] arr = str.split(sep);
             if (arr.length > 0) {
                 for (String s : arr) {
                     if (isNotEmpty(s)) {
@@ -337,10 +349,22 @@ public class StringUtil {
      */
     @Nonnull
     public static List<Integer> split2ListInt(@Nonnull String str) {
+        return split2ListInt(str, Const.COMMA);
+    }
+
+    /**
+     * 逗号分隔的字符串
+     *
+     * @param str 分隔的int
+     * @param sep 分隔符号
+     * @return list
+     */
+    @Nonnull
+    public static List<Integer> split2ListInt(@Nonnull String str, @Nonnull String sep) {
         List<Integer> list = new ArrayList<>();
         try {
             if (isNotEmpty(str)) {
-                String[] arr = str.split(Const.COMMA);
+                String[] arr = str.split(sep);
                 if (arr.length > 0) {
                     for (String s : arr) {
                         if (isNotEmpty(s)) {
@@ -363,6 +387,18 @@ public class StringUtil {
      */
     @Nonnull
     public static List<Long> split2ListLong(@Nonnull String str) {
+        return split2ListLong(str, Const.COMMA);
+    }
+
+    /**
+     * 逗号分隔的字符串
+     *
+     * @param str 分隔的long
+     * @param sep 分隔符号
+     * @return list
+     */
+    @Nonnull
+    public static List<Long> split2ListLong(@Nonnull String str, @Nonnull String sep) {
         List<Long> list = new ArrayList<>();
         try {
             if (isNotEmpty(str)) {
