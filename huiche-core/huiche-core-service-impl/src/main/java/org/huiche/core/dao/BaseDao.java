@@ -358,6 +358,17 @@ public abstract class BaseDao<T extends BaseEntity> {
     }
 
     /**
+     * 查询数量
+     *
+     * @param predicate 条件
+     * @return 数量
+     */
+    public long count(@Nonnull Predicate... predicate) {
+        Assert.ok("条件不能为空", predicate.length > 0);
+        return QueryDslUtil.count(sqlQueryFactory.selectFrom(root()).where(predicate));
+    }
+
+    /**
      * 列表获取数据
      *
      * @return 数据
