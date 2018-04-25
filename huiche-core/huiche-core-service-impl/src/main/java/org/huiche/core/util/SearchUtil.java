@@ -14,9 +14,11 @@ import org.huiche.core.entity.BaseEntity;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.validation.constraints.Null;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * 筛选工具类
@@ -88,5 +90,70 @@ public class SearchUtil {
         } else {
             return PathMetadataFactory.forProperty(Expressions.path(Object.class, table), column);
         }
+    }
+
+    /**
+     * 条件处理,自定义值的处理方式
+     *
+     * @param check 值检查
+     * @param op    操作方法
+     * @param val   值
+     * @param <T>   值类型
+     * @return 条件
+     */
+    @Nullable
+    public static <T> Predicate predicate(@Nonnull java.util.function.Predicate<T> check, @Nonnull Function<T, Predicate> op, @Nullable T val) {
+        if (check.test(val)) {
+            return op.apply(val);
+        }
+        return null;
+    }
+
+    /**
+     * 条件处理,值非空条件条件
+     *
+     * @param op  操作方法
+     * @param val 值
+     * @param <T> 值类型
+     * @return 条件
+     */
+    @Null
+    public static <T> Predicate predicate(@Nonnull Function<T, Predicate> op, @Nullable T val) {
+        return predicate(BaseUtil::isNotEmpty, op, val);
+    }
+
+    /**
+     * 用and组合多个条件
+     *
+     * @param predicate 多个条件
+     * @return 最终条件
+     */
+    @Nullable
+    public static Predicate predicates(Predicate... predicate) {
+        return ExpressionUtils.allOf(predicate);
+    }
+
+    /**
+     * 等同于predicates
+     *
+     * @param predicate 多个条件
+     * @return 最终条件
+     * @see #predicates(Predicate...)
+     */
+    @Nullable
+    public static Predicate and(Predicate... predicate) {
+        return predicates(predicate);
+    }
+
+    /**
+     * or
+     *
+     * @param left  条件1
+     * @param right 条件2
+     * @return 最终条件
+     */
+    @Nullable
+    public static Predicate or(Predicate left, Predicate right) {
+        return ExpressionUtils.or(left, right);
     }
 }
