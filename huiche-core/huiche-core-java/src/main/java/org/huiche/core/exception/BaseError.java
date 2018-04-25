@@ -20,7 +20,6 @@ public interface BaseError {
      *
      * @return 错误描述
      */
-    @org.jetbrains.annotations.Nullable
     @Nullable
     String msg();
 }

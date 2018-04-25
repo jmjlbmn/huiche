@@ -2,10 +2,9 @@ package org.huiche.core.exception;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * 基础异常
@@ -48,7 +47,7 @@ public class BaseException extends RuntimeException {
         return new BaseException(SystemError.FAIL, msg);
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public String getMessage() {
         return msg + "(" + code + ")";

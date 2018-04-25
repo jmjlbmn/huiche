@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -26,15 +25,13 @@ public class ConstValue {
     /**
      * 描述
      */
-    @org.jetbrains.annotations.Nullable
     public String text;
     /**
      * 扩展信息
      */
-    @org.jetbrains.annotations.Nullable
     public String extra;
 
-    @NotNull
+    @Nonnull
     public static ConstValue put(@Nonnull String value, @Nullable String text) {
         ConstValue constValue = new ConstValue();
         constValue.value = value;
@@ -42,7 +39,7 @@ public class ConstValue {
         return constValue;
     }
 
-    @NotNull
+    @Nonnull
     public static ConstValue put(@Nonnull String value, @Nullable String text, @Nullable String extra) {
         ConstValue constValue = new ConstValue();
         constValue.value = value;

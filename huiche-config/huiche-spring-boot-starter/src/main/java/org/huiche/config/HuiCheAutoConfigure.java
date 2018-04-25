@@ -38,6 +38,7 @@ public class HuiCheAutoConfigure {
     public JsonApi jsonUtil(ObjectMapper objectMapper) {
         return new JsonApi() {
             @Override
+            @Nonnull
             public String toJson(Object object) {
                 try {
                     return objectMapper.writeValueAsString(object);
@@ -47,6 +48,7 @@ public class HuiCheAutoConfigure {
             }
 
             @Override
+            @Nonnull
             public <T> T fromJson(String json, @Nonnull Class<T> clazz) {
                 try {
                     return objectMapper.readValue(json, clazz);

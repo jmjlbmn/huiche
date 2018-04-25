@@ -1,7 +1,8 @@
 package org.huiche.core.consts;
 
 import org.huiche.core.annotation.consts.ConstVal;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 /**
  * 是否,用于所有判断是否的情况

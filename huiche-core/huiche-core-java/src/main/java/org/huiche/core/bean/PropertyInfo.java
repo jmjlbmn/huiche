@@ -2,7 +2,6 @@ package org.huiche.core.bean;
 
 
 import org.huiche.core.util.StringUtil;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -19,7 +18,7 @@ public class PropertyInfo {
     private static final String GET = "get";
     private static final String SET = "set";
     private static final String IS = "is";
-    @NotNull
+    @Nonnull
     private final Field field;
     private final String name;
     private Method readMethod;

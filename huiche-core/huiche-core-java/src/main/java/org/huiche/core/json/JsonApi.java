@@ -15,8 +15,7 @@ public interface JsonApi {
      * @param object 对象
      * @return json字符串
      */
-    @org.jetbrains.annotations.Nullable
-    @Nullable
+    @Nonnull
     String toJson(@Nullable Object object);
 
     /**
@@ -27,7 +26,6 @@ public interface JsonApi {
      * @param <T>   类型
      * @return 对象
      */
-    @org.jetbrains.annotations.Nullable
-    @Nullable
+    @Nonnull
     <T> T fromJson(@Nullable String json, @Nonnull Class<T> clazz);
 }
