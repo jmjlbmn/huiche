@@ -68,6 +68,9 @@ public class QueryDslUtil {
      * @return 数量
      */
     public static long count(@Nonnull SQLQuery<?> query) {
+        SQLSerializer serializer = new SQLSerializer(QueryDsl.CONFIG);
+        serializer.serialize(query.getMetadata(), true);
+        QueryDsl.logSql(query.getMetadata(), serializer);
         return query.fetchCount();
     }
 
