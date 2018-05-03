@@ -367,7 +367,6 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @return 数量
      */
     public long count(@Nonnull Predicate... predicate) {
-        Assert.ok("条件不能为空", predicate.length > 0);
         return QueryDslUtil.count(sqlQueryFactory.selectFrom(root()).where(predicate));
     }
 
