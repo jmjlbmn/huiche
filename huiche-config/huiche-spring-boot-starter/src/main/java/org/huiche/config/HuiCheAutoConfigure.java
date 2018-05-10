@@ -86,8 +86,4 @@ public class HuiCheAutoConfigure {
                 .failFast(true)
                 .buildValidatorFactory().getValidator();
     }
-
-    public static void main(String[] args) throws IOException {
-        System.out.println(new ObjectMapper().writeValueAsString(null));
-    }
 }
