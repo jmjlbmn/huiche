@@ -6,6 +6,7 @@ import org.hibernate.validator.HibernateValidator;
 import org.huiche.core.exception.BaseException;
 import org.huiche.core.exception.SystemError;
 import org.huiche.core.json.JsonApi;
+import org.huiche.core.util.StringUtil;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -15,6 +16,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import java.io.IOException;
@@ -39,7 +41,7 @@ public class HuiCheAutoConfigure {
         return new JsonApi() {
             @Override
             @Nonnull
-            public String toJson(Object object) {
+            public String toJson(@Nonnull Object object) {
                 try {
                     return objectMapper.writeValueAsString(object);
                 } catch (JsonProcessingException e) {
@@ -49,10 +51,10 @@ public class HuiCheAutoConfigure {
 
             @Override
             @Nonnull
-            public <T> T fromJson(String json, @Nonnull Class<T> clazz) {
+            public <T> T fromJson(@Nonnull String json, @Nonnull Class<T> clazz) {
                 try {
                     return objectMapper.readValue(json, clazz);
-                } catch (IOException e) {
+                } catch (Exception e) {
                     throw new BaseException(SystemError.JSON_ERROR);
                 }
             }
@@ -83,5 +85,9 @@ public class HuiCheAutoConfigure {
                 .configure()
                 .failFast(true)
                 .buildValidatorFactory().getValidator();
+    }
+
+    public static void main(String[] args) throws IOException {
+        System.out.println(new ObjectMapper().writeValueAsString(null));
     }
 }
