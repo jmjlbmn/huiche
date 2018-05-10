@@ -41,8 +41,11 @@ public class HuiCheAutoConfigure {
         return new JsonApi() {
             @Override
             @Nonnull
-            public String toJson(@Nonnull Object object) {
+            public String toJson(@Nullable Object object) {
                 try {
+                    if (null == object) {
+                        return "";
+                    }
                     return objectMapper.writeValueAsString(object);
                 } catch (JsonProcessingException e) {
                     throw new BaseException(SystemError.JSON_ERROR);
@@ -51,8 +54,11 @@ public class HuiCheAutoConfigure {
 
             @Override
             @Nonnull
-            public <T> T fromJson(@Nonnull String json, @Nonnull Class<T> clazz) {
+            public <T> T fromJson(@Nullable String json, @Nonnull Class<T> clazz) {
                 try {
+                    if(StringUtil.isEmpty(json)){
+                        return clazz.newInstance();
+                    }
                     return objectMapper.readValue(json, clazz);
                 } catch (Exception e) {
                     throw new BaseException(SystemError.JSON_ERROR);
