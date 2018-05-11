@@ -9,7 +9,6 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.sql.RelationalPath;
 import com.querydsl.sql.SQLQuery;
-import com.querydsl.sql.SQLQueryFactory;
 import com.querydsl.sql.dml.DefaultMapper;
 import com.querydsl.sql.dml.SQLInsertClause;
 import com.querydsl.sql.dml.SQLUpdateClause;
@@ -21,7 +20,6 @@ import org.huiche.core.page.PageRequest;
 import org.huiche.core.page.PageResponse;
 import org.huiche.core.util.DateUtil;
 import org.huiche.core.util.QueryDslUtil;
-import org.huiche.core.util.SearchUtil;
 import org.huiche.core.util.StringUtil;
 import org.huiche.core.validation.ValidOnlyCreate;
 import org.slf4j.Logger;
@@ -32,16 +30,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
-import javax.annotation.Resource;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
-import javax.validation.constraints.Null;
 import javax.validation.groups.Default;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -49,14 +44,12 @@ import java.util.stream.Collectors;
  *
  * @author Maning
  */
-public abstract class BaseDao<T extends BaseEntity> {
+public abstract class BaseDao<T extends BaseEntity> extends CommonDao {
     protected final Logger log = LoggerFactory.getLogger(getClass());
     /**
      * 主键
      */
     protected final NumberPath<Long> pk = Expressions.numberPath(Long.class, PathMetadataFactory.forProperty(root(), "id"));
-    @Resource
-    protected SQLQueryFactory sqlQueryFactory;
     @Qualifier("fastValidator")
     @Autowired(required = false)
     protected Validator validator;
@@ -163,8 +156,8 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param predicate 条件
      * @return 变更条数
      */
-    public long update(@Nonnull T entity, @Nonnull Predicate... predicate) {
-        Assert.ok("条件不能为空", predicate.length > 0);
+    public long update(@Nonnull T entity, @Nullable Predicate... predicate) {
+        Assert.ok("更新时条件不能为空", null != predicate && predicate.length > 0);
         // 强制不更新ID
         entity.setId(null);
         validRegular(entity);
@@ -217,8 +210,8 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param predicate 条件
      * @return 变更条数
      */
-    public long delete(@Nonnull Predicate... predicate) {
-        Assert.ok("条件不能为空", predicate.length > 0);
+    public long delete(@Nullable Predicate... predicate) {
+        Assert.ok("删除时条件不能为空", null != predicate && predicate.length > 0);
         return sqlQueryFactory.delete(root()).where(predicate).execute();
     }
 
@@ -238,9 +231,12 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param predicate 条件
      * @return 是否存在
      */
-    public boolean exists(@Nonnull Predicate... predicate) {
-        Assert.ok("条件不能为空", predicate.length > 0);
-        return sqlQueryFactory.from(root()).where(predicate).fetchCount() > 0;
+    public boolean exists(@Nullable Predicate... predicate) {
+        SQLQuery<?> query = sqlQueryFactory.from(root());
+        if (null != predicate && predicate.length > 0) {
+            query = query.where(predicate);
+        }
+        return QueryDslUtil.count(query) > 0;
     }
 
     /**
@@ -261,9 +257,12 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @return 数据
      */
     @Nullable
-    public T get(@Nonnull Predicate... predicate) {
-        Assert.ok("条件不能为空", predicate.length > 0);
-        return QueryDslUtil.one(sqlQueryFactory.selectFrom(root()).where(predicate));
+    public T get(@Nullable Predicate... predicate) {
+        SQLQuery<T> query = sqlQueryFactory.selectFrom(root());
+        if (null != predicate && predicate.length > 0) {
+            query = query.where(predicate);
+        }
+        return QueryDslUtil.one(query);
     }
 
     /**
@@ -274,9 +273,11 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @return 数据
      */
     @Nullable
-    public T get(@Nullable OrderSpecifier<?> order, @Nonnull Predicate... predicate) {
-        Assert.ok("条件不能为空", predicate.length > 0);
-        SQLQuery<T> query = sqlQueryFactory.selectFrom(root()).where(predicate);
+    public T get(@Nullable OrderSpecifier<?> order, @Nullable Predicate... predicate) {
+        SQLQuery<T> query = sqlQueryFactory.selectFrom(root());
+        if (null != predicate && predicate.length > 0) {
+            query = query.where(predicate);
+        }
         if (null != order) {
             query = query.orderBy(order);
         }
@@ -291,11 +292,15 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @return 数据
      */
     @Nullable
-    public T getColumns(@Nonnull Predicate predicate, @Nonnull Expression<?>... columns) {
+    public T getColumns(@Nullable Predicate predicate, @Nonnull Expression<?>... columns) {
         Assert.ok("要获取字段不能为空", columns.length > 0);
-        return QueryDslUtil.one(sqlQueryFactory.select(
+        SQLQuery<T> query = sqlQueryFactory.select(
                 Projections.fields(root(), columns)
-        ).from(root()).where(predicate));
+        ).from(root());
+        if (null != predicate) {
+            query = query.where(predicate);
+        }
+        return QueryDslUtil.one(query);
     }
 
     /**
@@ -307,11 +312,14 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @return 数据
      */
     @Nullable
-    public T getColumns(@Nonnull Predicate predicate, @Nullable OrderSpecifier<?> order, @Nonnull Expression<?>... columns) {
+    public T getColumns(@Nullable Predicate predicate, @Nullable OrderSpecifier<?> order, @Nonnull Expression<?>... columns) {
         Assert.ok("要获取字段不能为空", columns.length > 0);
         SQLQuery<T> query = sqlQueryFactory.select(
                 Projections.fields(root(), columns)
-        ).from(root()).where(predicate);
+        ).from(root());
+        if (null != predicate) {
+            query = query.where(predicate);
+        }
         if (null != order) {
             query = query.orderBy(order);
         }
@@ -340,9 +348,12 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @return 字段数据
      */
     @Nullable
-    public <Col> Col getOneColumn(@Nonnull Expression<Col> column, @Nonnull Predicate... predicate) {
-        Assert.ok("条件不能为空", predicate.length > 0);
-        return QueryDslUtil.one(sqlQueryFactory.select(column).from(root()).where(predicate));
+    public <Col> Col getOneColumn(@Nonnull Expression<Col> column, @Nullable Predicate... predicate) {
+        SQLQuery<Col> query = sqlQueryFactory.select(column).from(root());
+        if (null != predicate && predicate.length > 0) {
+            query = query.where(predicate);
+        }
+        return QueryDslUtil.one(query);
     }
 
     /**
@@ -355,9 +366,12 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @return 字段数据
      */
     @Nullable
-    public <Col> Col getOneColumn(@Nonnull Expression<Col> column, @Nonnull OrderSpecifier<?> order, @Nonnull Predicate... predicate) {
-        Assert.ok("条件不能为空", predicate.length > 0);
-        return QueryDslUtil.one(sqlQueryFactory.select(column).from(root()).where(predicate).orderBy(order));
+    public <Col> Col getOneColumn(@Nonnull Expression<Col> column, @Nonnull OrderSpecifier<?> order, @Nullable Predicate... predicate) {
+        SQLQuery<Col> query = sqlQueryFactory.select(column).from(root());
+        if (null != predicate && predicate.length > 0) {
+            query = query.where(predicate);
+        }
+        return QueryDslUtil.one(query.orderBy(order));
     }
 
     /**
@@ -366,8 +380,12 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @param predicate 条件
      * @return 数量
      */
-    public long count(@Nonnull Predicate... predicate) {
-        return QueryDslUtil.count(sqlQueryFactory.selectFrom(root()).where(predicate));
+    public long count(@Nullable Predicate... predicate) {
+        SQLQuery<T> query = sqlQueryFactory.selectFrom(root());
+        if (null != predicate && predicate.length > 0) {
+            query = query.where(predicate);
+        }
+        return QueryDslUtil.count(query);
     }
 
     /**
@@ -805,67 +823,5 @@ public abstract class BaseDao<T extends BaseEntity> {
     @Nonnull
     protected OrderSpecifier defaultOrder() {
         return pk().desc();
-    }
-
-    /**
-     * 条件处理,自定义值的处理方式
-     *
-     * @param check 值检查
-     * @param op    操作方法
-     * @param val   值
-     * @param <T>   值类型
-     * @return 条件
-     */
-    @Nullable
-    protected static <T> Predicate predicate(@Nonnull java.util.function.Predicate<T> check, @Nonnull Function<T, Predicate> op, @Nullable T val) {
-        return SearchUtil.predicate(check, op, val);
-    }
-
-    /**
-     * 条件处理,值非空条件条件
-     *
-     * @param op  操作方法
-     * @param val 值
-     * @param <T> 值类型
-     * @return 条件
-     */
-    @Null
-    protected static <T> Predicate predicate(@Nonnull Function<T, Predicate> op, @Nullable T val) {
-        return SearchUtil.predicate(op, val);
-    }
-
-    /**
-     * 用and组合多个条件
-     *
-     * @param predicate 多个条件
-     * @return 最终条件
-     */
-    @Nullable
-    protected static Predicate predicates(@Nonnull Predicate... predicate) {
-        return SearchUtil.predicates(predicate);
-    }
-
-    /**
-     * 等同于predicates
-     *
-     * @param predicate 多个条件
-     * @return 最终条件
-     * @see #predicates(Predicate...)
-     */
-    @Nullable
-    protected static Predicate and(@Nonnull Predicate... predicate) {
-        return SearchUtil.and(predicate);
-    }
-
-    /**
-     * or
-     *
-     * @param left  条件1
-     * @param right 条件2
-     * @return 最终条件
-     */
-    @Nullable
-    protected static Predicate or(@Nullable Predicate left, @Nullable Predicate right) {
-        return SearchUtil.or(left, right);
     }
 }
