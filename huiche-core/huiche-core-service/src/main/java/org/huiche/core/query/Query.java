@@ -22,7 +22,7 @@ public interface Query {
      * @return 条件
      */
     @Nullable
-    static <T> Predicate predicate(@Nonnull java.util.function.Predicate<T> check, @Nonnull Function<T, Predicate> op, @Nullable T val) {
+    default <T> Predicate predicate(@Nonnull java.util.function.Predicate<T> check, @Nonnull Function<T, Predicate> op, @Nullable T val) {
         if (check.test(val)) {
             return op.apply(val);
         }
@@ -38,7 +38,7 @@ public interface Query {
      * @return 条件
      */
     @Nullable
-    static <T> Predicate predicate(@Nonnull Function<T, Predicate> op, @Nullable T val) {
+    default <T> Predicate predicate(@Nonnull Function<T, Predicate> op, @Nullable T val) {
         return predicate(BaseUtil::isNotEmpty, op, val);
     }
 
@@ -49,20 +49,8 @@ public interface Query {
      * @return 最终条件
      */
     @Nullable
-    static Predicate predicates(@Nonnull Predicate... predicate) {
+    default Predicate predicates(@Nonnull Predicate... predicate) {
         return ExpressionUtils.allOf(predicate);
-    }
-
-    /**
-     * 等同于predicates
-     *
-     * @param predicate 多个条件
-     * @return 最终条件
-     * @see #predicates(Predicate...)
-     */
-    @Nullable
-    static Predicate and(@Nonnull Predicate... predicate) {
-        return predicates(predicate);
     }
 
     /**
@@ -73,7 +61,7 @@ public interface Query {
      * @return 最终条件
      */
     @Nullable
-    static Predicate or(@Nullable Predicate left, @Nullable Predicate right) {
+    default Predicate or(@Nullable Predicate left, @Nullable Predicate right) {
         return ExpressionUtils.or(left, right);
     }
 }

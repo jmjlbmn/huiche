@@ -19,7 +19,7 @@ import org.huiche.core.exception.SystemError;
 import org.huiche.core.page.PageRequest;
 import org.huiche.core.page.PageResponse;
 import org.huiche.core.util.DateUtil;
-import org.huiche.core.util.QueryDslUtil;
+import org.huiche.core.util.QueryUtil;
 import org.huiche.core.util.StringUtil;
 import org.huiche.core.validation.ValidOnlyCreate;
 import org.slf4j.Logger;
@@ -236,7 +236,7 @@ public abstract class BaseCrudDao<T extends BaseEntity> extends BaseDao {
         if (null != predicate && predicate.length > 0) {
             query = query.where(predicate);
         }
-        return QueryDslUtil.count(query) > 0;
+        return QueryUtil.count(query) > 0;
     }
 
     /**
@@ -247,7 +247,7 @@ public abstract class BaseCrudDao<T extends BaseEntity> extends BaseDao {
      */
     @Nullable
     public T get(@Nonnull Long id) {
-        return QueryDslUtil.one(sqlQueryFactory.selectFrom(root()).where(pk().eq(id)));
+        return QueryUtil.one(sqlQueryFactory.selectFrom(root()).where(pk().eq(id)));
     }
 
     /**
@@ -262,7 +262,7 @@ public abstract class BaseCrudDao<T extends BaseEntity> extends BaseDao {
         if (null != predicate && predicate.length > 0) {
             query = query.where(predicate);
         }
-        return QueryDslUtil.one(query);
+        return QueryUtil.one(query);
     }
 
     /**
@@ -281,7 +281,7 @@ public abstract class BaseCrudDao<T extends BaseEntity> extends BaseDao {
         if (null != order) {
             query = query.orderBy(order);
         }
-        return QueryDslUtil.one(query);
+        return QueryUtil.one(query);
     }
 
     /**
@@ -300,7 +300,7 @@ public abstract class BaseCrudDao<T extends BaseEntity> extends BaseDao {
         if (null != predicate) {
             query = query.where(predicate);
         }
-        return QueryDslUtil.one(query);
+        return QueryUtil.one(query);
     }
 
     /**
@@ -323,7 +323,7 @@ public abstract class BaseCrudDao<T extends BaseEntity> extends BaseDao {
         if (null != order) {
             query = query.orderBy(order);
         }
-        return QueryDslUtil.one(query);
+        return QueryUtil.one(query);
     }
 
     /**
@@ -353,7 +353,7 @@ public abstract class BaseCrudDao<T extends BaseEntity> extends BaseDao {
         if (null != predicate && predicate.length > 0) {
             query = query.where(predicate);
         }
-        return QueryDslUtil.one(query);
+        return QueryUtil.one(query);
     }
 
     /**
@@ -371,7 +371,7 @@ public abstract class BaseCrudDao<T extends BaseEntity> extends BaseDao {
         if (null != predicate && predicate.length > 0) {
             query = query.where(predicate);
         }
-        return QueryDslUtil.one(query.orderBy(order));
+        return QueryUtil.one(query.orderBy(order));
     }
 
     /**
@@ -385,7 +385,7 @@ public abstract class BaseCrudDao<T extends BaseEntity> extends BaseDao {
         if (null != predicate && predicate.length > 0) {
             query = query.where(predicate);
         }
-        return QueryDslUtil.count(query);
+        return QueryUtil.count(query);
     }
 
     /**
@@ -395,7 +395,7 @@ public abstract class BaseCrudDao<T extends BaseEntity> extends BaseDao {
      */
     @Nonnull
     public List<T> list() {
-        return QueryDslUtil.list(sqlQueryFactory.selectFrom(root()).orderBy(defaultMultiOrder()));
+        return QueryUtil.list(sqlQueryFactory.selectFrom(root()).orderBy(defaultMultiOrder()));
     }
 
     /**
@@ -406,7 +406,7 @@ public abstract class BaseCrudDao<T extends BaseEntity> extends BaseDao {
      */
     @Nonnull
     public List<T> list(@Nonnull String ids) {
-        return QueryDslUtil.list(sqlQueryFactory.selectFrom(root()).where(pk().in(StringUtil.split2ListLong(ids))).orderBy(defaultMultiOrder()));
+        return QueryUtil.list(sqlQueryFactory.selectFrom(root()).where(pk().in(StringUtil.split2ListLong(ids))).orderBy(defaultMultiOrder()));
     }
 
     /**
@@ -417,7 +417,7 @@ public abstract class BaseCrudDao<T extends BaseEntity> extends BaseDao {
      */
     @Nonnull
     public List<T> list(@Nonnull Collection<Long> ids) {
-        return QueryDslUtil.list(sqlQueryFactory.selectFrom(root()).where(pk().in(ids)).orderBy(defaultMultiOrder()));
+        return QueryUtil.list(sqlQueryFactory.selectFrom(root()).where(pk().in(ids)).orderBy(defaultMultiOrder()));
     }
 
     /**
@@ -428,7 +428,7 @@ public abstract class BaseCrudDao<T extends BaseEntity> extends BaseDao {
      */
     @Nonnull
     public List<T> list(@Nonnull Long[] ids) {
-        return QueryDslUtil.list(sqlQueryFactory.selectFrom(root()).where(pk().in(ids)).orderBy(defaultMultiOrder()));
+        return QueryUtil.list(sqlQueryFactory.selectFrom(root()).where(pk().in(ids)).orderBy(defaultMultiOrder()));
     }
 
     /**
@@ -476,7 +476,7 @@ public abstract class BaseCrudDao<T extends BaseEntity> extends BaseDao {
         if (null != limit) {
             query = query.limit(limit);
         }
-        return QueryDslUtil.list(query);
+        return QueryUtil.list(query);
     }
 
     /**
@@ -553,7 +553,7 @@ public abstract class BaseCrudDao<T extends BaseEntity> extends BaseDao {
         if (null != limit) {
             query = query.limit(limit);
         }
-        return QueryDslUtil.list(query);
+        return QueryUtil.list(query);
     }
 
     /**
@@ -619,7 +619,7 @@ public abstract class BaseCrudDao<T extends BaseEntity> extends BaseDao {
         if (null != limit) {
             query = query.limit(limit);
         }
-        return QueryDslUtil.list(query);
+        return QueryUtil.list(query);
     }
 
     /**
@@ -646,13 +646,13 @@ public abstract class BaseCrudDao<T extends BaseEntity> extends BaseDao {
         if (null != predicate && predicate.length > 0) {
             query = query.where(predicate);
         }
-        OrderSpecifier[] order = QueryDslUtil.parsePageRequest(pageRequest);
+        OrderSpecifier[] order = QueryUtil.parsePageRequest(pageRequest);
         if (order.length > 0) {
             query = query.orderBy(order);
         } else {
             query = query.orderBy(defaultMultiOrder());
         }
-        return QueryDslUtil.page(pageRequest, query);
+        return QueryUtil.page(pageRequest, query);
     }
 
     /**
@@ -674,14 +674,14 @@ public abstract class BaseCrudDao<T extends BaseEntity> extends BaseDao {
         if (null != order) {
             query = query.orderBy(order);
         } else {
-            OrderSpecifier[] orders = QueryDslUtil.parsePageRequest(pageRequest);
+            OrderSpecifier[] orders = QueryUtil.parsePageRequest(pageRequest);
             if (orders.length > 0) {
                 query = query.orderBy(orders);
             } else {
                 query = query.orderBy(defaultMultiOrder());
             }
         }
-        return QueryDslUtil.page(pageRequest, query);
+        return QueryUtil.page(pageRequest, query);
     }
 
     /**

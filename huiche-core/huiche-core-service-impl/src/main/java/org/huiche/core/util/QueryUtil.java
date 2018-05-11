@@ -26,7 +26,7 @@ import java.util.Map;
  * @author Maning
  */
 @SuppressWarnings("unchecked")
-public class QueryDslUtil {
+public class QueryUtil {
     /**
      * 分页查询
      *
