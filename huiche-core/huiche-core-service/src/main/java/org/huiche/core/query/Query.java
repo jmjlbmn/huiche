@@ -1,7 +1,8 @@
-package org.huiche.core.dao;
+package org.huiche.core.query;
 
+import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Predicate;
-import org.huiche.core.util.SearchUtil;
+import org.huiche.core.util.BaseUtil;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -22,7 +23,10 @@ public interface Query {
      */
     @Nullable
     static <T> Predicate predicate(@Nonnull java.util.function.Predicate<T> check, @Nonnull Function<T, Predicate> op, @Nullable T val) {
-        return SearchUtil.predicate(check, op, val);
+        if (check.test(val)) {
+            return op.apply(val);
+        }
+        return null;
     }
 
     /**
@@ -35,7 +39,7 @@ public interface Query {
      */
     @Nullable
     static <T> Predicate predicate(@Nonnull Function<T, Predicate> op, @Nullable T val) {
-        return SearchUtil.predicate(op, val);
+        return predicate(BaseUtil::isNotEmpty, op, val);
     }
 
     /**
@@ -46,7 +50,7 @@ public interface Query {
      */
     @Nullable
     static Predicate predicates(@Nonnull Predicate... predicate) {
-        return SearchUtil.predicates(predicate);
+        return ExpressionUtils.allOf(predicate);
     }
 
     /**
@@ -58,7 +62,7 @@ public interface Query {
      */
     @Nullable
     static Predicate and(@Nonnull Predicate... predicate) {
-        return SearchUtil.and(predicate);
+        return predicates(predicate);
     }
 
     /**
@@ -70,6 +74,6 @@ public interface Query {
      */
     @Nullable
     static Predicate or(@Nullable Predicate left, @Nullable Predicate right) {
-        return SearchUtil.or(left, right);
+        return ExpressionUtils.or(left, right);
     }
 }

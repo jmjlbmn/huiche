@@ -1,6 +1,6 @@
 package org.huiche.core.service;
 
-import org.huiche.core.dao.Query;
+import org.huiche.core.query.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 

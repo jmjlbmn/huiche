@@ -1,13 +1,13 @@
 package org.huiche.core.service;
 
-import org.huiche.core.dao.BaseDao;
+import org.huiche.core.dao.BaseCrudDao;
 import org.huiche.core.entity.BaseEntity;
 import org.huiche.core.exception.Assert;
 import org.huiche.core.exception.SystemError;
 import org.huiche.core.page.PageRequest;
 import org.huiche.core.page.PageResponse;
 import org.huiche.core.search.Search;
-import org.huiche.core.util.SearchUtil;
+import org.huiche.core.util.QueryDslUtil;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Nonnull;
@@ -142,7 +142,7 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServ
     @Override
     @Nonnull
     public List<T> list(@Nullable T search) {
-        return dao().list(SearchUtil.ofEntity(search));
+        return dao().list(QueryDslUtil.ofEntity(search));
     }
 
     /**
@@ -167,7 +167,7 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServ
     @Override
     @Nonnull
     public PageResponse<T> page(@Nullable PageRequest pageRequest, @Nullable T search) {
-        return dao().page(pageRequest, SearchUtil.ofEntity(search));
+        return dao().page(pageRequest, QueryDslUtil.ofEntity(search));
     }
 
     /**
@@ -239,5 +239,5 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServ
      *
      * @return dao
      */
-    protected abstract BaseDao<T> dao();
+    protected abstract BaseCrudDao<T> dao();
 }
