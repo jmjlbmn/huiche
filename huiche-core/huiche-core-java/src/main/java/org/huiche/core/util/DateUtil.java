@@ -1,6 +1,7 @@
 package org.huiche.core.util;
 
 import lombok.experimental.UtilityClass;
+import org.huiche.core.exception.BaseException;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -45,7 +46,7 @@ public class DateUtil {
      * @param time 时间字符串
      * @return Date
      */
-    @Nullable
+    @Nonnull
     public static Date from(@Nonnull String time) {
         return from(time, "yyyy-MM-dd HH:mm:ss");
     }
@@ -57,14 +58,13 @@ public class DateUtil {
      * @param format 格式化
      * @return Date
      */
-    @Nullable
+    @Nonnull
     public static Date from(@Nonnull String time, @Nonnull String format) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
         try {
             return simpleDateFormat.parse(time);
         } catch (ParseException e) {
-            e.printStackTrace();
-            return null;
+            throw BaseException.error("日期解析失败: " + time + " , format: " + format);
         }
     }
 
