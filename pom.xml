@@ -18,6 +18,8 @@
         <module>huiche-web</module>
         <module>huiche-extra</module>
     </modules>
+    <name>huiche</name>
+    <description>huiche framework Powered by spring-boot and querydsl</description>
     <url>https://github.com/jmjlbmn/huiche</url>
     <licenses>
         <license>
