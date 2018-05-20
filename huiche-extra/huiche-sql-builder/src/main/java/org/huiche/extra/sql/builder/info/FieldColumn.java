@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import org.huiche.core.annotation.sql.Column;
+import org.huiche.annotation.sql.Column;
 
 import javax.annotation.Nonnull;
 

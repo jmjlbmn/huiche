@@ -1,1 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=org.huiche.config.QueryDslAutoConfigure,org.huiche.config.HuiCheAutoConfigure

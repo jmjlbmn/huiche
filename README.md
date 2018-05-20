@@ -1,6 +1,6 @@
 # HuiChe 
 [![build](https://img.shields.io/travis/jmjlbmn/huiche.svg?style=flat-square)](https://travis-ci.org/jmjlbmn/huiche)
-[![maven](https://img.shields.io/maven-metadata/v/http/central.maven.org/maven2/com/github/jmjlbmn/huiche/maven-metadata.xml.svg?style=flat-square)](https://mvnrepository.com/artifact/com.github.jmjlbmn)
+[![maven](https://img.shields.io/maven-metadata/v/http/central.maven.org/maven2/com/github/jmjlbmn/huiche/maven-metadata.xml.svg?style=flat-square)](https://mvnrepository.com/artifact/org.huiche)
 - 主要基于 Spring Boot
 - 数据库交互 QueryDSL
 - Web容器 Undertow

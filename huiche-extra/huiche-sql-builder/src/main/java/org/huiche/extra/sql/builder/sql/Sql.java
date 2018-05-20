@@ -1,7 +1,7 @@
 package org.huiche.extra.sql.builder.sql;
 
-import org.huiche.core.annotation.sql.Column;
-import org.huiche.core.annotation.sql.Table;
+import org.huiche.annotation.sql.Column;
+import org.huiche.annotation.sql.Table;
 import org.huiche.extra.sql.builder.Util;
 import org.huiche.extra.sql.builder.info.ColumnCompareInfo;
 import org.huiche.extra.sql.builder.info.ColumnInfo;

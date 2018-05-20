@@ -5,17 +5,17 @@
     <!--版本请自行添加或使用dependencyManagement-->
     <dependencies>
         <dependency>
-            <groupId>com.github.jmjlbmn</groupId>
+            <groupId>org.huiche</groupId>
             <artifactId>huiche-core-annotation</artifactId>
         </dependency>
     </dependencies>
 ```
 
-## 实体类/表注解 `org.huiche.core.annotation.sql.Table` 参数:
+## 实体类/表注解 `org.huiche.annotation.sql.Table` 参数:
 - `value` 表名,不填默认值为类名用下划线分隔,小写的形式,如实体UserGroup,默认表名为user_group
 - `comment` 表注释
 > `Table` 注解必须添加,不然不会被扫描到
-## 属性/字段注解 `org.huiche.core.annotation.sql.Column` 参数:
+## 属性/字段注解 `org.huiche.annotation.sql.Column` 参数:
 - `value` 字段名,不填默认值为类名用下划线分隔,小写的形式,如字段userRole,默认字段名为user_role
 - `isPrimaryKey` 是否主键,默认`false`
 - `isAutoIncrement` 是否自增,默认true,仅字段是主键时生效
@@ -39,7 +39,7 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.jmjlbmn</groupId>
+            <groupId>org.huiche</groupId>
             <artifactId>huiche-sql-builder</artifactId>
         </dependency>
     </dependencies>

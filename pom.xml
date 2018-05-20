@@ -4,17 +4,20 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.jmjlbmn</groupId>
+    <groupId>org.huiche</groupId>
     <artifactId>huiche</artifactId>
-    <version>1.1.1-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
+        <module>huiche-annotation</module>
         <module>huiche-core</module>
-        <module>huiche-config</module>
+        <module>huiche-data</module>
+        <module>huiche-service</module>
+        <module>huiche-dao</module>
+        <module>huiche-service-impl</module>
+        <module>huiche-web</module>
         <module>huiche-extra</module>
     </modules>
-    <name>HuiChe Framework</name>
-    <description>HuiChe Framework</description>
     <url>https://github.com/jmjlbmn/huiche</url>
     <licenses>
         <license>
@@ -29,7 +32,7 @@
         </developer>
     </developers>
     <properties>
-        <huiche.version>1.1.1-SNAPSHOT</huiche.version>
+        <huiche.version>1.0.0-SNAPSHOT</huiche.version>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -40,7 +43,6 @@
         <querydsl.version>4.2.1</querydsl.version>
         <jsr305.version>3.0.2</jsr305.version>
         <jetbrains-annotations.version>16.0.1</jetbrains-annotations.version>
-        <reflections.version>0.9.11</reflections.version>
     </properties>
     <scm>
         <url>https://github.com/jmjlbmn/huiche</url>
@@ -64,11 +66,6 @@
                 <groupId>org.jetbrains</groupId>
                 <artifactId>annotations</artifactId>
                 <version>${jetbrains-annotations.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.reflections</groupId>
-                <artifactId>reflections</artifactId>
-                <version>${reflections.version}</version>
             </dependency>
             <!--Druid数据库连接池-->
             <dependency>
@@ -97,45 +94,55 @@
                 <artifactId>querydsl-sql-codegen</artifactId>
                 <version>${querydsl.version}</version>
             </dependency>
-            <!--内部依赖-->
+            <!--内部组件-->
             <dependency>
-                <groupId>com.github.jmjlbmn</groupId>
-                <artifactId>huiche-core-annotation</artifactId>
+                <groupId>org.huiche</groupId>
+                <artifactId>huiche-annotation</artifactId>
                 <version>${huiche.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.github.jmjlbmn</groupId>
-                <artifactId>huiche-core-java</artifactId>
+                <groupId>org.huiche</groupId>
+                <artifactId>huiche-core</artifactId>
                 <version>${huiche.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.github.jmjlbmn</groupId>
-                <artifactId>huiche-core-service</artifactId>
+                <groupId>org.huiche</groupId>
+                <artifactId>huiche-data</artifactId>
                 <version>${huiche.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.github.jmjlbmn</groupId>
-                <artifactId>huiche-core-service-impl</artifactId>
+                <groupId>org.huiche</groupId>
+                <artifactId>huiche-service</artifactId>
                 <version>${huiche.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.github.jmjlbmn</groupId>
-                <artifactId>huiche-core-web</artifactId>
+                <groupId>org.huiche</groupId>
+                <artifactId>huiche-dao</artifactId>
                 <version>${huiche.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.github.jmjlbmn</groupId>
+                <groupId>org.huiche</groupId>
+                <artifactId>huiche-service-impl</artifactId>
+                <version>${huiche.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.huiche</groupId>
+                <artifactId>huiche-web</artifactId>
+                <version>${huiche.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.huiche</groupId>
                 <artifactId>huiche-spring-boot-starter</artifactId>
                 <version>${huiche.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.github.jmjlbmn</groupId>
+                <groupId>org.huiche</groupId>
                 <artifactId>huiche-sql-builder</artifactId>
                 <version>${huiche.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.github.jmjlbmn</groupId>
-                <artifactId>huiche-codegen-querydsl</artifactId>
+                <groupId>org.huiche</groupId>
+                <artifactId>huiche-querydsl-codegen</artifactId>
                 <version>${huiche.version}</version>
             </dependency>
         </dependencies>

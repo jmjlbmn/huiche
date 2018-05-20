@@ -1,6 +1,6 @@
 package org.huiche.extra.sql.builder;
 
-import org.huiche.core.annotation.sql.Column;
+import org.huiche.annotation.sql.Column;
 import org.huiche.extra.sql.builder.info.FieldColumn;
 
 import javax.annotation.Nonnull;

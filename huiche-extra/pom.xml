@@ -4,17 +4,17 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>huiche</artifactId>
-        <groupId>com.github.jmjlbmn</groupId>
-        <version>1.1.1-SNAPSHOT</version>
+        <groupId>org.huiche</groupId>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
-    <artifactId>huiche-extra</artifactId>
-    <name>HuiChe Framework Extra</name>
     <packaging>pom</packaging>
-    <modules>
-        <module>huiche-sql-builder</module>
-        <module>huiche-codegen-querydsl</module>
-    </modules>
+    <modelVersion>4.0.0</modelVersion>
 
+    <artifactId>huiche-extra</artifactId>
+    <modules>
+        <module>huiche-spring-boot-starter</module>
+        <module>huiche-querydsl-codegen</module>
+        <module>huiche-sql-builder</module>
+    </modules>
 
 </project>
