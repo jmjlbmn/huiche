@@ -16,7 +16,7 @@
 - [huiche-examples](https://github.com/jmjlbmn/huiche-examples)
 
 ## Maven 当前版本为: 1.0.0
-配置pom文件parent为org.huiche:huiche(推荐)
+一、配置为pom文件parent(推荐)
 ```xml
 <parent>
     <groupId>org.huiche</groupId>
@@ -27,14 +27,26 @@
 或,在dependencyManagement开始的位置添加
 ```xml
 <dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.huiche</groupId>
+            <artifactId>huiche</artifactId>
+            <version>1.0.0</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+```
+二、添加starter依赖
+```xml
+<dependencies>
     <dependency>
         <groupId>org.huiche</groupId>
-        <artifactId>huiche</artifactId>
+        <artifactId>huiche-spring-boot-starter</artifactId>
         <version>1.0.0</version>
-        <type>pom</type>
-        <scope>import</scope>
     </dependency>
-</dependencyManagement>
+</dependencies>
 ```
 如果想要体验最新功能或需要较快的bug修复,可以使用SNAPSHOT版本,版本号一般是:
 - 正式版本:`x.y.z` 如`1.0.0`
