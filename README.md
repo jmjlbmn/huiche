@@ -36,7 +36,7 @@
     </dependency>
 </dependencyManagement>
 ```
-- 如果想用最新版本,可以使用SNAPSHOT版本,版本号一般是:
+- 如果想要体验最新功能或需要较快的bug修复,可以使用SNAPSHOT版本,版本号一般是:
   - 正式版本:`x.y.z` 如`1.0.0`
   - SNAPSHOT版本:`x.y.(z+1)-SNAPSHOT` 如`1.0.1-SNAPSHOT`
   - 另外需要额外在pom文件配置SNAPSHOT版本的仓库
