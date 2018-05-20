@@ -1,7 +1,8 @@
 # HuiChe
 [![build](https://img.shields.io/travis/jmjlbmn/huiche.svg?style=flat-square)](https://travis-ci.org/jmjlbmn/huiche)
 [![maven](https://img.shields.io/maven-metadata/v/http/central.maven.org/maven2/org/huiche/huiche/maven-metadata.xml.svg?style=flat-square)](https://mvnrepository.com/artifact/org.huiche)
-# 主要功能
+## 基于SpringBoot和QueryDsl的快速开发框架
+## 主要功能
 - 基于QueryDsl的快速,类型安全的SQL查询
 - 涵盖大部分单表查询场景的通用Dao
 - 方便实用的关联查询
