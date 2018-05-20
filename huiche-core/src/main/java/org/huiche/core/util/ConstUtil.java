@@ -17,27 +17,6 @@ import java.util.List;
 @UtilityClass
 public class ConstUtil {
     /**
-     * 获取常量类的常量值
-     *
-     * @param constant 常量类
-     * @param <T>      常量类
-     * @return 值
-     */
-    @Nonnull
-    public static <T> List<ConstValue> getValList(@Nonnull Class<T> constant) {
-        List<ConstValue> list = new ArrayList<>();
-        for (Field field : constant.getFields()) {
-            ConstVal annotation = field.getAnnotation(ConstVal.class);
-            try {
-                list.add(new ConstValue(field.get(null).toString(), annotation.value()));
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
-        return list;
-    }
-
-    /**
      * 获取常量类的值和扩展数据
      *
      * @param constant 常量
@@ -45,14 +24,15 @@ public class ConstUtil {
      * @return 值和扩展数据
      */
     @Nonnull
-    public static <T> List<ConstValue> getValListWithExtra(@Nonnull Class<T> constant) {
+    public static <T> List<ConstValue> list(@Nonnull Class<T> constant) {
         List<ConstValue> list = new ArrayList<>();
         for (Field field : constant.getFields()) {
             ConstVal annotation = field.getAnnotation(ConstVal.class);
-            try {
-                list.add(new ConstValue(field.get(null).toString(), annotation.value(), annotation.extra()));
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
+            if (null != annotation) {
+                try {
+                    list.add(new ConstValue(field.get(null).toString(), annotation.value(), annotation.extra()));
+                } catch (IllegalAccessException ignored) {
+                }
             }
         }
         return list;
@@ -67,12 +47,12 @@ public class ConstUtil {
      * @return 描述
      */
     @Nonnull
-    public static <T> String getTextByValue(@Nonnull Class<T> constant, @Nonnull Object value) {
-        for (ConstValue val : getValList(constant)) {
+    public static <T> String val(@Nonnull Class<T> constant, @Nonnull Object value) {
+        for (ConstValue val : list(constant)) {
             if (val.getValue().equals(value.toString())) {
                 return val.getText();
             }
         }
-        return value + "";
+        return value.toString();
     }
 }

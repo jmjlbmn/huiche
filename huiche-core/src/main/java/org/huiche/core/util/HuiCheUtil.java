@@ -15,7 +15,7 @@ import java.util.Objects;
  * @author Maning
  */
 @UtilityClass
-public class BaseUtil {
+public class HuiCheUtil {
     /**
      * 是否是空集合或数组
      *
@@ -200,16 +200,16 @@ public class BaseUtil {
      * @param target 对象数组
      * @return 是否在
      */
-    public static boolean in(@Nonnull Object src, @Nullable Object... target) {
-        if (null != target) {
+    @SafeVarargs
+    public static <T> boolean in(@Nullable T src, @Nonnull T... target) {
+        if (null != src) {
             for (Object t : target) {
                 if (Objects.equals(src, t)) {
                     return true;
                 }
             }
-            return false;
         }
-        return Objects.equals(src, null);
+        return false;
     }
 
     /**

@@ -1,7 +1,7 @@
 package org.huiche.web.api.method;
 
 import org.huiche.core.util.Assert;
-import org.huiche.core.util.BaseUtil;
+import org.huiche.core.util.HuiCheUtil;
 import org.huiche.data.entity.BaseEntity;
 import org.huiche.web.ServiceProvider;
 import org.huiche.web.api.Api;
@@ -29,7 +29,7 @@ public interface Update<T extends BaseEntity<T>> extends Api, ServiceProvider<T>
     @PutMapping("{id}")
     default BaseResult<Long> update(@Nonnull @RequestBody T entity, @Nullable @PathVariable Long id) {
         Long eId = entity.getId();
-        Assert.ok("要更新的对象ID不一致", null == eId || BaseUtil.equals(eId, id));
+        Assert.ok("要更新的对象ID不一致", null == eId || HuiCheUtil.equals(eId, id));
         return ok(service().update(entity));
     }
 }

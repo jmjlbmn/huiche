@@ -28,8 +28,8 @@ public class HuiCheException extends RuntimeException {
     }
 
     public HuiCheException(String msg) {
-        super(StringUtil.isEmpty(msg) ? HuiCheError.ERROR.msg() : msg);
-        this.code = HuiCheError.ERROR.code();
+        super(StringUtil.isEmpty(msg) ? HuiCheError.FAIL.msg() : msg);
+        this.code = HuiCheError.FAIL.code();
         this.msg = getMessage();
     }
 
@@ -46,14 +46,14 @@ public class HuiCheException extends RuntimeException {
     }
 
     public HuiCheException(String msg, Throwable e) {
-        super(StringUtil.isEmpty(msg) ? HuiCheError.ERROR.msg() : msg, e);
-        this.code = HuiCheError.ERROR.code();
+        super(StringUtil.isEmpty(msg) ? HuiCheError.FAIL.msg() : msg, e);
+        this.code = HuiCheError.FAIL.code();
         this.msg = getMessage();
     }
 
     public HuiCheException(BaseError error, String msg) {
-        super(StringUtil.isEmpty(msg) ? HuiCheError.ERROR.msg() : msg);
-        this.code = null == error ? HuiCheError.ERROR.code() : error.code();
+        super(StringUtil.isEmpty(msg) ? HuiCheError.FAIL.msg() : msg);
+        this.code = null == error ? HuiCheError.FAIL.code() : error.code();
         this.msg = getMessage();
     }
 }

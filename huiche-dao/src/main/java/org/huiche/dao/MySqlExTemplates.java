@@ -10,7 +10,6 @@ import java.sql.Types;
  * @author Maning
  */
 public class MySqlExTemplates extends MySQLTemplates {
-
     @Override
     public String getCastTypeNameForCode(int code) {
         switch (code) {

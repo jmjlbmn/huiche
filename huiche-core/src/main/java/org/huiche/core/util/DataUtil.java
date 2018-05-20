@@ -51,7 +51,7 @@ public class DataUtil {
      */
     @Nonnull
     public static <S, T> List<T> copyList(@Nullable Collection<S> source, @Nonnull Function<S, T> mapper) {
-        return copyList(source, mapper, false);
+        return copyList(source, mapper, true);
     }
 
     /**
@@ -67,7 +67,7 @@ public class DataUtil {
     @Nonnull
     public static <S, T> List<T> copyList(@Nullable Collection<S> source, @Nonnull Function<S, T> mapper, boolean ignoreNull) {
         List<T> target = new ArrayList<>();
-        if (BaseUtil.isEmpty(source)) {
+        if (HuiCheUtil.isEmpty(source)) {
             return target;
         }
         for (S obj : source) {
@@ -161,7 +161,7 @@ public class DataUtil {
      */
     @Nonnull
     public static <T> List<T> distinctList(@Nonnull List<T> list) {
-        if (BaseUtil.isNotEmpty(list)) {
+        if (HuiCheUtil.isNotEmpty(list)) {
             List<T> newList = new ArrayList<>();
             Set<T> set = new TreeSet<>();
             for (T t : list) {
@@ -192,7 +192,7 @@ public class DataUtil {
             log.debug("传入转换对象为空,直接返回传入的target");
             return target;
         }
-        Assert.ok("复制集合或数组请使用copyList或copyArray", BaseUtil.isNotListAndArray(source) && BaseUtil.isNotListAndArray(target));
+        Assert.ok("复制集合或数组请使用copyList或copyArray", HuiCheUtil.isNotListAndArray(source) && HuiCheUtil.isNotListAndArray(target));
         Map<String, PropertyInfo> sourceMap = getPropertyMap(source.getClass());
         Map<String, PropertyInfo> targetMap = getPropertyMap(target.getClass());
         for (String propertyName : targetMap.keySet()) {
@@ -235,7 +235,7 @@ public class DataUtil {
                             } else if (Integer.class.equals(sourceType) && Boolean.class.equals(targetType)) {
                                 // 原类型Integer,目标类型Boolean
                                 Integer val = (Integer) sourceVal;
-                                writeMethod.invoke(target, BaseUtil.equals(If.YES, val));
+                                writeMethod.invoke(target, HuiCheUtil.equals(If.YES, val));
                             } else if (BigDecimal.class.equals(sourceType) && Double.class.equals(targetType)) {
                                 // 原类型BigDecimal,目标类型Double
                                 BigDecimal val = (BigDecimal) sourceVal;
@@ -264,7 +264,7 @@ public class DataUtil {
                                 if (ValEnum.class.isAssignableFrom(targetType)) {
                                     for (Object object : targetType.getEnumConstants()) {
                                         ValEnum valEnum = (ValEnum) object;
-                                        if (BaseUtil.equals(valEnum.val(), sourceVal)) {
+                                        if (HuiCheUtil.equals(valEnum.val(), sourceVal)) {
                                             writeMethod.invoke(target, valEnum);
                                             break;
                                         }
@@ -278,7 +278,7 @@ public class DataUtil {
                                             targetType.getName());
                                     for (Object object : targetType.getEnumConstants()) {
                                         Enum valEnum = (Enum) object;
-                                        if (BaseUtil.equals(valEnum.ordinal(), sourceVal)) {
+                                        if (HuiCheUtil.equals(valEnum.ordinal(), sourceVal)) {
                                             writeMethod.invoke(target, valEnum);
                                             break;
                                         }

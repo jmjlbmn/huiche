@@ -5,8 +5,6 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.io.Serializable;
 
 /**
@@ -32,12 +30,12 @@ public class ConstValue implements Serializable {
      */
     public String extra;
 
-    public ConstValue(@Nonnull String value, @Nullable String text) {
+    public ConstValue(String value, String text) {
         this.value = value;
         this.text = text;
     }
 
-    public ConstValue(@Nonnull String value, @Nullable String text, @Nullable String extra) {
+    public ConstValue(String value, String text, String extra) {
         this.value = value;
         this.text = text;
         this.extra = extra;

@@ -1,7 +1,7 @@
 package org.huiche.core.consts;
 
 import org.huiche.annotation.consts.ConstVal;
-import org.huiche.core.util.BaseUtil;
+import org.huiche.core.util.HuiCheUtil;
 
 import javax.annotation.Nullable;
 
@@ -23,7 +23,7 @@ public interface If {
      * @return Integer 是否
      */
     static int of(@Nullable Boolean flag) {
-        if (BaseUtil.equals(true, flag)) {
+        if (HuiCheUtil.equals(true, flag)) {
             return YES;
         } else {
             return NO;
@@ -37,6 +37,6 @@ public interface If {
      * @return 布尔是否
      */
     static boolean to(@Nullable Integer flag) {
-        return BaseUtil.equals(YES, flag);
+        return HuiCheUtil.equals(YES, flag);
     }
 }

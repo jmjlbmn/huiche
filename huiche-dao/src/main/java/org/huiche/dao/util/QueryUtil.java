@@ -8,7 +8,6 @@ import com.querydsl.core.types.Operator;
 import com.querydsl.core.types.Ops;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.Path;
 import com.querydsl.core.types.PathMetadata;
 import com.querydsl.core.types.PathMetadataFactory;
 import com.querydsl.core.types.Predicate;
@@ -27,7 +26,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -95,22 +93,6 @@ public class QueryUtil {
     @Nullable
     public static <T> T one(@Nonnull SQLQuery<T> query) {
         return query.fetchFirst();
-    }
-
-    /**
-     * 排除某些列,注意,因性能考虑,应尽可能的定义常量来接收该方法的返回值,保证只需要执行一次
-     *
-     * @param columns 列
-     * @param exclude 排除列
-     * @return 排除后的列表
-     */
-    @Nonnull
-    public static Path<?>[] pathExclude(@Nonnull List<Path<?>> columns, @Nonnull Path<?>... exclude) {
-        if (exclude.length > 0) {
-            List<Path<?>> excludeList = Arrays.asList(exclude);
-            columns.removeIf(excludeList::contains);
-        }
-        return columns.toArray(new Path[0]);
     }
 
     /**

@@ -20,7 +20,7 @@ public @interface ConstVal {
      *
      * @return 值
      */
-    String value() default "";
+    String value();
 
     /**
      * 扩展值,自行定义和取值

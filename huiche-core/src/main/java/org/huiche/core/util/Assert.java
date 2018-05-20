@@ -1,12 +1,14 @@
 package org.huiche.core.util;
 
 import lombok.experimental.UtilityClass;
+import org.huiche.core.enums.ValEnum;
 import org.huiche.core.exception.BaseError;
 import org.huiche.core.exception.HuiCheException;
 import org.jetbrains.annotations.Contract;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.function.Supplier;
 
 
 /**
@@ -49,8 +51,8 @@ public class Assert {
      * @param a     对象a
      * @param b     对象b
      */
-    public static void equals(@Nonnull BaseError error, @Nullable Object a, @Nullable Object b) {
-        if (!BaseUtil.equals(a, b)) {
+    public static <T> void equals(@Nonnull BaseError error, @Nullable T a, @Nullable T b) {
+        if (!HuiCheUtil.equals(a, b)) {
             throw new HuiCheException(error);
         }
     }
@@ -62,8 +64,8 @@ public class Assert {
      * @param a   对象a
      * @param b   对象b
      */
-    public static void equals(@Nonnull String msg, @Nullable Object a, @Nullable Object b) {
-        if (!BaseUtil.equals(a, b)) {
+    public static <T> void equals(@Nonnull String msg, @Nullable T a, @Nullable T b) {
+        if (!HuiCheUtil.equals(a, b)) {
             throw new HuiCheException(msg);
         }
     }
@@ -75,8 +77,8 @@ public class Assert {
      * @param a     对象a
      * @param b     对象b
      */
-    public static void noEquals(@Nonnull BaseError error, @Nullable Object a, @Nullable Object b) {
-        if (BaseUtil.equals(a, b)) {
+    public static <T> void noEquals(@Nonnull BaseError error, @Nullable T a, @Nullable T b) {
+        if (HuiCheUtil.equals(a, b)) {
             throw new HuiCheException(error);
         }
     }
@@ -88,8 +90,8 @@ public class Assert {
      * @param a   对象a
      * @param b   对象b
      */
-    public static void noEquals(@Nonnull String msg, @Nullable Object a, @Nullable Object b) {
-        if (BaseUtil.equals(a, b)) {
+    public static <T> void noEquals(@Nonnull String msg, @Nullable T a, @Nullable T b) {
+        if (HuiCheUtil.equals(a, b)) {
             throw new HuiCheException(msg);
         }
     }
@@ -102,7 +104,7 @@ public class Assert {
      */
     @Contract(value = "_,!null->fail", pure = true)
     public static void isNull(@Nonnull BaseError error, @Nullable Object obj) {
-        if (BaseUtil.isNotEmpty(obj)) {
+        if (HuiCheUtil.isNotEmpty(obj)) {
             throw new HuiCheException(error);
         }
     }
@@ -115,7 +117,7 @@ public class Assert {
      */
     @Contract(value = "_,!null->fail", pure = true)
     public static void isNull(@Nonnull String msg, @Nullable Object obj) {
-        if (BaseUtil.isNotEmpty(obj)) {
+        if (HuiCheUtil.isNotEmpty(obj)) {
             throw new HuiCheException(msg);
         }
     }
@@ -129,7 +131,7 @@ public class Assert {
     public static void isNull(@Nonnull BaseError error, @Nonnull Object... obj) {
         if (obj.length > 0) {
             for (Object o : obj) {
-                if (BaseUtil.isNotEmpty(o)) {
+                if (HuiCheUtil.isNotEmpty(o)) {
                     throw new HuiCheException(error);
                 }
             }
@@ -145,7 +147,7 @@ public class Assert {
     public static void isNull(@Nonnull String msg, @Nonnull Object... obj) {
         if (obj.length > 0) {
             for (Object o : obj) {
-                if (BaseUtil.isNotEmpty(o)) {
+                if (HuiCheUtil.isNotEmpty(o)) {
                     throw new HuiCheException(msg);
                 }
             }
@@ -161,7 +163,7 @@ public class Assert {
      */
     @Contract(value = "_,null->fail", pure = true)
     public static void notNull(@Nonnull BaseError error, @Nullable Object obj) {
-        if (BaseUtil.isEmpty(obj)) {
+        if (HuiCheUtil.isEmpty(obj)) {
             throw new HuiCheException(error);
         }
     }
@@ -176,10 +178,10 @@ public class Assert {
      */
     @Contract(value = "_,null,_->fail;_,_,null->fail", pure = true)
     public static void notNull(@Nonnull BaseError error, @Nullable Object obj1, @Nullable Object obj2) {
-        if (BaseUtil.isEmpty(obj1)) {
+        if (HuiCheUtil.isEmpty(obj1)) {
             throw new HuiCheException(error);
         }
-        if (BaseUtil.isEmpty(obj2)) {
+        if (HuiCheUtil.isEmpty(obj2)) {
             throw new HuiCheException(error);
         }
     }
@@ -195,13 +197,13 @@ public class Assert {
      */
     @Contract(value = "_,null,_,_->fail;_,_,null,_->fail;_,_,_,null->fail", pure = true)
     public static void notNull(@Nonnull BaseError error, @Nullable Object obj1, @Nullable Object obj2, @Nullable Object obj3) {
-        if (BaseUtil.isEmpty(obj1)) {
+        if (HuiCheUtil.isEmpty(obj1)) {
             throw new HuiCheException(error);
         }
-        if (BaseUtil.isEmpty(obj2)) {
+        if (HuiCheUtil.isEmpty(obj2)) {
             throw new HuiCheException(error);
         }
-        if (BaseUtil.isEmpty(obj3)) {
+        if (HuiCheUtil.isEmpty(obj3)) {
             throw new HuiCheException(error);
         }
     }
@@ -218,16 +220,16 @@ public class Assert {
      */
     @Contract(value = "_,null,_,_,_->fail;_,_,null,_,_->fail;_,_,_,null,_->fail;_,_,_,_,null->fail", pure = true)
     public static void notNull(@Nonnull BaseError error, @Nullable Object obj1, @Nullable Object obj2, @Nullable Object obj3, @Nullable Object obj4) {
-        if (BaseUtil.isEmpty(obj1)) {
+        if (HuiCheUtil.isEmpty(obj1)) {
             throw new HuiCheException(error);
         }
-        if (BaseUtil.isEmpty(obj2)) {
+        if (HuiCheUtil.isEmpty(obj2)) {
             throw new HuiCheException(error);
         }
-        if (BaseUtil.isEmpty(obj3)) {
+        if (HuiCheUtil.isEmpty(obj3)) {
             throw new HuiCheException(error);
         }
-        if (BaseUtil.isEmpty(obj4)) {
+        if (HuiCheUtil.isEmpty(obj4)) {
             throw new HuiCheException(error);
         }
     }
@@ -245,38 +247,20 @@ public class Assert {
      */
     @Contract(value = "_,null,_,_,_,_->fail;_,_,null,_,_,_->fail;_,_,_,null,_,_->fail;_,_,_,_,null,_->fail;_,_,_,_,_,null->fail", pure = true)
     public static void notNull(@Nonnull BaseError error, @Nullable Object obj1, @Nullable Object obj2, @Nullable Object obj3, @Nullable Object obj4, @Nullable Object obj5) {
-        if (BaseUtil.isEmpty(obj1)) {
+        if (HuiCheUtil.isEmpty(obj1)) {
             throw new HuiCheException(error);
         }
-        if (BaseUtil.isEmpty(obj2)) {
+        if (HuiCheUtil.isEmpty(obj2)) {
             throw new HuiCheException(error);
         }
-        if (BaseUtil.isEmpty(obj3)) {
+        if (HuiCheUtil.isEmpty(obj3)) {
             throw new HuiCheException(error);
         }
-        if (BaseUtil.isEmpty(obj4)) {
+        if (HuiCheUtil.isEmpty(obj4)) {
             throw new HuiCheException(error);
         }
-        if (BaseUtil.isEmpty(obj5)) {
+        if (HuiCheUtil.isEmpty(obj5)) {
             throw new HuiCheException(error);
-        }
-    }
-
-    /**
-     * 判断是否不是空或null,是空抛出,注意,此方法无法配合进行findbugs静态分析,如果需要判断的值超过5个,请分开进行判断
-     *
-     * @param error 异常
-     * @param obj   对象数组
-     * @throws HuiCheException if the object is {@code null}
-     */
-    @Deprecated
-    public static void notNull(@Nonnull BaseError error, @Nonnull Object... obj) {
-        if (obj.length > 0) {
-            for (Object o : obj) {
-                if (BaseUtil.isEmpty(o)) {
-                    throw new HuiCheException(error);
-                }
-            }
         }
     }
 
@@ -289,7 +273,7 @@ public class Assert {
      */
     @Contract("_, null -> fail")
     public static void notNull(@Nonnull String msg, @Nullable Object obj) {
-        if (BaseUtil.isEmpty(obj)) {
+        if (HuiCheUtil.isEmpty(obj)) {
             throw new HuiCheException(msg);
         }
     }
@@ -304,12 +288,7 @@ public class Assert {
      */
     @Contract("_, null,_ -> fail;_, _,null -> fail")
     public static void notNull(@Nonnull String msg, @Nullable Object obj1, @Nullable Object obj2) {
-        if (BaseUtil.isEmpty(obj1)) {
-            throw new HuiCheException(msg);
-        }
-        if (BaseUtil.isEmpty(obj2)) {
-            throw new HuiCheException(msg);
-        }
+        notNull(BaseError.fail(msg), obj1, obj2);
     }
 
     /**
@@ -323,15 +302,7 @@ public class Assert {
      */
     @Contract("_, null,_,_ -> fail;_, _,null,_ -> fail;_, _,_,null -> fail")
     public static void notNull(@Nonnull String msg, @Nullable Object obj1, @Nullable Object obj2, @Nullable Object obj3) {
-        if (BaseUtil.isEmpty(obj1)) {
-            throw new HuiCheException(msg);
-        }
-        if (BaseUtil.isEmpty(obj2)) {
-            throw new HuiCheException(msg);
-        }
-        if (BaseUtil.isEmpty(obj3)) {
-            throw new HuiCheException(msg);
-        }
+        notNull(BaseError.fail(msg), obj1, obj2, obj3);
     }
 
     /**
@@ -346,18 +317,7 @@ public class Assert {
      */
     @Contract(value = "_,null,_,_,_->fail;_,_,null,_,_->fail;_,_,_,null,_->fail;_,_,_,_,null->fail", pure = true)
     public static void notNull(@Nonnull String msg, @Nullable Object obj1, @Nullable Object obj2, @Nullable Object obj3, @Nullable Object obj4) {
-        if (BaseUtil.isEmpty(obj1)) {
-            throw new HuiCheException(msg);
-        }
-        if (BaseUtil.isEmpty(obj2)) {
-            throw new HuiCheException(msg);
-        }
-        if (BaseUtil.isEmpty(obj3)) {
-            throw new HuiCheException(msg);
-        }
-        if (BaseUtil.isEmpty(obj4)) {
-            throw new HuiCheException(msg);
-        }
+        notNull(BaseError.fail(msg), obj1, obj2, obj3, obj4);
     }
 
     /**
@@ -373,40 +333,7 @@ public class Assert {
      */
     @Contract(value = "_,null,_,_,_,_->fail;_,_,null,_,_,_->fail;_,_,_,null,_,_->fail;_,_,_,_,null,_->fail;_,_,_,_,_,null->fail", pure = true)
     public static void notNull(@Nonnull String msg, @Nullable Object obj1, @Nullable Object obj2, @Nullable Object obj3, @Nullable Object obj4, @Nullable Object obj5) {
-        if (BaseUtil.isEmpty(obj1)) {
-            throw new HuiCheException(msg);
-        }
-        if (BaseUtil.isEmpty(obj2)) {
-            throw new HuiCheException(msg);
-        }
-        if (BaseUtil.isEmpty(obj3)) {
-            throw new HuiCheException(msg);
-        }
-        if (BaseUtil.isEmpty(obj4)) {
-            throw new HuiCheException(msg);
-        }
-        if (BaseUtil.isEmpty(obj5)) {
-            throw new HuiCheException(msg);
-        }
-    }
-
-
-    /**
-     * 判断是否不是空或null,是空抛出,注意,此方法无法配合进行findbugs静态分析,如果需要判断的值超过5个,请分开进行判断
-     *
-     * @param msg 错误说明
-     * @param obj 对象数组
-     */
-    @Deprecated
-    @Contract(value = "_,null->fail", pure = true)
-    public static void notNull(@Nonnull String msg, @Nonnull Object... obj) {
-        if (obj.length > 0) {
-            for (Object o : obj) {
-                if (null == o || BaseUtil.isEmpty(o)) {
-                    throw new HuiCheException(msg);
-                }
-            }
-        }
+        notNull(BaseError.fail(msg), obj1, obj2, obj3, obj4, obj5);
     }
 
     /**
@@ -432,13 +359,13 @@ public class Assert {
     /**
      * 如果不是空,则只需后续OK判断,如果OK判断false抛出
      *
-     * @param error  异常
-     * @param testOk 后续判断
-     * @param obj    对象
+     * @param error 异常
+     * @param ok    正常的逻辑返回true,返回false则抛异常
+     * @param obj   对象
      */
-    public static void ifNotNull(@Nonnull BaseError error, @Nonnull Ok testOk, @Nonnull Object... obj) {
+    public static void ifNotNull(@Nonnull BaseError error, @Nonnull Supplier<Boolean> ok, @Nonnull Object... obj) {
         if (isNotNull(obj)) {
-            if (!testOk.ok()) {
+            if (!HuiCheUtil.equals(true, ok.get())) {
                 throw new HuiCheException(error);
             }
         }
@@ -447,13 +374,13 @@ public class Assert {
     /**
      * 如果不是空,则只需后续OK判断,如果OK判断false抛出
      *
-     * @param msg    错误说明
-     * @param testOk 后续判断
-     * @param obj    对象
+     * @param msg 错误说明
+     * @param ok  正常的逻辑返回true,返回false则抛异常
+     * @param obj 对象
      */
-    public static void ifNotNull(@Nonnull String msg, @Nonnull Ok testOk, @Nonnull Object... obj) {
+    public static void ifNotNull(@Nonnull String msg, @Nonnull Supplier<Boolean> ok, @Nonnull Object... obj) {
         if (isNotNull(obj)) {
-            if (!testOk.ok()) {
+            if (!HuiCheUtil.equals(true, ok.get())) {
                 throw new HuiCheException(msg);
             }
         }
@@ -462,35 +389,159 @@ public class Assert {
     /**
      * 先执行testOk判断,如果为true,则只需ifOk判断,如果false抛出
      *
-     * @param error  异常
-     * @param ifOK   异常判断
-     * @param testOk 是否执行判断
+     * @param error 异常
+     * @param ok    正常的逻辑返回true,返回false则抛异常
+     * @param test  是否执行判断
      */
-    @Contract(value = "_,true,false->fail", pure = true)
-    public static void ifTest(@Nonnull BaseError error, @Nonnull Ok ifOK, @Nonnull Ok testOk) {
-        if (ifOK.ok()) {
-            ok(error, testOk.ok());
+    public static void ifTest(@Nonnull BaseError error, @Nonnull Supplier<Boolean> ok, @Nonnull Supplier<Boolean> test) {
+        if (HuiCheUtil.equals(true, test.get())) {
+            ok(error, HuiCheUtil.equals(true, ok.get()));
         }
     }
 
     /**
      * 先执行testOk判断,如果为true,则只需ifOk判断,如果false抛出
      *
-     * @param msg    错误说明
-     * @param ifOK   异常判断
-     * @param testOk 是否执行判断
+     * @param msg  错误说明
+     * @param ok   正常的逻辑返回true,返回false则抛异常
+     * @param test 是否执行判断
      */
-    @Contract(value = "_,true,false->fail", pure = true)
-    public static void ifTest(@Nonnull String msg, @Nonnull Ok ifOK, @Nonnull Ok testOk) {
-        if (ifOK.ok()) {
-            ok(msg, testOk.ok());
+    public static void ifTest(@Nonnull String msg, @Nonnull Supplier<Boolean> ok, @Nonnull Supplier<Boolean> test) {
+        if (HuiCheUtil.equals(true, test.get())) {
+            ok(msg, HuiCheUtil.equals(true, ok.get()));
         }
+    }
+
+    /**
+     * 先执行testOk判断,如果为true,则只需ifOk判断,如果false抛出
+     *
+     * @param error 错误说明
+     * @param ok    正常的逻辑返回true,返回false则抛异常
+     * @param test  是否执行判断
+     */
+    public static void ifTest(@Nonnull BaseError error, @Nonnull Supplier<Boolean> ok, boolean test) {
+        if (test) {
+            ok(error, HuiCheUtil.equals(true, ok.get()));
+        }
+    }
+
+    /**
+     * 先执行testOk判断,如果为true,则只需ifOk判断,如果false抛出
+     *
+     * @param msg  错误说明
+     * @param ok   正常的逻辑返回true,返回false则抛异常
+     * @param test 是否执行判断
+     */
+    public static void ifTest(@Nonnull String msg, @Nonnull Supplier<Boolean> ok, boolean test) {
+        if (test) {
+            ok(msg, HuiCheUtil.equals(true, ok.get()));
+        }
+    }
+
+    /**
+     * 是否在数组中
+     *
+     * @param error  错误
+     * @param src    源对象
+     * @param target 目标比较对象
+     * @param <T>    类型
+     */
+    @SafeVarargs
+    public static <T> void in(@Nonnull BaseError error, @Nullable T src, @Nonnull T... target) {
+        ok(error, HuiCheUtil.in(src, target));
+    }
+
+    /**
+     * 是否在数组中
+     *
+     * @param msg    错误
+     * @param src    源对象
+     * @param target 目标比较对象
+     * @param <T>    类型
+     */
+    @SafeVarargs
+    public static <T> void in(@Nonnull String msg, @Nullable T src, @Nonnull T... target) {
+        ok(msg, HuiCheUtil.in(src, target));
+    }
+
+    /**
+     * 是否在常量类中
+     *
+     * @param error 错误
+     * @param src   源对象
+     * @param clazz 常量类
+     */
+    public static void inConst(@Nonnull BaseError error, @Nullable Object src, @Nonnull Class<?> clazz) {
+        ok(error, CheckUtil.inConstant(clazz, src));
+    }
+
+    /**
+     * 是否在常量类中
+     *
+     * @param msg   错误
+     * @param src   源对象
+     * @param clazz 常量类
+     */
+    public static void inConst(@Nonnull String msg, @Nullable Object src, @Nonnull Class<?> clazz) {
+        ok(msg, CheckUtil.inConstant(clazz, src));
+    }
+
+    /**
+     * 是否在枚举中
+     *
+     * @param error 错误
+     * @param src   源对象
+     * @param clazz 枚举类
+     */
+    public static <T extends Enum<T>> void inEnum(@Nonnull BaseError error, @Nullable String src, @Nonnull Class<T> clazz) {
+        if (HuiCheUtil.isNotEmpty(src)) {
+            try {
+                Enum.valueOf(clazz, src);
+            } catch (Exception e) {
+                throw new HuiCheException(error);
+            }
+        } else {
+            throw new HuiCheException(error);
+        }
+    }
+
+    /**
+     * 是否在枚举中
+     *
+     * @param msg   错误
+     * @param src   源对象
+     * @param clazz 枚举类
+     */
+    public static <T extends Enum<T>> void inEnum(@Nonnull String msg, @Nullable String src, @Nonnull Class<T> clazz) {
+        inEnum(BaseError.fail(msg), src, clazz);
+    }
+
+    /**
+     * 是否在枚举中
+     *
+     * @param error 错误
+     * @param src   源对象
+     * @param clazz 枚举类
+     */
+    public static <T extends Enum<T> & ValEnum> void inValEnum(@Nonnull BaseError error, @Nullable Integer src, @Nonnull Class<T> clazz) {
+        notNull(error, EnumUtil.of(src, clazz));
+    }
+
+    /**
+     * 是否在枚举中
+     *
+     * @param msg   错误
+     * @param src   源对象
+     * @param clazz 枚举类
+     */
+    public static <T extends Enum<T> & ValEnum> void inValEnum(@Nonnull String msg, @Nullable Integer src, @Nonnull Class<T> clazz) {
+        notNull(msg, EnumUtil.of(src, clazz));
     }
 
     private static boolean isAllNull(@Nonnull Object... obj) {
         if (obj.length > 0) {
             for (Object o : obj) {
-                if (BaseUtil.isNotEmpty(o)) {
+                if (HuiCheUtil.isNotEmpty(o)) {
                     return false;
                 }
             }
@@ -502,27 +553,12 @@ public class Assert {
     private static boolean isNotNull(@Nonnull final Object... obj) {
         if (obj.length > 0) {
             for (Object o : obj) {
-                if (BaseUtil.isEmpty(o)) {
+                if (HuiCheUtil.isEmpty(o)) {
                     return false;
                 }
             }
             return true;
         }
         return false;
-    }
-
-    /**
-     * 提供一个对错是否
-     *
-     * @see java.util.function.Supplier
-     */
-    @FunctionalInterface
-    public interface Ok {
-        /**
-         * 判断条件
-         *
-         * @return 是否
-         */
-        boolean ok();
     }
 }

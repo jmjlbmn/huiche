@@ -4,6 +4,7 @@ import lombok.experimental.UtilityClass;
 import org.huiche.core.consts.ConstValue;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -94,11 +95,13 @@ public class CheckUtil {
      * @param <T>   常量类
      * @return 是否是常量值之一
      */
-    public static <T> boolean inConstant(@Nonnull Class<T> t, @Nonnull Object value) {
-        List<ConstValue> list = ConstUtil.getValList(t);
-        for (ConstValue val : list) {
-            if (BaseUtil.equals(value.toString(), val.value)) {
-                return true;
+    public static <T> boolean inConstant(@Nonnull Class<T> t, @Nullable Object value) {
+        if (HuiCheUtil.isNotEmpty(value)) {
+            List<ConstValue> list = ConstUtil.list(t);
+            for (ConstValue val : list) {
+                if (HuiCheUtil.equals(value.toString(), val.value)) {
+                    return true;
+                }
             }
         }
         return false;

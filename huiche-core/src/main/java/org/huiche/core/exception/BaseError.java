@@ -19,4 +19,24 @@ public interface BaseError {
      * @return 错误描述
      */
     String msg();
+
+    /**
+     * 操作失败
+     *
+     * @param msg 操作失败
+     * @return 操作失败错误
+     */
+    static BaseError fail(String msg) {
+        return new BaseError() {
+            @Override
+            public int code() {
+                return HuiCheError.FAIL.code();
+            }
+
+            @Override
+            public String msg() {
+                return msg;
+            }
+        };
+    }
 }

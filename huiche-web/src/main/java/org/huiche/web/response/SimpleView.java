@@ -55,12 +55,10 @@ public class SimpleView implements View {
     }
 
     @Override
-    public void render(@Nullable Map<String, ?> model, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        if (null != response) {
-            response.setCharacterEncoding("UTF-8");
-            response.setContentType(contentType);
-            response.getWriter().write(content);
-            response.getWriter().flush();
-        }
+    public void render(@Nullable Map<String, ?> model, @Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response) throws Exception {
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType(contentType);
+        response.getWriter().write(content);
+        response.getWriter().flush();
     }
 }

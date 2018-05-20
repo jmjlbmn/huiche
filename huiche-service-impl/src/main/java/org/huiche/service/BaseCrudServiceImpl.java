@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -19,9 +20,9 @@ import java.util.List;
  *
  * @author Maning
  */
-public abstract class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServiceImpl implements BaseCrudService<T> {
+public abstract class BaseCrudServiceImpl<T extends BaseEntity<T>> extends BaseServiceImpl implements BaseCrudService<T> {
     /**
-     * 保存
+     * 保存,新增
      *
      * @param entity 实体
      * @return ID
@@ -36,6 +37,25 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServ
     }
 
     /**
+     * 批量保存,新增
+     *
+     * @param entityList 实体
+     * @return 条数
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public long create(@Nonnull Collection<T> entityList) {
+        entityList.forEach(
+                entity -> {
+                    beforeCreate(entity);
+                    checkOnCreate(entity);
+                    checkRegular(entity);
+                }
+        );
+        return dao().create(entityList);
+    }
+
+    /**
      * 更新
      *
      * @param entity 实体
@@ -47,6 +67,21 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServ
         beforeUpdate(entity);
         checkRegular(entity);
         return dao().update(entity);
+    }
+
+    /**
+     * 更新,包括NULL
+     *
+     * @param entity 实体
+     * @return 更新条数
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public long updateWidthNull(@Nonnull T entity) {
+        beforeCreate(entity);
+        checkOnCreate(entity);
+        checkRegular(entity);
+        return dao().update(entity, false);
     }
 
     /**
@@ -143,6 +178,12 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity> extends BaseServ
     @Nonnull
     public List<T> list(@Nullable T search) {
         return dao().list(QueryUtil.ofEntity(search));
+    }
+
+    @Nonnull
+    @Override
+    public <S extends Search> List<T> list(@Nullable S search) {
+        return dao().list(null == search ? null : search.get());
     }
 
     /**

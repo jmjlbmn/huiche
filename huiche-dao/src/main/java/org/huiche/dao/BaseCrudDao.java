@@ -22,8 +22,6 @@ import org.huiche.data.entity.BaseEntity;
 import org.huiche.data.page.PageRequest;
 import org.huiche.data.page.PageResponse;
 import org.huiche.data.validation.ValidOnlyCreate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -44,8 +42,7 @@ import java.util.stream.Collectors;
  *
  * @author Maning
  */
-public abstract class BaseCrudDao<T extends BaseEntity> extends BaseDao {
-    protected final Logger log = LoggerFactory.getLogger(getClass());
+public abstract class BaseCrudDao<T extends BaseEntity<T>> extends BaseDao {
     /**
      * 主键
      */
@@ -56,24 +53,47 @@ public abstract class BaseCrudDao<T extends BaseEntity> extends BaseDao {
     protected Validator validator;
 
     /**
-     * 新增数据
+     * 新增数据并设置ID(默认,可通过复写doSetId改变)
      *
      * @param entity 实体
-     * @return 变更条数
+     * @return ID
      */
     public long create(@Nonnull T entity) {
-        beforeCreate(entity);
-        validOnCreate(entity);
-        Long id = sql().insert(root())
-                .populate(entity)
-                .executeWithKey(pk());
-        Assert.ok("新增数据失败", null != id && id > 0);
-        entity.setId(id);
-        return 1;
+        return create(entity, doSetId());
     }
 
     /**
-     * 批量插入数据
+     * 新增数据
+     *
+     * @param entity 实体
+     * @param setId  是否设置ID
+     * @return ID
+     */
+    public long create(@Nonnull T entity, boolean setId) {
+        beforeCreate(entity);
+        validOnCreate(entity);
+        Long id = entity.getId();
+        if (null == id) {
+            id = sql().insert(root())
+                    .populate(entity)
+                    .executeWithKey(pk());
+        } else {
+            sql().insert(root())
+                    .populate(entity)
+                    .execute();
+        }
+        if (null == id) {
+            throw new HuiCheException("新增数据失败");
+        } else {
+            if (setId) {
+                entity.setId(id);
+            }
+            return id;
+        }
+    }
+
+    /**
+     * 批量插入数据(会忽略ID)
      *
      * @param entityList 实体
      * @return ID
@@ -83,7 +103,7 @@ public abstract class BaseCrudDao<T extends BaseEntity> extends BaseDao {
     }
 
     /**
-     * 批量插入数据
+     * 批量插入数据(会忽略ID)
      *
      * @param entityList 实体
      * @param fast       是否快速插入,快速插入仅插入需要设置的字段忽略null,但要注意快速插入时,须保证插入的要插入的字段一致,例如要插入name,sex,age字段,批量插入的所有实体都必须设置且只能设置这三个属性的值,不能有null(可以空字符串),不能设置其他属性
@@ -92,23 +112,48 @@ public abstract class BaseCrudDao<T extends BaseEntity> extends BaseDao {
     public long create(@Nonnull Collection<T> entityList, boolean fast) {
         SQLInsertClause insert = sql().insert(root());
         entityList.forEach(t -> {
-            beforeCreate(t);
+            beforeCreate(t.setId(null));
+            validOnCreate(t);
             if (fast) {
                 insert.populate(t).addBatch();
             } else {
                 insert.populate(t, DefaultMapper.WITH_NULL_BINDINGS).addBatch();
             }
         });
-        if (!insert.isEmpty()) {
-            LinkedList<Long> ids = new LinkedList<>(insert.executeWithKeys(pk()));
-            if (entityList.size() == ids.size()) {
-                entityList.forEach(t -> t.setId(ids.poll()));
+        long size = insert.getBatchCount();
+        if (size > 0) {
+            if (doSetId()) {
+                LinkedList<Long> ids = new LinkedList<>(insert.executeWithKeys(pk()));
+                if (entityList.size() == ids.size()) {
+                    entityList.forEach(t -> t.setId(ids.poll()));
+                }
+            } else {
+                insert.execute();
             }
-            return ids.size();
-        } else {
-            insert.clear();
-            return 0;
         }
+        insert.clear();
+        return size;
+    }
+
+    /**
+     * 批量插入数据,可以携带ID,但没有ID的不会进行ID赋值
+     *
+     * @param entityList 实体
+     * @return 变更条数
+     */
+    public long createWithId(@Nonnull Collection<T> entityList) {
+        SQLInsertClause insert = sql().insert(root());
+        entityList.forEach(t -> {
+            beforeCreate(t);
+            validOnCreate(t);
+            insert.populate(t, DefaultMapper.WITH_NULL_BINDINGS).addBatch();
+        });
+        long size = insert.getBatchCount();
+        if (size > 0) {
+            insert.execute();
+        }
+        insert.clear();
+        return size;
     }
 
     /**
@@ -118,10 +163,28 @@ public abstract class BaseCrudDao<T extends BaseEntity> extends BaseDao {
      * @return 变更条数
      */
     public long update(@Nonnull T entity) {
+        return update(entity, true);
+    }
+
+    /**
+     * 根据ID更新实体
+     *
+     * @param entity     实体
+     * @param ignoreNull 是否忽略空属性,忽略时仅对有值的字段进行更新,否则全部进行更新
+     * @return 变更条数
+     */
+    public long update(@Nonnull T entity, boolean ignoreNull) {
         Assert.notNull(HuiCheError.UPDATE_MUST_HAVE_ID, entity.getId());
         beforeUpdate(entity);
         validRegular(entity);
-        return sql().update(root()).populate(entity).where(pk().eq(entity.getId())).execute();
+        SQLUpdateClause update = sql().update(root());
+        if (ignoreNull) {
+            return update.populate(entity).where(pk().eq(entity.getId())).execute();
+        } else {
+            // 忽略null时,需要进行创建验证,防止数据出现问题
+            validOnCreate(entity);
+            return update.populate(entity, DefaultMapper.WITH_NULL_BINDINGS).where(pk().eq(entity.getId())).execute();
+        }
     }
 
     /**
@@ -239,6 +302,21 @@ public abstract class BaseCrudDao<T extends BaseEntity> extends BaseDao {
     }
 
     /**
+     * 是否存在
+     *
+     * @param id        主键ID
+     * @param predicate 条件
+     * @return 是否存在
+     */
+    public boolean exists(@Nonnull Long id, @Nullable Predicate... predicate) {
+        SQLQuery<?> query = sql().from(root()).where(pk().eq(id));
+        if (null != predicate && predicate.length > 0) {
+            query = query.where(predicate);
+        }
+        return QueryUtil.count(query) > 0;
+    }
+
+    /**
      * 通过主键查找
      *
      * @param id 主键
@@ -258,6 +336,22 @@ public abstract class BaseCrudDao<T extends BaseEntity> extends BaseDao {
     @Nullable
     public T get(@Nullable Predicate... predicate) {
         SQLQuery<T> query = sql().selectFrom(root());
+        if (null != predicate && predicate.length > 0) {
+            query = query.where(predicate);
+        }
+        return QueryUtil.one(query);
+    }
+
+    /**
+     * 获取单条数据
+     *
+     * @param id        主键ID
+     * @param predicate 条件
+     * @return 数据
+     */
+    @Nullable
+    public T get(@Nonnull Long id, @Nullable Predicate... predicate) {
+        SQLQuery<T> query = sql().selectFrom(root()).where(pk().eq(id));
         if (null != predicate && predicate.length > 0) {
             query = query.where(predicate);
         }
@@ -286,6 +380,21 @@ public abstract class BaseCrudDao<T extends BaseEntity> extends BaseDao {
     /**
      * 查询单条数据的某些字段
      *
+     * @param id      主键ID
+     * @param columns 字段
+     * @return 数据
+     */
+    @Nullable
+    public T getColumns(@Nonnull Long id, @Nonnull Expression<?>... columns) {
+        Assert.ok("要获取字段不能为空", columns.length > 0);
+        return QueryUtil.one(sql().select(
+                Projections.fields(root(), columns)
+        ).from(root()).where(pk().eq(id)));
+    }
+
+    /**
+     * 查询单条数据的某些字段
+     *
      * @param predicate 条件
      * @param columns   字段
      * @return 数据
@@ -296,6 +405,27 @@ public abstract class BaseCrudDao<T extends BaseEntity> extends BaseDao {
         SQLQuery<T> query = sql().select(
                 Projections.fields(root(), columns)
         ).from(root());
+        if (null != predicate) {
+            query = query.where(predicate);
+        }
+        return QueryUtil.one(query);
+    }
+
+    /**
+     * 查询单条数据的某些字段
+     *
+     * @param id        主键ID
+     * @param predicate 条件
+     * @param columns   字段
+     * @return 数据
+     */
+    @Nullable
+    public T getColumns(@Nonnull Long id, @Nullable Predicate predicate, @Nonnull Expression<?>... columns) {
+        Assert.ok("要获取字段不能为空", columns.length > 0);
+        SQLQuery<T> query = sql()
+                .select(Projections.fields(root(), columns))
+                .from(root())
+                .where(pk().eq(id));
         if (null != predicate) {
             query = query.where(predicate);
         }
@@ -349,6 +479,24 @@ public abstract class BaseCrudDao<T extends BaseEntity> extends BaseDao {
     @Nullable
     public <Col> Col getOneColumn(@Nonnull Expression<Col> column, @Nullable Predicate... predicate) {
         SQLQuery<Col> query = sql().select(column).from(root());
+        if (null != predicate && predicate.length > 0) {
+            query = query.where(predicate);
+        }
+        return QueryUtil.one(query);
+    }
+
+    /**
+     * 获取单个字段
+     *
+     * @param column    列
+     * @param <Col>     列类型
+     * @param id        主键ID
+     * @param predicate 条件
+     * @return 字段数据
+     */
+    @Nullable
+    public <Col> Col getOneColumn(@Nonnull Expression<Col> column, @Nonnull Long id, @Nullable Predicate... predicate) {
+        SQLQuery<Col> query = sql().select(column).from(root()).where(pk().eq(id));
         if (null != predicate && predicate.length > 0) {
             query = query.where(predicate);
         }
@@ -801,6 +949,15 @@ public abstract class BaseCrudDao<T extends BaseEntity> extends BaseDao {
      * @return 是否进行验证
      */
     protected boolean doValid() {
+        return true;
+    }
+
+    /**
+     * 是否在创建对象时SetId
+     *
+     * @return 是否进行验证
+     */
+    protected boolean doSetId() {
         return true;
     }
 

@@ -8,6 +8,7 @@ import org.huiche.data.search.Search;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -15,7 +16,7 @@ import java.util.List;
  *
  * @author Maning
  */
-public interface BaseCrudService<T extends BaseEntity> extends BaseService {
+public interface BaseCrudService<T extends BaseEntity<T>> extends BaseService {
     /**
      * 保存
      *
@@ -25,12 +26,28 @@ public interface BaseCrudService<T extends BaseEntity> extends BaseService {
     long create(@Nonnull T entity);
 
     /**
+     * 保存
+     *
+     * @param entityList 实体
+     * @return 新增条数
+     */
+    long create(@Nonnull Collection<T> entityList);
+
+    /**
      * 更新
      *
      * @param entity 实体
      * @return 更新条数
      */
     long update(@Nonnull T entity);
+
+    /**
+     * 更新,包括NULL
+     *
+     * @param entity 实体
+     * @return 更新条数
+     */
+    long updateWidthNull(@Nonnull T entity);
 
     /**
      * 删除
@@ -105,6 +122,16 @@ public interface BaseCrudService<T extends BaseEntity> extends BaseService {
      */
     @Nonnull
     List<T> list(@Nullable T search);
+
+    /**
+     * 获取数据列表
+     *
+     * @param search 检索
+     * @param <S>    搜索实现类
+     * @return 数据列表
+     */
+    @Nonnull
+    <S extends Search> List<T> list(@Nullable S search);
 
     /**
      * 获取数据分页

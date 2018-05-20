@@ -27,7 +27,7 @@ public class StringUtil {
      * @return 是否
      */
     public static boolean isEmpty(@Nullable String str) {
-        return BaseUtil.isEmpty(str);
+        return HuiCheUtil.isEmpty(str);
     }
 
     /**
@@ -270,7 +270,7 @@ public class StringUtil {
      */
     @Nonnull
     public static String[] list2Arr(@Nonnull Collection<String> list) {
-        if (BaseUtil.isNotEmpty(list)) {
+        if (HuiCheUtil.isNotEmpty(list)) {
             return list.toArray(new String[0]);
         }
         return new String[0];
