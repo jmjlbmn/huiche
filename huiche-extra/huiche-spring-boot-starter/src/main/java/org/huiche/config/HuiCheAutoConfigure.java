@@ -82,7 +82,6 @@ public class HuiCheAutoConfigure {
      * @return 异常处理
      */
     @Bean
-    @ConditionalOnMissingBean
     @ConditionalOnWebApplication
     public ResponseEntityExceptionHandler errorHandler() {
         return new ErrorHandler();

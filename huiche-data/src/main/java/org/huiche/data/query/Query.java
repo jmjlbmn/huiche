@@ -57,20 +57,31 @@ public interface Query {
     }
 
     /**
-     * 排除某些列,注意,因性能考虑,应尽可能的定义常量来接收该方法的返回值,保证只需要执行一次
+     * 条件处理,值非空条件条件
      *
-     * @param columns 列
-     * @param exclude 排除列
-     * @return 排除后的列表
+     * @param op  操作方法
+     * @param val 值
+     * @param <T> 值类型
+     * @return 条件
      */
-    @Nonnull
-    static Path<?>[] pathExclude(@Nonnull List<Path<?>> columns, @Nonnull Path<?>... exclude) {
-        if (exclude.length > 0) {
-            List<Path<?>> excludeList = Arrays.asList(exclude);
-            columns.removeIf(excludeList::contains);
-        }
-        return columns.toArray(new Path[0]);
+    @Nullable
+    default <T> Predicate predicate(@Nonnull Function<T, Predicate> op, @Nullable T val) {
+        return predicate(HuiCheUtil::isNotEmpty, op, val);
     }
+
+    /**
+     * 条件处理,值非空条件条件
+     *
+     * @param predicate 条件
+     * @param val       值
+     * @param <T>       值类型
+     * @return 条件
+     */
+    @Nullable
+    default <T> Predicate predicate(@Nonnull Supplier<Predicate> predicate, @Nullable T val) {
+        return predicate(HuiCheUtil.isNotEmpty(val), predicate.get());
+    }
+
 
     /**
      * 条件处理,自定义值的处理方式
@@ -175,15 +186,18 @@ public interface Query {
     }
 
     /**
-     * 条件处理,值非空条件条件
+     * 排除某些列,注意,因性能考虑,应尽可能的定义常量来接收该方法的返回值,保证只需要执行一次
      *
-     * @param op  操作方法
-     * @param val 值
-     * @param <T> 值类型
-     * @return 条件
+     * @param columns 列
+     * @param exclude 排除列
+     * @return 排除后的列表
      */
-    @Nullable
-    default <T> Predicate predicate(@Nonnull Function<T, Predicate> op, @Nullable T val) {
-        return predicate(HuiCheUtil::isNotEmpty, op, val);
+    @Nonnull
+    static Path<?>[] pathExclude(@Nonnull List<Path<?>> columns, @Nonnull Path<?>... exclude) {
+        if (exclude.length > 0) {
+            List<Path<?>> excludeList = Arrays.asList(exclude);
+            columns.removeIf(excludeList::contains);
+        }
+        return columns.toArray(new Path[0]);
     }
 }
