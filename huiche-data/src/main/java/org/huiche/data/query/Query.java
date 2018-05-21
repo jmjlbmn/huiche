@@ -40,6 +40,23 @@ public interface Query {
     }
 
     /**
+     * 条件处理,自定义值的处理方式
+     *
+     * @param check     值检查
+     * @param predicate 条件
+     * @param val       值
+     * @param <T>       值类型
+     * @return 条件
+     */
+    @Nullable
+    default <T> Predicate predicate(@Nonnull java.util.function.Predicate<T> check, @Nonnull Supplier<Predicate> predicate, @Nullable T val) {
+        if (check.test(val)) {
+            return predicate.get();
+        }
+        return null;
+    }
+
+    /**
      * 排除某些列,注意,因性能考虑,应尽可能的定义常量来接收该方法的返回值,保证只需要执行一次
      *
      * @param columns 列
@@ -83,6 +100,22 @@ public interface Query {
     default <T> Predicate predicate(@Nonnull Supplier<Boolean> check, @Nonnull Predicate predicate) {
         if (HuiCheUtil.equals(true, check.get())) {
             return predicate;
+        }
+        return null;
+    }
+
+    /**
+     * 条件处理,自定义值的处理方式
+     *
+     * @param check     是否添加条件
+     * @param predicate 值
+     * @param <T>       值类型
+     * @return 条件
+     */
+    @Nullable
+    default <T> Predicate predicate(@Nonnull Supplier<Boolean> check, @Nonnull Supplier<Predicate> predicate) {
+        if (HuiCheUtil.equals(true, check.get())) {
+            return predicate.get();
         }
         return null;
     }

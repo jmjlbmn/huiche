@@ -6,7 +6,7 @@
 
     <groupId>org.huiche</groupId>
     <artifactId>huiche</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
         <module>huiche-annotation</module>
@@ -34,7 +34,7 @@
         </developer>
     </developers>
     <properties>
-        <huiche.version>1.0.0</huiche.version>
+        <huiche.version>1.0.1-SNAPSHOT</huiche.version>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
