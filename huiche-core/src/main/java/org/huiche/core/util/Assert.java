@@ -48,6 +48,7 @@ public class Assert {
      * 判断是否相等,不相等抛出
      *
      * @param error 异常
+     * @param <T>   类型
      * @param a     对象a
      * @param b     对象b
      */
@@ -61,6 +62,7 @@ public class Assert {
      * 判断是否相等,不相等抛出
      *
      * @param msg 错误说明
+     * @param <T> 类型
      * @param a   对象a
      * @param b   对象b
      */
@@ -74,6 +76,7 @@ public class Assert {
      * 判断是否不相等,相等抛出
      *
      * @param error 异常
+     * @param <T>   类型
      * @param a     对象a
      * @param b     对象b
      */
@@ -87,6 +90,7 @@ public class Assert {
      * 判断是否不相等,相等抛出
      *
      * @param msg 错误说明
+     * @param <T> 类型
      * @param a   对象a
      * @param b   对象b
      */
@@ -490,6 +494,7 @@ public class Assert {
      * 是否在枚举中
      *
      * @param error 错误
+     * @param <T>   类型
      * @param src   源对象
      * @param clazz 枚举类
      */
@@ -509,6 +514,7 @@ public class Assert {
      * 是否在枚举中
      *
      * @param msg   错误
+     * @param <T>   类型
      * @param src   源对象
      * @param clazz 枚举类
      */
@@ -520,6 +526,7 @@ public class Assert {
      * 是否在枚举中
      *
      * @param error 错误
+     * @param <T>   枚举类型
      * @param src   源对象
      * @param clazz 枚举类
      */
@@ -531,6 +538,7 @@ public class Assert {
      * 是否在枚举中
      *
      * @param msg   错误
+     * @param <T>   类型
      * @param src   源对象
      * @param clazz 枚举类
      */

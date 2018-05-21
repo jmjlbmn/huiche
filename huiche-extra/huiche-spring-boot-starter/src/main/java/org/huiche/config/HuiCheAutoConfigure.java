@@ -83,7 +83,7 @@ public class HuiCheAutoConfigure {
      */
     @Bean
     @ConditionalOnWebApplication
-    public ResponseEntityExceptionHandler errorHandler() {
+    public ErrorHandler errorHandler() {
         return new ErrorHandler();
     }
 

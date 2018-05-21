@@ -79,7 +79,10 @@ public interface Query {
      */
     @Nullable
     default <T> Predicate predicate(@Nonnull Supplier<Predicate> predicate, @Nullable T val) {
-        return predicate(HuiCheUtil.isNotEmpty(val), predicate.get());
+        if (HuiCheUtil.isNotEmpty(val)) {
+            return predicate.get();
+        }
+        return null;
     }
 
 

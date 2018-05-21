@@ -198,6 +198,7 @@ public class HuiCheUtil {
      *
      * @param src    对象
      * @param target 对象数组
+     * @param <T>    类型
      * @return 是否在
      */
     @SafeVarargs
