@@ -1,11 +1,9 @@
 package org.huiche.data.page;
 
 import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
-import lombok.experimental.Accessors;
+import org.huiche.core.util.HuiCheUtil;
 
-import javax.annotation.Nonnull;
 import java.io.Serializable;
 
 /**
@@ -13,9 +11,7 @@ import java.io.Serializable;
  *
  * @author Maning
  */
-@Setter
 @Getter
-@Accessors(chain = true)
 @ToString
 public class PageRequest implements Serializable {
     private int page = 1;
@@ -29,23 +25,51 @@ public class PageRequest implements Serializable {
     public PageRequest() {
     }
 
-    public PageRequest(int page) {
-        this.page = page;
+    public PageRequest(Integer page) {
+        this.page = null == page ? 1 : page;
     }
 
-    public PageRequest(int page, int rows) {
-        this.page = page;
-        this.rows = rows;
+    public PageRequest(Integer page, Integer rows) {
+        this.page = null == page ? 1 : page;
+        this.rows = null == rows ? 10 : rows;
     }
 
-    public PageRequest(int page, int rows, @Nonnull String sort, @Nonnull String order) {
-        this.page = page;
-        this.rows = rows;
-        this.sort = sort;
-        this.order = order;
+    public PageRequest(Integer page, Integer rows, String sort, String order) {
+        this.page = null == page ? 1 : page;
+        this.rows = null == rows ? 10 : rows;
+        if (HuiCheUtil.isNotEmpty(sort)) {
+            this.sort = sort;
+        }
+        if (HuiCheUtil.isNotEmpty(order)) {
+            this.order = order;
+        }
     }
 
     public long getOffset() {
         return (page - 1) * rows;
+    }
+
+    public PageRequest setPage(Integer page) {
+        this.page = null == page ? 1 : page;
+        return this;
+    }
+
+    public PageRequest setRows(Integer rows) {
+        this.rows = null == rows ? 10 : rows;
+        return this;
+    }
+
+    public PageRequest setSort(String sort) {
+        if (HuiCheUtil.isNotEmpty(sort)) {
+            this.sort = sort;
+        }
+        return this;
+    }
+
+    public PageRequest setOrder(String order) {
+        if (HuiCheUtil.isNotEmpty(order)) {
+            this.order = order;
+        }
+        return this;
     }
 }
