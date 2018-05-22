@@ -23,41 +23,22 @@ import java.util.function.Supplier;
  */
 public interface Query {
     /**
-     * 条件处理,自定义值的处理方式
+     * 如果ok为true,则返回条件,否则返回null
      *
-     * @param check 值检查
-     * @param op    操作方法
-     * @param val   值
-     * @param <T>   值类型
+     * @param ok        是否添加条件
+     * @param predicate 条件提供者
      * @return 条件
      */
     @Nullable
-    default <T> Predicate predicate(@Nonnull java.util.function.Predicate<T> check, @Nonnull Function<T, Predicate> op, @Nullable T val) {
-        if (check.test(val)) {
-            return op.apply(val);
-        }
-        return null;
-    }
-
-    /**
-     * 条件处理,自定义值的处理方式
-     *
-     * @param check     值检查
-     * @param predicate 条件
-     * @param val       值
-     * @param <T>       值类型
-     * @return 条件
-     */
-    @Nullable
-    default <T> Predicate predicate(@Nonnull java.util.function.Predicate<T> check, @Nonnull Supplier<Predicate> predicate, @Nullable T val) {
-        if (check.test(val)) {
+    default Predicate predicate(boolean ok, @Nonnull Supplier<Predicate> predicate) {
+        if (ok) {
             return predicate.get();
         }
         return null;
     }
 
     /**
-     * 条件处理,值非空条件条件
+     * 如果val不是空,则返回对值进行的匹配条件,否则返回null
      *
      * @param op  操作方法
      * @param val 值
@@ -65,12 +46,42 @@ public interface Query {
      * @return 条件
      */
     @Nullable
-    default <T> Predicate predicate(@Nonnull Function<T, Predicate> op, @Nullable T val) {
-        return predicate(HuiCheUtil::isNotEmpty, op, val);
+    default <T> Predicate predicate(@Nullable T val, @Nonnull Function<T, Predicate> op) {
+        return predicate(HuiCheUtil.isNotEmpty(val), () -> op.apply(val));
     }
 
     /**
-     * 条件处理,值非空条件条件
+     * 如果val不是空,则返回对值进行的匹配条件,否则返回null
+     *
+     * @param op  操作方法
+     * @param val 值
+     * @param <T> 值类型
+     * @return 条件
+     */
+    @Nullable
+    @Deprecated
+    default <T> Predicate predicate(@Nonnull Function<T, Predicate> op, @Nullable T val) {
+        return predicate(val, op);
+    }
+
+    /**
+     * 如果val不是空,则返回条件,否则返回null
+     *
+     * @param predicate 条件
+     * @param val       值
+     * @param <T>       值类型
+     * @return 条件
+     */
+    @Nullable
+    default <T> Predicate predicate(@Nullable T val, @Nonnull Supplier<Predicate> predicate) {
+        if (HuiCheUtil.isNotEmpty(val)) {
+            return predicate.get();
+        }
+        return null;
+    }
+
+    /**
+     * 如果val不是空,则返回条件,否则返回null
      *
      * @param predicate 条件
      * @param val       值
@@ -80,55 +91,6 @@ public interface Query {
     @Nullable
     default <T> Predicate predicate(@Nonnull Supplier<Predicate> predicate, @Nullable T val) {
         if (HuiCheUtil.isNotEmpty(val)) {
-            return predicate.get();
-        }
-        return null;
-    }
-
-
-    /**
-     * 条件处理,自定义值的处理方式
-     *
-     * @param check     是否添加条件
-     * @param predicate 值
-     * @param <T>       值类型
-     * @return 条件
-     */
-    @Nullable
-    default <T> Predicate predicate(boolean check, @Nonnull Predicate predicate) {
-        if (check) {
-            return predicate;
-        }
-        return null;
-    }
-
-    /**
-     * 条件处理,自定义值的处理方式
-     *
-     * @param check     是否添加条件
-     * @param predicate 值
-     * @param <T>       值类型
-     * @return 条件
-     */
-    @Nullable
-    default <T> Predicate predicate(@Nonnull Supplier<Boolean> check, @Nonnull Predicate predicate) {
-        if (HuiCheUtil.equals(true, check.get())) {
-            return predicate;
-        }
-        return null;
-    }
-
-    /**
-     * 条件处理,自定义值的处理方式
-     *
-     * @param check     是否添加条件
-     * @param predicate 值
-     * @param <T>       值类型
-     * @return 条件
-     */
-    @Nullable
-    default <T> Predicate predicate(@Nonnull Supplier<Boolean> check, @Nonnull Supplier<Predicate> predicate) {
-        if (HuiCheUtil.equals(true, check.get())) {
             return predicate.get();
         }
         return null;
