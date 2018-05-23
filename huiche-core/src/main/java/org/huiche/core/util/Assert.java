@@ -393,32 +393,6 @@ public class Assert {
     /**
      * 先执行testOk判断,如果为true,则只需ifOk判断,如果false抛出
      *
-     * @param error 异常
-     * @param ok    正常的逻辑返回true,返回false则抛异常
-     * @param test  是否执行判断
-     */
-    public static void ifTest(@Nonnull BaseError error, @Nonnull Supplier<Boolean> ok, @Nonnull Supplier<Boolean> test) {
-        if (HuiCheUtil.equals(true, test.get())) {
-            ok(error, HuiCheUtil.equals(true, ok.get()));
-        }
-    }
-
-    /**
-     * 先执行testOk判断,如果为true,则只需ifOk判断,如果false抛出
-     *
-     * @param msg  错误说明
-     * @param ok   正常的逻辑返回true,返回false则抛异常
-     * @param test 是否执行判断
-     */
-    public static void ifTest(@Nonnull String msg, @Nonnull Supplier<Boolean> ok, @Nonnull Supplier<Boolean> test) {
-        if (HuiCheUtil.equals(true, test.get())) {
-            ok(msg, HuiCheUtil.equals(true, ok.get()));
-        }
-    }
-
-    /**
-     * 先执行testOk判断,如果为true,则只需ifOk判断,如果false抛出
-     *
      * @param error 错误说明
      * @param ok    正常的逻辑返回true,返回false则抛异常
      * @param test  是否执行判断

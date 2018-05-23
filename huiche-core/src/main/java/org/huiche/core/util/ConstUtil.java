@@ -5,6 +5,7 @@ import org.huiche.annotation.consts.ConstVal;
 import org.huiche.core.consts.ConstValue;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +48,10 @@ public class ConstUtil {
      * @return 描述
      */
     @Nonnull
-    public static <T> String val(@Nonnull Class<T> constant, @Nonnull Object value) {
+    public static <T> String val(@Nonnull Class<T> constant, @Nullable Object value) {
+        if (HuiCheUtil.isEmpty(value)) {
+            return "";
+        }
         for (ConstValue val : list(constant)) {
             if (val.getValue().equals(value.toString())) {
                 return val.getText();

@@ -9,6 +9,7 @@ import javax.annotation.Nullable;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -315,7 +316,7 @@ public class StringUtil {
      * @return 字符串list
      */
     @Nonnull
-    public static List<String> split2List(@Nonnull String str) {
+    public static List<String> split2List(@Nullable String str) {
         return split2List(str, Const.COMMA);
     }
 
@@ -327,7 +328,10 @@ public class StringUtil {
      * @return 字符串list
      */
     @Nonnull
-    public static List<String> split2List(@Nonnull String str, @Nonnull String sep) {
+    public static List<String> split2List(@Nullable String str, @Nonnull String sep) {
+        if (HuiCheUtil.isEmpty(str)) {
+            return Collections.emptyList();
+        }
         List<String> list = new ArrayList<>();
         if (isNotEmpty(str)) {
             String[] arr = str.split(sep);
@@ -349,7 +353,7 @@ public class StringUtil {
      * @return list
      */
     @Nonnull
-    public static List<Integer> split2ListInt(@Nonnull String str) {
+    public static List<Integer> split2ListInt(@Nullable String str) {
         return split2ListInt(str, Const.COMMA);
     }
 
@@ -361,7 +365,10 @@ public class StringUtil {
      * @return list
      */
     @Nonnull
-    public static List<Integer> split2ListInt(@Nonnull String str, @Nonnull String sep) {
+    public static List<Integer> split2ListInt(@Nullable String str, @Nonnull String sep) {
+        if (HuiCheUtil.isEmpty(str)) {
+            return Collections.emptyList();
+        }
         List<Integer> list = new ArrayList<>();
         try {
             if (isNotEmpty(str)) {
@@ -387,7 +394,7 @@ public class StringUtil {
      * @return list
      */
     @Nonnull
-    public static List<Long> split2ListLong(@Nonnull String str) {
+    public static List<Long> split2ListLong(@Nullable String str) {
         return split2ListLong(str, Const.COMMA);
     }
 
@@ -399,7 +406,10 @@ public class StringUtil {
      * @return list
      */
     @Nonnull
-    public static List<Long> split2ListLong(@Nonnull String str, @Nonnull String sep) {
+    public static List<Long> split2ListLong(@Nullable String str, @Nonnull String sep) {
+        if (HuiCheUtil.isEmpty(str)) {
+            return Collections.emptyList();
+        }
         List<Long> list = new ArrayList<>();
         try {
             if (isNotEmpty(str)) {

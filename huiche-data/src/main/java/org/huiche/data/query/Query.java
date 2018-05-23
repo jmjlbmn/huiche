@@ -9,6 +9,7 @@ import com.querydsl.core.types.QBean;
 import com.querydsl.sql.RelationalPath;
 import org.huiche.core.util.HuiCheUtil;
 import org.huiche.data.entity.BaseEntity;
+import org.jetbrains.annotations.Contract;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -46,12 +47,13 @@ public interface Query {
      * @return 条件
      */
     @Nullable
+    @Contract("null, _ -> null")
     default <T> Predicate predicate(@Nullable T val, @Nonnull Function<T, Predicate> op) {
         return predicate(HuiCheUtil.isNotEmpty(val), () -> op.apply(val));
     }
 
     /**
-     * 如果val不是空,则返回对值进行的匹配条件,否则返回null
+     * 如果val不是空,则返回对值进行的匹配条件,否则返回null,与上面方法是等价的
      *
      * @param op  操作方法
      * @param val 值
@@ -59,7 +61,7 @@ public interface Query {
      * @return 条件
      */
     @Nullable
-    @Deprecated
+    @Contract("_, null -> null")
     default <T> Predicate predicate(@Nonnull Function<T, Predicate> op, @Nullable T val) {
         return predicate(val, op);
     }
@@ -73,6 +75,7 @@ public interface Query {
      * @return 条件
      */
     @Nullable
+    @Contract("null, _ -> null")
     default <T> Predicate predicate(@Nullable T val, @Nonnull Supplier<Predicate> predicate) {
         if (HuiCheUtil.isNotEmpty(val)) {
             return predicate.get();
@@ -81,7 +84,7 @@ public interface Query {
     }
 
     /**
-     * 如果val不是空,则返回条件,否则返回null
+     * 如果val不是空,则返回条件,否则返回null,与上面方法是等价的
      *
      * @param predicate 条件
      * @param val       值
@@ -89,11 +92,21 @@ public interface Query {
      * @return 条件
      */
     @Nullable
+    @Contract("null, _ -> null")
     default <T> Predicate predicate(@Nonnull Supplier<Predicate> predicate, @Nullable T val) {
-        if (HuiCheUtil.isNotEmpty(val)) {
-            return predicate.get();
-        }
-        return null;
+        return predicate(val, predicate);
+    }
+
+    /**
+     * 条件提供者
+     *
+     * @param predicate 条件
+     * @param <T>       值类型
+     * @return 条件
+     */
+    @Nullable
+    default <T> Predicate predicate(@Nonnull Supplier<Predicate> predicate) {
+        return predicate.get();
     }
 
     /**

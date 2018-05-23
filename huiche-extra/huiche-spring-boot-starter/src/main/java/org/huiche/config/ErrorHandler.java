@@ -1,6 +1,7 @@
 package org.huiche.config;
 
 import lombok.extern.slf4j.Slf4j;
+import org.huiche.core.exception.HuiCheError;
 import org.huiche.core.exception.HuiCheException;
 import org.huiche.web.response.BaseResult;
 import org.huiche.web.util.ResultUtil;
@@ -62,7 +63,7 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
     public BaseResult handleException(Exception e) {
         String msg = e.getLocalizedMessage();
         log.error(e.getMessage() + e);
-        return ResultUtil.fail("系统错误" + (null == msg ? "" : ": " + msg));
+        return BaseResult.of(HuiCheError.ERROR).setMsg("系统错误" + (null == msg ? "" : ": " + msg));
     }
 
     @Override

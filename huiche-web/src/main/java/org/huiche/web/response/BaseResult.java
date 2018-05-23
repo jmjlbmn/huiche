@@ -23,8 +23,15 @@ public class BaseResult<T> implements Serializable {
     private String msg;
     private T data;
 
-    public BaseResult<T> of(@Nonnull BaseError e) {
-        return new BaseResult<T>().setCode(e.code()).setMsg(e.msg());
+    public BaseResult(String msg) {
+        this.msg = msg;
+    }
+
+    public BaseResult() {
+    }
+
+    public static BaseResult of(@Nonnull BaseError e) {
+        return new BaseResult().setCode(e.code()).setMsg(e.msg());
     }
 
 }
