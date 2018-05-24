@@ -52,7 +52,7 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity<T>> extends BaseS
                     checkRegular(entity);
                 }
         );
-        return dao().create(entityList);
+        return dao().creates(entityList);
     }
 
     /**

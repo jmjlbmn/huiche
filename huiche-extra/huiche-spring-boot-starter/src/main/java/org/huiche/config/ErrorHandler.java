@@ -39,18 +39,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 @Slf4j
 public class ErrorHandler extends ResponseEntityExceptionHandler {
-    /**
-     * 捕获自定义异常
-     *
-     * @param e 异常
-     * @return json
-     */
-    @ExceptionHandler(HuiCheException.class)
-    @ResponseBody
-    public BaseResult handleException(HuiCheException e) {
-        log.error(e.getMessage() + e);
-        return ResultUtil.fail(e.getCode(), e.getMsg());
-    }
 
     /**
      * 捕获未处理异常
@@ -62,19 +50,27 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
     @ResponseBody
     public BaseResult handleException(Exception e) {
         String msg = e.getLocalizedMessage();
-        log.error(e.getMessage() + e);
-        return BaseResult.of(HuiCheError.ERROR).setMsg("系统错误" + (null == msg ? "" : ": " + msg));
+        e.printStackTrace();
+        log.error(e.getMessage(), e);
+        if (e instanceof HuiCheException) {
+            return ResultUtil.fail(((HuiCheException) e).getCode(), msg);
+        } else {
+            return BaseResult.of(HuiCheError.ERROR).setMsg("系统错误" + (null == msg ? "" : ": " + msg));
+        }
+
     }
 
     @Override
     @NonNull
     protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(@NonNull HttpRequestMethodNotSupportedException ex, @Nullable HttpHeaders headers, @NonNull HttpStatus status, @NonNull WebRequest request) {
+        ex.printStackTrace();
         return error(status, request, "不支持 [" + ex.getMethod() + "] 请求");
     }
 
     @Override
     @NonNull
     protected ResponseEntity<Object> handleNoHandlerFoundException(@NonNull NoHandlerFoundException ex, @Nullable HttpHeaders headers, @NonNull HttpStatus status, @NonNull WebRequest request) {
+        ex.printStackTrace();
         return error(status, request, "未能找到该地址,请确认地址正确");
     }
 
@@ -85,72 +81,84 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
         if (null != ex.getContentType()) {
             contentType = ex.getContentType().toString();
         }
+        ex.printStackTrace();
         return error(status, request, "请求不被支持 [" + contentType + "]");
     }
 
     @Override
     @NonNull
     protected ResponseEntity<Object> handleHttpMediaTypeNotAcceptable(@NonNull HttpMediaTypeNotAcceptableException ex, @Nullable HttpHeaders headers, @NonNull HttpStatus status, @NonNull WebRequest request) {
+        ex.printStackTrace();
         return error(status, request, "返回响应时数据处理失败,如json转化等");
     }
 
     @Override
     @NonNull
     protected ResponseEntity<Object> handleMissingPathVariable(@NonNull MissingPathVariableException ex, @Nullable HttpHeaders headers, @NonNull HttpStatus status, @NonNull WebRequest request) {
+        ex.printStackTrace();
         return error(status, request, "请求的路径参数不匹配: [" + ex.getVariableName() + "]");
     }
 
     @Override
     @NonNull
     protected ResponseEntity<Object> handleMissingServletRequestParameter(@NonNull MissingServletRequestParameterException ex, @Nullable HttpHeaders headers, @NonNull HttpStatus status, @NonNull WebRequest request) {
+        ex.printStackTrace();
         return error(status, request, "请求参数: " + ex.getParameterName() + "[" + ex.getParameterType() + "]" + "不匹配");
     }
 
     @Override
     @NonNull
     protected ResponseEntity<Object> handleHttpMessageNotReadable(@NonNull HttpMessageNotReadableException ex, @Nullable HttpHeaders headers, @NonNull HttpStatus status, @NonNull WebRequest request) {
+        ex.printStackTrace();
         return error(status, request, "HttpMessage不可读 " + ex.getLocalizedMessage());
     }
 
     @Override
     @NonNull
     protected ResponseEntity<Object> handleHttpMessageNotWritable(@NonNull HttpMessageNotWritableException ex, @Nullable HttpHeaders headers, @NonNull HttpStatus status, @NonNull WebRequest request) {
+        ex.printStackTrace();
         return error(status, request, "HttpMessage不可写 " + ex.getLocalizedMessage());
     }
 
     @Override
     @NonNull
     protected ResponseEntity<Object> handleMethodArgumentNotValid(@NonNull MethodArgumentNotValidException ex, @Nullable HttpHeaders headers, @NonNull HttpStatus status, @NonNull WebRequest request) {
+        ex.printStackTrace();
         return error(status, request, "方法参数无效 " + ex.getLocalizedMessage());
     }
 
     @Override
     @NonNull
     protected ResponseEntity<Object> handleMissingServletRequestPart(@NonNull MissingServletRequestPartException ex, @Nullable HttpHeaders headers, @NonNull HttpStatus status, @NonNull WebRequest request) {
+        ex.printStackTrace();
         return error(status, request, "请求不完整 " + ex.getLocalizedMessage());
     }
 
     @Override
     @NonNull
     protected ResponseEntity<Object> handleBindException(@NonNull BindException ex, @Nullable HttpHeaders headers, @NonNull HttpStatus status, @NonNull WebRequest request) {
+        ex.printStackTrace();
         return error(status, request, "请求参数验证不通过 " + ex.getLocalizedMessage());
     }
 
     @Override
     @NonNull
     protected ResponseEntity<Object> handleAsyncRequestTimeoutException(@NonNull AsyncRequestTimeoutException ex, @Nullable HttpHeaders headers, @NonNull HttpStatus status, @NonNull WebRequest request) {
+        ex.printStackTrace();
         return error(status, request, "异步请求超时 " + ex.getLocalizedMessage());
     }
 
     @Override
     @NonNull
     protected ResponseEntity<Object> handleServletRequestBindingException(@NonNull ServletRequestBindingException ex, @Nullable HttpHeaders headers, @NonNull HttpStatus status, @NonNull WebRequest request) {
+        ex.printStackTrace();
         return error(status, request, "请求绑定出错 " + ex.getLocalizedMessage());
     }
 
     @Override
     @NonNull
     protected ResponseEntity<Object> handleExceptionInternal(@NonNull Exception ex, Object body, @Nullable HttpHeaders headers, @NonNull HttpStatus status, @NonNull WebRequest request) {
+        ex.printStackTrace();
         return error(status, request, "未处理的服务器内部错误,请稍后再试或联系工作人员 " + ex.getLocalizedMessage());
     }
 
@@ -163,6 +171,7 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
     @Override
     @NonNull
     protected ResponseEntity<Object> handleTypeMismatch(@NonNull TypeMismatchException ex, @Nullable HttpHeaders headers, @NonNull HttpStatus status, @NonNull WebRequest request) {
+        ex.printStackTrace();
         StringBuilder msg = new StringBuilder("参数类型不匹配且转换失败");
         if (null != ex.getPropertyName()) {
             msg.append(" 属性:").append(ex.getPropertyName());
