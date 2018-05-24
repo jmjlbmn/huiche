@@ -10,6 +10,7 @@ import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.sql.RelationalPath;
 import com.querydsl.sql.SQLQuery;
 import com.querydsl.sql.dml.DefaultMapper;
+import com.querydsl.sql.dml.SQLDeleteClause;
 import com.querydsl.sql.dml.SQLInsertClause;
 import com.querydsl.sql.dml.SQLUpdateClause;
 import org.huiche.core.exception.HuiCheError;
@@ -188,12 +189,29 @@ public abstract class BaseCrudDao<T extends BaseEntity<T>> extends BaseDao {
     }
 
     /**
+     * 根据条件更新实体
+     *
+     * @param entity    要更新的内容
+     * @param predicate 条件
+     * @return 变更条数
+     */
+    public long update(@Nonnull T entity, @Nullable Predicate... predicate) {
+        Long id = entity.getId();
+        Assert.notNull("更新时ID不能为空", id);
+        Assert.ok("更新时条件不能为空", null != predicate && predicate.length > 0);
+        validRegular(entity);
+        // 强制不更新ID
+        entity.setId(null);
+        return sql().update(root()).populate(entity).where(pk().eq(id)).where(predicate).execute();
+    }
+
+    /**
      * 根据ID更新实体列表,必须设置ID,不设置ID将跳过
      *
      * @param entityList 实体列表
      * @return 变动条数
      */
-    public long update(@Nonnull Collection<T> entityList) {
+    public long updates(@Nonnull Collection<T> entityList) {
         SQLUpdateClause update = sql().update(root());
         for (T entity : entityList) {
             Long id = entity.getId();
@@ -218,7 +236,7 @@ public abstract class BaseCrudDao<T extends BaseEntity<T>> extends BaseDao {
      * @param predicate 条件
      * @return 变更条数
      */
-    public long update(@Nonnull T entity, @Nullable Predicate... predicate) {
+    public long updates(@Nonnull T entity, @Nullable Predicate... predicate) {
         Assert.ok("更新时条件不能为空", null != predicate && predicate.length > 0);
         // 强制不更新ID
         entity.setId(null);
@@ -275,6 +293,20 @@ public abstract class BaseCrudDao<T extends BaseEntity<T>> extends BaseDao {
     public long delete(@Nullable Predicate... predicate) {
         Assert.ok("删除时条件不能为空", null != predicate && predicate.length > 0);
         return sql().delete(root()).where(predicate).execute();
+    }
+
+    /**
+     * 删除
+     *
+     * @param predicate 条件
+     * @return 变更条数
+     */
+    public long delete(long id, @Nullable Predicate... predicate) {
+        SQLDeleteClause deleteClause = sql().delete(root()).where(pk().eq(id));
+        if (null != predicate && predicate.length > 0) {
+            deleteClause = deleteClause.where(predicate);
+        }
+        return deleteClause.execute();
     }
 
     /**
