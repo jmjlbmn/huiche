@@ -213,7 +213,7 @@ public class DateUtil {
      * @return 日期字符串
      */
     @Nonnull
-    public static String parse(@Nonnull String format, @Nonnull Long time) {
+    public static String parse(@Nonnull String format, long time) {
         return parse(format, new Date(time));
     }
 

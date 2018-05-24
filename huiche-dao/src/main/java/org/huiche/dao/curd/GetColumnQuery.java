@@ -24,8 +24,8 @@ public interface GetColumnQuery<T> extends PathProvider<T>, SqlProvider {
      * @return 字段数据
      */
     @Nullable
-    default <Col> Col getColumn(@Nonnull Path<Col> column, @Nonnull Long id) {
-        return getColumn(column, pk().eq(id));
+    default <Col> Col getColumn(@Nonnull Path<Col> column, long id) {
+        return QueryUtil.one(sql().select(column).from(root()).where(pk().eq(id)));
     }
 
     /**
@@ -42,7 +42,7 @@ public interface GetColumnQuery<T> extends PathProvider<T>, SqlProvider {
         if (null != predicate && predicate.length > 0) {
             query = query.where(predicate);
         }
-        return QueryUtil.one(query);
+        return QueryUtil.one(query.orderBy(defaultMultiOrder()));
     }
 
     /**
@@ -55,7 +55,7 @@ public interface GetColumnQuery<T> extends PathProvider<T>, SqlProvider {
      * @return 字段数据
      */
     @Nullable
-    default <Col> Col getColumn(@Nonnull Path<Col> column, @Nonnull Long id, @Nullable Predicate... predicate) {
+    default <Col> Col getColumn(@Nonnull Path<Col> column, long id, @Nullable Predicate... predicate) {
         SQLQuery<Col> query = sql().select(column).from(root()).where(pk().eq(id));
         if (null != predicate && predicate.length > 0) {
             query = query.where(predicate);
@@ -91,11 +91,16 @@ public interface GetColumnQuery<T> extends PathProvider<T>, SqlProvider {
      * @return 字段数据
      */
     @Nullable
-    default <Col> Col getColumn(@Nonnull Path<Col> column, @Nonnull OrderSpecifier[] order, @Nullable Predicate... predicate) {
+    default <Col> Col getColumn(@Nonnull Path<Col> column, @Nullable OrderSpecifier[] order, @Nullable Predicate... predicate) {
         SQLQuery<Col> query = sql().select(column).from(root());
         if (null != predicate && predicate.length > 0) {
             query = query.where(predicate);
         }
-        return QueryUtil.one(query.orderBy(order));
+        if (null == order) {
+            query = query.orderBy(defaultMultiOrder());
+        } else {
+            query = query.orderBy(order);
+        }
+        return QueryUtil.one(query);
     }
 }

@@ -92,7 +92,7 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity<T>> extends BaseS
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public long delete(@Nonnull Long id) {
+    public long delete(long id) {
         return dao().delete(id);
     }
 
@@ -139,7 +139,8 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity<T>> extends BaseS
      * @return 数据
      */
     @Override
-    public T get(@Nonnull Long id) {
+    @Nonnull
+    public T get(long id) {
         T t = dao().get(id);
         Assert.notNull(HuiCheError.NO_EXISTS, t);
         return t;

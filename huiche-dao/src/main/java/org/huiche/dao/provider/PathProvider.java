@@ -4,11 +4,45 @@ import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.sql.RelationalPath;
 
+import javax.annotation.Nonnull;
+
 /**
  * @author Maning
  */
 public interface PathProvider<T> {
-    OrderSpecifier[] defaultMultiOrder();
+    /**
+     * 默认多排序
+     *
+     * @return 排序
+     */
+    @Nonnull
+    default OrderSpecifier[] defaultMultiOrder() {
+        return new OrderSpecifier[]{defaultOrder()};
+    }
+
+    /**
+     * 表
+     *
+     * @return 表
+     */
+    @Nonnull
     RelationalPath<T> root();
+
+    /**
+     * 主键
+     *
+     * @return 主键
+     */
+    @Nonnull
     NumberPath<Long> pk();
+
+    /**
+     * 默认排序
+     *
+     * @return 默认排序
+     */
+    @Nonnull
+    default OrderSpecifier defaultOrder() {
+        return pk().desc();
+    }
 }

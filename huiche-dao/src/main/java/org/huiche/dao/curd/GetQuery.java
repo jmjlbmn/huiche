@@ -7,7 +7,6 @@ import org.huiche.dao.provider.PathProvider;
 import org.huiche.dao.provider.SqlProvider;
 import org.huiche.dao.util.QueryUtil;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
@@ -21,7 +20,7 @@ public interface GetQuery<T> extends PathProvider<T>, SqlProvider {
      * @return 实体
      */
     @Nullable
-    default T get(@Nonnull Long id) {
+    default T get(long id) {
         return QueryUtil.one(sql().selectFrom(root()).where(pk().eq(id)));
     }
 
@@ -37,7 +36,7 @@ public interface GetQuery<T> extends PathProvider<T>, SqlProvider {
         if (null != predicate && predicate.length > 0) {
             query = query.where(predicate);
         }
-        return QueryUtil.one(query);
+        return QueryUtil.one(query.orderBy(defaultMultiOrder()));
     }
 
     /**
@@ -48,7 +47,7 @@ public interface GetQuery<T> extends PathProvider<T>, SqlProvider {
      * @return 数据
      */
     @Nullable
-    default T get(@Nonnull Long id, @Nullable Predicate... predicate) {
+    default T get(long id, @Nullable Predicate... predicate) {
         SQLQuery<T> query = sql().selectFrom(root()).where(pk().eq(id));
         if (null != predicate && predicate.length > 0) {
             query = query.where(predicate);
@@ -85,7 +84,9 @@ public interface GetQuery<T> extends PathProvider<T>, SqlProvider {
         if (null != predicate && predicate.length > 0) {
             query = query.where(predicate);
         }
-        if (null != order) {
+        if (null == order) {
+            query = query.orderBy(defaultMultiOrder());
+        } else {
             query = query.orderBy(order);
         }
         return QueryUtil.one(query);

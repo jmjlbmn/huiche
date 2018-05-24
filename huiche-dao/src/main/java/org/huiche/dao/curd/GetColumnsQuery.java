@@ -25,11 +25,12 @@ public interface GetColumnsQuery<T> extends PathProvider<T>, SqlProvider {
      * @return 数据
      */
     @Nullable
-    default T getColumns(@Nonnull Long id, @Nonnull Path<?>... columns) {
+    default T getColumns(long id, @Nonnull Path<?>... columns) {
         Assert.ok("要获取字段不能为空", columns.length > 0);
-        return QueryUtil.one(sql().select(
-                Projections.fields(root(), columns)
-        ).from(root()).where(pk().eq(id)));
+        return QueryUtil.one(sql()
+                .select(Projections.fields(root(), columns))
+                .from(root())
+                .where(pk().eq(id)));
     }
 
     /**
@@ -48,7 +49,7 @@ public interface GetColumnsQuery<T> extends PathProvider<T>, SqlProvider {
         if (null != predicate) {
             query = query.where(predicate);
         }
-        return QueryUtil.one(query);
+        return QueryUtil.one(query.orderBy(defaultMultiOrder()));
     }
 
     /**
@@ -60,7 +61,7 @@ public interface GetColumnsQuery<T> extends PathProvider<T>, SqlProvider {
      * @return 数据
      */
     @Nullable
-    default T getColumns(@Nonnull Long id, @Nullable Predicate predicate, @Nonnull Path<?>... columns) {
+    default T getColumns(long id, @Nullable Predicate predicate, @Nonnull Path<?>... columns) {
         Assert.ok("要获取字段不能为空", columns.length > 0);
         SQLQuery<T> query = sql()
                 .select(Projections.fields(root(), columns))
@@ -106,7 +107,9 @@ public interface GetColumnsQuery<T> extends PathProvider<T>, SqlProvider {
         if (null != predicate) {
             query = query.where(predicate);
         }
-        if (null != order) {
+        if (null == order) {
+            query = query.orderBy(defaultMultiOrder());
+        } else {
             query = query.orderBy(order);
         }
         return QueryUtil.one(query);

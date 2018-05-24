@@ -26,7 +26,13 @@ public interface ListColumnsQuery<T> extends PathProvider<T>, SqlProvider {
      */
     @Nonnull
     default List<T> listColumns(@Nonnull Path<?>... columns) {
-        return listColumns(null, null, columns);
+        Assert.ok("要获取字段不能为空", columns.length > 0);
+        SQLQuery<T> query = sql().select(
+                Projections.fields(root(), columns)
+        ).from(root());
+        return QueryUtil.list(sql().select(
+                Projections.fields(root(), columns)
+        ).from(root()).orderBy(defaultMultiOrder()));
     }
 
     /**
@@ -38,7 +44,7 @@ public interface ListColumnsQuery<T> extends PathProvider<T>, SqlProvider {
      */
     @Nonnull
     default List<T> listColumns(@Nullable Predicate predicate, @Nonnull Path<?>... columns) {
-        return listColumns(predicate, null, columns);
+        return listColumns(predicate, (OrderSpecifier<?>) null, columns);
     }
 
     /**
@@ -70,6 +76,19 @@ public interface ListColumnsQuery<T> extends PathProvider<T>, SqlProvider {
      * 获取某些字段的列表数据
      *
      * @param predicate 条件
+     * @param limit     条数
+     * @param columns   获取的字段
+     * @return 数据
+     */
+    @Nonnull
+    default List<T> listColumns(@Nullable Predicate predicate, @Nullable Long limit, @Nonnull Path<?>... columns) {
+        return listColumns(predicate, (OrderSpecifier[]) null, limit, columns);
+    }
+
+    /**
+     * 获取某些字段的列表数据
+     *
+     * @param predicate 条件
      * @param order     排序
      * @param limit     条数
      * @param columns   获取的字段
@@ -77,6 +96,24 @@ public interface ListColumnsQuery<T> extends PathProvider<T>, SqlProvider {
      */
     @Nonnull
     default List<T> listColumns(@Nullable Predicate predicate, @Nullable OrderSpecifier<?> order, @Nullable Long limit, @Nonnull Path<?>... columns) {
+        if (null == order) {
+            return listColumns(predicate, (OrderSpecifier[]) null, limit, columns);
+        } else {
+            return listColumns(predicate, new OrderSpecifier[]{order}, limit, columns);
+        }
+    }
+
+    /**
+     * 获取某些字段的列表数据
+     *
+     * @param predicate 条件
+     * @param order     排序
+     * @param limit     条数
+     * @param columns   获取的字段
+     * @return 数据
+     */
+    @Nonnull
+    default List<T> listColumns(@Nullable Predicate predicate, @Nullable OrderSpecifier[] order, @Nullable Long limit, @Nonnull Path<?>... columns) {
         Assert.ok("要获取字段不能为空", columns.length > 0);
         SQLQuery<T> query = sql().select(
                 Projections.fields(root(), columns)

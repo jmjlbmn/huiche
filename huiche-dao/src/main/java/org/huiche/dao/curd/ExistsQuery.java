@@ -1,12 +1,12 @@
 package org.huiche.dao.curd;
 
 import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.sql.SQLQuery;
+import org.huiche.core.util.HuiCheUtil;
 import org.huiche.dao.provider.PathProvider;
 import org.huiche.dao.provider.SqlProvider;
-import org.huiche.dao.util.QueryUtil;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
@@ -19,8 +19,8 @@ public interface ExistsQuery<T> extends PathProvider<T>, SqlProvider {
      * @param id ID
      * @return 是否存在
      */
-    default boolean exists(@Nonnull Long id) {
-        return sql().from(root()).where(pk().eq(id)).fetchCount() > 0;
+    default boolean exists(long id) {
+        return HuiCheUtil.equals(Expressions.ONE, sql().selectOne().from(root()).where(pk().eq(id)).fetchFirst());
     }
 
     /**
@@ -30,11 +30,11 @@ public interface ExistsQuery<T> extends PathProvider<T>, SqlProvider {
      * @return 是否存在
      */
     default boolean exists(@Nullable Predicate... predicate) {
-        SQLQuery<?> query = sql().from(root());
+        SQLQuery<Integer> query = sql().selectOne().from(root());
         if (null != predicate && predicate.length > 0) {
             query = query.where(predicate);
         }
-        return QueryUtil.count(query) > 0;
+        return HuiCheUtil.equals(Expressions.ONE, query.fetchFirst());
     }
 
     /**
@@ -44,11 +44,11 @@ public interface ExistsQuery<T> extends PathProvider<T>, SqlProvider {
      * @param predicate 条件
      * @return 是否存在
      */
-    default boolean exists(@Nonnull Long id, @Nullable Predicate... predicate) {
-        SQLQuery<?> query = sql().from(root()).where(pk().eq(id));
+    default boolean exists(long id, @Nullable Predicate... predicate) {
+        SQLQuery<Integer> query = sql().selectOne().from(root()).where(pk().eq(id));
         if (null != predicate && predicate.length > 0) {
             query = query.where(predicate);
         }
-        return QueryUtil.count(query) > 0;
+        return HuiCheUtil.equals(Expressions.ONE, query.fetchFirst());
     }
 }

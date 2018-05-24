@@ -28,7 +28,8 @@ public interface PageColumnsQuery<T> extends PathProvider<T>, SqlProvider {
      */
     @Nonnull
     default PageResponse<T> pageColumns(@Nullable PageRequest pageRequest, @Nonnull Path<?>... columns) {
-        return pageColumns(null, null, pageRequest, columns);
+        Assert.ok("查询字段不可为空", columns.length > 0);
+        return QueryUtil.page(pageRequest, sql().select(Projections.fields(root(), columns)).from(root()).orderBy(defaultMultiOrder()));
     }
 
     /**
@@ -41,7 +42,7 @@ public interface PageColumnsQuery<T> extends PathProvider<T>, SqlProvider {
      */
     @Nonnull
     default PageResponse<T> pageColumns(@Nullable Predicate predicate, @Nullable PageRequest pageRequest, @Nonnull Path<?>... columns) {
-        return pageColumns(predicate, null, pageRequest, columns);
+        return pageColumns(predicate, (OrderSpecifier[]) null, pageRequest, columns);
     }
 
     /**
@@ -60,6 +61,19 @@ public interface PageColumnsQuery<T> extends PathProvider<T>, SqlProvider {
     /**
      * 分页获取某些字段的数据
      *
+     * @param order       排序
+     * @param pageRequest 分页
+     * @param columns     字段
+     * @return 分页的数据
+     */
+    @Nonnull
+    default PageResponse<T> pageColumns(@Nullable OrderSpecifier[] order, @Nullable PageRequest pageRequest, @Nonnull Path<?>... columns) {
+        return pageColumns(null, order, pageRequest, columns);
+    }
+
+    /**
+     * 分页获取某些字段的数据
+     *
      * @param predicate   条件
      * @param order       排序
      * @param pageRequest 分页
@@ -68,6 +82,24 @@ public interface PageColumnsQuery<T> extends PathProvider<T>, SqlProvider {
      */
     @Nonnull
     default PageResponse<T> pageColumns(@Nullable Predicate predicate, @Nullable OrderSpecifier<?> order, @Nullable PageRequest pageRequest, @Nonnull Path<?>... columns) {
+        if (null == order) {
+            return pageColumns(predicate, (OrderSpecifier[]) null, pageRequest, columns);
+        } else {
+            return pageColumns(predicate, new OrderSpecifier[]{order}, pageRequest, columns);
+        }
+    }
+
+    /**
+     * 分页获取某些字段的数据
+     *
+     * @param predicate   条件
+     * @param order       排序
+     * @param pageRequest 分页
+     * @param columns     字段
+     * @return 分页的数据
+     */
+    @Nonnull
+    default PageResponse<T> pageColumns(@Nullable Predicate predicate, @Nullable OrderSpecifier[] order, @Nullable PageRequest pageRequest, @Nonnull Path<?>... columns) {
         Assert.ok("查询字段不可为空", columns.length > 0);
         SQLQuery<T> query = sql().select(Projections.fields(root(), columns)).from(root());
         if (null != predicate) {

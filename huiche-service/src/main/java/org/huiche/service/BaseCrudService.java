@@ -55,7 +55,7 @@ public interface BaseCrudService<T extends BaseEntity<T>> extends BaseService {
      * @param id ID
      * @return 删除条数
      */
-    long delete(@Nonnull Long id);
+    long delete(long id);
 
     /**
      * 删除
@@ -95,7 +95,8 @@ public interface BaseCrudService<T extends BaseEntity<T>> extends BaseService {
      * @param id ID
      * @return 数据
      */
-    T get(@Nonnull Long id);
+    @Nonnull
+    T get(long id);
 
     /**
      * 根据ID获取数据

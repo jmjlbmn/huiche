@@ -90,6 +90,18 @@ public interface ListQuery<T> extends PathProvider<T>, SqlProvider {
     /**
      * 获取列表数据
      *
+     * @param order     排序
+     * @param predicate 条件
+     * @return 数据列表
+     */
+    @Nonnull
+    default List<T> list(@Nullable OrderSpecifier[] order, @Nullable Predicate... predicate) {
+        return list(order, null, predicate);
+    }
+
+    /**
+     * 获取列表数据
+     *
      * @param limit     获取条数
      * @param predicate 条件
      * @return 数据列表

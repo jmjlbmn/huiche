@@ -60,6 +60,20 @@ public interface ListColumnQuery<T> extends PathProvider<T>, SqlProvider {
      *
      * @param column    字段
      * @param order     排序
+     * @param predicate 条件
+     * @param <Col>     字段
+     * @return 字段的列表
+     */
+    @Nonnull
+    default <Col> List<Col> listColumn(@Nonnull Path<Col> column, @Nullable OrderSpecifier[] order, @Nullable Predicate... predicate) {
+        return listColumn(column, order, null, predicate);
+    }
+
+    /**
+     * 获取某个字段的列表
+     *
+     * @param column    字段
+     * @param order     排序
      * @param limit     获取数量
      * @param predicate 条件
      * @param <Col>     字段

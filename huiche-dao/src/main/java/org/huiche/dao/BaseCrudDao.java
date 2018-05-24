@@ -1,14 +1,26 @@
 package org.huiche.dao;
 
-import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.PathMetadataFactory;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberPath;
-import com.querydsl.sql.RelationalPath;
 import org.huiche.core.exception.HuiCheException;
 import org.huiche.core.util.DateUtil;
 import org.huiche.core.util.StringUtil;
-import org.huiche.dao.curd.*;
+import org.huiche.dao.curd.CountQuery;
+import org.huiche.dao.curd.CreateCmd;
+import org.huiche.dao.curd.CreatesCmd;
+import org.huiche.dao.curd.DeleteCmd;
+import org.huiche.dao.curd.ExistsQuery;
+import org.huiche.dao.curd.GetColumnQuery;
+import org.huiche.dao.curd.GetColumnsQuery;
+import org.huiche.dao.curd.GetQuery;
+import org.huiche.dao.curd.ListColumnQuery;
+import org.huiche.dao.curd.ListColumnsQuery;
+import org.huiche.dao.curd.ListQuery;
+import org.huiche.dao.curd.PageColumnsQuery;
+import org.huiche.dao.curd.PageQuery;
+import org.huiche.dao.curd.UpdateCmd;
+import org.huiche.dao.curd.UpdatesCmd;
 import org.huiche.data.entity.BaseEntity;
 import org.huiche.data.validation.ValidOnlyCreate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,19 +92,12 @@ public abstract class BaseCrudDao<T extends BaseEntity<T>> extends BaseDao imple
     }
 
     /**
-     * 表
-     *
-     * @return 表
-     */
-    @Override
-    public abstract RelationalPath<T> root();
-
-    /**
      * 主键
      *
      * @return 主键
      */
     @Override
+    @Nonnull
     public NumberPath<Long> pk() {
         return pk;
     }
@@ -139,37 +144,5 @@ public abstract class BaseCrudDao<T extends BaseEntity<T>> extends BaseDao imple
      */
     protected boolean doValid() {
         return true;
-    }
-
-    /**
-     * 是否在创建对象时SetId
-     *
-     * @return 是否进行验证
-     */
-    @Override
-    public boolean doSetId() {
-        return true;
-    }
-
-
-    /**
-     * 默认多排序
-     *
-     * @return 主键倒序
-     */
-    @Nonnull
-    @Override
-    public OrderSpecifier[] defaultMultiOrder() {
-        return new OrderSpecifier[]{defaultOrder()};
-    }
-
-    /**
-     * 默认单排序
-     *
-     * @return 主键倒序
-     */
-    @Nonnull
-    protected OrderSpecifier defaultOrder() {
-        return pk().desc();
     }
 }

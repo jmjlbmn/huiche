@@ -45,7 +45,7 @@ public interface CreatesCmd<T extends BaseEntity<T>> extends PathProvider<T>, Sq
         });
         long size = insert.getBatchCount();
         if (size > 0) {
-            if (doSetId()) {
+            if (createSetId()) {
                 LinkedList<Long> ids = new LinkedList<>(insert.executeWithKeys(pk()));
                 if (entityList.size() == ids.size()) {
                     entityList.forEach(t -> t.setId(ids.poll()));

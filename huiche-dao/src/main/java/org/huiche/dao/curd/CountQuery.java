@@ -15,11 +15,20 @@ public interface CountQuery<T> extends PathProvider<T>, SqlProvider {
     /**
      * 查询数量
      *
+     * @return 数量
+     */
+    default long count() {
+        return QueryUtil.count(sql().selectOne().from(root()));
+    }
+
+    /**
+     * 查询数量
+     *
      * @param predicate 条件
      * @return 数量
      */
     default long count(@Nullable Predicate... predicate) {
-        SQLQuery<T> query = sql().selectFrom(root());
+        SQLQuery<?> query = sql().selectOne().from(root());
         if (null != predicate && predicate.length > 0) {
             query = query.where(predicate);
         }

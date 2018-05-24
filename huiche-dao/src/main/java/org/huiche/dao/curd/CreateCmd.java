@@ -19,7 +19,7 @@ public interface CreateCmd<T extends BaseEntity<T>> extends PathProvider<T>, Sql
      * @return ID
      */
     default long create(@Nonnull T entity) {
-        return create(entity, doSetId());
+        return create(entity, createSetId());
     }
 
     /**
