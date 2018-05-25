@@ -6,21 +6,7 @@ import com.querydsl.core.types.dsl.NumberPath;
 import org.huiche.core.exception.HuiCheException;
 import org.huiche.core.util.DateUtil;
 import org.huiche.core.util.StringUtil;
-import org.huiche.dao.curd.CountQuery;
-import org.huiche.dao.curd.CreateCmd;
-import org.huiche.dao.curd.CreatesCmd;
-import org.huiche.dao.curd.DeleteCmd;
-import org.huiche.dao.curd.ExistsQuery;
-import org.huiche.dao.curd.GetColumnQuery;
-import org.huiche.dao.curd.GetColumnsQuery;
-import org.huiche.dao.curd.GetQuery;
-import org.huiche.dao.curd.ListColumnQuery;
-import org.huiche.dao.curd.ListColumnsQuery;
-import org.huiche.dao.curd.ListQuery;
-import org.huiche.dao.curd.PageColumnsQuery;
-import org.huiche.dao.curd.PageQuery;
-import org.huiche.dao.curd.UpdateCmd;
-import org.huiche.dao.curd.UpdatesCmd;
+import org.huiche.dao.provider.BaseCrudDaoProvider;
 import org.huiche.data.entity.BaseEntity;
 import org.huiche.data.validation.ValidOnlyCreate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,21 +26,7 @@ import java.util.stream.Collectors;
  * @author Maning
  */
 public abstract class BaseCrudDao<T extends BaseEntity<T>> extends BaseDao implements
-        CreateCmd<T>,
-        CreatesCmd<T>,
-        UpdateCmd<T>,
-        UpdatesCmd<T>,
-        DeleteCmd<T>,
-        CountQuery<T>,
-        ExistsQuery<T>,
-        GetQuery<T>,
-        GetColumnQuery<T>,
-        GetColumnsQuery<T>,
-        ListQuery<T>,
-        ListColumnQuery<T>,
-        ListColumnsQuery<T>,
-        PageQuery<T>,
-        PageColumnsQuery<T> {
+        BaseCrudDaoProvider<T> {
     /**
      * 主键
      */

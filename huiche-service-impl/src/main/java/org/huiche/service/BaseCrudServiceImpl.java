@@ -2,7 +2,7 @@ package org.huiche.service;
 
 import org.huiche.core.exception.HuiCheError;
 import org.huiche.core.util.Assert;
-import org.huiche.dao.BaseCrudDao;
+import org.huiche.dao.provider.BaseCrudDaoProvider;
 import org.huiche.dao.util.QueryUtil;
 import org.huiche.data.entity.BaseEntity;
 import org.huiche.data.page.PageRequest;
@@ -281,5 +281,5 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity<T>> extends BaseS
      *
      * @return dao
      */
-    protected abstract BaseCrudDao<T> dao();
+    protected abstract BaseCrudDaoProvider<T> dao();
 }
