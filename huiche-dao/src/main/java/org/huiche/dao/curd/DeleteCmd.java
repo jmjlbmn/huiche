@@ -1,7 +1,7 @@
 package org.huiche.dao.curd;
 
+import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Predicate;
-import com.querydsl.sql.dml.SQLDeleteClause;
 import org.huiche.core.exception.HuiCheException;
 import org.huiche.core.util.Assert;
 import org.huiche.core.util.StringUtil;
@@ -17,17 +17,6 @@ import java.util.Collection;
  * @author Maning
  */
 public interface DeleteCmd<T> extends PathProvider<T>, SqlProvider {
-    /**
-     * 清空表
-     */
-    default void truncate() {
-        String sql = "TRUNCATE TABLE " + root().getTableName();
-        try {
-            sql().getConnection().prepareStatement(sql).execute();
-        } catch (SQLException e) {
-            throw new HuiCheException("清空表出错", e);
-        }
-    }
 
     /**
      * 删除
@@ -36,7 +25,7 @@ public interface DeleteCmd<T> extends PathProvider<T>, SqlProvider {
      * @return 变更条数
      */
     default long delete(long id) {
-        return sql().delete(root()).where(pk().eq(id)).execute();
+        return delete(pk().eq(id));
     }
 
     /**
@@ -46,7 +35,7 @@ public interface DeleteCmd<T> extends PathProvider<T>, SqlProvider {
      * @return 变更条数
      */
     default long delete(@Nonnull Long... id) {
-        return sql().delete(root()).where(pk().in(id)).execute();
+        return delete(pk().in(id));
     }
 
     /**
@@ -56,7 +45,7 @@ public interface DeleteCmd<T> extends PathProvider<T>, SqlProvider {
      * @return 变更条数
      */
     default long delete(@Nonnull Collection<Long> ids) {
-        return sql().delete(root()).where(pk().in(ids)).execute();
+        return delete(pk().in(ids));
     }
 
     /**
@@ -66,7 +55,18 @@ public interface DeleteCmd<T> extends PathProvider<T>, SqlProvider {
      * @return 变更条数
      */
     default long delete(@Nonnull String ids) {
-        return sql().delete(root()).where(pk().in(StringUtil.split2ListLong(ids))).execute();
+        return delete(pk().in(StringUtil.split2ListLong(ids)));
+    }
+
+    /**
+     * 删除
+     *
+     * @param id        ID
+     * @param predicate 条件
+     * @return 变更条数
+     */
+    default long delete(long id, @Nullable Predicate... predicate) {
+        return delete(pk().eq(id), null == predicate ? null : ExpressionUtils.allOf(predicate));
     }
 
     /**
@@ -81,17 +81,14 @@ public interface DeleteCmd<T> extends PathProvider<T>, SqlProvider {
     }
 
     /**
-     * 删除
-     *
-     * @param id        ID
-     * @param predicate 条件
-     * @return 变更条数
+     * 清空表
      */
-    default long delete(long id, @Nullable Predicate... predicate) {
-        SQLDeleteClause deleteClause = sql().delete(root()).where(pk().eq(id));
-        if (null != predicate && predicate.length > 0) {
-            deleteClause = deleteClause.where(predicate);
+    default void truncate() {
+        String sql = "TRUNCATE TABLE " + root().getTableName();
+        try {
+            sql().getConnection().prepareStatement(sql).execute();
+        } catch (SQLException e) {
+            throw new HuiCheException("清空表出错", e);
         }
-        return deleteClause.execute();
     }
 }

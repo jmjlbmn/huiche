@@ -53,20 +53,6 @@ public interface Query {
     }
 
     /**
-     * 如果val不是空,则返回对值进行的匹配条件,否则返回null,与上面方法是等价的
-     *
-     * @param op  操作方法
-     * @param val 值
-     * @param <T> 值类型
-     * @return 条件
-     */
-    @Nullable
-    @Contract("_, null -> null")
-    default <T> Predicate predicate(@Nonnull Function<T, Predicate> op, @Nullable T val) {
-        return predicate(val, op);
-    }
-
-    /**
      * 如果val不是空,则返回条件,否则返回null
      *
      * @param predicate 条件
@@ -83,19 +69,6 @@ public interface Query {
         return null;
     }
 
-    /**
-     * 如果val不是空,则返回条件,否则返回null,与上面方法是等价的
-     *
-     * @param predicate 条件
-     * @param val       值
-     * @param <T>       值类型
-     * @return 条件
-     */
-    @Nullable
-    @Contract("null, _ -> null")
-    default <T> Predicate predicate(@Nonnull Supplier<Predicate> predicate, @Nullable T val) {
-        return predicate(val, predicate);
-    }
 
     /**
      * 条件提供者

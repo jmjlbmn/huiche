@@ -26,25 +26,7 @@ public interface ListColumnsQuery<T> extends PathProvider<T>, SqlProvider {
      */
     @Nonnull
     default List<T> listColumns(@Nonnull Path<?>... columns) {
-        Assert.ok("要获取字段不能为空", columns.length > 0);
-        SQLQuery<T> query = sql().select(
-                Projections.fields(root(), columns)
-        ).from(root());
-        return QueryUtil.list(sql().select(
-                Projections.fields(root(), columns)
-        ).from(root()).orderBy(defaultMultiOrder()));
-    }
-
-    /**
-     * 获取某些字段的列表数据
-     *
-     * @param predicate 条件
-     * @param columns   获取的字段
-     * @return 数据
-     */
-    @Nonnull
-    default List<T> listColumns(@Nullable Predicate predicate, @Nonnull Path<?>... columns) {
-        return listColumns(predicate, (OrderSpecifier<?>) null, columns);
+        return listColumns(null, null, (OrderSpecifier[]) null, columns);
     }
 
     /**
@@ -56,7 +38,31 @@ public interface ListColumnsQuery<T> extends PathProvider<T>, SqlProvider {
      */
     @Nonnull
     default List<T> listColumns(@Nullable OrderSpecifier<?> order, @Nonnull Path<?>... columns) {
-        return listColumns(null, order, columns);
+        return listColumns(null, null, null == order ? null : new OrderSpecifier[]{order}, columns);
+    }
+
+    /**
+     * 获取某些字段的列表数据
+     *
+     * @param order   排序
+     * @param columns 获取的字段
+     * @return 数据
+     */
+    @Nonnull
+    default List<T> listColumns(@Nullable OrderSpecifier[] order, @Nonnull Path<?>... columns) {
+        return listColumns(null, null, order, columns);
+    }
+
+    /**
+     * 获取某些字段的列表数据
+     *
+     * @param predicate 条件
+     * @param columns   获取的字段
+     * @return 数据
+     */
+    @Nonnull
+    default List<T> listColumns(@Nullable Predicate predicate, @Nonnull Path<?>... columns) {
+        return listColumns(predicate, null, (OrderSpecifier[]) null, columns);
     }
 
     /**
@@ -69,7 +75,58 @@ public interface ListColumnsQuery<T> extends PathProvider<T>, SqlProvider {
      */
     @Nonnull
     default List<T> listColumns(@Nullable Predicate predicate, @Nullable OrderSpecifier<?> order, @Nonnull Path<?>... columns) {
-        return listColumns(predicate, order, null, columns);
+        return listColumns(predicate, null, null == order ? null : new OrderSpecifier[]{order}, columns);
+    }
+
+    /**
+     * 获取某些字段的列表数据
+     *
+     * @param predicate 条件
+     * @param order     排序
+     * @param columns   获取的字段
+     * @return 数据
+     */
+    @Nonnull
+    default List<T> listColumns(@Nullable Predicate predicate, @Nullable OrderSpecifier[] order, @Nonnull Path<?>... columns) {
+        return listColumns(predicate, null, order, columns);
+    }
+
+    /**
+     * 获取某些字段的列表数据
+     *
+     * @param limit   条数
+     * @param columns 获取的字段
+     * @return 数据
+     */
+    @Nonnull
+    default List<T> listColumns(@Nullable Long limit, @Nonnull Path<?>... columns) {
+        return listColumns(null, limit, (OrderSpecifier[]) null, columns);
+    }
+
+    /**
+     * 获取某些字段的列表数据
+     *
+     * @param limit   获取条数
+     * @param order   排序
+     * @param columns 获取的字段
+     * @return 数据
+     */
+    @Nonnull
+    default List<T> listColumns(@Nullable Long limit, @Nullable OrderSpecifier<?> order, @Nonnull Path<?>... columns) {
+        return listColumns(null, limit, null == order ? null : new OrderSpecifier[]{order}, columns);
+    }
+
+    /**
+     * 获取某些字段的列表数据
+     *
+     * @param limit   获取条数
+     * @param order   排序
+     * @param columns 获取的字段
+     * @return 数据
+     */
+    @Nonnull
+    default List<T> listColumns(long limit, @Nullable OrderSpecifier[] order, @Nonnull Path<?>... columns) {
+        return listColumns(null, limit, order, columns);
     }
 
     /**
@@ -82,7 +139,7 @@ public interface ListColumnsQuery<T> extends PathProvider<T>, SqlProvider {
      */
     @Nonnull
     default List<T> listColumns(@Nullable Predicate predicate, @Nullable Long limit, @Nonnull Path<?>... columns) {
-        return listColumns(predicate, (OrderSpecifier[]) null, limit, columns);
+        return listColumns(predicate, limit, (OrderSpecifier[]) null, columns);
     }
 
     /**
@@ -95,12 +152,8 @@ public interface ListColumnsQuery<T> extends PathProvider<T>, SqlProvider {
      * @return 数据
      */
     @Nonnull
-    default List<T> listColumns(@Nullable Predicate predicate, @Nullable OrderSpecifier<?> order, @Nullable Long limit, @Nonnull Path<?>... columns) {
-        if (null == order) {
-            return listColumns(predicate, (OrderSpecifier[]) null, limit, columns);
-        } else {
-            return listColumns(predicate, new OrderSpecifier[]{order}, limit, columns);
-        }
+    default List<T> listColumns(@Nullable Predicate predicate, @Nullable Long limit, @Nullable OrderSpecifier<?> order, @Nonnull Path<?>... columns) {
+        return listColumns(predicate, limit, null == order ? null : new OrderSpecifier[]{order}, columns);
     }
 
     /**
@@ -113,18 +166,13 @@ public interface ListColumnsQuery<T> extends PathProvider<T>, SqlProvider {
      * @return 数据
      */
     @Nonnull
-    default List<T> listColumns(@Nullable Predicate predicate, @Nullable OrderSpecifier[] order, @Nullable Long limit, @Nonnull Path<?>... columns) {
+    default List<T> listColumns(@Nullable Predicate predicate, @Nullable Long limit, @Nullable OrderSpecifier[] order, @Nonnull Path<?>... columns) {
         Assert.ok("要获取字段不能为空", columns.length > 0);
         SQLQuery<T> query = sql().select(
                 Projections.fields(root(), columns)
-        ).from(root());
+        ).from(root()).orderBy(null == order ? defaultMultiOrder() : order);
         if (null != predicate) {
             query = query.where(predicate);
-        }
-        if (null != order) {
-            query = query.orderBy(order);
-        } else {
-            query = query.orderBy(defaultMultiOrder());
         }
         if (null != limit) {
             query = query.limit(limit);

@@ -8,7 +8,7 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 
 /**
- * 常量值的Bean
+ * 常量值的Bean,用于ConstUtil返回带有@ConstVal注解的属性的
  *
  * @author Maning
  */

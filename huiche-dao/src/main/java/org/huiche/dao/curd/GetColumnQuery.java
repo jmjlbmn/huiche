@@ -1,5 +1,6 @@
 package org.huiche.dao.curd;
 
+import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.Predicate;
@@ -24,8 +25,8 @@ public interface GetColumnQuery<T> extends PathProvider<T>, SqlProvider {
      * @return 字段数据
      */
     @Nullable
-    default <Col> Col getColumn(@Nonnull Path<Col> column, long id) {
-        return QueryUtil.one(sql().select(column).from(root()).where(pk().eq(id)));
+    default <Col> Col getColumn(long id, @Nonnull Path<Col> column) {
+        return getColumn(column, (OrderSpecifier[]) null, pk().eq(id));
     }
 
     /**
@@ -38,11 +39,7 @@ public interface GetColumnQuery<T> extends PathProvider<T>, SqlProvider {
      */
     @Nullable
     default <Col> Col getColumn(@Nonnull Path<Col> column, @Nullable Predicate... predicate) {
-        SQLQuery<Col> query = sql().select(column).from(root());
-        if (null != predicate && predicate.length > 0) {
-            query = query.where(predicate);
-        }
-        return QueryUtil.one(query.orderBy(defaultMultiOrder()));
+        return getColumn(column, (OrderSpecifier[]) null, predicate);
     }
 
     /**
@@ -55,12 +52,8 @@ public interface GetColumnQuery<T> extends PathProvider<T>, SqlProvider {
      * @return 字段数据
      */
     @Nullable
-    default <Col> Col getColumn(@Nonnull Path<Col> column, long id, @Nullable Predicate... predicate) {
-        SQLQuery<Col> query = sql().select(column).from(root()).where(pk().eq(id));
-        if (null != predicate && predicate.length > 0) {
-            query = query.where(predicate);
-        }
-        return QueryUtil.one(query);
+    default <Col> Col getColumn(long id, @Nonnull Path<Col> column, @Nullable Predicate... predicate) {
+        return getColumn(column, (OrderSpecifier[]) null, pk().eq(id), null == predicate ? null : ExpressionUtils.allOf(predicate));
     }
 
     /**
@@ -74,11 +67,7 @@ public interface GetColumnQuery<T> extends PathProvider<T>, SqlProvider {
      */
     @Nullable
     default <Col> Col getColumn(@Nonnull Path<Col> column, @Nullable OrderSpecifier<?> order, @Nullable Predicate... predicate) {
-        if (null == order) {
-            return getColumn(column, predicate);
-        } else {
-            return getColumn(column, new OrderSpecifier[]{order}, predicate);
-        }
+        return getColumn(column, null == order ? null : new OrderSpecifier[]{order}, predicate);
     }
 
     /**
@@ -92,14 +81,9 @@ public interface GetColumnQuery<T> extends PathProvider<T>, SqlProvider {
      */
     @Nullable
     default <Col> Col getColumn(@Nonnull Path<Col> column, @Nullable OrderSpecifier[] order, @Nullable Predicate... predicate) {
-        SQLQuery<Col> query = sql().select(column).from(root());
+        SQLQuery<Col> query = sql().select(column).from(root()).orderBy(null == order ? defaultMultiOrder() : order);
         if (null != predicate && predicate.length > 0) {
             query = query.where(predicate);
-        }
-        if (null == order) {
-            query = query.orderBy(defaultMultiOrder());
-        } else {
-            query = query.orderBy(order);
         }
         return QueryUtil.one(query);
     }

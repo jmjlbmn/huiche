@@ -24,7 +24,7 @@ public interface ListQuery<T> extends PathProvider<T>, SqlProvider {
      */
     @Nonnull
     default List<T> list() {
-        return QueryUtil.list(sql().selectFrom(root()).orderBy(defaultMultiOrder()));
+        return list(null, (OrderSpecifier[]) null, (Predicate[]) null);
     }
 
     /**
@@ -35,7 +35,7 @@ public interface ListQuery<T> extends PathProvider<T>, SqlProvider {
      */
     @Nonnull
     default List<T> list(@Nonnull String ids) {
-        return QueryUtil.list(sql().selectFrom(root()).where(pk().in(StringUtil.split2ListLong(ids))).orderBy(defaultMultiOrder()));
+        return list(null, (OrderSpecifier[]) null, pk().in(StringUtil.split2ListLong(ids)));
     }
 
     /**
@@ -46,7 +46,7 @@ public interface ListQuery<T> extends PathProvider<T>, SqlProvider {
      */
     @Nonnull
     default List<T> list(@Nonnull Collection<Long> ids) {
-        return QueryUtil.list(sql().selectFrom(root()).where(pk().in(ids)).orderBy(defaultMultiOrder()));
+        return list(null, (OrderSpecifier[]) null, pk().in(ids));
     }
 
     /**
@@ -57,7 +57,7 @@ public interface ListQuery<T> extends PathProvider<T>, SqlProvider {
      */
     @Nonnull
     default List<T> list(@Nonnull Long[] ids) {
-        return QueryUtil.list(sql().selectFrom(root()).where(pk().in(ids)).orderBy(defaultMultiOrder()));
+        return list(null, (OrderSpecifier[]) null, pk().in(ids));
     }
 
     /**
@@ -68,11 +68,7 @@ public interface ListQuery<T> extends PathProvider<T>, SqlProvider {
      */
     @Nonnull
     default List<T> list(@Nullable Predicate... predicate) {
-        SQLQuery<T> query = sql().selectFrom(root());
-        if (null != predicate && predicate.length > 0) {
-            query = query.where(predicate);
-        }
-        return QueryUtil.list(query.orderBy(defaultMultiOrder()));
+        return list(null, (OrderSpecifier[]) null, predicate);
     }
 
     /**
@@ -84,7 +80,7 @@ public interface ListQuery<T> extends PathProvider<T>, SqlProvider {
      */
     @Nonnull
     default List<T> list(@Nullable OrderSpecifier<?> order, @Nullable Predicate... predicate) {
-        return list(order, null, predicate);
+        return list(null, null == order ? null : new OrderSpecifier[]{order}, predicate);
     }
 
     /**
@@ -96,7 +92,7 @@ public interface ListQuery<T> extends PathProvider<T>, SqlProvider {
      */
     @Nonnull
     default List<T> list(@Nullable OrderSpecifier[] order, @Nullable Predicate... predicate) {
-        return list(order, null, predicate);
+        return list(null, order, predicate);
     }
 
     /**
@@ -108,14 +104,7 @@ public interface ListQuery<T> extends PathProvider<T>, SqlProvider {
      */
     @Nonnull
     default List<T> list(@Nullable Long limit, @Nullable Predicate... predicate) {
-        SQLQuery<T> query = sql().selectFrom(root());
-        if (null != predicate && predicate.length > 0) {
-            query = query.where(predicate);
-        }
-        if (null != limit) {
-            query = query.limit(limit);
-        }
-        return QueryUtil.list(query.orderBy(defaultMultiOrder()));
+        return list(limit, (OrderSpecifier[]) null, predicate);
     }
 
     /**
@@ -127,12 +116,8 @@ public interface ListQuery<T> extends PathProvider<T>, SqlProvider {
      * @return 数据列表
      */
     @Nonnull
-    default List<T> list(@Nullable OrderSpecifier<?> order, @Nullable Long limit, @Nullable Predicate... predicate) {
-        if (null == order) {
-            return list(limit, predicate);
-        } else {
-            return list(new OrderSpecifier[]{order}, limit, predicate);
-        }
+    default List<T> list(@Nullable Long limit, @Nullable OrderSpecifier<?> order, @Nullable Predicate... predicate) {
+        return list(limit, null == order ? null : new OrderSpecifier[]{order}, predicate);
     }
 
     /**
@@ -144,15 +129,10 @@ public interface ListQuery<T> extends PathProvider<T>, SqlProvider {
      * @return 数据列表
      */
     @Nonnull
-    default List<T> list(@Nullable OrderSpecifier[] order, @Nullable Long limit, @Nullable Predicate... predicate) {
-        SQLQuery<T> query = sql().selectFrom(root());
+    default List<T> list(@Nullable Long limit, @Nullable OrderSpecifier[] order, @Nullable Predicate... predicate) {
+        SQLQuery<T> query = sql().selectFrom(root()).orderBy(null == order ? defaultMultiOrder() : order);
         if (null != predicate && predicate.length > 0) {
             query = query.where(predicate);
-        }
-        if (null != order) {
-            query = query.orderBy(order);
-        } else {
-            query = query.orderBy(defaultMultiOrder());
         }
         if (null != limit) {
             query = query.limit(limit);

@@ -56,10 +56,13 @@ public interface UpdateCmd<T extends BaseEntity<T>> extends PathProvider<T>, Sql
     default long update(@Nonnull T entity, @Nullable Predicate... predicate) {
         Long id = entity.getId();
         Assert.notNull("更新时ID不能为空", id);
-        Assert.ok("更新时条件不能为空", null != predicate && predicate.length > 0);
         validRegular(entity);
         // 强制不更新ID
         entity.setId(null);
-        return sql().update(root()).populate(entity).where(pk().eq(id)).where(predicate).execute();
+        SQLUpdateClause update = sql().update(root()).populate(entity).where(pk().eq(id));
+        if (null != predicate && predicate.length > 0) {
+            update = update.where(predicate);
+        }
+        return update.execute();
     }
 }

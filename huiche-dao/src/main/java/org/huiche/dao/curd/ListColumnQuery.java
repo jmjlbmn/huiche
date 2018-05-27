@@ -19,26 +19,52 @@ public interface ListColumnQuery<T> extends PathProvider<T>, SqlProvider {
     /**
      * 获取某个字段的列表
      *
-     * @param column    字段
-     * @param predicate 条件
-     * @param <Col>     字段
-     * @return 字段的列表
-     */
-    @Nonnull
-    default  <Col> List<Col> listColumn(@Nonnull Path<Col> column, @Nullable Predicate... predicate) {
-        return listColumn(column, (OrderSpecifier[]) null, null, predicate);
-    }
-
-    /**
-     * 获取某个字段的列表
-     *
      * @param column 字段
      * @param <Col>  字段
      * @return 字段的列表
      */
     @Nonnull
     default <Col> List<Col> listColumn(@Nonnull Path<Col> column) {
-        return listColumn(column, (OrderSpecifier[]) null, null, (Predicate[]) null);
+        return listColumn(column, null, (OrderSpecifier[]) null, (Predicate[]) null);
+    }
+
+    /**
+     * 获取某个字段的列表
+     *
+     * @param column 字段
+     * @param order  排序
+     * @param <Col>  字段
+     * @return 字段的列表
+     */
+    @Nonnull
+    default <Col> List<Col> listColumn(@Nonnull Path<Col> column, OrderSpecifier<?> order) {
+        return listColumn(column, null, null == order ? null : new OrderSpecifier[]{order}, (Predicate[]) null);
+    }
+
+    /**
+     * 获取某个字段的列表
+     *
+     * @param column 字段
+     * @param order  排序
+     * @param <Col>  字段
+     * @return 字段的列表
+     */
+    @Nonnull
+    default <Col> List<Col> listColumn(@Nonnull Path<Col> column, OrderSpecifier... order) {
+        return listColumn(column, null, order, (Predicate[]) null);
+    }
+
+    /**
+     * 获取某个字段的列表
+     *
+     * @param column    字段
+     * @param predicate 条件
+     * @param <Col>     字段
+     * @return 字段的列表
+     */
+    @Nonnull
+    default <Col> List<Col> listColumn(@Nonnull Path<Col> column, @Nullable Predicate... predicate) {
+        return listColumn(column, null, (OrderSpecifier[]) null, predicate);
     }
 
     /**
@@ -52,7 +78,7 @@ public interface ListColumnQuery<T> extends PathProvider<T>, SqlProvider {
      */
     @Nonnull
     default <Col> List<Col> listColumn(@Nonnull Path<Col> column, @Nullable OrderSpecifier<?> order, @Nullable Predicate... predicate) {
-        return listColumn(column, order, null, predicate);
+        return listColumn(column, null, null == order ? null : new OrderSpecifier[]{order}, predicate);
     }
 
     /**
@@ -66,7 +92,7 @@ public interface ListColumnQuery<T> extends PathProvider<T>, SqlProvider {
      */
     @Nonnull
     default <Col> List<Col> listColumn(@Nonnull Path<Col> column, @Nullable OrderSpecifier[] order, @Nullable Predicate... predicate) {
-        return listColumn(column, order, null, predicate);
+        return listColumn(column, null, order, predicate);
     }
 
     /**
@@ -80,12 +106,8 @@ public interface ListColumnQuery<T> extends PathProvider<T>, SqlProvider {
      * @return 字段的列表
      */
     @Nonnull
-    default <Col> List<Col> listColumn(@Nonnull Path<Col> column, @Nullable OrderSpecifier<?> order, @Nullable Long limit, @Nullable Predicate... predicate) {
-        if (null == order) {
-            return listColumn(column, (OrderSpecifier[]) null, limit, predicate);
-        } else {
-            return listColumn(column, new OrderSpecifier[]{order}, limit, predicate);
-        }
+    default <Col> List<Col> listColumn(@Nonnull Path<Col> column, @Nullable Long limit, @Nullable OrderSpecifier<?> order, @Nullable Predicate... predicate) {
+        return listColumn(column, limit, null == order ? null : new OrderSpecifier[]{order}, predicate);
     }
 
     /**
@@ -99,15 +121,10 @@ public interface ListColumnQuery<T> extends PathProvider<T>, SqlProvider {
      * @return 字段的列表
      */
     @Nonnull
-    default <Col> List<Col> listColumn(@Nonnull Path<Col> column, @Nullable OrderSpecifier[] order, @Nullable Long limit, @Nullable Predicate... predicate) {
-        SQLQuery<Col> query = sql().select(column).from(root());
+    default <Col> List<Col> listColumn(@Nonnull Path<Col> column, @Nullable Long limit, @Nullable OrderSpecifier[] order, @Nullable Predicate... predicate) {
+        SQLQuery<Col> query = sql().select(column).from(root()).orderBy(null == order ? defaultMultiOrder() : order);
         if (null != predicate && predicate.length > 0) {
             query = query.where(predicate);
-        }
-        if (null != order) {
-            query = query.orderBy(order);
-        } else {
-            query = query.orderBy(defaultMultiOrder());
         }
         if (null != limit) {
             query = query.limit(limit);

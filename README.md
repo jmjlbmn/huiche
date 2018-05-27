@@ -15,13 +15,13 @@
 ## 使用参考
 - [huiche-examples](https://github.com/jmjlbmn/huiche-examples)
 
-## Maven 当前版本为: 1.0.0
+## Maven 当前版本为: 1.0.1
 一、配置为pom文件parent(推荐)
 ```xml
 <parent>
     <groupId>org.huiche</groupId>
     <artifactId>huiche</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 </parent>
 ```
 或,在dependencyManagement开始的位置添加
@@ -31,7 +31,7 @@
         <dependency>
             <groupId>org.huiche</groupId>
             <artifactId>huiche</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.1</version>
             <type>pom</type>
             <scope>import</scope>
         </dependency>
@@ -52,6 +52,7 @@
 - 正式版本:`x.y.z` 如`1.0.0`
 - SNAPSHOT版本:`x.y.(z+1)-SNAPSHOT` 如`1.0.1-SNAPSHOT`
 - 另外需要额外在pom文件配置SNAPSHOT版本的仓库
+
 ```xml
 <repositories>
   <repository>

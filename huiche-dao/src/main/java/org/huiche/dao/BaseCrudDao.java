@@ -117,4 +117,9 @@ public abstract class BaseCrudDao<T extends BaseEntity<T>> extends BaseDao imple
     protected boolean doValid() {
         return true;
     }
+
+    @Override
+    public boolean createSetId() {
+        return true;
+    }
 }

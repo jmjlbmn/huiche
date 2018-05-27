@@ -1,5 +1,6 @@
 package org.huiche.dao.curd;
 
+import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.sql.SQLQuery;
@@ -21,7 +22,7 @@ public interface GetQuery<T> extends PathProvider<T>, SqlProvider {
      */
     @Nullable
     default T get(long id) {
-        return QueryUtil.one(sql().selectFrom(root()).where(pk().eq(id)));
+        return get((OrderSpecifier[]) null, pk().eq(id));
     }
 
     /**
@@ -32,11 +33,7 @@ public interface GetQuery<T> extends PathProvider<T>, SqlProvider {
      */
     @Nullable
     default T get(@Nullable Predicate... predicate) {
-        SQLQuery<T> query = sql().selectFrom(root());
-        if (null != predicate && predicate.length > 0) {
-            query = query.where(predicate);
-        }
-        return QueryUtil.one(query.orderBy(defaultMultiOrder()));
+        return get((OrderSpecifier[]) null, predicate);
     }
 
     /**
@@ -48,11 +45,7 @@ public interface GetQuery<T> extends PathProvider<T>, SqlProvider {
      */
     @Nullable
     default T get(long id, @Nullable Predicate... predicate) {
-        SQLQuery<T> query = sql().selectFrom(root()).where(pk().eq(id));
-        if (null != predicate && predicate.length > 0) {
-            query = query.where(predicate);
-        }
-        return QueryUtil.one(query);
+        return get((OrderSpecifier[]) null, pk().eq(id), null == predicate ? null : ExpressionUtils.allOf(predicate));
     }
 
     /**
@@ -64,11 +57,7 @@ public interface GetQuery<T> extends PathProvider<T>, SqlProvider {
      */
     @Nullable
     default T get(@Nullable OrderSpecifier<?> order, @Nullable Predicate... predicate) {
-        if (null == order) {
-            return get(predicate);
-        } else {
-            return get(new OrderSpecifier[]{order}, predicate);
-        }
+        return get(null == order ? null : new OrderSpecifier[]{order}, predicate);
     }
 
     /**
@@ -80,14 +69,9 @@ public interface GetQuery<T> extends PathProvider<T>, SqlProvider {
      */
     @Nullable
     default T get(@Nullable OrderSpecifier[] order, @Nullable Predicate... predicate) {
-        SQLQuery<T> query = sql().selectFrom(root());
+        SQLQuery<T> query = sql().selectFrom(root()).orderBy(null == order ? defaultMultiOrder() : order);
         if (null != predicate && predicate.length > 0) {
             query = query.where(predicate);
-        }
-        if (null == order) {
-            query = query.orderBy(defaultMultiOrder());
-        } else {
-            query = query.orderBy(order);
         }
         return QueryUtil.one(query);
     }

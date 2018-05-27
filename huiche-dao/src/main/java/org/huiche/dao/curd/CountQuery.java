@@ -18,7 +18,7 @@ public interface CountQuery<T> extends PathProvider<T>, SqlProvider {
      * @return 数量
      */
     default long count() {
-        return QueryUtil.count(sql().selectOne().from(root()));
+        return count((Predicate[]) null);
     }
 
     /**
