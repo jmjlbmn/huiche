@@ -6,7 +6,7 @@
 
     <groupId>org.huiche</groupId>
     <artifactId>huiche</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
         <module>huiche-annotation</module>
@@ -40,7 +40,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <spring-boot.version>2.0.2.RELEASE</spring-boot.version>
-        <druid.version>1.1.9</druid.version>
+        <druid.version>1.1.10</druid.version>
         <querydsl.version>4.2.1</querydsl.version>
         <jsr305.version>3.0.2</jsr305.version>
         <jetbrains-annotations.version>16.0.1</jetbrains-annotations.version>
