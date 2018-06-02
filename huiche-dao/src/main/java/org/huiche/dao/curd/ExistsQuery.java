@@ -2,7 +2,6 @@ package org.huiche.dao.curd;
 
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Predicate;
-import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.sql.SQLQuery;
 import org.huiche.core.util.HuiCheUtil;
 import org.huiche.dao.provider.PathProvider;
@@ -46,6 +45,6 @@ public interface ExistsQuery<T> extends PathProvider<T>, SqlProvider {
         if (null != predicate && predicate.length > 0) {
             query = query.where(predicate);
         }
-        return HuiCheUtil.equals(Expressions.ONE, query.fetchFirst());
+        return HuiCheUtil.equals(1, query.fetchFirst());
     }
 }
