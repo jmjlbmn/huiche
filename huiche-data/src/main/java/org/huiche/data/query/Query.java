@@ -2,7 +2,6 @@ package org.huiche.data.query;
 
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.ExpressionUtils;
-import com.querydsl.core.types.Path;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.QBean;
@@ -144,11 +143,11 @@ public interface Query {
      * @return 排除后的列表
      */
     @Nonnull
-    static Path<?>[] pathExclude(@Nonnull List<Path<?>> columns, @Nonnull Path<?>... exclude) {
+    static Expression<?>[] pathExclude(@Nonnull List<Expression<?>> columns, @Nonnull Expression<?>... exclude) {
         if (exclude.length > 0) {
-            List<Path<?>> excludeList = Arrays.asList(exclude);
+            List<Expression<?>> excludeList = Arrays.asList(exclude);
             columns.removeIf(excludeList::contains);
         }
-        return columns.toArray(new Path[0]);
+        return columns.toArray(new Expression[0]);
     }
 }

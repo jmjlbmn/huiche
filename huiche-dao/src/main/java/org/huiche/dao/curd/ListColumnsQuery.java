@@ -1,7 +1,7 @@
 package org.huiche.dao.curd;
 
+import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.Path;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.sql.SQLQuery;
@@ -25,7 +25,7 @@ public interface ListColumnsQuery<T> extends PathProvider<T>, SqlProvider {
      * @return 数据
      */
     @Nonnull
-    default List<T> listColumns(@Nonnull Path<?>... columns) {
+    default List<T> listColumns(@Nonnull Expression<?>... columns) {
         return listColumns(null, null, (OrderSpecifier[]) null, columns);
     }
 
@@ -37,7 +37,7 @@ public interface ListColumnsQuery<T> extends PathProvider<T>, SqlProvider {
      * @return 数据
      */
     @Nonnull
-    default List<T> listColumns(@Nullable OrderSpecifier<?> order, @Nonnull Path<?>... columns) {
+    default List<T> listColumns(@Nullable OrderSpecifier<?> order, @Nonnull Expression<?>... columns) {
         return listColumns(null, null, null == order ? null : new OrderSpecifier[]{order}, columns);
     }
 
@@ -49,7 +49,7 @@ public interface ListColumnsQuery<T> extends PathProvider<T>, SqlProvider {
      * @return 数据
      */
     @Nonnull
-    default List<T> listColumns(@Nullable OrderSpecifier[] order, @Nonnull Path<?>... columns) {
+    default List<T> listColumns(@Nullable OrderSpecifier[] order, @Nonnull Expression<?>... columns) {
         return listColumns(null, null, order, columns);
     }
 
@@ -61,7 +61,7 @@ public interface ListColumnsQuery<T> extends PathProvider<T>, SqlProvider {
      * @return 数据
      */
     @Nonnull
-    default List<T> listColumns(@Nullable Predicate predicate, @Nonnull Path<?>... columns) {
+    default List<T> listColumns(@Nullable Predicate predicate, @Nonnull Expression<?>... columns) {
         return listColumns(predicate, null, (OrderSpecifier[]) null, columns);
     }
 
@@ -74,7 +74,7 @@ public interface ListColumnsQuery<T> extends PathProvider<T>, SqlProvider {
      * @return 数据
      */
     @Nonnull
-    default List<T> listColumns(@Nullable Predicate predicate, @Nullable OrderSpecifier<?> order, @Nonnull Path<?>... columns) {
+    default List<T> listColumns(@Nullable Predicate predicate, @Nullable OrderSpecifier<?> order, @Nonnull Expression<?>... columns) {
         return listColumns(predicate, null, null == order ? null : new OrderSpecifier[]{order}, columns);
     }
 
@@ -87,7 +87,7 @@ public interface ListColumnsQuery<T> extends PathProvider<T>, SqlProvider {
      * @return 数据
      */
     @Nonnull
-    default List<T> listColumns(@Nullable Predicate predicate, @Nullable OrderSpecifier[] order, @Nonnull Path<?>... columns) {
+    default List<T> listColumns(@Nullable Predicate predicate, @Nullable OrderSpecifier[] order, @Nonnull Expression<?>... columns) {
         return listColumns(predicate, null, order, columns);
     }
 
@@ -99,7 +99,7 @@ public interface ListColumnsQuery<T> extends PathProvider<T>, SqlProvider {
      * @return 数据
      */
     @Nonnull
-    default List<T> listColumns(@Nullable Long limit, @Nonnull Path<?>... columns) {
+    default List<T> listColumns(@Nullable Long limit, @Nonnull Expression<?>... columns) {
         return listColumns(null, limit, (OrderSpecifier[]) null, columns);
     }
 
@@ -112,7 +112,7 @@ public interface ListColumnsQuery<T> extends PathProvider<T>, SqlProvider {
      * @return 数据
      */
     @Nonnull
-    default List<T> listColumns(@Nullable Long limit, @Nullable OrderSpecifier<?> order, @Nonnull Path<?>... columns) {
+    default List<T> listColumns(@Nullable Long limit, @Nullable OrderSpecifier<?> order, @Nonnull Expression<?>... columns) {
         return listColumns(null, limit, null == order ? null : new OrderSpecifier[]{order}, columns);
     }
 
@@ -125,7 +125,7 @@ public interface ListColumnsQuery<T> extends PathProvider<T>, SqlProvider {
      * @return 数据
      */
     @Nonnull
-    default List<T> listColumns(long limit, @Nullable OrderSpecifier[] order, @Nonnull Path<?>... columns) {
+    default List<T> listColumns(long limit, @Nullable OrderSpecifier[] order, @Nonnull Expression<?>... columns) {
         return listColumns(null, limit, order, columns);
     }
 
@@ -138,7 +138,7 @@ public interface ListColumnsQuery<T> extends PathProvider<T>, SqlProvider {
      * @return 数据
      */
     @Nonnull
-    default List<T> listColumns(@Nullable Predicate predicate, @Nullable Long limit, @Nonnull Path<?>... columns) {
+    default List<T> listColumns(@Nullable Predicate predicate, @Nullable Long limit, @Nonnull Expression<?>... columns) {
         return listColumns(predicate, limit, (OrderSpecifier[]) null, columns);
     }
 
@@ -152,7 +152,7 @@ public interface ListColumnsQuery<T> extends PathProvider<T>, SqlProvider {
      * @return 数据
      */
     @Nonnull
-    default List<T> listColumns(@Nullable Predicate predicate, @Nullable Long limit, @Nullable OrderSpecifier<?> order, @Nonnull Path<?>... columns) {
+    default List<T> listColumns(@Nullable Predicate predicate, @Nullable Long limit, @Nullable OrderSpecifier<?> order, @Nonnull Expression<?>... columns) {
         return listColumns(predicate, limit, null == order ? null : new OrderSpecifier[]{order}, columns);
     }
 
@@ -166,7 +166,7 @@ public interface ListColumnsQuery<T> extends PathProvider<T>, SqlProvider {
      * @return 数据
      */
     @Nonnull
-    default List<T> listColumns(@Nullable Predicate predicate, @Nullable Long limit, @Nullable OrderSpecifier[] order, @Nonnull Path<?>... columns) {
+    default List<T> listColumns(@Nullable Predicate predicate, @Nullable Long limit, @Nullable OrderSpecifier[] order, @Nonnull Expression<?>... columns) {
         Assert.ok("要获取字段不能为空", columns.length > 0);
         SQLQuery<T> query = sql().select(
                 Projections.fields(root(), columns)
