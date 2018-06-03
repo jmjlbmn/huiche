@@ -1,7 +1,7 @@
 package org.huiche.dao.curd;
 
+import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.Path;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.sql.SQLQuery;
 import org.huiche.dao.provider.PathProvider;
@@ -24,7 +24,7 @@ public interface ListColumnQuery<T> extends PathProvider<T>, SqlProvider {
      * @return 字段的列表
      */
     @Nonnull
-    default <Col> List<Col> listColumn(@Nonnull Path<Col> column) {
+    default <Col> List<Col> listColumn(@Nonnull Expression<Col> column) {
         return listColumn(column, null, (OrderSpecifier[]) null, (Predicate[]) null);
     }
 
@@ -37,7 +37,7 @@ public interface ListColumnQuery<T> extends PathProvider<T>, SqlProvider {
      * @return 字段的列表
      */
     @Nonnull
-    default <Col> List<Col> listColumn(@Nonnull Path<Col> column, OrderSpecifier<?> order) {
+    default <Col> List<Col> listColumn(@Nonnull Expression<Col> column, OrderSpecifier<?> order) {
         return listColumn(column, null, null == order ? null : new OrderSpecifier[]{order}, (Predicate[]) null);
     }
 
@@ -50,7 +50,7 @@ public interface ListColumnQuery<T> extends PathProvider<T>, SqlProvider {
      * @return 字段的列表
      */
     @Nonnull
-    default <Col> List<Col> listColumn(@Nonnull Path<Col> column, OrderSpecifier... order) {
+    default <Col> List<Col> listColumn(@Nonnull Expression<Col> column, OrderSpecifier... order) {
         return listColumn(column, null, order, (Predicate[]) null);
     }
 
@@ -63,7 +63,7 @@ public interface ListColumnQuery<T> extends PathProvider<T>, SqlProvider {
      * @return 字段的列表
      */
     @Nonnull
-    default <Col> List<Col> listColumn(@Nonnull Path<Col> column, @Nullable Predicate... predicate) {
+    default <Col> List<Col> listColumn(@Nonnull Expression<Col> column, @Nullable Predicate... predicate) {
         return listColumn(column, null, (OrderSpecifier[]) null, predicate);
     }
 
@@ -77,7 +77,7 @@ public interface ListColumnQuery<T> extends PathProvider<T>, SqlProvider {
      * @return 字段的列表
      */
     @Nonnull
-    default <Col> List<Col> listColumn(@Nonnull Path<Col> column, @Nullable OrderSpecifier<?> order, @Nullable Predicate... predicate) {
+    default <Col> List<Col> listColumn(@Nonnull Expression<Col> column, @Nullable OrderSpecifier<?> order, @Nullable Predicate... predicate) {
         return listColumn(column, null, null == order ? null : new OrderSpecifier[]{order}, predicate);
     }
 
@@ -91,7 +91,7 @@ public interface ListColumnQuery<T> extends PathProvider<T>, SqlProvider {
      * @return 字段的列表
      */
     @Nonnull
-    default <Col> List<Col> listColumn(@Nonnull Path<Col> column, @Nullable OrderSpecifier[] order, @Nullable Predicate... predicate) {
+    default <Col> List<Col> listColumn(@Nonnull Expression<Col> column, @Nullable OrderSpecifier[] order, @Nullable Predicate... predicate) {
         return listColumn(column, null, order, predicate);
     }
 
@@ -106,7 +106,7 @@ public interface ListColumnQuery<T> extends PathProvider<T>, SqlProvider {
      * @return 字段的列表
      */
     @Nonnull
-    default <Col> List<Col> listColumn(@Nonnull Path<Col> column, @Nullable Long limit, @Nullable OrderSpecifier<?> order, @Nullable Predicate... predicate) {
+    default <Col> List<Col> listColumn(@Nonnull Expression<Col> column, @Nullable Long limit, @Nullable OrderSpecifier<?> order, @Nullable Predicate... predicate) {
         return listColumn(column, limit, null == order ? null : new OrderSpecifier[]{order}, predicate);
     }
 
@@ -121,7 +121,7 @@ public interface ListColumnQuery<T> extends PathProvider<T>, SqlProvider {
      * @return 字段的列表
      */
     @Nonnull
-    default <Col> List<Col> listColumn(@Nonnull Path<Col> column, @Nullable Long limit, @Nullable OrderSpecifier[] order, @Nullable Predicate... predicate) {
+    default <Col> List<Col> listColumn(@Nonnull Expression<Col> column, @Nullable Long limit, @Nullable OrderSpecifier[] order, @Nullable Predicate... predicate) {
         SQLQuery<Col> query = sql().select(column).from(root()).orderBy(null == order ? defaultMultiOrder() : order);
         if (null != predicate && predicate.length > 0) {
             query = query.where(predicate);
