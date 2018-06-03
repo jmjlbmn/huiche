@@ -1,6 +1,6 @@
 # HuiChe
 [![build](https://img.shields.io/travis/jmjlbmn/huiche.svg?style=flat-square)](https://travis-ci.org/jmjlbmn/huiche)
-[![maven](https://img.shields.io/maven-metadata/v/http/central.maven.org/maven2/org/huiche/huiche/maven-metadata.xml.svg?style=flat-square)](http://search.maven.org/#artifactdetails%7Corg.huiche%7Chuiche%7C1.0.1%7C)
+[![maven](https://img.shields.io/maven-metadata/v/http/central.maven.org/maven2/org/huiche/huiche/maven-metadata.xml.svg?style=flat-square)](http://search.maven.org/#artifactdetails%7Corg.huiche%7Chuiche%7C1.0.2%7C)
 ## 基于SpringBoot和QueryDsl的快速开发框架
 ## 主要功能
 - 基于QueryDsl的快速,类型安全的SQL查询
@@ -15,13 +15,13 @@
 ## 使用参考
 - [huiche-examples](https://github.com/jmjlbmn/huiche-examples)
 
-## Maven 当前版本为: 1.0.1
+## Maven 当前版本为: [![maven](https://img.shields.io/maven-metadata/v/http/central.maven.org/maven2/org/huiche/huiche/maven-metadata.xml.svg?style=flat-square)](http://search.maven.org/#artifactdetails%7Corg.huiche%7Chuiche%7C1.0.2%7C)
 一、配置为pom文件parent(推荐)
 ```xml
 <parent>
     <groupId>org.huiche</groupId>
     <artifactId>huiche</artifactId>
-    <version>1.0.1</version>
+    <version>RELEASE</version>
 </parent>
 ```
 或,在dependencyManagement开始的位置添加
@@ -31,7 +31,7 @@
         <dependency>
             <groupId>org.huiche</groupId>
             <artifactId>huiche</artifactId>
-            <version>1.0.1</version>
+            <version>RELEASE</version>
             <type>pom</type>
             <scope>import</scope>
         </dependency>
@@ -44,13 +44,11 @@
     <dependency>
         <groupId>org.huiche</groupId>
         <artifactId>huiche-spring-boot-starter</artifactId>
-        <version>1.0.0</version>
+        <version>RELEASE</version>
     </dependency>
 </dependencies>
 ```
-如果想要体验最新功能或需要较快的bug修复,可以使用SNAPSHOT版本,版本号一般是:
-- 正式版本:`x.y.z` 如`1.0.0`
-- SNAPSHOT版本:`x.y.(z+1)-SNAPSHOT` 如`1.0.1-SNAPSHOT`
+如果想要体验最新功能或需要较快的bug修复,可以使用SNAPSHOT版本
 - 另外需要额外在pom文件配置SNAPSHOT版本的仓库
 
 ```xml

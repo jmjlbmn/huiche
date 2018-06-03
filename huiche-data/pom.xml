@@ -5,7 +5,7 @@
     <parent>
         <artifactId>huiche</artifactId>
         <groupId>org.huiche</groupId>
-        <version>1.0.2-SNAPSHOT</version>
+        <version>1.0.2</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>huiche-data</artifactId>
@@ -24,5 +24,4 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-
 </project>

@@ -6,7 +6,7 @@
 
     <groupId>org.huiche</groupId>
     <artifactId>huiche</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.0.2</version>
     <packaging>pom</packaging>
     <modules>
         <module>huiche-annotation</module>
