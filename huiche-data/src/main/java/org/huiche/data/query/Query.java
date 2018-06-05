@@ -2,6 +2,7 @@ package org.huiche.data.query;
 
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.ExpressionUtils;
+import com.querydsl.core.types.Path;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.QBean;
@@ -121,6 +122,24 @@ public interface Query {
     }
 
     /**
+     * 扩展增加dto继承
+     *
+     * @param beanPath 实体类的查询类
+     * @param columns  排除的列
+     * @param <T>      实体类
+     * @return 所有查询的列
+     */
+    @Nonnull
+    static <T extends BaseEntity<T>> Expression[] excludeColumn(@Nonnull RelationalPath<T> beanPath, @Nonnull Expression... columns) {
+        List<Path<?>> pathColumns = beanPath.getColumns();
+        if (columns.length > 0) {
+            List<Expression> excludeList = Arrays.asList(columns);
+            pathColumns.removeIf(excludeList::contains);
+        }
+        return pathColumns.toArray(new Expression[0]);
+    }
+
+    /**
      * 获取继承bean的dto
      *
      * @param dtoClass dto的class
@@ -133,21 +152,5 @@ public interface Query {
     @Nonnull
     static <DTO extends T, T extends BaseEntity<T>> QBean<DTO> extendBean(@Nonnull Class<DTO> dtoClass, @Nonnull RelationalPath<T> beanPath, @Nonnull Expression... columns) {
         return Projections.fields(dtoClass, extendColumn(beanPath, columns));
-    }
-
-    /**
-     * 排除某些列,注意,因性能考虑,应尽可能的定义常量来接收该方法的返回值,保证只需要执行一次
-     *
-     * @param columns 列
-     * @param exclude 排除列
-     * @return 排除后的列表
-     */
-    @Nonnull
-    static Expression<?>[] pathExclude(@Nonnull List<Expression<?>> columns, @Nonnull Expression<?>... exclude) {
-        if (exclude.length > 0) {
-            List<Expression<?>> excludeList = Arrays.asList(exclude);
-            columns.removeIf(excludeList::contains);
-        }
-        return columns.toArray(new Expression[0]);
     }
 }
