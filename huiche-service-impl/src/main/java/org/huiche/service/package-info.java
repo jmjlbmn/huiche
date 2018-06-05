@@ -1,5 +1,5 @@
 /**
- * Service实现,增删改查service
+ * Service实现包
  *
  * @author Maning
  */

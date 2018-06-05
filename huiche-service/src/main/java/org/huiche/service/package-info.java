@@ -1,5 +1,5 @@
 /**
- * service接口
+ * service接口定义包
  *
  * @author Maning
  */

@@ -12,9 +12,11 @@
 - 提供restful和传统单post两种方式的常用增删改查功能的BaseController
 - huiche-spring-boot-starter快速搭建项目
 - 基于实体类注解的Sql建表支持,可独立框架外使用,支持修改字段和删除字段,详细参考: [sql-builder](https://github.com/jmjlbmn/huiche-examples/tree/master/sql-builder)
-## 使用参考
-- [huiche-examples](https://github.com/jmjlbmn/huiche-examples)
-
+## 使用参考 
+- 查看 [JavaDoc](https://apidoc.gitee.com/jmjlbmn/huiche/)
+- 参考 [huiche-examples](https://github.com/jmjlbmn/huiche-examples)
+## JavaDoc
+> 
 ## Maven 当前版本为: [![maven](https://img.shields.io/maven-metadata/v/http/central.maven.org/maven2/org/huiche/huiche/maven-metadata.xml.svg?style=flat-square)](http://search.maven.org/#artifactdetails%7Corg.huiche%7Chuiche%7C1.0.2%7C)
 一、配置为pom文件parent(推荐)
 ```xml

@@ -1,12 +1,12 @@
 # Sql Builder
 根据实体类和注解,生成 创建/更新 数据表的SQL语句,支持Boolean,Integer,Long,Float,Double,String,枚举(按String,存名称)
-## 实体类添加的注解需要添加依赖
+## 实体类添加注解,需要添加依赖(就两个类,直接复制过去用也是可以的啦,需保持包名类名不能变)
 ```xml
     <!--版本请自行添加或使用dependencyManagement-->
     <dependencies>
         <dependency>
             <groupId>org.huiche</groupId>
-            <artifactId>huiche-core-annotation</artifactId>
+            <artifactId>huiche-annotation</artifactId>
         </dependency>
     </dependencies>
 ```

@@ -1,5 +1,7 @@
 package org.huiche.core.util;
 
+import lombok.experimental.UtilityClass;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -12,8 +14,11 @@ import java.util.function.Supplier;
 import java.util.stream.Collector;
 
 /**
+ * 扩展jdk8 stream处理的工具类
+ *
  * @author Maning
  */
+@UtilityClass
 public class StreamUtil {
     private static final Set<Collector.Characteristics> CH_ID
             = Collections.unmodifiableSet(EnumSet.of(Collector.Characteristics.IDENTITY_FINISH));

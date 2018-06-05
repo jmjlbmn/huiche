@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -259,5 +260,33 @@ public class DateUtil {
     @Nonnull
     public static String getDayWeekAgo() {
         return getByDayOffset(-7);
+    }
+
+    /**
+     * 获取某个月份的天数
+     *
+     * @param year  年
+     * @param month 月份
+     * @return 天数
+     */
+    public static int getMonthDays(int year, int month) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month - 1);
+        calendar.set(Calendar.DATE, 1);
+        calendar.roll(Calendar.DATE, -1);
+        return calendar.get(Calendar.DATE);
+    }
+
+    /**
+     * 获取当前月份的天数
+     *
+     * @return 天数
+     */
+    public static int getNowMonthDays() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DATE, 1);
+        calendar.roll(Calendar.DATE, -1);
+        return calendar.get(Calendar.DATE);
     }
 }
