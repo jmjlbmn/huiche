@@ -1,5 +1,5 @@
 /**
- * restful接口操作包
+ * restful风格的基本增删改查操作包
  *
  * @author Maning
  */

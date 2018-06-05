@@ -1,5 +1,5 @@
 /**
- * restful操作接口包
+ * restful风格的控制器包
  *
  * @author Maning
  */
