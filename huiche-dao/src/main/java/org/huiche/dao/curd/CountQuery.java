@@ -9,6 +9,8 @@ import org.huiche.dao.util.QueryUtil;
 import javax.annotation.Nullable;
 
 /**
+ * 查询数量操作
+ *
  * @author Maning
  */
 public interface CountQuery<T> extends PathProvider<T>, SqlProvider {

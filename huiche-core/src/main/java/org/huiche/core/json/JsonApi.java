@@ -4,7 +4,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
- * Json Api
+ * 内置的Json转换接口,使用starter时会创建实现,直接注入即可,不使用start时,需要自行实现才可以使用
  *
  * @author Maning
  */

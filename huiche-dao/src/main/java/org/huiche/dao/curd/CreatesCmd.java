@@ -12,6 +12,8 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 /**
+ * 批量创建/新增操作
+ *
  * @author Maning
  */
 public interface CreatesCmd<T extends BaseEntity<T>> extends PathProvider<T>, SqlProvider, CreateHandleProvider<T> {

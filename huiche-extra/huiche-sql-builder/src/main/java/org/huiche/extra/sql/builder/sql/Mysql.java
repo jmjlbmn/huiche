@@ -8,7 +8,7 @@ import java.sql.JDBCType;
 import java.util.Iterator;
 
 /**
- * MySql
+ * MySql建表
  *
  * @author Maning
  */

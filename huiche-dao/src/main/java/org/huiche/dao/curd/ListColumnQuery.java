@@ -13,6 +13,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 /**
+ * 获取实体类单一字段/列的集合操作
  * @author Maning
  */
 public interface ListColumnQuery<T> extends PathProvider<T>, SqlProvider {

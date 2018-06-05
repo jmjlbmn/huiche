@@ -3,7 +3,7 @@ package org.huiche.extra.sql.builder.naming;
 import javax.annotation.Nonnull;
 
 /**
- * 驼峰命名规则转下划线小写
+ * 驼峰命名规则转下划线小写 命名规则
  *
  * @author Maning
  */

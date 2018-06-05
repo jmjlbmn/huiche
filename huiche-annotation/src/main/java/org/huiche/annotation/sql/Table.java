@@ -7,7 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 用于SqlBuilder生成数据库的实体类注解,必须设置,不然不会当做表
+ * 用于建表工具生成数据库的实体类注解,必须设置,不然不会当做表
  *
  * @author Maning
  */
@@ -16,7 +16,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface Table {
     /**
-     * 表名
+     * 表名,默认会根据驼峰转换全小写字母下划线分隔的字段名
      *
      * @return 值
      */

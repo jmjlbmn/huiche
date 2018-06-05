@@ -15,6 +15,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
+ * 获取一个实体类中的几个列返回实体类操作
+ *
  * @author Maning
  */
 public interface GetColumnsQuery<T> extends PathProvider<T>, SqlProvider {

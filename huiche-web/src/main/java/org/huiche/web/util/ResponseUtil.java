@@ -4,6 +4,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * 响应工具类,提供响应JSON,JS,CSS等方法
+ *
  * @author Maning
  */
 public class ResponseUtil {

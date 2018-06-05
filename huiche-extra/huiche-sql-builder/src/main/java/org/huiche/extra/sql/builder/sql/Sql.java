@@ -22,7 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Sql
+ * 默认的sql建表
  *
  * @author Maning
  */

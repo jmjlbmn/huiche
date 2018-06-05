@@ -7,7 +7,7 @@ import org.huiche.web.util.ResultUtil;
 import javax.annotation.Nullable;
 
 /**
- * 基础Api
+ * 基础Api控制器,用于封装返回数据为BaseResult
  *
  * @author Maning
  */

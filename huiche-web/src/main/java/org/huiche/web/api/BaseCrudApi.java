@@ -6,7 +6,7 @@ import org.huiche.web.api.method.Get;
 import org.huiche.web.api.method.Save;
 
 /**
- * 简单Restful风格控制器(非严格遵循规范,可自行根据业务实现编写 BaseController)
+ * 简单Restful风格增删改查控制器(非严格遵循规范,可自行根据业务实现编写 BaseController)
  *
  * @author Maning
  */

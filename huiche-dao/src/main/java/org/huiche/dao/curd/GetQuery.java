@@ -11,6 +11,7 @@ import org.huiche.dao.util.QueryUtil;
 import javax.annotation.Nullable;
 
 /**
+ * 获取实体类操作,即 Select * ,建议使用GetColumns
  * @author Maning
  */
 public interface GetQuery<T> extends PathProvider<T>, SqlProvider {

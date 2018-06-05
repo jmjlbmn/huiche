@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 /**
- * 工具类
+ * 建表工具用到的工具类
  *
  * @author Maning
  */

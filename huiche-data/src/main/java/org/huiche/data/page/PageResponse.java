@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 页面响应
+ * 页面响应,提供总的记录条数和当前页数据List
  *
  * @param <T> 类型
  * @author Maning

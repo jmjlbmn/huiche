@@ -7,6 +7,8 @@ import com.querydsl.sql.RelationalPath;
 import javax.annotation.Nonnull;
 
 /**
+ * 用于所有CRUD操作的基础属性提供接口
+ *
  * @author Maning
  */
 public interface PathProvider<T> {

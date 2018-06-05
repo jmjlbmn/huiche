@@ -3,7 +3,7 @@ package org.huiche.core.enums;
 import org.huiche.core.consts.If;
 
 /**
- * int是否的枚举
+ * int是否的枚举,可用于需要传递是否参数的方法,防止出现其他值
  *
  * @author Maning
  */

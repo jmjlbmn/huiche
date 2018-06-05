@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 常量类工具类
+ * 常量类工具类,获取用@ConstVal注解的常类类参数的说明描述或扩展信息
  *
  * @author Maning
  */

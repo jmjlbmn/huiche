@@ -7,7 +7,7 @@ import org.huiche.data.query.Query;
 import javax.annotation.Nullable;
 
 /**
- * 筛选接口
+ * 筛选接口,用于前端传递的自定义筛选
  *
  * @author Maning
  */

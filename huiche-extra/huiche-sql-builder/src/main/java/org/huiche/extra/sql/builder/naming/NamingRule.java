@@ -3,7 +3,7 @@ package org.huiche.extra.sql.builder.naming;
 import javax.annotation.Nonnull;
 
 /**
- * sql命名规则
+ * sql命名规则接口
  *
  * @author Maning
  */

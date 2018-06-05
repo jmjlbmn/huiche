@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 /**
- * 简单视图
+ * 简单的常用视图
  *
  * @author Maning
  */

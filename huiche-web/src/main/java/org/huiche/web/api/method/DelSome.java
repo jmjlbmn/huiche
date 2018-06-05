@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import javax.annotation.Nullable;
 
 /**
- * 删除一条数据
+ * restful 删除多条数据
  *
  * @author Maning
  */

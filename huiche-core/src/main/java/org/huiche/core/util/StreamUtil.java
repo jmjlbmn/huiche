@@ -14,7 +14,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collector;
 
 /**
- * 扩展jdk8 stream处理的工具类
+ * 扩展jdk8 stream处理的工具类,目前仅分组收集器toList转换类型的扩展
  *
  * @author Maning
  */

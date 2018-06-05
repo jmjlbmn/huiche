@@ -5,7 +5,7 @@ import lombok.Setter;
 import org.huiche.core.util.StringUtil;
 
 /**
- * 基础异常
+ * 内置基础异常
  *
  * @author Maning
  */

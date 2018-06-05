@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import javax.annotation.Nonnull;
 
 /**
- * 新增或更新,传入id更新,不传入新增
+ * restful 新增或更新,传入id更新,不传入新增
  *
  * @author Maning
  */

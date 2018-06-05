@@ -12,7 +12,7 @@ import java.util.function.Supplier;
 
 
 /**
- * 断言工具
+ * 断言工具类,常用于逻辑处理,抛出异常以便返回错误信息
  *
  * @author Maning
  */

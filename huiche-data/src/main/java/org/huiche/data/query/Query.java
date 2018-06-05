@@ -20,6 +20,8 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
+ * 基础查询接口,提供条件拼接和查询列扩展/排除的默认方法
+ *
  * @author Maning
  */
 public interface Query {

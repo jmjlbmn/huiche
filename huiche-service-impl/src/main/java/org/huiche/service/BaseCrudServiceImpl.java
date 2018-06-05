@@ -16,7 +16,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * 基础的增删改查业务实现
+ * 基础的增删改查业务实现,继承BaseServiceImpl
  *
  * @author Maning
  */

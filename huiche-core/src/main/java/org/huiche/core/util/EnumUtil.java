@@ -8,7 +8,7 @@ import javax.annotation.Nullable;
 import java.util.Objects;
 
 /**
- * 枚举工具类
+ * 枚举工具类,提供枚举转换等方法
  *
  * @author Maning
  */

@@ -15,7 +15,7 @@ import java.util.Locale;
 import java.util.Random;
 
 /**
- * 字符串工具类
+ * 字符串处理工具类,很常用
  *
  * @author Maning
  */

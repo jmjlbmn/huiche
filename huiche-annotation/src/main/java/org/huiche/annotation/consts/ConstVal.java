@@ -7,7 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 常量类 值注解,用于常量工具类ConstUtil获取常量上注解的值
+ * 用于常量类的常类属性的注解,用于常量工具类ConstUtil获取常量上注解的值
  *
  * @author Maning
  */
@@ -16,7 +16,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ConstVal {
     /**
-     * 值,一般放置说明
+     * 值,一般放置说明文字
      *
      * @return 值
      */

@@ -16,6 +16,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
+ * 获取实体类的几个字段构成的实体类的分页数据操作
+ *
  * @author Maning
  */
 public interface PageColumnsQuery<T> extends PathProvider<T>, SqlProvider {

@@ -9,6 +9,8 @@ import org.huiche.data.entity.BaseEntity;
 import javax.annotation.Nonnull;
 
 /**
+ * 创建/新增操作
+ *
  * @author Maning
  */
 public interface CreateCmd<T extends BaseEntity<T>> extends PathProvider<T>, SqlProvider, CreateHandleProvider<T> {

@@ -13,6 +13,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
+ * 获取一个列操作
  * @author Maning
  */
 public interface GetColumnQuery<T> extends PathProvider<T>, SqlProvider {

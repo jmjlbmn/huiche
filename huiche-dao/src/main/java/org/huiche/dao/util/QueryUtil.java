@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * QueryDsl工具类
+ * QueryDsl工具类,提供list,page,one,count查询的封装,及PageRequest的排序解析
  *
  * @author Maning
  */
@@ -170,6 +170,7 @@ public class QueryUtil {
         ComparablePath<? extends Comparable> path = Expressions.comparablePath(Comparable.class, fieldName);
         return Order.ASC.name().equalsIgnoreCase(orderStr) ? path.asc() : path.desc();
     }
+
     private static final String STAR = "*";
     private static final String LINE = "_";
     private static final String PERCENT = "%";

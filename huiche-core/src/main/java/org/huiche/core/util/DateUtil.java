@@ -15,7 +15,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * 日期时间工具类
+ * 日期时间工具类,主要提供String和Date类型的转换
  *
  * @author Maning
  */

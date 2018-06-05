@@ -15,6 +15,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 /**
+ * 获取实体类的多个字段/列构成的实体类的列表操作
+ *
  * @author Maning
  */
 public interface ListColumnsQuery<T> extends PathProvider<T>, SqlProvider {

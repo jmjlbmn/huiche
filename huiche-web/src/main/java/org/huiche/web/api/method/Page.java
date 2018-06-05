@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import javax.annotation.Nonnull;
 
 /**
- * 分页获取数据
+ * restful 分页获取数据
  *
  * @author Maning
  */

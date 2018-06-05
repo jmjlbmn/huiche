@@ -10,7 +10,7 @@ import javax.annotation.Nonnull;
 import java.util.List;
 
 /**
- * 获取数据集合
+ * restful 获取数据集合
  *
  * @author Maning
  */

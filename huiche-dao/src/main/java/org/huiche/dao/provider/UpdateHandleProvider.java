@@ -1,6 +1,8 @@
 package org.huiche.dao.provider;
 
 /**
+ * 更新数据操作的处理方法接口
+ *
  * @author Maning
  */
 public interface UpdateHandleProvider<T> {

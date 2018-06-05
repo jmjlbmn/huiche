@@ -7,7 +7,7 @@ import org.huiche.service.BaseCrudService;
 import javax.annotation.Nonnull;
 
 /**
- * Service提供者
+ * Service提供者,用于基础Crud控制器
  *
  * @author Maning
  */

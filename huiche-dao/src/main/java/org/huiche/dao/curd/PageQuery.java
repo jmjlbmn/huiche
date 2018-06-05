@@ -13,6 +13,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
+ * 分页获取实体类操作,即 Select * ,建议使用pageColumns
  * @author Maning
  */
 public interface PageQuery<T> extends PathProvider<T>, SqlProvider {

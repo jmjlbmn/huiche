@@ -21,7 +21,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * 基础数据库查询Dao
+ * 通用的增删改查Dao
  *
  * @author Maning
  */

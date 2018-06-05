@@ -10,7 +10,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
- * 响应返回数据结果工具
+ * 响应返回数据结果工具,用于封装数据为BaseResult
  *
  * @author Maning
  */

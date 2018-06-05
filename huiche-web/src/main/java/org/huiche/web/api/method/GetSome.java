@@ -13,7 +13,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 /**
- * 获取几条数据
+ * restful 获取几条数据
  *
  * @author Maning
  */

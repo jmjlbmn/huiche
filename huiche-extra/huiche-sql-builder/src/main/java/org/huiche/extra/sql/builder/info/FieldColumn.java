@@ -9,7 +9,7 @@ import org.huiche.annotation.sql.Column;
 import javax.annotation.Nonnull;
 
 /**
- * 字段对象
+ * 字段/列信息对象
  *
  * @author Maning
  */

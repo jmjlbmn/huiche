@@ -9,7 +9,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
- * 基础控制器
+ * 基础传统控制器
  *
  * @author Maning
  */

@@ -10,7 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 验证工具类
+ * 验证工具类,提供验证手机号,正则,中文姓名,长度,是否是常量属性等方法
  *
  * @author Maning
  */

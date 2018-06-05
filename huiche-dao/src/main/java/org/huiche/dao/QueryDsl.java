@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 
 /**
- * QueryDsl配置
+ * QueryDsl配置,提供默认配置及Sql语句打印实现
  *
  * @author Maning
  */

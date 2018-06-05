@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * 基础工具类
+ * 基础工具类,提供非空,equals,in 等判断
  *
  * @author Maning
  */

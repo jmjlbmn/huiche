@@ -9,7 +9,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 /**
- * 请求工具类
+ * 请求工具类,提供获取IP等方法
  *
  * @author Maning
  */

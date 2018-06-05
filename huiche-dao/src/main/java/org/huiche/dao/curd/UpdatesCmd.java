@@ -13,6 +13,8 @@ import javax.annotation.Nullable;
 import java.util.Collection;
 
 /**
+ * 批量更新操作
+ *
  * @author Maning
  */
 public interface UpdatesCmd<T extends BaseEntity<T>> extends PathProvider<T>, SqlProvider, UpdateHandleProvider<T> {

@@ -10,6 +10,8 @@ import org.huiche.dao.provider.SqlProvider;
 import javax.annotation.Nullable;
 
 /**
+ * 是否存在操作
+ *
  * @author Maning
  */
 public interface ExistsQuery<T> extends PathProvider<T>, SqlProvider {

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import javax.annotation.Nonnull;
 
 /**
- * 新增
+ * restful 新增/创建 接口
  *
  * @author Maning
  */

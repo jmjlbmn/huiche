@@ -1,6 +1,7 @@
 package org.huiche.dao.provider;
 
 /**
+ * 创建/新增数据的处理方法
  * @author Maning
  */
 public interface CreateHandleProvider<T> extends UpdateHandleProvider<T> {

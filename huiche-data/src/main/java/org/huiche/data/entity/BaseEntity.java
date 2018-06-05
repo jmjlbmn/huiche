@@ -8,7 +8,7 @@ import org.huiche.annotation.sql.Column;
 import java.io.Serializable;
 
 /**
- * 基础实体类
+ * 基础实体类,提供Long类型主键,String类型创建和修改时间,主要是用作快速开发,所以写死Long类型,需要其他类型主键时,建议增加一个字段,用作取数据时的主键使用
  *
  * @author Maning
  */

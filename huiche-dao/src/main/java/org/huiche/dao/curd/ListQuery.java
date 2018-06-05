@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
+ * 获取实体类列表操作,即 Select * ,建议使用listColumns
  * @author Maning
  */
 public interface ListQuery<T> extends PathProvider<T>, SqlProvider {

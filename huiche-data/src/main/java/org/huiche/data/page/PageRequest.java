@@ -7,7 +7,7 @@ import org.huiche.core.util.HuiCheUtil;
 import java.io.Serializable;
 
 /**
- * 基本分页请求,对Spring原生PageRequest封装
+ * 分页请求,提供第几页,每页多少记录,排序字段,顺序等参数
  *
  * @author Maning
  */

@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Properties;
 
 /**
- * 建表SQL生成器
+ * 建表工具入口类
  *
  * @author Maning
  */

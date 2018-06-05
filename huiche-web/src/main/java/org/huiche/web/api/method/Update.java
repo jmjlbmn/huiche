@@ -14,7 +14,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
- * 更新
+ * restful 更新数据接口
  *
  * @author Maning
  */

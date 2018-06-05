@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.Collection;
 
 /**
+ * 删除操作
  * @author Maning
  */
 public interface DeleteCmd<T> extends PathProvider<T>, SqlProvider {

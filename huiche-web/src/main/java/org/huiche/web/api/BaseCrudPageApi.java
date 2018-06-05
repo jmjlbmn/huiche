@@ -5,7 +5,7 @@ import org.huiche.data.entity.BaseEntity;
 import org.huiche.web.api.method.Page;
 
 /**
- * 简单Restful风格控制器(非严格遵循规范,可自行根据业务实现编写 BaseController)
+ * 简单Restful风格增删改查分页接口 控制器
  *
  * @author Maning
  */

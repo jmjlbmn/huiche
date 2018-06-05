@@ -28,7 +28,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Function;
 
 /**
- * 数据工具类
+ * 数据工具类,提供数据转换,复制,去重,随机等操作
  *
  * @author Maning
  */
