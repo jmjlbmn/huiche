@@ -33,11 +33,11 @@ public enum HuiCheError implements BaseError {
 
 
     private final int id;
-    private final String msg;
+    private final String message;
 
-    HuiCheError(int id, String msg) {
+    HuiCheError(int id, String message) {
         this.id = id;
-        this.msg = msg;
+        this.message = message;
     }
 
     @Override
@@ -47,6 +47,6 @@ public enum HuiCheError implements BaseError {
 
     @Override
     public String msg() {
-        return msg;
+        return message;
     }
 }

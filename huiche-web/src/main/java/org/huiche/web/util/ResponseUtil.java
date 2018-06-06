@@ -1,5 +1,7 @@
 package org.huiche.web.util;
 
+import org.huiche.core.exception.HuiCheException;
+
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
@@ -27,7 +29,9 @@ public class ResponseUtil {
         try {
             response.getWriter().write(str);
             response.getWriter().flush();
-        } catch (IOException ignored) {
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new HuiCheException("返回数据出错");
         }
     }
 }

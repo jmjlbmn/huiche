@@ -27,9 +27,9 @@ public class CodeGenQueryDsl {
     /**
      * 初始化
      *
-     * @param jdbcUrl      jdbcUrl
-     * @param user         user
-     * @param password     password
+     * @param jdbcUrl      数据库jdbc链接地址
+     * @param user         数据库用户名
+     * @param password     数据库密码
      * @param exporterPath 生成文件的导出路径
      * @return 生成器
      */
