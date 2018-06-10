@@ -1,6 +1,6 @@
 # HuiChe
 [![build](https://img.shields.io/travis/jmjlbmn/huiche.svg?style=flat-square)](https://travis-ci.org/jmjlbmn/huiche)
-[![maven](https://img.shields.io/maven-metadata/v/http/central.maven.org/maven2/org/huiche/huiche/maven-metadata.xml.svg?style=flat-square)](http://search.maven.org/#artifactdetails%7Corg.huiche%7Chuiche%7C1.0.2%7C)
+[![maven](https://img.shields.io/maven-metadata/v/http/central.maven.org/maven2/org/huiche/huiche/maven-metadata.xml.svg?style=flat-square)](http://search.maven.org/#artifactdetails%7Corg.huiche%7Chuiche%7C1.0.3%7C)
 ## 基于SpringBoot和QueryDsl的快速开发框架
 ## 主要功能
 - 基于QueryDsl的快速,类型安全的SQL查询
@@ -15,42 +15,53 @@
 ## 使用参考 
 - 查看 [JavaDoc](https://apidoc.gitee.com/jmjlbmn/huiche/)
 - 参考 [huiche-examples](https://github.com/jmjlbmn/huiche-examples)
-## Maven 当前版本为: [![maven](https://img.shields.io/maven-metadata/v/http/central.maven.org/maven2/org/huiche/huiche/maven-metadata.xml.svg?style=flat-square)](http://search.maven.org/#artifactdetails%7Corg.huiche%7Chuiche%7C1.0.2%7C)
-一、配置为pom文件parent(推荐)
+## 快速开始
+一、parent方式(推荐)
 ```xml
-<parent>
-    <groupId>org.huiche</groupId>
-    <artifactId>huiche</artifactId>
-    <version>RELEASE</version>
-</parent>
-```
-或,在dependencyManagement开始的位置添加
-```xml
-<dependencyManagement>
+<project>
+    <parent>
+        <groupId>org.huiche</groupId>
+        <artifactId>huiche</artifactId>
+        <version>RELEASE</version>
+    </parent>
     <dependencies>
         <dependency>
             <groupId>org.huiche</groupId>
-            <artifactId>huiche</artifactId>
+            <artifactId>huiche-spring-boot-starter</artifactId>
             <version>RELEASE</version>
-            <type>pom</type>
-            <scope>import</scope>
         </dependency>
     </dependencies>
-</dependencyManagement>
+</project>
 ```
-二、添加starter依赖
+二、dependencyManagement方式
 ```xml
-<dependencies>
-    <dependency>
-        <groupId>org.huiche</groupId>
-        <artifactId>huiche-spring-boot-starter</artifactId>
-        <version>RELEASE</version>
-    </dependency>
-</dependencies>
+<project>
+    <properties>
+        <!--使用此方式,需要额外指定java版本(>=8)-->
+        <java.version>1.8</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+    </properties>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.huiche</groupId>
+                <artifactId>huiche</artifactId>
+                <version>RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.huiche</groupId>
+            <artifactId>huiche-spring-boot-starter</artifactId>
+        </dependency>
+    </dependencies>
+</project>
 ```
-如果想要体验最新功能或需要较快的bug修复,可以使用SNAPSHOT版本
-- 另外需要额外在pom文件配置SNAPSHOT版本的仓库
-
+如果使用SNAPSHOT版本,需要额外配置SNAPSHOT仓库
 ```xml
 <repositories>
   <repository>
