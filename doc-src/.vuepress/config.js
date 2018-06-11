@@ -13,7 +13,7 @@ module.exports = {
         }]
     ],
     themeConfig: {
-        sidebarDepth: 3,
+        sidebarDepth: 2,
         repo: 'jmjlbmn/huiche',
         docsDir: 'doc-src',
         lastUpdated: '上次更新',
