@@ -13,10 +13,12 @@
 - huiche-spring-boot-starter快速搭建项目
 - 基于实体类注解的Sql建表支持,可独立框架外使用,支持修改字段和删除字段,详细参考: [sql-builder](https://github.com/jmjlbmn/huiche-examples/tree/master/sql-builder)
 ## 使用参考 
+- 访问 [huiche.org](http://huiche.org/)
 - 查看 [JavaDoc](https://apidoc.gitee.com/jmjlbmn/huiche/)
 - 参考 [huiche-examples](https://github.com/jmjlbmn/huiche-examples)
 ## 快速开始
 一、parent方式(推荐)
+
 ```xml
 <project>
     <parent>
@@ -33,7 +35,9 @@
     </dependencies>
 </project>
 ```
+
 二、dependencyManagement方式
+
 ```xml
 <project>
     <properties>
@@ -61,7 +65,9 @@
     </dependencies>
 </project>
 ```
+
 如果使用SNAPSHOT版本,需要额外配置SNAPSHOT仓库
+
 ```xml
 <repositories>
   <repository>
