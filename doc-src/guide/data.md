@@ -1,4 +1,4 @@
-# data 实体类
+# 实体类
 ## 基础实体类
 `org.huiche.data.BaseEntity`, 作为基础实体类, 它默认提供了如下属性
 属性名|类型|说明
@@ -9,7 +9,7 @@ modifyTime|String|修改时间(yyyy-MM-dd HH:mm:ss)
 ## 实体类示例
 
 ```java
-public class Student extend BaseEntity<Student>{
+public class Student extends BaseEntity<Student>{
     private String name;
     private Integer sex;
 }

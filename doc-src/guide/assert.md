@@ -9,14 +9,18 @@ equals|传入的两个参数不相等时抛出异常
 in|传入参数不在指定范围内时抛出异常
 ## 断言示例
 ```java
-// 当用户名或密码有任一个为空时,抛出异常
-Assert.notNull("用户名和密码不能为空",userName,password);
-// 手机号码不正确时抛出异常
-Assert.ok("手机号码不正确",CheckUtil.isPhoneNumber(phone));
-// 用户锁定时不允许登录
-Assert.equals("用户被锁定,无法登录",LockingState.NotLocking,user.getLocking());
-// 订单未接单或处理中才可以取消
-Assert.in("订单不可以取消",order.getState(),State.WAIT,State.HANDLE);
+public class Demo{
+    public void demo(){
+       // 当用户名或密码有任一个为空时,抛出异常
+       Assert.notNull("用户名和密码不能为空",userName,password);
+       // 手机号码不正确时抛出异常
+       Assert.ok("手机号码不正确",CheckUtil.isPhoneNumber(phone));
+       // 用户锁定时不允许登录
+       Assert.equals("用户被锁定,无法登录",LockingState.NotLocking,user.getLocking());
+       // 订单未接单或处理中才可以取消
+       Assert.in("订单不可以取消",order.getState(),State.WAIT,State.HANDLE); 
+    }
+}
 ```
 ## 异常处理
 huiche的starter组件已经提供了全局的异常处理,会捕获HuiCheException统一返回BaseResult

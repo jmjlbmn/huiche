@@ -1,4 +1,4 @@
-# dao 数据访问
+# 数据访问层
 ## BaseDao
 `org.huiche.dao.BaseDao`, 作为基础Dao, 它默认提供了SQLQueryFactory注入,用其来进行数据库操作
 ## BaseCrudDao
@@ -85,7 +85,7 @@ public class StudentDao extends BaseDao {
 @Repository
 public class StudentDao extends BaseDao {
     // 可以将此常量直接定义到DTO里
-    public static final QBean<StudentScoreDTO> DTO = Projections.fields(
+    private static final QBean<StudentScoreDTO> DTO = Projections.fields(
         StudentScoreDTO.class, 
         QStudent.student.name.as("studentName"),
         QStores.stores.store);

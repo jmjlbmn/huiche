@@ -1,7 +1,7 @@
-# web 控制器
+# 控制层
 ## Restful风格
 `org.huiche.web.api.BaseCrudPageApi`, 提供默认的restful风格的Crud控制器接口
-### 内置方法
+### CurdApi内置方法
 uri|method|说明
 :-|:-|:-
 /{id}/|get|获取单条记录
@@ -24,7 +24,7 @@ public class StudentApi extends BaseCrudPageApi {
 ```
 ## 传统Post风格
 `org.huiche.web.controller.BaseCrudPageController`, 提供默认的post风格的Crud控制器接口
-### 内置方法
+### PostController内置方法
 uri|说明
 :-|:-
 /get/|获取单条记录

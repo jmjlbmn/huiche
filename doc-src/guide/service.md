@@ -1,6 +1,6 @@
-# service 业务逻辑
+# 业务层
 `org.huiche.service.BaseCrudServiceImpl`, 作为单表的通用CrudService,主要对BaseCrudDao进行了调用封装
-## 内置方法
+## service内置方法
 方法名|说明
 :-|:-
 dao|需要自行实现,返回对于的crudDao

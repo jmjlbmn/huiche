@@ -9,7 +9,7 @@ features:
 - title: QueryDsl 数据交互
   details: 提供方便快捷,类型安全的SQL查询,提供通用的Crud方法,覆盖大部分单表查询场景,不必额外写Dao,只需要关注和编写业务相关的需要关联查询的Dao。
 - title: 基于 Java 8
-  details: 设计伊始便基于Java8,以快速开发为目的,希望借助其funtion,stream,接口的默认与静态方法及lambda表达式等新特性提供方便,简洁,快速的开发体验
+  details: 设计伊始便基于Java8,以快速开发为目的,希望借助其function,stream,接口的默认与静态方法及lambda表达式等新特性提供方便,简洁,快速的开发体验
 footer: Apache Licensed | Copyright © 2018-present Jmjlbmn
 ---
 [![build](https://img.shields.io/travis/jmjlbmn/huiche.svg?style=flat-square)](https://travis-ci.org/jmjlbmn/huiche)
