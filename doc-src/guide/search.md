@@ -19,10 +19,10 @@ public class ArticleSearch implements Search{
     public Predicate get(){
         return predicates(
             predicate(title,QArticle.article.title::containsIgnoreCase),
-            predicate(word,()->or(
+            predicate(word,() -> or(
                 QArticle.article.title.containsIgnoreCase(word),
                 QArticle.article.title.containsIgnoreCase(word))),
-            predicate(null!=startTime||null!=endTime,()->or(
+            predicate(null != startTime && null != endTime,() -> or(
                 QArticle.article.createTime.goe(startTime),
                 QArticle.article.createTime.loe(endTime))));
     }
