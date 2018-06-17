@@ -1,6 +1,7 @@
 module.exports = {
     title: 'HuiChe',
     description: '基于SpringBoot,QueryDsl 的 Java 快速开发框架',
+    dest: '../docs',
     locales: {
         '/': {
             lang: 'zh-CN'
