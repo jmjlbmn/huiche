@@ -13,6 +13,8 @@ module.exports = {
         }]
     ],
     themeConfig: {
+        search: true,
+        searchMaxSuggestions: 22,
         sidebarDepth: 2,
         repo: 'jmjlbmn/huiche',
         docsDir: 'doc-src',
@@ -43,7 +45,8 @@ module.exports = {
                 'search',
                 'validate',
                 'sql',
-                'import'
+                'import',
+                'change'
             ]
         }
     }
