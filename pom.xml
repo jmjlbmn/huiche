@@ -146,6 +146,11 @@
                 <artifactId>huiche-querydsl-codegen</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.huiche</groupId>
+                <artifactId>huiche-transfer</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <build>
