@@ -37,7 +37,7 @@ public @interface Column {
     boolean isAutoIncrement() default true;
 
     /**
-     * 长度,仅字符串或小数时生效,int/long/boolean无效
+     * 长度,仅字符串或小数时生效,int/long/boolean无效,默认255
      *
      * @return 值
      */
