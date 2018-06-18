@@ -159,7 +159,7 @@ public interface Sql {
                 }
             }
             if (columnInfo.getType().equals(JDBCType.VARCHAR)) {
-                int length = isEnum ? 20 : 100;
+                int length = isEnum ? 20 : 255;
                 if (null != column) {
                     length = 0 == column.length() ? length : column.length();
                 }
