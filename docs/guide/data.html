@@ -1,225 +1,41 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head>
+  <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>实体类 | HuiChe</title>
     <meta name="description" content="基于SpringBoot,QueryDsl 的 Java 快速开发框架">
     <link rel="icon" href="/fav.ico">
-
-    <link rel="preload" href="/assets/css/13.styles.b638209b.css" as="style">
-    <link rel="preload" href="/assets/js/app.792b7ff4.js" as="script">
-    <link rel="preload" href="/assets/js/7.c68657ce.js" as="script">
-    <link rel="prefetch" href="/assets/js/1.ededb740.js">
-    <link rel="prefetch" href="/assets/js/2.de73d04d.js">
-    <link rel="prefetch" href="/assets/js/3.56aa68e8.js">
-    <link rel="prefetch" href="/assets/js/4.5d583c1e.js">
-    <link rel="prefetch" href="/assets/js/5.89671cdd.js">
-    <link rel="prefetch" href="/assets/js/6.3dbbf2e0.js">
-    <link rel="prefetch" href="/assets/js/0.525ef959.js">
-    <link rel="prefetch" href="/assets/js/8.dbfbe5a0.js">
-    <link rel="prefetch" href="/assets/js/9.c3b6d3d1.js">
-    <link rel="prefetch" href="/assets/js/10.ce37d075.js">
-    <link rel="prefetch" href="/assets/js/11.43c55c89.js">
-    <link rel="prefetch" href="/assets/js/12.60c8b2b6.js">
+    
+    <link rel="preload" href="/assets/css/13.styles.b638209b.css" as="style"><link rel="preload" href="/assets/js/app.6baa5e0a.js" as="script"><link rel="preload" href="/assets/js/7.c68657ce.js" as="script"><link rel="prefetch" href="/assets/js/1.ededb740.js"><link rel="prefetch" href="/assets/js/2.fd070438.js"><link rel="prefetch" href="/assets/js/3.56aa68e8.js"><link rel="prefetch" href="/assets/js/4.5d583c1e.js"><link rel="prefetch" href="/assets/js/5.89671cdd.js"><link rel="prefetch" href="/assets/js/6.3dbbf2e0.js"><link rel="prefetch" href="/assets/js/0.525ef959.js"><link rel="prefetch" href="/assets/js/8.dbfbe5a0.js"><link rel="prefetch" href="/assets/js/9.c3b6d3d1.js"><link rel="prefetch" href="/assets/js/10.ce37d075.js"><link rel="prefetch" href="/assets/js/11.43c55c89.js"><link rel="prefetch" href="/assets/js/12.60c8b2b6.js">
     <link rel="stylesheet" href="/assets/css/13.styles.b638209b.css">
-</head>
-<body>
-<div id="app" data-server-rendered="true">
-    <div class="theme-container">
-        <header class="navbar">
-            <div class="sidebar-button">
-                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512"
-                     class="icon">
-                    <path fill="currentColor"
-                          d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path>
-                </svg>
-            </div>
-            <a href="/" class="home-link router-link-active"><!----><span class="site-name">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div><a href="/" class="home-link router-link-active"><!----><span class="site-name">
       HuiChe
-    </span></a>
-            <div class="links">
-                <div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value="">
-                    <!----></div>
-                <nav class="nav-links can-hide">
-                    <div class="nav-item"><a href="/guide/" class="nav-link router-link-active">使用指南</a></div>
-                    <div class="nav-item"><a href="https://github.com/jmjlbmn/huiche-examples/" target="_blank"
-                                             rel="noopener noreferrer" class="nav-link external">
-                        使用示例
-                        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100"
-                             width="15" height="15" class="icon outbound">
-                            <path fill="currentColor"
-                                  d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
-                            <polygon fill="currentColor"
-                                     points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
-                        </svg>
-                    </a></div>
-                    <div class="nav-item"><a href="https://apidoc.gitee.com/jmjlbmn/huiche/" target="_blank"
-                                             rel="noopener noreferrer" class="nav-link external">
-                        JavaDoc
-                        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100"
-                             width="15" height="15" class="icon outbound">
-                            <path fill="currentColor"
-                                  d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
-                            <polygon fill="currentColor"
-                                     points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
-                        </svg>
-                    </a></div>
-                    <a href="https://github.com/jmjlbmn/huiche" target="_blank" rel="noopener noreferrer"
-                       class="repo-link">
-                        GitHub
-                        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100"
-                             width="15" height="15" class="icon outbound">
-                            <path fill="currentColor"
-                                  d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
-                            <polygon fill="currentColor"
-                                     points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
-                        </svg>
-                    </a></nav>
-            </div>
-        </header>
-        <div class="sidebar-mask"></div>
-        <div class="sidebar">
-            <nav class="nav-links">
-                <div class="nav-item"><a href="/guide/" class="nav-link router-link-active">使用指南</a></div>
-                <div class="nav-item"><a href="https://github.com/jmjlbmn/huiche-examples/" target="_blank"
-                                         rel="noopener noreferrer" class="nav-link external">
-                    使用示例
-                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100"
-                         width="15" height="15" class="icon outbound">
-                        <path fill="currentColor"
-                              d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
-                        <polygon fill="currentColor"
-                                 points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
-                    </svg>
-                </a></div>
-                <div class="nav-item"><a href="https://apidoc.gitee.com/jmjlbmn/huiche/" target="_blank"
-                                         rel="noopener noreferrer" class="nav-link external">
-                    JavaDoc
-                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100"
-                         width="15" height="15" class="icon outbound">
-                        <path fill="currentColor"
-                              d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
-                        <polygon fill="currentColor"
-                                 points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
-                    </svg>
-                </a></div>
-                <a href="https://github.com/jmjlbmn/huiche" target="_blank" rel="noopener noreferrer" class="repo-link">
-                    GitHub
-                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100"
-                         width="15" height="15" class="icon outbound">
-                        <path fill="currentColor"
-                              d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
-                        <polygon fill="currentColor"
-                                 points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
-                    </svg>
-                </a></nav>
-            <ul class="sidebar-links">
-                <li><a href="/guide/" class="sidebar-link">开始使用</a></li>
-                <li><a href="/guide/data.html" class="active sidebar-link">实体类</a>
-                    <ul class="sidebar-sub-headers">
-                        <li class="sidebar-sub-header"><a href="/guide/data.html#基础实体类" class="sidebar-link">基础实体类</a>
-                        </li>
-                        <li class="sidebar-sub-header"><a href="/guide/data.html#实体类示例" class="sidebar-link">实体类示例</a>
-                        </li>
-                        <li class="sidebar-sub-header"><a href="/guide/data.html#为什么" class="sidebar-link">为什么...?</a>
-                            <ul class="sidebar-sub-headers">
-                                <li class="sidebar-sub-header"><a
-                                        href="/guide/data.html#为什么使用long主键-而不类似springdata提供主键泛型" class="sidebar-link">为什么使用Long主键,而不类似SpringData提供主键泛型?</a>
-                                </li>
-                                <li class="sidebar-sub-header"><a href="/guide/data.html#为什么继承baseentity需要传递泛型"
-                                                                  class="sidebar-link">为什么继承BaseEntity需要传递泛型?</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-                <li><a href="/guide/dao.html" class="sidebar-link">数据访问层</a></li>
-                <li><a href="/guide/service.html" class="sidebar-link">业务层</a></li>
-                <li><a href="/guide/web.html" class="sidebar-link">控制层</a></li>
-                <li><a href="/guide/predicate.html" class="sidebar-link">条件拼装</a></li>
-                <li><a href="/guide/search.html" class="sidebar-link">自定义筛选</a></li>
-                <li><a href="/guide/validate.html" class="sidebar-link">验证</a></li>
-                <li><a href="/guide/sql.html" class="sidebar-link">建表工具</a></li>
-                <li><a href="/guide/import.html" class="sidebar-link">数据迁移工具</a></li>
-                <li><a href="/guide/change.html" class="sidebar-link">更新历史</a></li>
-            </ul>
-        </div>
-        <div class="page">
-            <div class="content"><h1 id="实体类"><a href="#实体类" aria-hidden="true" class="header-anchor">#</a> 实体类</h1>
-                <h2 id="基础实体类"><a href="#基础实体类" aria-hidden="true" class="header-anchor">#</a> 基础实体类</h2>
-                <p><code>org.huiche.data.BaseEntity</code>, 作为基础实体类, 它默认提供了如下属性</p>
-                <table>
-                    <thead>
-                    <tr>
-                        <th style="text-align:left">属性名</th>
-                        <th style="text-align:left">类型</th>
-                        <th style="text-align:left">说明</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td style="text-align:left">id</td>
-                        <td style="text-align:left">Long</td>
-                        <td style="text-align:left">作为主键, 自增</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:left">createTime</td>
-                        <td style="text-align:left">String</td>
-                        <td style="text-align:left">创建时间(yyyy-MM-dd HH:mm:ss)</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:left">modifyTime</td>
-                        <td style="text-align:left">String</td>
-                        <td style="text-align:left">修改时间(yyyy-MM-dd HH:mm:ss)</td>
-                    </tr>
-                    </tbody>
-                </table>
-                <h2 id="实体类示例"><a href="#实体类示例" aria-hidden="true" class="header-anchor">#</a> 实体类示例</h2>
-                <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span
-                        class="token keyword">class</span> <span class="token class-name">Student</span> <span
-                        class="token keyword">extends</span> <span class="token class-name">BaseEntity</span><span
-                        class="token generics function"><span class="token punctuation">&lt;</span>Student<span
-                        class="token punctuation">&gt;</span></span><span class="token punctuation">{</span>
+    </span></a><div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""><!----></div><nav class="nav-links can-hide"><div class="nav-item"><a href="/guide/" class="nav-link router-link-active">使用指南</a></div><div class="nav-item"><a href="https://github.com/jmjlbmn/huiche-examples/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  使用示例
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="https://apidoc.gitee.com/jmjlbmn/huiche/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  JavaDoc
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><a href="https://github.com/jmjlbmn/huiche" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header><div class="sidebar-mask"></div><div class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/guide/" class="nav-link router-link-active">使用指南</a></div><div class="nav-item"><a href="https://github.com/jmjlbmn/huiche-examples/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  使用示例
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="https://apidoc.gitee.com/jmjlbmn/huiche/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  JavaDoc
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><a href="https://github.com/jmjlbmn/huiche" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav><ul class="sidebar-links"><li><a href="/guide/" class="sidebar-link">开始使用</a></li><li><a href="/guide/data.html" class="active sidebar-link">实体类</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/guide/data.html#基础实体类" class="sidebar-link">基础实体类</a></li><li class="sidebar-sub-header"><a href="/guide/data.html#实体类示例" class="sidebar-link">实体类示例</a></li><li class="sidebar-sub-header"><a href="/guide/data.html#为什么" class="sidebar-link">为什么...?</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/guide/data.html#为什么使用long主键-而不类似springdata提供主键泛型" class="sidebar-link">为什么使用Long主键,而不类似SpringData提供主键泛型?</a></li><li class="sidebar-sub-header"><a href="/guide/data.html#为什么继承baseentity需要传递泛型" class="sidebar-link">为什么继承BaseEntity需要传递泛型?</a></li></ul></li></ul></li><li><a href="/guide/dao.html" class="sidebar-link">数据访问层</a></li><li><a href="/guide/service.html" class="sidebar-link">业务层</a></li><li><a href="/guide/web.html" class="sidebar-link">控制层</a></li><li><a href="/guide/predicate.html" class="sidebar-link">条件拼装</a></li><li><a href="/guide/search.html" class="sidebar-link">自定义筛选</a></li><li><a href="/guide/validate.html" class="sidebar-link">验证</a></li><li><a href="/guide/sql.html" class="sidebar-link">建表工具</a></li><li><a href="/guide/import.html" class="sidebar-link">数据迁移工具</a></li><li><a href="/guide/change.html" class="sidebar-link">更新历史</a></li></ul></div><div class="page"><div class="content"><h1 id="实体类"><a href="#实体类" aria-hidden="true" class="header-anchor">#</a> 实体类</h1><h2 id="基础实体类"><a href="#基础实体类" aria-hidden="true" class="header-anchor">#</a> 基础实体类</h2><p><code>org.huiche.data.BaseEntity</code>, 作为基础实体类, 它默认提供了如下属性</p><table><thead><tr><th style="text-align:left">属性名</th><th style="text-align:left">类型</th><th style="text-align:left">说明</th></tr></thead><tbody><tr><td style="text-align:left">id</td><td style="text-align:left">Long</td><td style="text-align:left">作为主键, 自增</td></tr><tr><td style="text-align:left">createTime</td><td style="text-align:left">String</td><td style="text-align:left">创建时间(yyyy-MM-dd HH:mm:ss)</td></tr><tr><td style="text-align:left">modifyTime</td><td style="text-align:left">String</td><td style="text-align:left">修改时间(yyyy-MM-dd HH:mm:ss)</td></tr></tbody></table><h2 id="实体类示例"><a href="#实体类示例" aria-hidden="true" class="header-anchor">#</a> 实体类示例</h2><div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Student</span> <span class="token keyword">extends</span> <span class="token class-name">BaseEntity</span><span class="token generics function"><span class="token punctuation">&lt;</span>Student<span class="token punctuation">&gt;</span></span><span class="token punctuation">{</span>
     <span class="token keyword">private</span> String name<span class="token punctuation">;</span>
     <span class="token keyword">private</span> Integer sex<span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
-</code></pre>
-                </div>
-                <div class="tip custom-block"><p class="custom-block-title">提醒</p>
-                    <p>推荐使用 lombok 简化代码,@Accessors(chain = true)生成链式setter</p></div>
-                <h2 id="为什么"><a href="#为什么" aria-hidden="true" class="header-anchor">#</a> 为什么...?</h2>
-                <h3 id="为什么使用long主键-而不类似springdata提供主键泛型"><a href="#为什么使用long主键-而不类似springdata提供主键泛型" aria-hidden="true"
-                                                             class="header-anchor">#</a>
-                    为什么使用Long主键,而不类似SpringData提供主键泛型?</h3>
-                <p>没什么特别理由,主要是为了方便封装增删改查,当您需要其他类型主键时,多添加一个属性当作实际使用的主键即可,huiche的定位即是中小项目的快速开发,当然您也可以fork进行调整</p>
-                <h3 id="为什么继承baseentity需要传递泛型"><a href="#为什么继承baseentity需要传递泛型" aria-hidden="true"
-                                                  class="header-anchor">#</a> 为什么继承BaseEntity需要传递泛型?</h3>
-                <p>主要是为了配合lombok,生成链式调用的setter方法时,设置BaseEntity提供的id,createTime,modifyTime可以安全的返回原类型</p></div>
-            <div class="page-edit">
-                <div class="edit-link"><a href="https://github.com/jmjlbmn/huiche/edit/master/doc-src/guide/data.md"
-                                          target="_blank" rel="noopener noreferrer">帮忙完善此页面</a>
-                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100"
-                         width="15" height="15" class="icon outbound">
-                        <path fill="currentColor"
-                              d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
-                        <polygon fill="currentColor"
-                                 points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
-                    </svg>
-                </div>
-                <div class="last-updated"><span class="prefix">上次更新: </span><span class="time">2018-6-12 00:28:33</span>
-                </div>
-            </div>
-            <div class="page-nav"><p class="inner"><span class="prev">
+</code></pre></div><div class="tip custom-block"><p class="custom-block-title">提醒</p><p>推荐使用 lombok 简化代码,@Accessors(chain = true)生成链式setter</p></div><h2 id="为什么"><a href="#为什么" aria-hidden="true" class="header-anchor">#</a> 为什么...?</h2><h3 id="为什么使用long主键-而不类似springdata提供主键泛型"><a href="#为什么使用long主键-而不类似springdata提供主键泛型" aria-hidden="true" class="header-anchor">#</a> 为什么使用Long主键,而不类似SpringData提供主键泛型?</h3><p>没什么特别理由,主要是为了方便封装增删改查,当您需要其他类型主键时,多添加一个属性当作实际使用的主键即可,huiche的定位即是中小项目的快速开发,当然您也可以fork进行调整</p><h3 id="为什么继承baseentity需要传递泛型"><a href="#为什么继承baseentity需要传递泛型" aria-hidden="true" class="header-anchor">#</a> 为什么继承BaseEntity需要传递泛型?</h3><p>主要是为了配合lombok,生成链式调用的setter方法时,设置BaseEntity提供的id,createTime,modifyTime可以安全的返回原类型</p></div><div class="page-edit"><div class="edit-link"><a href="https://github.com/jmjlbmn/huiche/edit/master/doc-src/guide/data.md" target="_blank" rel="noopener noreferrer">帮忙完善此页面</a><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></div><div class="last-updated"><span class="prefix">上次更新: </span><span class="time">2018-6-12 00:28:33</span></div></div><div class="page-nav"><p class="inner"><span class="prev">
         ← <a href="/guide/" class="prev router-link-active">
           开始使用
         </a></span><span class="next"><a href="/guide/dao.html">
           数据访问层
         </a> →
-      </span></p></div>
-        </div>
-    </div>
-</div>
-<script src="/assets/js/7.c68657ce.js" defer></script>
-<script src="/assets/js/app.792b7ff4.js" defer></script>
-</body>
+      </span></p></div></div></div></div>
+    <script src="/assets/js/7.c68657ce.js" defer></script><script src="/assets/js/app.6baa5e0a.js" defer></script>
+  </body>
 </html>

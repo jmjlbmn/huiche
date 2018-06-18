@@ -6,25 +6,40 @@ huiche提供了一个`huiche-sql-builder`插件,可以根据实体类建表(生�
 ## @Table注解
 > 必要,会依赖这个注解来扫描
 
-属性|说明|默认值
-:-|:-|:-
-value|表名|将驼峰类型的类名转换为小写字母和_拼接
-comment|表注释/说明|无
+属性|说明|默认值|已存在时是否更新
+:-|:-|:-|:-
+value|表名|小写字母和_拼接|<span style="color:#f00">不更新,变更时会认为是新表,但不对旧表进行删除</span>
+comment|注释|无|进行更新
+charset|编码|mysql时为`utf8mb4`|<span style="color:#f00">不进行更新,仅创建时设置</span>
+engine|引擎|mysql时为`InnoDB`|<span style="color:#f00">不进行更新,仅创建时设置</span>
+collation|排序|无,按数据库默认规则|<span style="color:#f00">不进行更新,仅创建时设置</span>
 ## @Column注解
 > 可选,但建议都提供注释`comment`
 
-属性|说明|默认值
-:-|:-|:-
-value|字段名|
-isPrimaryKey|字段是否时主键|false
-isAutoIncrement|字段是否自增,仅字段时主键时生效|是主键时默认true,其他false
-length|字段长度,仅varchar类型生效|100
-precision|字段的精度,仅小数类型生效|0
-unique|字段是否是唯一|false
-notNull|字段是否允许是null|false
-isDbField|是否时数据库字段,false时不会创建该字段|true
-comment|字段注释/说明|无
+属性|说明|默认值|已存在时是否更新
+:-|:-|:-|:-
+value|字段名|小写字母和_拼接|<span style="color:#f00">不更新,变更时会认为是新字段,且删除旧字段(默认打印删除sql但不自动执行)</span>
+isPrimaryKey|是否主键|false|不更新(原主键除备注和长度外其他改动都不更新)
+isAutoIncrement|是否自增,仅字段时主键时生效|是主键时默认true,其他false|不更新(原主键除备注和长度外其他改动都不更新)
+length|字段长度,仅varchar类型生效|255|更新
+precision|字段的精度,仅小数类型生效|0|更新
+unique|字段是否是唯一|false|不更新(删除索引不安全,所以干脆不进行更新)
+notNull|字段是否允许是null|false|更新
+isDbField|是否时数据库字段,false时不会创建该字段|true|<span style="color:#f00">更新,改为false会删除字段(默认打印删除sql但不自动执行)</span>
+comment|字段注释/说明|无|更新
 
+## 类型支持及映射
+java类型|JDBCType|长度(@Column#length)|mysql类型
+:-|:-|:-|:-
+Boolean|TINYINT||tinyint
+Integer|INTEGER||int
+Long|BIGINT||bigint
+Float|FLOAT||float
+Double|DOUBLE||double
+BigDecimal|DECIMAL||decimal
+String|VARCHAR|<4000|varchar
+String|VARCHAR|>=4000 && <60000|text
+String|VARCHAR|>=60000|longtext
 ## 建表工具类
 `org.huiche.extra.sql.builder.SqlBuilder` 需要先进行`init`方法初始化,然后执行`run`方法即可
 - init至少需要提供jdbc的url,user,password

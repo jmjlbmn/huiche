@@ -1,174 +1,31 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head>
+  <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>数据迁移工具 | HuiChe</title>
     <meta name="description" content="基于SpringBoot,QueryDsl 的 Java 快速开发框架">
     <link rel="icon" href="/fav.ico">
-
-    <link rel="preload" href="/assets/css/13.styles.b638209b.css" as="style">
-    <link rel="preload" href="/assets/js/app.792b7ff4.js" as="script">
-    <link rel="preload" href="/assets/js/6.3dbbf2e0.js" as="script">
-    <link rel="prefetch" href="/assets/js/7.c68657ce.js">
-    <link rel="prefetch" href="/assets/js/1.ededb740.js">
-    <link rel="prefetch" href="/assets/js/2.de73d04d.js">
-    <link rel="prefetch" href="/assets/js/3.56aa68e8.js">
-    <link rel="prefetch" href="/assets/js/4.5d583c1e.js">
-    <link rel="prefetch" href="/assets/js/5.89671cdd.js">
-    <link rel="prefetch" href="/assets/js/0.525ef959.js">
-    <link rel="prefetch" href="/assets/js/8.dbfbe5a0.js">
-    <link rel="prefetch" href="/assets/js/9.c3b6d3d1.js">
-    <link rel="prefetch" href="/assets/js/10.ce37d075.js">
-    <link rel="prefetch" href="/assets/js/11.43c55c89.js">
-    <link rel="prefetch" href="/assets/js/12.60c8b2b6.js">
+    
+    <link rel="preload" href="/assets/css/13.styles.b638209b.css" as="style"><link rel="preload" href="/assets/js/app.6baa5e0a.js" as="script"><link rel="preload" href="/assets/js/6.3dbbf2e0.js" as="script"><link rel="prefetch" href="/assets/js/7.c68657ce.js"><link rel="prefetch" href="/assets/js/1.ededb740.js"><link rel="prefetch" href="/assets/js/2.fd070438.js"><link rel="prefetch" href="/assets/js/3.56aa68e8.js"><link rel="prefetch" href="/assets/js/4.5d583c1e.js"><link rel="prefetch" href="/assets/js/5.89671cdd.js"><link rel="prefetch" href="/assets/js/0.525ef959.js"><link rel="prefetch" href="/assets/js/8.dbfbe5a0.js"><link rel="prefetch" href="/assets/js/9.c3b6d3d1.js"><link rel="prefetch" href="/assets/js/10.ce37d075.js"><link rel="prefetch" href="/assets/js/11.43c55c89.js"><link rel="prefetch" href="/assets/js/12.60c8b2b6.js">
     <link rel="stylesheet" href="/assets/css/13.styles.b638209b.css">
-</head>
-<body>
-<div id="app" data-server-rendered="true">
-    <div class="theme-container">
-        <header class="navbar">
-            <div class="sidebar-button">
-                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512"
-                     class="icon">
-                    <path fill="currentColor"
-                          d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path>
-                </svg>
-            </div>
-            <a href="/" class="home-link router-link-active"><!----><span class="site-name">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div><a href="/" class="home-link router-link-active"><!----><span class="site-name">
       HuiChe
-    </span></a>
-            <div class="links">
-                <div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value="">
-                    <!----></div>
-                <nav class="nav-links can-hide">
-                    <div class="nav-item"><a href="/guide/" class="nav-link router-link-active">使用指南</a></div>
-                    <div class="nav-item"><a href="https://github.com/jmjlbmn/huiche-examples/" target="_blank"
-                                             rel="noopener noreferrer" class="nav-link external">
-                        使用示例
-                        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100"
-                             width="15" height="15" class="icon outbound">
-                            <path fill="currentColor"
-                                  d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
-                            <polygon fill="currentColor"
-                                     points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
-                        </svg>
-                    </a></div>
-                    <div class="nav-item"><a href="https://apidoc.gitee.com/jmjlbmn/huiche/" target="_blank"
-                                             rel="noopener noreferrer" class="nav-link external">
-                        JavaDoc
-                        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100"
-                             width="15" height="15" class="icon outbound">
-                            <path fill="currentColor"
-                                  d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
-                            <polygon fill="currentColor"
-                                     points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
-                        </svg>
-                    </a></div>
-                    <a href="https://github.com/jmjlbmn/huiche" target="_blank" rel="noopener noreferrer"
-                       class="repo-link">
-                        GitHub
-                        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100"
-                             width="15" height="15" class="icon outbound">
-                            <path fill="currentColor"
-                                  d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
-                            <polygon fill="currentColor"
-                                     points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
-                        </svg>
-                    </a></nav>
-            </div>
-        </header>
-        <div class="sidebar-mask"></div>
-        <div class="sidebar">
-            <nav class="nav-links">
-                <div class="nav-item"><a href="/guide/" class="nav-link router-link-active">使用指南</a></div>
-                <div class="nav-item"><a href="https://github.com/jmjlbmn/huiche-examples/" target="_blank"
-                                         rel="noopener noreferrer" class="nav-link external">
-                    使用示例
-                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100"
-                         width="15" height="15" class="icon outbound">
-                        <path fill="currentColor"
-                              d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
-                        <polygon fill="currentColor"
-                                 points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
-                    </svg>
-                </a></div>
-                <div class="nav-item"><a href="https://apidoc.gitee.com/jmjlbmn/huiche/" target="_blank"
-                                         rel="noopener noreferrer" class="nav-link external">
-                    JavaDoc
-                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100"
-                         width="15" height="15" class="icon outbound">
-                        <path fill="currentColor"
-                              d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
-                        <polygon fill="currentColor"
-                                 points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
-                    </svg>
-                </a></div>
-                <a href="https://github.com/jmjlbmn/huiche" target="_blank" rel="noopener noreferrer" class="repo-link">
-                    GitHub
-                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100"
-                         width="15" height="15" class="icon outbound">
-                        <path fill="currentColor"
-                              d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
-                        <polygon fill="currentColor"
-                                 points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
-                    </svg>
-                </a></nav>
-            <ul class="sidebar-links">
-                <li><a href="/guide/" class="sidebar-link">开始使用</a></li>
-                <li><a href="/guide/data.html" class="sidebar-link">实体类</a></li>
-                <li><a href="/guide/dao.html" class="sidebar-link">数据访问层</a></li>
-                <li><a href="/guide/service.html" class="sidebar-link">业务层</a></li>
-                <li><a href="/guide/web.html" class="sidebar-link">控制层</a></li>
-                <li><a href="/guide/predicate.html" class="sidebar-link">条件拼装</a></li>
-                <li><a href="/guide/search.html" class="sidebar-link">自定义筛选</a></li>
-                <li><a href="/guide/validate.html" class="sidebar-link">验证</a></li>
-                <li><a href="/guide/sql.html" class="sidebar-link">建表工具</a></li>
-                <li><a href="/guide/import.html" class="active sidebar-link">数据迁移工具</a>
-                    <ul class="sidebar-sub-headers">
-                        <li class="sidebar-sub-header"><a href="/guide/import.html#数据迁移构造"
-                                                          class="sidebar-link">数据迁移构造</a></li>
-                        <li class="sidebar-sub-header"><a href="/guide/import.html#数据迁移" class="sidebar-link">数据迁移</a>
-                        </li>
-                    </ul>
-                </li>
-                <li><a href="/guide/change.html" class="sidebar-link">更新历史</a></li>
-            </ul>
-        </div>
-        <div class="page">
-            <div class="content"><h1 id="数据迁移工具"><a href="#数据迁移工具" aria-hidden="true" class="header-anchor">#</a> 数据迁移工具
-            </h1>
-                <p>huiche基于QuerDsl提供了一个数据迁移工具<code>DataTransfer</code>,它可能没有多么的<code>智能</code>和<code>快速</code>,但可以方便的进行新老数据的转换,所以他的优点在于<code>灵活</code>(当新旧的数据结构没有什么改变或改变很少时,建议还是由其他数据导入工具进行快速导入),原理就是简单的把原有数据查询出来,然后根据mapper(自行实现),转换为新的数据然后批量插入.
-                </p>
-                <h2 id="数据迁移构造"><a href="#数据迁移构造" aria-hidden="true" class="header-anchor">#</a> 数据迁移构造</h2>
-                <p>现在默认提供3种方式构造,需要分别提供source源数据表和target目标数据库,(理论上支持大部分主流数据库,但目前仅对MySql进行了大量测试)</p>
-                <table>
-                    <thead>
-                    <tr>
-                        <th style="text-align:left">构造参数</th>
-                        <th style="text-align:left">说明</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td style="text-align:left">SqlQueryFactory</td>
-                        <td style="text-align:left">QueryDsl依赖的sql查询工厂</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:left">DataSource</td>
-                        <td style="text-align:left">数据源连接池</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:left">url/user/pwd</td>
-                        <td style="text-align:left">jdbc连接的url,用户名,密码</td>
-                    </tr>
-                    </tbody>
-                </table>
-                <h2 id="数据迁移"><a href="#数据迁移" aria-hidden="true" class="header-anchor">#</a> 数据迁移</h2>
-                <p>构造<code>DataTransfer</code>之后,即可执行<code>transfer</code>进行数据迁移,它提供了多个重载以方便使用,下面仅对全部参数的方法进行介绍</p>
-                <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span
-                        class="token keyword">class</span> <span class="token class-name">DataTransfer</span><span
-                        class="token punctuation">{</span>
+    </span></a><div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""><!----></div><nav class="nav-links can-hide"><div class="nav-item"><a href="/guide/" class="nav-link router-link-active">使用指南</a></div><div class="nav-item"><a href="https://github.com/jmjlbmn/huiche-examples/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  使用示例
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="https://apidoc.gitee.com/jmjlbmn/huiche/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  JavaDoc
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><a href="https://github.com/jmjlbmn/huiche" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header><div class="sidebar-mask"></div><div class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/guide/" class="nav-link router-link-active">使用指南</a></div><div class="nav-item"><a href="https://github.com/jmjlbmn/huiche-examples/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  使用示例
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="https://apidoc.gitee.com/jmjlbmn/huiche/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  JavaDoc
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><a href="https://github.com/jmjlbmn/huiche" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav><ul class="sidebar-links"><li><a href="/guide/" class="sidebar-link">开始使用</a></li><li><a href="/guide/data.html" class="sidebar-link">实体类</a></li><li><a href="/guide/dao.html" class="sidebar-link">数据访问层</a></li><li><a href="/guide/service.html" class="sidebar-link">业务层</a></li><li><a href="/guide/web.html" class="sidebar-link">控制层</a></li><li><a href="/guide/predicate.html" class="sidebar-link">条件拼装</a></li><li><a href="/guide/search.html" class="sidebar-link">自定义筛选</a></li><li><a href="/guide/validate.html" class="sidebar-link">验证</a></li><li><a href="/guide/sql.html" class="sidebar-link">建表工具</a></li><li><a href="/guide/import.html" class="active sidebar-link">数据迁移工具</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/guide/import.html#数据迁移构造" class="sidebar-link">数据迁移构造</a></li><li class="sidebar-sub-header"><a href="/guide/import.html#数据迁移" class="sidebar-link">数据迁移</a></li></ul></li><li><a href="/guide/change.html" class="sidebar-link">更新历史</a></li></ul></div><div class="page"><div class="content"><h1 id="数据迁移工具"><a href="#数据迁移工具" aria-hidden="true" class="header-anchor">#</a> 数据迁移工具</h1><p>huiche基于QuerDsl提供了一个数据迁移工具<code>DataTransfer</code>,它可能没有多么的<code>智能</code>和<code>快速</code>,但可以方便的进行新老数据的转换,所以他的优点在于<code>灵活</code>(当新旧的数据结构没有什么改变或改变很少时,建议还是由其他数据导入工具进行快速导入),原理就是简单的把原有数据查询出来,然后根据mapper(自行实现),转换为新的数据然后批量插入.</p><h2 id="数据迁移构造"><a href="#数据迁移构造" aria-hidden="true" class="header-anchor">#</a> 数据迁移构造</h2><p>现在默认提供3种方式构造,需要分别提供source源数据表和target目标数据库,(理论上支持大部分主流数据库,但目前仅对MySql进行了大量测试)</p><table><thead><tr><th style="text-align:left">构造参数</th><th style="text-align:left">说明</th></tr></thead><tbody><tr><td style="text-align:left">SqlQueryFactory</td><td style="text-align:left">QueryDsl依赖的sql查询工厂</td></tr><tr><td style="text-align:left">DataSource</td><td style="text-align:left">数据源连接池</td></tr><tr><td style="text-align:left">url/user/pwd</td><td style="text-align:left">jdbc连接的url,用户名,密码</td></tr></tbody></table><h2 id="数据迁移"><a href="#数据迁移" aria-hidden="true" class="header-anchor">#</a> 数据迁移</h2><p>构造<code>DataTransfer</code>之后,即可执行<code>transfer</code>进行数据迁移,它提供了多个重载以方便使用,下面仅对全部参数的方法进行介绍</p><div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">DataTransfer</span><span class="token punctuation">{</span>
 <span class="token comment">/**
      * @param srcTablePath      源表 path
      * @param srcQueryPredicate 源表过滤条件
@@ -178,51 +35,21 @@
      * @param &lt;S&gt;               源类型
      * @param &lt;T&gt;               目标类型
      */</span>
-    <span class="token keyword">public</span> <span class="token generics function"><span
-                            class="token punctuation">&lt;</span>S<span class="token punctuation">,</span> T<span
-                            class="token punctuation">&gt;</span></span> <span class="token keyword">void</span> <span
-                            class="token function">transfer</span><span class="token punctuation">(</span>
-        RelationalPath<span class="token generics function"><span class="token punctuation">&lt;</span>S<span
-                            class="token punctuation">&gt;</span></span> srcTablePath<span
-                            class="token punctuation">,</span>
+    <span class="token keyword">public</span> <span class="token generics function"><span class="token punctuation">&lt;</span>S<span class="token punctuation">,</span> T<span class="token punctuation">&gt;</span></span> <span class="token keyword">void</span> <span class="token function">transfer</span><span class="token punctuation">(</span>
+        RelationalPath<span class="token generics function"><span class="token punctuation">&lt;</span>S<span class="token punctuation">&gt;</span></span> srcTablePath<span class="token punctuation">,</span> 
         Predicate srcQueryPredicate<span class="token punctuation">,</span> 
-        RelationalPath<span class="token generics function"><span class="token punctuation">&lt;</span>T<span
-                            class="token punctuation">&gt;</span></span> targetTablePath<span class="token punctuation">,</span>
-        Function<span class="token generics function"><span class="token punctuation">&lt;</span>S<span
-                            class="token punctuation">,</span> T<span class="token punctuation">&gt;</span></span> mapper<span
-                            class="token punctuation">,</span>
-        <span class="token keyword">int</span> size<span class="token punctuation">)</span> <span
-                            class="token punctuation">{</span>
+        RelationalPath<span class="token generics function"><span class="token punctuation">&lt;</span>T<span class="token punctuation">&gt;</span></span> targetTablePath<span class="token punctuation">,</span> 
+        Function<span class="token generics function"><span class="token punctuation">&lt;</span>S<span class="token punctuation">,</span> T<span class="token punctuation">&gt;</span></span> mapper<span class="token punctuation">,</span> 
+        <span class="token keyword">int</span> size<span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
-</code></pre>
-                </div>
-            </div>
-            <div class="page-edit">
-                <div class="edit-link"><a href="https://github.com/jmjlbmn/huiche/edit/master/doc-src/guide/import.md"
-                                          target="_blank" rel="noopener noreferrer">帮忙完善此页面</a>
-                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100"
-                         width="15" height="15" class="icon outbound">
-                        <path fill="currentColor"
-                              d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
-                        <polygon fill="currentColor"
-                                 points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
-                    </svg>
-                </div>
-                <div class="last-updated"><span class="prefix">上次更新: </span><span class="time">2018-6-17 21:12:34</span>
-                </div>
-            </div>
-            <div class="page-nav"><p class="inner"><span class="prev">
+</code></pre></div></div><div class="page-edit"><div class="edit-link"><a href="https://github.com/jmjlbmn/huiche/edit/master/doc-src/guide/import.md" target="_blank" rel="noopener noreferrer">帮忙完善此页面</a><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></div><div class="last-updated"><span class="prefix">上次更新: </span><span class="time">2018-6-17 21:12:34</span></div></div><div class="page-nav"><p class="inner"><span class="prev">
         ← <a href="/guide/sql.html" class="prev">
           建表工具
         </a></span><span class="next"><a href="/guide/change.html">
           更新历史
         </a> →
-      </span></p></div>
-        </div>
-    </div>
-</div>
-<script src="/assets/js/6.3dbbf2e0.js" defer></script>
-<script src="/assets/js/app.792b7ff4.js" defer></script>
-</body>
+      </span></p></div></div></div></div>
+    <script src="/assets/js/6.3dbbf2e0.js" defer></script><script src="/assets/js/app.6baa5e0a.js" defer></script>
+  </body>
 </html>
