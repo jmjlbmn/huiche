@@ -50,7 +50,7 @@ public class Mysql implements Sql {
     public String getCreateTableEnd(@Nonnull TableInfo tableInfo) {
         String comment = tableInfo.getComment();
         comment = null == comment || "".equals(comment.trim()) ? null : comment;
-        return BR + BRACKETS_END + " ENGINE = " + tableInfo.getEngine() + " DEFAULT CHARSET = " + tableInfo.getCharset() + (null == comment ? "" : " COMMENT " + wrap(comment));
+        return BR + BRACKETS_END + " ENGINE = " + engine(tableInfo.getEngine()) + " DEFAULT CHARSET = " + charset(tableInfo.getCharset()) + collation(tableInfo.getCollation()) + (null == comment ? "" : " COMMENT " + wrap(comment));
     }
 
     @Override
@@ -120,5 +120,29 @@ public class Mysql implements Sql {
     interface Length {
         int TEXT = 4000;
         int LONGTEXT = 60000;
+    }
+
+    private String engine(String engine) {
+        if ("".equals(engine)) {
+            return "InnoDB";
+        } else {
+            return engine;
+        }
+    }
+
+    private String charset(String charset) {
+        if ("".equals(charset)) {
+            return "utf8mb4";
+        } else {
+            return charset;
+        }
+    }
+
+    private String collation(String collation) {
+        if ("".equals(collation)) {
+            return "";
+        } else {
+            return " COLLATE = " + collation;
+        }
     }
 }

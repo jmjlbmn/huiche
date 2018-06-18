@@ -22,6 +22,7 @@ public class TableInfo implements Serializable {
     private String comment;
     private String charset;
     private String engine;
+    private String collation;
     private List<ColumnInfo> columnInfoList;
 
 }

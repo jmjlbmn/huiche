@@ -31,15 +31,26 @@ public @interface Table {
 
     /**
      * 编码
+     * mysql默认 utf8mb4
      *
      * @return 值
      */
-    String charset() default "utf8mb4";
+    String charset() default "";
 
     /**
      * 数据库引擎
+     * mysql 默认 InnoDB
      *
      * @return 值
      */
-    String engine() default "InnoDB";
+    String engine() default "";
+
+    /**
+     * 数据库排序/比较 规则,默认不设置,按数据库默认
+     *
+     * @return 排序/比较规则
+     */
+    String collation() default "";
+
+
 }

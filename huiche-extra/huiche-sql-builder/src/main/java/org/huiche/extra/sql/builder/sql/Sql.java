@@ -91,6 +91,7 @@ public interface Sql {
         tableInfo.setComment(table.comment().trim());
         tableInfo.setCharset(table.charset().trim());
         tableInfo.setEngine(table.engine().trim());
+        tableInfo.setCollation(table.collation().trim());
         List<ColumnInfo> columnInfoList = new ArrayList<>();
         ColumnInfo columnInfo;
         for (FieldColumn field : Util.getField(clazz)) {
