@@ -1,35 +1,28 @@
 package org.huiche.web.api.method;
 
-import org.huiche.core.util.Assert;
-import org.huiche.core.util.HuiCheUtil;
 import org.huiche.data.entity.BaseEntity;
 import org.huiche.web.ServiceProvider;
 import org.huiche.web.api.Api;
 import org.huiche.web.response.BaseResult;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 /**
- * restful 更新数据接口
+ * restful 更新数据接口,部分更新
  *
  * @author Maning
  */
 public interface Update<T extends BaseEntity<T>> extends Api, ServiceProvider<T> {
     /**
-     * 更新
+     * 更新,部分更新
      *
      * @param entity 实体
      * @param id     ID
      * @return ID
      */
-    @PutMapping("{id}")
-    default BaseResult<Long> update(@Nonnull @RequestBody T entity, @Nullable @PathVariable Long id) {
-        Long eId = entity.getId();
-        Assert.ok("要更新的对象ID不一致", null == eId || HuiCheUtil.equals(eId, id));
-        return ok(service().update(entity));
+    @PatchMapping("{id}")
+    default BaseResult<Long> update(@RequestBody T entity, @PathVariable Long id) {
+        return ok(service().update(entity.setId(id)));
     }
 }

@@ -8,8 +8,6 @@ import org.huiche.web.api.Api;
 import org.huiche.web.response.BaseResult;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import javax.annotation.Nonnull;
-
 /**
  * restful 分页获取数据
  *
@@ -24,7 +22,7 @@ public interface Page<T extends BaseEntity<T>> extends Api, ServiceProvider<T> {
      * @return 数据
      */
     @GetMapping
-    default BaseResult<PageResponse<T>> page(@Nonnull PageRequest pageRequest, @Nonnull T search) {
+    default BaseResult<PageResponse<T>> page(PageRequest pageRequest, T search) {
         return ok(service().page(pageRequest, search));
     }
 }
