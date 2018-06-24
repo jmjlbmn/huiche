@@ -1,5 +1,7 @@
 # 更新历史
 huiche的版本会参照`MajorVersion.MinorVersion.Revision(主要版本.次要版本.修订版本)` 风格进行版本发布,但前期可能仅会变更`Revision`(包括新增功能的版本),后续有规范的打算
+## 1.0.5 <span style="font-size:0.6em;">2018-06-25</span>
+- 改进: web模块预置的 `restful` 风格的增删改查接口
 ## 1.0.4 <span style="font-size:0.6em;">2018-06-17</span>
 - 新增: 文档和使用指南 [huiche.org](http://huiche.org)
 - 新增: 数据迁移工具 `huiche-transfer`, 作为扩展模块

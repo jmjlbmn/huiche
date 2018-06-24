@@ -6,7 +6,8 @@ uri|method|说明
 :-|:-|:-
 /{id}/|get|获取单条记录
 /{id}/|delete|删除单条记录
-/|post|根据是否设置id,创建或更新数据
+/|post|创建数据
+/{id}|patch|更新数据(部分更新)
 /|get|分页获取数据
 ### CrudApi示例
 ```java
