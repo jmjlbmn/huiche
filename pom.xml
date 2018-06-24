@@ -39,6 +39,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
+        <huiche.version>1.0.5-SNAPSHOT</huiche.version>
         <spring-boot.version>2.0.3.RELEASE</spring-boot.version>
         <druid.version>1.1.10</druid.version>
         <querydsl.version>4.2.1</querydsl.version>
@@ -99,57 +100,57 @@
             <dependency>
                 <groupId>org.huiche</groupId>
                 <artifactId>huiche-annotation</artifactId>
-                <version>${project.version}</version>
+                <version>${huiche.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.huiche</groupId>
                 <artifactId>huiche-core</artifactId>
-                <version>${project.version}</version>
+                <version>${huiche.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.huiche</groupId>
                 <artifactId>huiche-data</artifactId>
-                <version>${project.version}</version>
+                <version>${huiche.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.huiche</groupId>
                 <artifactId>huiche-service</artifactId>
-                <version>${project.version}</version>
+                <version>${huiche.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.huiche</groupId>
                 <artifactId>huiche-dao</artifactId>
-                <version>${project.version}</version>
+                <version>${huiche.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.huiche</groupId>
                 <artifactId>huiche-service-impl</artifactId>
-                <version>${project.version}</version>
+                <version>${huiche.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.huiche</groupId>
                 <artifactId>huiche-web</artifactId>
-                <version>${project.version}</version>
+                <version>${huiche.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.huiche</groupId>
                 <artifactId>huiche-spring-boot-starter</artifactId>
-                <version>${project.version}</version>
+                <version>${huiche.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.huiche</groupId>
                 <artifactId>huiche-sql-builder</artifactId>
-                <version>${project.version}</version>
+                <version>${huiche.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.huiche</groupId>
                 <artifactId>huiche-querydsl-codegen</artifactId>
-                <version>${project.version}</version>
+                <version>${huiche.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.huiche</groupId>
                 <artifactId>huiche-transfer</artifactId>
-                <version>${project.version}</version>
+                <version>${huiche.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
