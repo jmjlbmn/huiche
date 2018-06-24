@@ -17,10 +17,10 @@ import javax.annotation.Nullable;
  */
 public interface DelMulti<T extends BaseEntity<T>> extends Api, ServiceProvider<T> {
     /**
-     * 删除一条数据
+     * 批量删除数据
      *
      * @param ids 以逗号分隔的id
-     * @return 成功
+     * @return 删除条数
      */
     @DeleteMapping
     default BaseResult<Long> del(@Nullable String ids) {
