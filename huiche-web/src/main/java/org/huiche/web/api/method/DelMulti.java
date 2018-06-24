@@ -23,7 +23,7 @@ public interface DelMulti<T extends BaseEntity<T>> extends Api, ServiceProvider<
      * @return 删除条数
      */
     @DeleteMapping
-    default BaseResult<Long> del(@Nullable String ids) {
+    default BaseResult<Long> delMulti(@Nullable String ids) {
         Assert.notNull(HuiCheError.NOT_NULL, ids);
         return ok(service().delete(ids));
     }

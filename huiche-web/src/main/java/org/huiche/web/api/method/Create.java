@@ -20,7 +20,7 @@ public interface Create<T extends BaseEntity<T>> extends Api, ServiceProvider<T>
      * @return ID
      */
     @PostMapping
-    default BaseResult<Long> add(@RequestBody T entity) {
+    default BaseResult<Long> create(@RequestBody T entity) {
         return ok(service().create(entity.setId(null)));
     }
 }
