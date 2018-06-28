@@ -41,7 +41,7 @@ public class HuiCheException extends RuntimeException {
 
     public HuiCheException(BaseError error) {
         super(null == error ? HuiCheError.ERROR.msg() : error.msg());
-        this.code = HuiCheError.ERROR.code();
+        this.code = null == error ? HuiCheError.ERROR.code() : error.code();
         this.msg = getMessage();
     }
 
