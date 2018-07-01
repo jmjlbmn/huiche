@@ -212,7 +212,7 @@ public class StringUtil {
      * @return 拼接和的字符串
      */
     @Nonnull
-    public static String join(@Nonnull String... arr) {
+    public static String join(@Nonnull Object... arr) {
         return join(arr, Const.COMMA);
     }
 
@@ -224,11 +224,13 @@ public class StringUtil {
      * @return 拼接和的字符串
      */
     @Nonnull
-    public static String join(@Nonnull String[] arr, @Nonnull String sep) {
+    public static String join(@Nonnull Object[] arr, @Nonnull String sep) {
         StringBuilder sb = new StringBuilder();
         if (arr.length > 0) {
-            for (String s : arr) {
-                sb.append(sep).append(s);
+            for (Object s : arr) {
+                if (null != s) {
+                    sb.append(sep).append(s.toString());
+                }
             }
         }
         return sb.toString().replaceFirst(sep, "");
@@ -241,7 +243,7 @@ public class StringUtil {
      * @return 拼接和的字符串
      */
     @Nonnull
-    public static String join(@Nonnull Collection<String> list) {
+    public static String join(@Nonnull Collection<Object> list) {
         return join(list, Const.COMMA);
     }
 
@@ -253,11 +255,13 @@ public class StringUtil {
      * @return 拼接和的字符串
      */
     @Nonnull
-    public static String join(@Nonnull Collection<String> list, @Nonnull String sep) {
+    public static String join(@Nonnull Collection<Object> list, @Nonnull String sep) {
         StringBuilder sb = new StringBuilder();
         if (list.size() > 0) {
-            for (String s : list) {
-                sb.append(sep).append(s);
+            for (Object s : list) {
+                if (null != s) {
+                    sb.append(sep).append(s.toString());
+                }
             }
         }
         return sb.toString().replaceFirst(sep, "");
