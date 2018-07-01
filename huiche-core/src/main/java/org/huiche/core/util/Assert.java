@@ -397,7 +397,7 @@ public class Assert {
      * @param ok    正常的逻辑返回true,返回false则抛异常
      * @param test  是否执行判断
      */
-    public static void ifTest(@Nonnull BaseError error, @Nonnull Supplier<Boolean> ok, boolean test) {
+    public static void ifTest(@Nonnull BaseError error, boolean test, @Nonnull Supplier<Boolean> ok) {
         if (test) {
             ok(error, HuiCheUtil.equals(true, ok.get()));
         }
@@ -410,7 +410,7 @@ public class Assert {
      * @param ok   正常的逻辑返回true,返回false则抛异常
      * @param test 是否执行判断
      */
-    public static void ifTest(@Nonnull String msg, @Nonnull Supplier<Boolean> ok, boolean test) {
+    public static void ifTest(@Nonnull String msg, boolean test, @Nonnull Supplier<Boolean> ok) {
         if (test) {
             ok(msg, HuiCheUtil.equals(true, ok.get()));
         }
