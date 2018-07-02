@@ -15,6 +15,7 @@ import javax.annotation.Nullable;
 
 /**
  * 更新操作
+ *
  * @author Maning
  */
 public interface UpdateCmd<T extends BaseEntity<T>> extends PathProvider<T>, SqlProvider, UpdateHandleProvider<T> {
@@ -48,7 +49,7 @@ public interface UpdateCmd<T extends BaseEntity<T>> extends PathProvider<T>, Sql
     }
 
     /**
-     * 根据条件更新实体
+     * 根据条件更新单个实体,如果您需要只根据条件更新,请使用updates
      *
      * @param entity    要更新的内容
      * @param predicate 条件
@@ -56,7 +57,7 @@ public interface UpdateCmd<T extends BaseEntity<T>> extends PathProvider<T>, Sql
      */
     default long update(@Nonnull T entity, @Nullable Predicate... predicate) {
         Long id = entity.getId();
-        Assert.notNull("更新时ID不能为空", id);
+        Assert.notNull("单条记录的条件更新时ID不能为空", id);
         validRegular(entity);
         // 强制不更新ID
         entity.setId(null);
