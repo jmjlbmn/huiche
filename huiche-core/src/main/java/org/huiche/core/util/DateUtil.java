@@ -42,7 +42,7 @@ public class DateUtil {
     }
 
     /**
-     * 建议使用LocalDate/LocalDateTime,而不是Date
+     * 字符串转Date
      *
      * @param time 时间字符串
      * @return Date
@@ -53,7 +53,7 @@ public class DateUtil {
     }
 
     /**
-     * 建议使用LocalDate/LocalDateTime,而不是Date
+     * 字符串转Date
      *
      * @param time   时间字符串
      * @param format 格式化
@@ -126,17 +126,6 @@ public class DateUtil {
         return dateTime.format(DateTimeFormatter.ofPattern(format));
     }
 
-    /**
-     * 日期时间字符串转日期时间
-     *
-     * @param time   时间字符串
-     * @param format 格式化
-     * @return 日期时间
-     */
-    @Nonnull
-    public static LocalDateTime from(@Nonnull CharSequence time, @Nonnull String format) {
-        return LocalDateTime.parse(time, DateTimeFormatter.ofPattern(format));
-    }
 
     /**
      * 获取星期几(int)
