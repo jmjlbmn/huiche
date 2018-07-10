@@ -212,7 +212,7 @@ public class StringUtil {
      * @return 拼接和的字符串
      */
     @Nonnull
-    public static String join(@Nonnull Object... arr) {
+    public static String join(@Nonnull String... arr) {
         return join(arr, Const.COMMA);
     }
 
@@ -224,12 +224,12 @@ public class StringUtil {
      * @return 拼接和的字符串
      */
     @Nonnull
-    public static String join(@Nonnull Object[] arr, @Nonnull String sep) {
+    public static String join(@Nonnull String[] arr, @Nonnull String sep) {
         StringBuilder sb = new StringBuilder();
         if (arr.length > 0) {
             for (Object s : arr) {
                 if (null != s) {
-                    sb.append(sep).append(s.toString());
+                    sb.append(sep).append(s);
                 }
             }
         }
@@ -243,7 +243,7 @@ public class StringUtil {
      * @return 拼接和的字符串
      */
     @Nonnull
-    public static String join(@Nonnull Collection<Object> list) {
+    public static String join(@Nonnull Collection<?> list) {
         return join(list, Const.COMMA);
     }
 
@@ -255,7 +255,7 @@ public class StringUtil {
      * @return 拼接和的字符串
      */
     @Nonnull
-    public static String join(@Nonnull Collection<Object> list, @Nonnull String sep) {
+    public static String join(@Nonnull Collection<?> list, @Nonnull String sep) {
         StringBuilder sb = new StringBuilder();
         if (list.size() > 0) {
             for (Object s : list) {
