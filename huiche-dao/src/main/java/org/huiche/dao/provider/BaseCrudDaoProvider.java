@@ -14,7 +14,6 @@ import org.huiche.dao.curd.ListQuery;
 import org.huiche.dao.curd.PageColumnsQuery;
 import org.huiche.dao.curd.PageQuery;
 import org.huiche.dao.curd.UpdateCmd;
-import org.huiche.dao.curd.UpdatesCmd;
 import org.huiche.data.entity.BaseEntity;
 import org.huiche.data.query.Query;
 
@@ -27,7 +26,6 @@ public interface BaseCrudDaoProvider<T extends BaseEntity<T>> extends
         CreateCmd<T>,
         CreatesCmd<T>,
         UpdateCmd<T>,
-        UpdatesCmd<T>,
         DeleteCmd<T>,
         CountQuery<T>,
         ExistsQuery<T>,

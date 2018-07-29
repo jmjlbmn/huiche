@@ -71,7 +71,6 @@ public interface Query {
         return null;
     }
 
-
     /**
      * 条件提供者
      *
@@ -96,15 +95,25 @@ public interface Query {
     }
 
     /**
-     * or
+     * 用and组合多个条件,等同predicates
      *
-     * @param left  条件1
-     * @param right 条件2
+     * @param predicate 多个条件
      * @return 最终条件
      */
     @Nullable
-    default Predicate or(@Nullable Predicate left, @Nullable Predicate right) {
-        return ExpressionUtils.or(left, right);
+    default Predicate and(@Nonnull Predicate... predicate) {
+        return ExpressionUtils.allOf(predicate);
+    }
+
+    /**
+     * or
+     *
+     * @param predicate 条件
+     * @return 最终条件
+     */
+    @Nullable
+    default Predicate or(@Nonnull Predicate... predicate) {
+        return ExpressionUtils.anyOf(predicate);
     }
 
     /**

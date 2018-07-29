@@ -12,6 +12,8 @@ import org.huiche.data.entity.BaseEntity;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Collection;
+import java.util.function.Consumer;
 
 /**
  * 更新操作
@@ -49,22 +51,55 @@ public interface UpdateCmd<T extends BaseEntity<T>> extends PathProvider<T>, Sql
     }
 
     /**
-     * 根据条件更新单个实体,如果您需要只根据条件更新,请使用updates
+     * 根据条件更新实体,完全根据条件更新,忽略ID
      *
      * @param entity    要更新的内容
      * @param predicate 条件
      * @return 变更条数
      */
     default long update(@Nonnull T entity, @Nullable Predicate... predicate) {
-        Long id = entity.getId();
-        Assert.notNull("单条记录的条件更新时ID不能为空", id);
-        validRegular(entity);
+        Assert.ok("更新时条件不能为空", null != predicate && predicate.length > 0);
         // 强制不更新ID
         entity.setId(null);
-        SQLUpdateClause update = sql().update(root()).populate(entity).where(pk().eq(id));
-        if (null != predicate && predicate.length > 0) {
-            update = update.where(predicate);
+        validRegular(entity);
+        return sql().update(root()).populate(entity).where(predicate).execute();
+    }
+
+    /**
+     * 根据条件更新,自行set更新内容
+     *
+     * @param setter    update
+     * @param predicate 条件
+     * @return 更新条数
+     */
+    default long update(Consumer<SQLUpdateClause> setter, @Nullable Predicate... predicate) {
+        Assert.ok("更新时条件不能为空", null != predicate && predicate.length > 0);
+        SQLUpdateClause update = sql().update(root());
+        setter.accept(update);
+        return update.where(predicate).execute();
+    }
+
+    /**
+     * 根据ID更新实体列表,实体类必须设置ID,不设置ID将跳过
+     *
+     * @param entityList 实体列表
+     * @return 变动条数
+     */
+    default long update(@Nonnull Collection<T> entityList) {
+        SQLUpdateClause update = sql().update(root());
+        for (T entity : entityList) {
+            Long id = entity.getId();
+            if (null != id) {
+                beforeUpdate(entity);
+                validRegular(entity);
+                update.populate(entity.setId(null)).where(pk().eq(id)).addBatch();
+            }
         }
-        return update.execute();
+        if (!update.isEmpty()) {
+            return update.execute();
+        } else {
+            update.clear();
+            return 0;
+        }
     }
 }
