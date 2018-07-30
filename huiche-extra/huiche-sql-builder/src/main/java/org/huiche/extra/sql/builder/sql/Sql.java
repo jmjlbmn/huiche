@@ -167,17 +167,17 @@ public interface Sql {
             } else if (isBoolean) {
                 columnInfo.setLength(1);
             } else if (columnInfo.getType().equals(JDBCType.DECIMAL) || columnInfo.getType().equals(JDBCType.FLOAT) || columnInfo.getType().equals(JDBCType.DOUBLE)) {
-                int length = 10;
-                int precision = 2;
                 if (null != column) {
-                    length = 0 == column.length() ? length : column.length();
-                    precision = 0 == column.precision() ? precision : column.precision();
+                    int length = column.length();
+                    int precision = column.precision();
                     if (precision > length) {
                         throw new RuntimeException("精度不能超过长度:" + field.getName());
                     }
+                    if (length > 0) {
+                        columnInfo.setLength(length);
+                        columnInfo.setPrecision(precision);
+                    }
                 }
-                columnInfo.setLength(length);
-                columnInfo.setPrecision(precision);
             }
             columnInfoList.add(columnInfo);
         }

@@ -73,15 +73,27 @@ public class Mysql implements Sql {
                 break;
             case FLOAT:
                 builder.append("FLOAT");
-                builder.append(BRACKETS_START).append(columnInfo.getLength()).append(COMMA).append(columnInfo.getPrecision()).append(BRACKETS_END);
+                if (null != columnInfo.getLength()) {
+                    builder.append(BRACKETS_START).append(columnInfo.getLength()).append(COMMA);
+                    builder.append(null == columnInfo.getPrecision() ? 0 : columnInfo.getPrecision());
+                    builder.append(BRACKETS_END);
+                }
                 break;
             case DOUBLE:
                 builder.append("DOUBLE");
-                builder.append(BRACKETS_START).append(columnInfo.getLength()).append(COMMA).append(columnInfo.getPrecision()).append(BRACKETS_END);
+                if (null != columnInfo.getLength()) {
+                    builder.append(BRACKETS_START).append(columnInfo.getLength()).append(COMMA);
+                    builder.append(null == columnInfo.getPrecision() ? 0 : columnInfo.getPrecision());
+                    builder.append(BRACKETS_END);
+                }
                 break;
             case DECIMAL:
                 builder.append("DECIMAL");
-                builder.append(BRACKETS_START).append(columnInfo.getLength()).append(COMMA).append(columnInfo.getPrecision()).append(BRACKETS_END);
+                if (null != columnInfo.getLength()) {
+                    builder.append(BRACKETS_START).append(columnInfo.getLength()).append(COMMA);
+                    builder.append(null == columnInfo.getPrecision() ? 0 : columnInfo.getPrecision());
+                    builder.append(BRACKETS_END);
+                }
                 break;
             case VARCHAR:
                 if (columnInfo.getLength() >= Length.LONGTEXT) {
