@@ -120,7 +120,6 @@ public interface Sql {
             }
             Class<?> javaType = field.getType();
             boolean isBoolean = false;
-            boolean isEnum = false;
             switch (javaType.getName()) {
                 case "java.lang.Boolean":
                     columnInfo.setType(JDBCType.TINYINT);
@@ -133,8 +132,6 @@ public interface Sql {
                     columnInfo.setType(JDBCType.BIGINT);
                     break;
                 case "java.lang.Float":
-                    columnInfo.setType(JDBCType.FLOAT);
-                    break;
                 case "java.lang.Double":
                     columnInfo.setType(JDBCType.DOUBLE);
                     break;
@@ -150,7 +147,6 @@ public interface Sql {
             if (null == columnInfo.getType()) {
                 if (javaType.isEnum()) {
                     columnInfo.setType(JDBCType.VARCHAR);
-                    isEnum = true;
                     if (null == columnInfo.getComment()) {
                         columnInfo.setComment(Arrays.toString(javaType.getEnumConstants()));
                     }
@@ -159,14 +155,14 @@ public interface Sql {
                 }
             }
             if (columnInfo.getType().equals(JDBCType.VARCHAR)) {
-                int length = isEnum ? 20 : 255;
+                int length = 255;
                 if (null != column) {
                     length = 0 == column.length() ? length : column.length();
                 }
                 columnInfo.setLength(length);
             } else if (isBoolean) {
                 columnInfo.setLength(1);
-            } else if (columnInfo.getType().equals(JDBCType.DECIMAL) || columnInfo.getType().equals(JDBCType.FLOAT) || columnInfo.getType().equals(JDBCType.DOUBLE)) {
+            } else if (columnInfo.getType().equals(JDBCType.DECIMAL) || columnInfo.getType().equals(JDBCType.DOUBLE)) {
                 if (null != column) {
                     int length = column.length();
                     int precision = column.precision();
@@ -211,6 +207,7 @@ public interface Sql {
                             columnInfo.setLength(rs.getInt("COLUMN_SIZE"));
                         }
                         break;
+                    case DOUBLE:
                     case DECIMAL:
                         columnInfo.setLength(rs.getInt("COLUMN_SIZE"));
                         columnInfo.setPrecision(rs.getInt("DECIMAL_DIGITS"));
@@ -283,24 +280,30 @@ public interface Sql {
                                 modifyList.add(java);
                             } else {
                                 Integer length = java.getLength();
-                                if (JDBCType.VARCHAR.equals(java.getType())) {
-                                    if (null != length && !length.equals(db.getLength())) {
-                                        //长度不同
-                                        modifyList.add(java);
-                                    }
-                                }
-                                if (JDBCType.DECIMAL.equals(java.getType())) {
-                                    if (null != length && !length.equals(db.getLength())) {
-                                        //长度不同
-                                        modifyList.add(java);
-                                    } else {
-                                        Integer precision = java.getPrecision();
-                                        if (null != precision && !precision.equals(db.getPrecision())) {
-                                            //精度不同
+                                boolean lengthNoEq = null != length && !length.equals(db.getLength());
+                                boolean noLength = null == length && null != db.getLength();
+                                switch (java.getType()) {
+                                    case VARCHAR:
+                                        if (lengthNoEq || noLength) {
+                                            //长度不同
                                             modifyList.add(java);
                                         }
-                                    }
-
+                                        break;
+                                    case DOUBLE:
+                                    case DECIMAL:
+                                        if (lengthNoEq) {
+                                            //长度不同
+                                            modifyList.add(java);
+                                        } else {
+                                            Integer precision = java.getPrecision();
+                                            if (null != precision && !precision.equals(db.getPrecision())) {
+                                                //精度不同
+                                                modifyList.add(java);
+                                            }
+                                        }
+                                        break;
+                                    default:
+                                        break;
                                 }
                             }
                         }
