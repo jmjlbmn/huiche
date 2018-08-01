@@ -7,137 +7,209 @@
     <meta name="description" content="基于SpringBoot,QueryDsl 的 Java 快速开发框架">
     <link rel="icon" href="/fav.ico">
 
-      <link rel="preload" href="/assets/css/13.styles.72df79e4.css" as="style">
-      <link rel="preload" href="/assets/js/app.c2582f49.js" as="script">
-      <link rel="preload" href="/assets/js/11.df925a82.js" as="script">
-      <link rel="prefetch" href="/assets/js/7.f2587507.js">
-      <link rel="prefetch" href="/assets/js/1.bc1ee79d.js">
-      <link rel="prefetch" href="/assets/js/2.58dcec42.js">
-      <link rel="prefetch" href="/assets/js/3.28aa32a3.js">
-      <link rel="prefetch" href="/assets/js/4.be70cfc5.js">
-      <link rel="prefetch" href="/assets/js/5.62190105.js">
-      <link rel="prefetch" href="/assets/js/6.8945219a.js">
-      <link rel="prefetch" href="/assets/js/0.c34386af.js">
-      <link rel="prefetch" href="/assets/js/8.919f454f.js">
-      <link rel="prefetch" href="/assets/js/9.6a7d9e27.js">
-      <link rel="prefetch" href="/assets/js/10.384f965b.js">
-      <link rel="prefetch" href="/assets/js/12.772cef35.js">
-      <link rel="stylesheet" href="/assets/css/13.styles.72df79e4.css">
+      <link rel="preload" href="/assets/css/0.styles.67e3b234.css" as="style">
+      <link rel="preload" href="/assets/js/app.5b74dfba.js" as="script">
+      <link rel="preload" href="/assets/js/5.e3053265.js" as="script">
+      <link rel="prefetch" href="/assets/js/7.f6f66c22.js">
+      <link rel="prefetch" href="/assets/js/2.cda51ec0.js">
+      <link rel="prefetch" href="/assets/js/3.d786b20a.js">
+      <link rel="prefetch" href="/assets/js/4.d4fdbb70.js">
+      <link rel="prefetch" href="/assets/js/6.9f42997d.js">
+      <link rel="prefetch" href="/assets/js/8.1333654f.js">
+      <link rel="prefetch" href="/assets/js/9.c76f7bad.js">
+      <link rel="prefetch" href="/assets/js/10.f422496b.js">
+      <link rel="prefetch" href="/assets/js/11.bd153cbc.js">
+      <link rel="prefetch" href="/assets/js/12.4bebbcd1.js">
+      <link rel="prefetch" href="/assets/js/13.0c9bb01e.js">
+      <link rel="prefetch" href="/assets/js/14.65b215dc.js">
+      <link rel="prefetch" href="/assets/js/15.64ae3da7.js">
+      <link rel="prefetch" href="/assets/js/16.05f4b6dc.js">
+      <link rel="stylesheet" href="/assets/css/0.styles.67e3b234.css">
   </head>
   <body>
-    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div><a href="/" class="home-link router-link-active"><!----><span class="site-name">
-      HuiChe
-    </span></a><div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""><!----></div><nav class="nav-links can-hide"><div class="nav-item"><a href="/guide/" class="nav-link router-link-exact-active router-link-active">使用指南</a></div><div class="nav-item"><a href="https://github.com/jmjlbmn/huiche-examples/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  <div id="app" data-server-rendered="true">
+      <div class="theme-container">
+          <header class="navbar">
+              <div class="sidebar-button">
+                  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512"
+                       class="icon">
+                      <path fill="currentColor"
+                            d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path>
+                  </svg>
+              </div>
+              <a href="/" class="home-link router-link-active"><!----> <span class="site-name">HuiChe</span></a>
+              <div class="links">
+                  <div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value="">
+                      <!----></div>
+                  <nav class="nav-links can-hide">
+                      <div class="nav-item"><a href="/guide/"
+                                               class="nav-link router-link-exact-active router-link-active">使用指南</a>
+                      </div>
+                      <div class="nav-item"><a href="https://github.com/jmjlbmn/huiche-examples/" target="_blank"
+                                               rel="noopener noreferrer" class="nav-link external">
   使用示例
-        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15"
-             height="15" class="icon outbound">
-            <path fill="currentColor"
-                  d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
-            <polygon fill="currentColor"
-                     points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
-        </svg>
-    </a></div>
-        <div class="nav-item"><a href="http://huiche.org/guide/change.html" target="_blank" rel="noopener noreferrer"
-                                 class="nav-link external">
-            更新历史
-            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="https://apidoc.gitee.com/jmjlbmn/huiche/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+                          <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px"
+                               viewBox="0 0 100 100" width="15" height="15" class="icon outbound">
+                              <path fill="currentColor"
+                                    d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
+                              <polygon fill="currentColor"
+                                       points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
+                          </svg>
+                      </a></div>
+                      <div class="nav-item"><a href="http://huiche.org/guide/change.html" target="_blank"
+                                               rel="noopener noreferrer" class="nav-link external">
+                          更新历史
+                          <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px"
+                               viewBox="0 0 100 100" width="15" height="15" class="icon outbound">
+                              <path fill="currentColor"
+                                    d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
+                              <polygon fill="currentColor"
+                                       points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
+                          </svg>
+                      </a></div>
+                      <div class="nav-item"><a href="https://apidoc.gitee.com/jmjlbmn/huiche/" target="_blank"
+                                               rel="noopener noreferrer" class="nav-link external">
   JavaDoc
-  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><a href="https://github.com/jmjlbmn/huiche" target="_blank" rel="noopener noreferrer" class="repo-link">
+                          <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px"
+                               viewBox="0 0 100 100" width="15" height="15" class="icon outbound">
+                              <path fill="currentColor"
+                                    d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
+                              <polygon fill="currentColor"
+                                       points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
+                          </svg>
+                      </a></div>
+                      <a href="https://github.com/jmjlbmn/huiche" target="_blank" rel="noopener noreferrer"
+                         class="repo-link">
     GitHub
-    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header><div class="sidebar-mask"></div><div class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/guide/" class="nav-link router-link-exact-active router-link-active">使用指南</a></div><div class="nav-item"><a href="https://github.com/jmjlbmn/huiche-examples/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+                          <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px"
+                               viewBox="0 0 100 100" width="15" height="15" class="icon outbound">
+                              <path fill="currentColor"
+                                    d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
+                              <polygon fill="currentColor"
+                                       points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
+                          </svg>
+                      </a></nav>
+              </div>
+          </header>
+          <div class="sidebar-mask"></div>
+          <div class="sidebar">
+              <nav class="nav-links">
+                  <div class="nav-item"><a href="/guide/" class="nav-link router-link-exact-active router-link-active">使用指南</a>
+                  </div>
+                  <div class="nav-item"><a href="https://github.com/jmjlbmn/huiche-examples/" target="_blank"
+                                           rel="noopener noreferrer" class="nav-link external">
   使用示例
-        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15"
-             height="15" class="icon outbound">
-            <path fill="currentColor"
-                  d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
-            <polygon fill="currentColor"
-                     points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
-        </svg>
-    </a></div>
-        <div class="nav-item"><a href="http://huiche.org/guide/change.html" target="_blank" rel="noopener noreferrer"
-                                 class="nav-link external">
-            更新历史
-            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="https://apidoc.gitee.com/jmjlbmn/huiche/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+                      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100"
+                           width="15" height="15" class="icon outbound">
+                          <path fill="currentColor"
+                                d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
+                          <polygon fill="currentColor"
+                                   points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
+                      </svg>
+                  </a></div>
+                  <div class="nav-item"><a href="http://huiche.org/guide/change.html" target="_blank"
+                                           rel="noopener noreferrer" class="nav-link external">
+                      更新历史
+                      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100"
+                           width="15" height="15" class="icon outbound">
+                          <path fill="currentColor"
+                                d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
+                          <polygon fill="currentColor"
+                                   points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
+                      </svg>
+                  </a></div>
+                  <div class="nav-item"><a href="https://apidoc.gitee.com/jmjlbmn/huiche/" target="_blank"
+                                           rel="noopener noreferrer" class="nav-link external">
   JavaDoc
-  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><a href="https://github.com/jmjlbmn/huiche" target="_blank" rel="noopener noreferrer" class="repo-link">
+                      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100"
+                           width="15" height="15" class="icon outbound">
+                          <path fill="currentColor"
+                                d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
+                          <polygon fill="currentColor"
+                                   points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
+                      </svg>
+                  </a></div>
+                  <a href="https://github.com/jmjlbmn/huiche" target="_blank" rel="noopener noreferrer"
+                     class="repo-link">
     GitHub
-            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15"
-                 height="15" class="icon outbound">
-                <path fill="currentColor"
-                      d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
-                <polygon fill="currentColor"
-                         points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
-            </svg>
-        </a></nav>
-        <ul class="sidebar-links">
-            <li><a href="/guide/" class="active sidebar-link">开始使用</a>
-                <ul class="sidebar-sub-headers">
-                    <li class="sidebar-sub-header"><a href="/guide/#说明" class="sidebar-link">说明</a></li>
-                    <li class="sidebar-sub-header"><a href="/guide/#快速开始" class="sidebar-link">快速开始</a></li>
-                </ul>
-            </li>
-            <li><a href="/guide/data.html" class="sidebar-link">实体类</a></li>
-            <li><a href="/guide/dao.html" class="sidebar-link">数据访问层</a></li>
-            <li><a href="/guide/service.html" class="sidebar-link">业务层</a></li>
-            <li><a href="/guide/web.html" class="sidebar-link">控制层</a></li>
-            <li><a href="/guide/predicate.html" class="sidebar-link">条件拼装</a></li>
-            <li><a href="/guide/search.html" class="sidebar-link">自定义筛选</a></li>
-            <li><a href="/guide/validate.html" class="sidebar-link">验证</a></li>
-            <li><a href="/guide/sql.html" class="sidebar-link">建表工具</a></li>
-            <li><a href="/guide/import.html" class="sidebar-link">数据迁移工具</a></li>
-            <li><a href="/guide/change.html" class="sidebar-link">更新历史</a></li>
-        </ul>
-    </div>
-        <div class="page">
-            <div class="content"><h1 id="开始使用"><a href="#开始使用" aria-hidden="true" class="header-anchor">#</a> 开始使用</h1>
-                <h2 id="说明"><a href="#说明" aria-hidden="true" class="header-anchor">#</a> 说明</h2>
-                <p><a href="https://travis-ci.org/jmjlbmn/huiche" target="_blank" rel="noopener noreferrer"><img
-                        src="https://img.shields.io/travis/jmjlbmn/huiche.svg?style=flat-square" alt="build">
-                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100"
-                         width="15" height="15" class="icon outbound">
-                        <path fill="currentColor"
-                              d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
-                        <polygon fill="currentColor"
-                                 points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
-                    </svg>
-                </a><a href="http://search.maven.org/#artifactdetails%7Corg.huiche%7Chuiche%7C1.0.5%7C" target="_blank"
-                       rel="noopener noreferrer"><img
-                        src="https://img.shields.io/maven-metadata/v/http/central.maven.org/maven2/org/huiche/huiche/maven-metadata.xml.svg?style=flat-square"
-                        alt="maven">
-                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100"
-                         width="15" height="15" class="icon outbound">
-                        <path fill="currentColor"
-                              d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
-                        <polygon fill="currentColor"
-                                 points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
-                    </svg>
-                </a></p>
-                <ul>
-                    <li>基于QueryDsl的快速,类型安全的SQL查询</li>
-                    <li>涵盖大部分单表查询场景的通用Dao</li>
-                    <li>方便实用的关联查询</li>
-                    <li>基于java.util.function编写的函数式编程方式的动态数据筛选功能</li>
-                    <li>基于jsr-303(Bean Validation)的注解式验证</li>
-                    <li>基于jsr-305的静态分析</li>
-                    <li>提供restful和传统单post两种方式的常用增删改查功能的BaseController</li>
-                    <li>huiche-spring-boot-starter快速搭建项目</li>
-                    <li>基于实体类注解的Sql建表支持,可独立框架外使用,支持修改字段和删除字段,详细参考: <a
-                            href="https://github.com/jmjlbmn/huiche-examples/tree/master/sql-builder" target="_blank"
-                            rel="noopener noreferrer">sql-builder
-                        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100"
-                             width="15" height="15" class="icon outbound">
-                            <path fill="currentColor"
-                                  d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
-                            <polygon fill="currentColor"
-                                     points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
-                        </svg>
-                    </a></li>
-                </ul>
-                <h2 id="快速开始"><a href="#快速开始" aria-hidden="true" class="header-anchor">#</a> 快速开始</h2>
-                <p>一、parent方式(推荐)</p>
-                <div class="language-xml extra-class"><pre class="language-xml"><code><span class="token tag"><span
-                        class="token tag"><span class="token punctuation">&lt;</span>project</span><span
-                        class="token punctuation">&gt;</span></span>
+                      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100"
+                           width="15" height="15" class="icon outbound">
+                          <path fill="currentColor"
+                                d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
+                          <polygon fill="currentColor"
+                                   points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
+                      </svg>
+                  </a></nav>
+              <ul class="sidebar-links">
+                  <li><a href="/guide/" class="active sidebar-link">开始使用</a>
+                      <ul class="sidebar-sub-headers">
+                          <li class="sidebar-sub-header"><a href="/guide/#说明" class="sidebar-link">说明</a></li>
+                          <li class="sidebar-sub-header"><a href="/guide/#快速开始" class="sidebar-link">快速开始</a></li>
+                      </ul>
+                  </li>
+                  <li><a href="/guide/data.html" class="sidebar-link">实体类</a></li>
+                  <li><a href="/guide/dao.html" class="sidebar-link">数据访问层</a></li>
+                  <li><a href="/guide/service.html" class="sidebar-link">业务层</a></li>
+                  <li><a href="/guide/web.html" class="sidebar-link">控制层</a></li>
+                  <li><a href="/guide/predicate.html" class="sidebar-link">条件拼装</a></li>
+                  <li><a href="/guide/search.html" class="sidebar-link">自定义筛选</a></li>
+                  <li><a href="/guide/validate.html" class="sidebar-link">验证</a></li>
+                  <li><a href="/guide/sql.html" class="sidebar-link">建表工具</a></li>
+                  <li><a href="/guide/import.html" class="sidebar-link">数据迁移工具</a></li>
+                  <li><a href="/guide/change.html" class="sidebar-link">更新历史</a></li>
+              </ul>
+          </div>
+          <div class="page">
+              <div class="content"><h1 id="开始使用"><a href="#开始使用" aria-hidden="true" class="header-anchor">#</a> 开始使用
+              </h1>
+                  <h2 id="说明"><a href="#说明" aria-hidden="true" class="header-anchor">#</a> 说明</h2>
+                  <p><a href="https://travis-ci.org/jmjlbmn/huiche" target="_blank" rel="noopener noreferrer"><img
+                          src="https://img.shields.io/travis/jmjlbmn/huiche.svg?style=flat-square" alt="build">
+                      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100"
+                           width="15" height="15" class="icon outbound">
+                          <path fill="currentColor"
+                                d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
+                          <polygon fill="currentColor"
+                                   points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
+                      </svg>
+                  </a> <a href="http://search.maven.org/#artifactdetails%7Corg.huiche%7Chuiche%7C1.0.5%7C"
+                          target="_blank" rel="noopener noreferrer"><img
+                          src="https://img.shields.io/maven-metadata/v/http/central.maven.org/maven2/org/huiche/huiche/maven-metadata.xml.svg?style=flat-square"
+                          alt="maven">
+                      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100"
+                           width="15" height="15" class="icon outbound">
+                          <path fill="currentColor"
+                                d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
+                          <polygon fill="currentColor"
+                                   points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
+                      </svg>
+                  </a></p>
+                  <ul>
+                      <li>基于QueryDsl的快速,类型安全的SQL查询</li>
+                      <li>涵盖大部分单表查询场景的通用Dao</li>
+                      <li>方便实用的关联查询</li>
+                      <li>基于java.util.function编写的函数式编程方式的动态数据筛选功能</li>
+                      <li>基于jsr-303(Bean Validation)的注解式验证</li>
+                      <li>基于jsr-305的静态分析</li>
+                      <li>提供restful和传统单post两种方式的常用增删改查功能的BaseController</li>
+                      <li>huiche-spring-boot-starter快速搭建项目</li>
+                      <li>基于实体类注解的Sql建表支持,可独立框架外使用,支持修改字段和删除字段,详细参考: <a
+                              href="https://github.com/jmjlbmn/huiche-examples/tree/master/sql-builder" target="_blank"
+                              rel="noopener noreferrer">sql-builder
+                          <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px"
+                               viewBox="0 0 100 100" width="15" height="15" class="icon outbound">
+                              <path fill="currentColor"
+                                    d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
+                              <polygon fill="currentColor"
+                                       points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
+                          </svg>
+                      </a></li>
+                  </ul>
+                  <h2 id="快速开始"><a href="#快速开始" aria-hidden="true" class="header-anchor">#</a> 快速开始</h2>
+                  <p>一、parent方式(推荐)</p>
+                  <div class="language-xml extra-class"><pre class="language-xml"><code><span class="token tag"><span
+                          class="token tag"><span class="token punctuation">&lt;</span>project</span><span
+                          class="token punctuation">&gt;</span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>parent</span><span class="token punctuation">&gt;</span></span>
         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">&gt;</span></span>org.huiche<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">&gt;</span></span>
         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">&gt;</span></span>huiche<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">&gt;</span></span>
@@ -151,7 +223,12 @@
         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">&gt;</span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependencies</span><span class="token punctuation">&gt;</span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>project</span><span class="token punctuation">&gt;</span></span>
-</code></pre></div><p>二、dependencyManagement方式</p><div class="language-xml extra-class"><pre class="language-xml"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>project</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+                  </div>
+                  <p>二、dependencyManagement方式</p>
+                  <div class="language-xml extra-class"><pre class="language-xml"><code><span class="token tag"><span
+                          class="token tag"><span class="token punctuation">&lt;</span>project</span><span
+                          class="token punctuation">&gt;</span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>properties</span><span class="token punctuation">&gt;</span></span>
         <span class="token comment">&lt;!--使用此方式,需要额外指定java版本(&gt;=8)--&gt;</span>
         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>java.version</span><span class="token punctuation">&gt;</span></span>1.8<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>java.version</span><span class="token punctuation">&gt;</span></span>
@@ -177,27 +254,30 @@
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependencies</span><span class="token punctuation">&gt;</span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>project</span><span
         class="token punctuation">&gt;</span></span></code></pre>
-                </div>
-            </div>
-            <div class="page-edit">
-                <div class="edit-link"><a href="https://github.com/jmjlbmn/huiche/edit/master/doc-src/guide/README.md"
-                                          target="_blank" rel="noopener noreferrer">帮忙完善此页面</a>
-                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100"
-                         width="15" height="15" class="icon outbound">
-                        <path fill="currentColor"
-                              d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
-                        <polygon fill="currentColor"
-                                 points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
-                    </svg>
-                </div>
-                <div class="last-updated"><span class="prefix">上次更新: </span><span class="time">2018-6-25 00:54:50</span>
-                </div>
-            </div>
-            <div class="page-nav"><p class="inner"><!----><span class="next"><a href="/guide/data.html">
+                  </div>
+              </div>
+              <div class="page-edit">
+                  <div class="edit-link"><a href="https://github.com/jmjlbmn/huiche/edit/master/doc-src/guide/README.md"
+                                            target="_blank" rel="noopener noreferrer">帮忙完善此页面</a>
+                      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100"
+                           width="15" height="15" class="icon outbound">
+                          <path fill="currentColor"
+                                d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
+                          <polygon fill="currentColor"
+                                   points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
+                      </svg>
+                  </div>
+                  <div class="last-updated"><span class="prefix">上次更新: </span> <span
+                          class="time">2018-6-25 00:54:50</span></div>
+              </div>
+              <div class="page-nav"><p class="inner"><!----> <span class="next"><a href="/guide/data.html">
           实体类
-        </a> →
-      </span></p></div></div></div></div>
-    <script src="/assets/js/11.df925a82.js" defer></script>
-    <script src="/assets/js/app.c2582f49.js" defer></script>
+        </a>
+        →
+      </span></p></div>
+          </div> <!----></div>
+  </div>
+  <script src="/assets/js/5.e3053265.js" defer></script>
+  <script src="/assets/js/app.5b74dfba.js" defer></script>
   </body>
 </html>

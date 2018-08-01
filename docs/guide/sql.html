@@ -7,68 +7,383 @@
     <meta name="description" content="基于SpringBoot,QueryDsl 的 Java 快速开发框架">
     <link rel="icon" href="/fav.ico">
 
-      <link rel="preload" href="/assets/css/13.styles.72df79e4.css" as="style">
-      <link rel="preload" href="/assets/js/app.c2582f49.js" as="script">
-      <link rel="preload" href="/assets/js/2.58dcec42.js" as="script">
-      <link rel="prefetch" href="/assets/js/7.f2587507.js">
-      <link rel="prefetch" href="/assets/js/1.bc1ee79d.js">
-      <link rel="prefetch" href="/assets/js/3.28aa32a3.js">
-      <link rel="prefetch" href="/assets/js/4.be70cfc5.js">
-      <link rel="prefetch" href="/assets/js/5.62190105.js">
-      <link rel="prefetch" href="/assets/js/6.8945219a.js">
-      <link rel="prefetch" href="/assets/js/0.c34386af.js">
-      <link rel="prefetch" href="/assets/js/8.919f454f.js">
-      <link rel="prefetch" href="/assets/js/9.6a7d9e27.js">
-      <link rel="prefetch" href="/assets/js/10.384f965b.js">
-      <link rel="prefetch" href="/assets/js/11.df925a82.js">
-      <link rel="prefetch" href="/assets/js/12.772cef35.js">
-      <link rel="stylesheet" href="/assets/css/13.styles.72df79e4.css">
+      <link rel="preload" href="/assets/css/0.styles.67e3b234.css" as="style">
+      <link rel="preload" href="/assets/js/app.5b74dfba.js" as="script">
+      <link rel="preload" href="/assets/js/14.65b215dc.js" as="script">
+      <link rel="prefetch" href="/assets/js/7.f6f66c22.js">
+      <link rel="prefetch" href="/assets/js/2.cda51ec0.js">
+      <link rel="prefetch" href="/assets/js/3.d786b20a.js">
+      <link rel="prefetch" href="/assets/js/4.d4fdbb70.js">
+      <link rel="prefetch" href="/assets/js/5.e3053265.js">
+      <link rel="prefetch" href="/assets/js/6.9f42997d.js">
+      <link rel="prefetch" href="/assets/js/8.1333654f.js">
+      <link rel="prefetch" href="/assets/js/9.c76f7bad.js">
+      <link rel="prefetch" href="/assets/js/10.f422496b.js">
+      <link rel="prefetch" href="/assets/js/11.bd153cbc.js">
+      <link rel="prefetch" href="/assets/js/12.4bebbcd1.js">
+      <link rel="prefetch" href="/assets/js/13.0c9bb01e.js">
+      <link rel="prefetch" href="/assets/js/15.64ae3da7.js">
+      <link rel="prefetch" href="/assets/js/16.05f4b6dc.js">
+      <link rel="stylesheet" href="/assets/css/0.styles.67e3b234.css">
   </head>
   <body>
-    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div><a href="/" class="home-link router-link-active"><!----><span class="site-name">
-      HuiChe
-    </span></a><div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""><!----></div><nav class="nav-links can-hide"><div class="nav-item"><a href="/guide/" class="nav-link router-link-active">使用指南</a></div><div class="nav-item"><a href="https://github.com/jmjlbmn/huiche-examples/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  <div id="app" data-server-rendered="true">
+      <div class="theme-container">
+          <header class="navbar">
+              <div class="sidebar-button">
+                  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512"
+                       class="icon">
+                      <path fill="currentColor"
+                            d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path>
+                  </svg>
+              </div>
+              <a href="/" class="home-link router-link-active"><!----> <span class="site-name">HuiChe</span></a>
+              <div class="links">
+                  <div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value="">
+                      <!----></div>
+                  <nav class="nav-links can-hide">
+                      <div class="nav-item"><a href="/guide/" class="nav-link router-link-active">使用指南</a></div>
+                      <div class="nav-item"><a href="https://github.com/jmjlbmn/huiche-examples/" target="_blank"
+                                               rel="noopener noreferrer" class="nav-link external">
   使用示例
-        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15"
-             height="15" class="icon outbound">
-            <path fill="currentColor"
-                  d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
-            <polygon fill="currentColor"
-                     points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
-        </svg>
-    </a></div>
-        <div class="nav-item"><a href="http://huiche.org/guide/change.html" target="_blank" rel="noopener noreferrer"
-                                 class="nav-link external">
-            更新历史
-            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="https://apidoc.gitee.com/jmjlbmn/huiche/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+                          <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px"
+                               viewBox="0 0 100 100" width="15" height="15" class="icon outbound">
+                              <path fill="currentColor"
+                                    d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
+                              <polygon fill="currentColor"
+                                       points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
+                          </svg>
+                      </a></div>
+                      <div class="nav-item"><a href="http://huiche.org/guide/change.html" target="_blank"
+                                               rel="noopener noreferrer" class="nav-link external">
+                          更新历史
+                          <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px"
+                               viewBox="0 0 100 100" width="15" height="15" class="icon outbound">
+                              <path fill="currentColor"
+                                    d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
+                              <polygon fill="currentColor"
+                                       points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
+                          </svg>
+                      </a></div>
+                      <div class="nav-item"><a href="https://apidoc.gitee.com/jmjlbmn/huiche/" target="_blank"
+                                               rel="noopener noreferrer" class="nav-link external">
   JavaDoc
-  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><a href="https://github.com/jmjlbmn/huiche" target="_blank" rel="noopener noreferrer" class="repo-link">
+                          <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px"
+                               viewBox="0 0 100 100" width="15" height="15" class="icon outbound">
+                              <path fill="currentColor"
+                                    d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
+                              <polygon fill="currentColor"
+                                       points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
+                          </svg>
+                      </a></div>
+                      <a href="https://github.com/jmjlbmn/huiche" target="_blank" rel="noopener noreferrer"
+                         class="repo-link">
     GitHub
-    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header><div class="sidebar-mask"></div><div class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/guide/" class="nav-link router-link-active">使用指南</a></div><div class="nav-item"><a href="https://github.com/jmjlbmn/huiche-examples/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+                          <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px"
+                               viewBox="0 0 100 100" width="15" height="15" class="icon outbound">
+                              <path fill="currentColor"
+                                    d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
+                              <polygon fill="currentColor"
+                                       points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
+                          </svg>
+                      </a></nav>
+              </div>
+          </header>
+          <div class="sidebar-mask"></div>
+          <div class="sidebar">
+              <nav class="nav-links">
+                  <div class="nav-item"><a href="/guide/" class="nav-link router-link-active">使用指南</a></div>
+                  <div class="nav-item"><a href="https://github.com/jmjlbmn/huiche-examples/" target="_blank"
+                                           rel="noopener noreferrer" class="nav-link external">
   使用示例
-        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15"
-             height="15" class="icon outbound">
-            <path fill="currentColor"
-                  d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
-            <polygon fill="currentColor"
-                     points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
-        </svg>
-    </a></div>
-        <div class="nav-item"><a href="http://huiche.org/guide/change.html" target="_blank" rel="noopener noreferrer"
-                                 class="nav-link external">
-            更新历史
-            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="https://apidoc.gitee.com/jmjlbmn/huiche/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+                      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100"
+                           width="15" height="15" class="icon outbound">
+                          <path fill="currentColor"
+                                d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
+                          <polygon fill="currentColor"
+                                   points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
+                      </svg>
+                  </a></div>
+                  <div class="nav-item"><a href="http://huiche.org/guide/change.html" target="_blank"
+                                           rel="noopener noreferrer" class="nav-link external">
+                      更新历史
+                      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100"
+                           width="15" height="15" class="icon outbound">
+                          <path fill="currentColor"
+                                d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
+                          <polygon fill="currentColor"
+                                   points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
+                      </svg>
+                  </a></div>
+                  <div class="nav-item"><a href="https://apidoc.gitee.com/jmjlbmn/huiche/" target="_blank"
+                                           rel="noopener noreferrer" class="nav-link external">
   JavaDoc
-  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><a href="https://github.com/jmjlbmn/huiche" target="_blank" rel="noopener noreferrer" class="repo-link">
+                      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100"
+                           width="15" height="15" class="icon outbound">
+                          <path fill="currentColor"
+                                d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
+                          <polygon fill="currentColor"
+                                   points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
+                      </svg>
+                  </a></div>
+                  <a href="https://github.com/jmjlbmn/huiche" target="_blank" rel="noopener noreferrer"
+                     class="repo-link">
     GitHub
-    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav><ul class="sidebar-links"><li><a href="/guide/" class="sidebar-link">开始使用</a></li><li><a href="/guide/data.html" class="sidebar-link">实体类</a></li><li><a href="/guide/dao.html" class="sidebar-link">数据访问层</a></li><li><a href="/guide/service.html" class="sidebar-link">业务层</a></li><li><a href="/guide/web.html" class="sidebar-link">控制层</a></li><li><a href="/guide/predicate.html" class="sidebar-link">条件拼装</a></li><li><a href="/guide/search.html" class="sidebar-link">自定义筛选</a></li><li><a href="/guide/validate.html" class="sidebar-link">验证</a></li><li><a href="/guide/sql.html" class="active sidebar-link">建表工具</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/guide/sql.html#依赖注解" class="sidebar-link">依赖注解</a></li><li class="sidebar-sub-header"><a href="/guide/sql.html#table注解" class="sidebar-link">@Table注解</a></li><li class="sidebar-sub-header"><a href="/guide/sql.html#column注解" class="sidebar-link">@Column注解</a></li><li class="sidebar-sub-header"><a href="/guide/sql.html#类型支持及映射" class="sidebar-link">类型支持及映射</a></li><li class="sidebar-sub-header"><a href="/guide/sql.html#建表工具类" class="sidebar-link">建表工具类</a></li><li class="sidebar-sub-header"><a href="/guide/sql.html#实体类注解示例" class="sidebar-link">实体类注解示例</a></li><li class="sidebar-sub-header"><a href="/guide/sql.html#建表方法示例" class="sidebar-link">建表方法示例</a></li></ul></li><li><a href="/guide/import.html" class="sidebar-link">数据迁移工具</a></li><li><a href="/guide/change.html" class="sidebar-link">更新历史</a></li></ul></div><div class="page"><div class="content"><h1 id="建表工具"><a href="#建表工具" aria-hidden="true" class="header-anchor">#</a> 建表工具</h1><p>huiche提供了一个<code>huiche-sql-builder</code>插件,可以根据实体类建表(生成建表sql并执行),支持修改</p><h2 id="依赖注解"><a href="#依赖注解" aria-hidden="true" class="header-anchor">#</a> 依赖注解</h2><ul><li><code>org.huiche.annotation.sql.Table</code> 标注实体类,进行表的描述</li><li><code>org.huiche.annotation.sql.Column</code> 标注属性,进行字段的描述</li></ul><h2 id="table注解"><a href="#table注解" aria-hidden="true" class="header-anchor">#</a> @Table注解</h2><blockquote><p>必要,会依赖这个注解来扫描</p></blockquote><table><thead><tr><th style="text-align:left">属性</th><th style="text-align:left">说明</th><th style="text-align:left">默认值</th><th style="text-align:left">已存在时是否更新</th></tr></thead><tbody><tr><td style="text-align:left">value</td><td style="text-align:left">表名</td><td style="text-align:left">小写字母和_拼接</td><td style="text-align:left"><span style="color:#f00">不更新,变更时会认为是新表,但不对旧表进行删除</span></td></tr><tr><td style="text-align:left">comment</td><td style="text-align:left">注释</td><td style="text-align:left">无</td><td style="text-align:left">进行更新</td></tr><tr><td style="text-align:left">charset</td><td style="text-align:left">编码</td><td style="text-align:left">mysql时为<code>utf8mb4</code></td><td style="text-align:left"><span style="color:#f00">不进行更新,仅创建时设置</span></td></tr><tr><td style="text-align:left">engine</td><td style="text-align:left">引擎</td><td style="text-align:left">mysql时为<code>InnoDB</code></td><td style="text-align:left"><span style="color:#f00">不进行更新,仅创建时设置</span></td></tr><tr><td style="text-align:left">collation</td><td style="text-align:left">排序</td><td style="text-align:left">无,按数据库默认规则</td><td style="text-align:left"><span style="color:#f00">不进行更新,仅创建时设置</span></td></tr></tbody></table><h2 id="column注解"><a href="#column注解" aria-hidden="true" class="header-anchor">#</a> @Column注解</h2><blockquote><p>可选,但建议都提供注释<code>comment</code></p></blockquote><table><thead><tr><th style="text-align:left">属性</th><th style="text-align:left">说明</th><th style="text-align:left">默认值</th><th style="text-align:left">已存在时是否更新</th></tr></thead><tbody><tr><td style="text-align:left">value</td><td style="text-align:left">字段名</td><td style="text-align:left">小写字母和_拼接</td><td style="text-align:left"><span style="color:#f00">不更新,变更时会认为是新字段,且删除旧字段(默认打印删除sql但不自动执行)</span></td></tr><tr><td style="text-align:left">isPrimaryKey</td><td style="text-align:left">是否主键</td><td style="text-align:left">false</td><td style="text-align:left">不更新(原主键除备注和长度外其他改动都不更新)</td></tr><tr><td style="text-align:left">isAutoIncrement</td><td style="text-align:left">是否自增,仅字段时主键时生效</td><td style="text-align:left">是主键时默认true,其他false</td><td style="text-align:left">不更新(原主键除备注和长度外其他改动都不更新)</td></tr><tr><td style="text-align:left">length</td><td style="text-align:left">字段长度,仅varchar类型生效</td><td style="text-align:left">255</td><td style="text-align:left">更新</td></tr><tr><td style="text-align:left">precision</td><td style="text-align:left">字段的精度,仅小数类型生效</td><td style="text-align:left">0</td><td style="text-align:left">更新</td></tr><tr><td style="text-align:left">unique</td><td style="text-align:left">字段是否是唯一</td><td style="text-align:left">false</td><td style="text-align:left">不更新(删除索引不安全,所以干脆不进行更新)</td></tr><tr><td style="text-align:left">notNull</td><td style="text-align:left">字段是否允许是null</td><td style="text-align:left">false</td><td style="text-align:left">更新</td></tr><tr><td style="text-align:left">isDbField</td><td style="text-align:left">是否时数据库字段,false时不会创建该字段</td><td style="text-align:left">true</td><td style="text-align:left"><span style="color:#f00">更新,改为false会删除字段(默认打印删除sql但不自动执行)</span></td></tr><tr><td style="text-align:left">comment</td><td style="text-align:left">字段注释/说明</td><td style="text-align:left">无</td><td style="text-align:left">更新</td></tr></tbody></table><h2 id="类型支持及映射"><a href="#类型支持及映射" aria-hidden="true" class="header-anchor">#</a> 类型支持及映射</h2><table><thead><tr><th style="text-align:left">java类型</th><th style="text-align:left">JDBCType</th><th style="text-align:left">长度(@Column#length)</th><th style="text-align:left">mysql类型</th></tr></thead><tbody><tr><td style="text-align:left">Boolean</td><td style="text-align:left">TINYINT</td><td style="text-align:left"></td><td style="text-align:left">tinyint</td></tr><tr><td style="text-align:left">Integer</td><td style="text-align:left">INTEGER</td><td style="text-align:left"></td><td style="text-align:left">int</td></tr><tr><td style="text-align:left">Long</td><td style="text-align:left">BIGINT</td><td style="text-align:left"></td><td style="text-align:left">bigint</td></tr><tr><td style="text-align:left">Float</td><td style="text-align:left">FLOAT</td><td style="text-align:left"></td><td style="text-align:left">float</td></tr><tr><td style="text-align:left">Double</td><td style="text-align:left">DOUBLE</td><td style="text-align:left"></td><td style="text-align:left">double</td></tr><tr><td style="text-align:left">BigDecimal</td><td style="text-align:left">DECIMAL</td><td style="text-align:left"></td><td style="text-align:left">decimal</td></tr><tr><td style="text-align:left">String</td><td style="text-align:left">VARCHAR</td><td style="text-align:left">&lt;4000</td><td style="text-align:left">varchar</td></tr><tr><td style="text-align:left">String</td><td style="text-align:left">VARCHAR</td><td style="text-align:left">&gt;=4000 &amp;&amp; &lt;60000</td><td style="text-align:left">text</td></tr><tr><td style="text-align:left">String</td><td style="text-align:left">VARCHAR</td><td style="text-align:left">&gt;=60000</td><td style="text-align:left">longtext</td></tr></tbody></table><h2 id="建表工具类"><a href="#建表工具类" aria-hidden="true" class="header-anchor">#</a> 建表工具类</h2><p><code>org.huiche.extra.sql.builder.SqlBuilder</code> 需要先进行<code>init</code>方法初始化,然后执行<code>run</code>方法即可</p><ul><li>init至少需要提供jdbc的url,user,password</li><li>run有多个重载,最常用为无参或传递一个boolean参数,标注是否进行字段修改/删除等危险操作</li></ul><blockquote><p><code>run</code>传递true时会自动执行相关SQL,传递false或直接调用无参<code>run</code>,则不会自动执行相关语句,但是会生成语句打印在控制台,可以手动执行</p></blockquote><h2 id="实体类注解示例"><a href="#实体类注解示例" aria-hidden="true" class="header-anchor">#</a> 实体类注解示例</h2><div class="language-java extra-class"><pre class="language-java"><code><span class="token annotation punctuation">@Table</span><span class="token punctuation">(</span>comment<span class="token operator">=</span><span class="token string">&quot;学生信息表&quot;</span><span class="token punctuation">)</span>
+                      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100"
+                           width="15" height="15" class="icon outbound">
+                          <path fill="currentColor"
+                                d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
+                          <polygon fill="currentColor"
+                                   points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
+                      </svg>
+                  </a></nav>
+              <ul class="sidebar-links">
+                  <li><a href="/guide/" class="sidebar-link">开始使用</a></li>
+                  <li><a href="/guide/data.html" class="sidebar-link">实体类</a></li>
+                  <li><a href="/guide/dao.html" class="sidebar-link">数据访问层</a></li>
+                  <li><a href="/guide/service.html" class="sidebar-link">业务层</a></li>
+                  <li><a href="/guide/web.html" class="sidebar-link">控制层</a></li>
+                  <li><a href="/guide/predicate.html" class="sidebar-link">条件拼装</a></li>
+                  <li><a href="/guide/search.html" class="sidebar-link">自定义筛选</a></li>
+                  <li><a href="/guide/validate.html" class="sidebar-link">验证</a></li>
+                  <li><a href="/guide/sql.html" class="active sidebar-link">建表工具</a>
+                      <ul class="sidebar-sub-headers">
+                          <li class="sidebar-sub-header"><a href="/guide/sql.html#依赖注解" class="sidebar-link">依赖注解</a>
+                          </li>
+                          <li class="sidebar-sub-header"><a href="/guide/sql.html#table注解"
+                                                            class="sidebar-link">@Table注解</a></li>
+                          <li class="sidebar-sub-header"><a href="/guide/sql.html#column注解" class="sidebar-link">@Column注解</a>
+                          </li>
+                          <li class="sidebar-sub-header"><a href="/guide/sql.html#类型支持及映射"
+                                                            class="sidebar-link">类型支持及映射</a></li>
+                          <li class="sidebar-sub-header"><a href="/guide/sql.html#建表工具类" class="sidebar-link">建表工具类</a>
+                          </li>
+                          <li class="sidebar-sub-header"><a href="/guide/sql.html#实体类注解示例"
+                                                            class="sidebar-link">实体类注解示例</a></li>
+                          <li class="sidebar-sub-header"><a href="/guide/sql.html#建表方法示例"
+                                                            class="sidebar-link">建表方法示例</a></li>
+                      </ul>
+                  </li>
+                  <li><a href="/guide/import.html" class="sidebar-link">数据迁移工具</a></li>
+                  <li><a href="/guide/change.html" class="sidebar-link">更新历史</a></li>
+              </ul>
+          </div>
+          <div class="page">
+              <div class="content"><h1 id="建表工具"><a href="#建表工具" aria-hidden="true" class="header-anchor">#</a> 建表工具
+              </h1>
+                  <p>huiche提供了一个<code>huiche-sql-builder</code>插件,可以根据实体类建表(生成建表sql并执行),支持修改</p>
+                  <h2 id="依赖注解"><a href="#依赖注解" aria-hidden="true" class="header-anchor">#</a> 依赖注解</h2>
+                  <ul>
+                      <li><code>org.huiche.annotation.sql.Table</code> 标注实体类,进行表的描述</li>
+                      <li><code>org.huiche.annotation.sql.Column</code> 标注属性,进行字段的描述</li>
+                  </ul>
+                  <h2 id="table注解"><a href="#table注解" aria-hidden="true" class="header-anchor">#</a> @Table注解</h2>
+                  <blockquote><p>必要,会依赖这个注解来扫描</p></blockquote>
+                  <table>
+                      <thead>
+                      <tr>
+                          <th style="text-align:left">属性</th>
+                          <th style="text-align:left">说明</th>
+                          <th style="text-align:left">默认值</th>
+                          <th style="text-align:left">已存在时是否更新</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr>
+                          <td style="text-align:left">value</td>
+                          <td style="text-align:left">表名</td>
+                          <td style="text-align:left">小写字母和_拼接</td>
+                          <td style="text-align:left"><span style="color:#f00">不更新,变更时会认为是新表,但不对旧表进行删除</span></td>
+                      </tr>
+                      <tr>
+                          <td style="text-align:left">comment</td>
+                          <td style="text-align:left">注释</td>
+                          <td style="text-align:left">无</td>
+                          <td style="text-align:left">进行更新</td>
+                      </tr>
+                      <tr>
+                          <td style="text-align:left">charset</td>
+                          <td style="text-align:left">编码</td>
+                          <td style="text-align:left">mysql时为<code>utf8mb4</code></td>
+                          <td style="text-align:left"><span style="color:#f00">不进行更新,仅创建时设置</span></td>
+                      </tr>
+                      <tr>
+                          <td style="text-align:left">engine</td>
+                          <td style="text-align:left">引擎</td>
+                          <td style="text-align:left">mysql时为<code>InnoDB</code></td>
+                          <td style="text-align:left"><span style="color:#f00">不进行更新,仅创建时设置</span></td>
+                      </tr>
+                      <tr>
+                          <td style="text-align:left">collation</td>
+                          <td style="text-align:left">排序</td>
+                          <td style="text-align:left">无,按数据库默认规则</td>
+                          <td style="text-align:left"><span style="color:#f00">不进行更新,仅创建时设置</span></td>
+                      </tr>
+                      </tbody>
+                  </table>
+                  <h2 id="column注解"><a href="#column注解" aria-hidden="true" class="header-anchor">#</a> @Column注解</h2>
+                  <blockquote><p>可选,但建议都提供注释<code>comment</code></p></blockquote>
+                  <table>
+                      <thead>
+                      <tr>
+                          <th style="text-align:left">属性</th>
+                          <th style="text-align:left">说明</th>
+                          <th style="text-align:left">默认值</th>
+                          <th style="text-align:left">已存在时是否更新</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr>
+                          <td style="text-align:left">value</td>
+                          <td style="text-align:left">字段名</td>
+                          <td style="text-align:left">小写字母和_拼接</td>
+                          <td style="text-align:left"><span
+                                  style="color:#f00">不更新,变更时会认为是新字段,且删除旧字段(默认打印删除sql但不自动执行)</span></td>
+                      </tr>
+                      <tr>
+                          <td style="text-align:left">isPrimaryKey</td>
+                          <td style="text-align:left">是否主键</td>
+                          <td style="text-align:left">false</td>
+                          <td style="text-align:left">不更新(原主键除备注和长度外其他改动都不更新)</td>
+                      </tr>
+                      <tr>
+                          <td style="text-align:left">isAutoIncrement</td>
+                          <td style="text-align:left">是否自增,仅字段时主键时生效</td>
+                          <td style="text-align:left">是主键时默认true,其他false</td>
+                          <td style="text-align:left">不更新(原主键除备注和长度外其他改动都不更新)</td>
+                      </tr>
+                      <tr>
+                          <td style="text-align:left">length</td>
+                          <td style="text-align:left">字段长度,仅varchar类型生效</td>
+                          <td style="text-align:left">255</td>
+                          <td style="text-align:left">更新</td>
+                      </tr>
+                      <tr>
+                          <td style="text-align:left">precision</td>
+                          <td style="text-align:left">字段的精度,仅小数类型生效</td>
+                          <td style="text-align:left">0</td>
+                          <td style="text-align:left">更新</td>
+                      </tr>
+                      <tr>
+                          <td style="text-align:left">unique</td>
+                          <td style="text-align:left">字段是否是唯一</td>
+                          <td style="text-align:left">false</td>
+                          <td style="text-align:left">不更新(删除索引不安全,所以干脆不进行更新)</td>
+                      </tr>
+                      <tr>
+                          <td style="text-align:left">notNull</td>
+                          <td style="text-align:left">字段是否允许是null</td>
+                          <td style="text-align:left">false</td>
+                          <td style="text-align:left">更新</td>
+                      </tr>
+                      <tr>
+                          <td style="text-align:left">isDbField</td>
+                          <td style="text-align:left">是否时数据库字段,false时不会创建该字段</td>
+                          <td style="text-align:left">true</td>
+                          <td style="text-align:left"><span style="color:#f00">更新,改为false会删除字段(默认打印删除sql但不自动执行)</span>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td style="text-align:left">comment</td>
+                          <td style="text-align:left">字段注释/说明</td>
+                          <td style="text-align:left">无</td>
+                          <td style="text-align:left">更新</td>
+                      </tr>
+                      </tbody>
+                  </table>
+                  <h2 id="类型支持及映射"><a href="#类型支持及映射" aria-hidden="true" class="header-anchor">#</a> 类型支持及映射</h2>
+                  <table>
+                      <thead>
+                      <tr>
+                          <th style="text-align:left">java类型</th>
+                          <th style="text-align:left">JDBCType</th>
+                          <th style="text-align:left">长度(@Column#length)</th>
+                          <th style="text-align:left">mysql类型</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr>
+                          <td style="text-align:left">Boolean</td>
+                          <td style="text-align:left">TINYINT</td>
+                          <td style="text-align:left"></td>
+                          <td style="text-align:left">tinyint</td>
+                      </tr>
+                      <tr>
+                          <td style="text-align:left">Integer</td>
+                          <td style="text-align:left">INTEGER</td>
+                          <td style="text-align:left"></td>
+                          <td style="text-align:left">int</td>
+                      </tr>
+                      <tr>
+                          <td style="text-align:left">Long</td>
+                          <td style="text-align:left">BIGINT</td>
+                          <td style="text-align:left"></td>
+                          <td style="text-align:left">bigint</td>
+                      </tr>
+                      <tr>
+                          <td style="text-align:left">Float</td>
+                          <td style="text-align:left">FLOAT</td>
+                          <td style="text-align:left"></td>
+                          <td style="text-align:left">float</td>
+                      </tr>
+                      <tr>
+                          <td style="text-align:left">Double</td>
+                          <td style="text-align:left">DOUBLE</td>
+                          <td style="text-align:left"></td>
+                          <td style="text-align:left">double</td>
+                      </tr>
+                      <tr>
+                          <td style="text-align:left">BigDecimal</td>
+                          <td style="text-align:left">DECIMAL</td>
+                          <td style="text-align:left"></td>
+                          <td style="text-align:left">decimal</td>
+                      </tr>
+                      <tr>
+                          <td style="text-align:left">String</td>
+                          <td style="text-align:left">VARCHAR</td>
+                          <td style="text-align:left">&lt;4000</td>
+                          <td style="text-align:left">varchar</td>
+                      </tr>
+                      <tr>
+                          <td style="text-align:left">String</td>
+                          <td style="text-align:left">VARCHAR</td>
+                          <td style="text-align:left">&gt;=4000 &amp;&amp; &lt;60000</td>
+                          <td style="text-align:left">text</td>
+                      </tr>
+                      <tr>
+                          <td style="text-align:left">String</td>
+                          <td style="text-align:left">VARCHAR</td>
+                          <td style="text-align:left">&gt;=60000</td>
+                          <td style="text-align:left">longtext</td>
+                      </tr>
+                      </tbody>
+                  </table>
+                  <h2 id="建表工具类"><a href="#建表工具类" aria-hidden="true" class="header-anchor">#</a> 建表工具类</h2>
+                  <p><code>org.huiche.extra.sql.builder.SqlBuilder</code>
+                      需要先进行<code>init</code>方法初始化,然后执行<code>run</code>方法即可</p>
+                  <ul>
+                      <li>init至少需要提供jdbc的url,user,password</li>
+                      <li>run有多个重载,最常用为无参或传递一个boolean参数,标注是否进行字段修改/删除等危险操作</li>
+                  </ul>
+                  <blockquote><p><code>run</code>传递true时会自动执行相关SQL,传递false或直接调用无参<code>run</code>,则不会自动执行相关语句,但是会生成语句打印在控制台,可以手动执行
+                  </p></blockquote>
+                  <h2 id="实体类注解示例"><a href="#实体类注解示例" aria-hidden="true" class="header-anchor">#</a> 实体类注解示例</h2>
+                  <div class="language-java extra-class"><pre class="language-java"><code><span
+                          class="token annotation punctuation">@Table</span><span class="token punctuation">(</span>comment<span
+                          class="token operator">=</span><span class="token string">&quot;学生信息表&quot;</span><span
+                          class="token punctuation">)</span>
 <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Student</span> <span class="token keyword">extends</span> <span class="token class-name">BaseEntity</span><span class="token generics function"><span class="token punctuation">&lt;</span>Student<span class="token punctuation">&gt;</span></span><span class="token punctuation">{</span>
     <span class="token annotation punctuation">@Column</span><span class="token punctuation">(</span>comment<span class="token operator">=</span><span class="token string">&quot;姓名&quot;</span><span class="token punctuation">,</span>length<span class="token operator">=</span><span class="token number">10</span><span class="token punctuation">)</span>
     <span class="token keyword">private</span> String name<span class="token punctuation">;</span>
     <span class="token annotation punctuation">@Columen</span><span class="token punctuation">(</span>comment<span class="token operator">=</span><span class="token string">&quot;性别&quot;</span><span class="token punctuation">)</span>
     <span class="token keyword">private</span> Integer sex<span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
-</code></pre></div><h2 id="建表方法示例"><a href="#建表方法示例" aria-hidden="true" class="header-anchor">#</a> 建表方法示例</h2><div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">CreateTable</span> <span class="token punctuation">{</span>
+</code></pre>
+                  </div>
+                  <h2 id="建表方法示例"><a href="#建表方法示例" aria-hidden="true" class="header-anchor">#</a> 建表方法示例</h2>
+                  <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span
+                          class="token keyword">class</span> <span class="token class-name">CreateTable</span> <span
+                          class="token punctuation">{</span>
     <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
         SqlBuilder builder <span class="token operator">=</span> SqlBuilder<span class="token punctuation">.</span><span class="token function">init</span><span class="token punctuation">(</span>JDBC_URL<span class="token punctuation">,</span> DB_USER<span class="token punctuation">,</span> DB_PASSWORD<span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token comment">// 生成建表语句并执行,但不会执行字段修改或删除等危险SQL</span>
@@ -79,30 +394,34 @@
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span> 
 </code></pre>
-    </div>
-    </div>
-        <div class="page-edit">
-            <div class="edit-link"><a href="https://github.com/jmjlbmn/huiche/edit/master/doc-src/guide/sql.md"
-                                      target="_blank" rel="noopener noreferrer">帮忙完善此页面</a>
-                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100"
-                     width="15" height="15" class="icon outbound">
-                    <path fill="currentColor"
-                          d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
-                    <polygon fill="currentColor"
-                             points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
-                </svg>
-            </div>
-            <div class="last-updated"><span class="prefix">上次更新: </span><span class="time">2018-6-18 12:46:55</span>
-            </div>
-        </div>
-        <div class="page-nav"><p class="inner"><span class="prev">
-        ← <a href="/guide/validate.html" class="prev">
+                  </div>
+              </div>
+              <div class="page-edit">
+                  <div class="edit-link"><a href="https://github.com/jmjlbmn/huiche/edit/master/doc-src/guide/sql.md"
+                                            target="_blank" rel="noopener noreferrer">帮忙完善此页面</a>
+                      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100"
+                           width="15" height="15" class="icon outbound">
+                          <path fill="currentColor"
+                                d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
+                          <polygon fill="currentColor"
+                                   points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
+                      </svg>
+                  </div>
+                  <div class="last-updated"><span class="prefix">上次更新: </span> <span
+                          class="time">2018-6-18 12:46:55</span></div>
+              </div>
+              <div class="page-nav"><p class="inner"><span class="prev">
+        ←
+        <a href="/guide/validate.html" class="prev">
           验证
-        </a></span><span class="next"><a href="/guide/import.html">
+        </a></span> <span class="next"><a href="/guide/import.html">
           数据迁移工具
-        </a> →
-      </span></p></div></div></div></div>
-    <script src="/assets/js/2.58dcec42.js" defer></script>
-    <script src="/assets/js/app.c2582f49.js" defer></script>
+        </a>
+        →
+      </span></p></div>
+          </div> <!----></div>
+  </div>
+  <script src="/assets/js/14.65b215dc.js" defer></script>
+  <script src="/assets/js/app.5b74dfba.js" defer></script>
   </body>
 </html>
