@@ -34,7 +34,7 @@ java类型|JDBCType|长度(@Column#length)|mysql类型
 Boolean|TINYINT||tinyint
 Integer|INTEGER||int
 Long|BIGINT||bigint
-Float|FLOAT||float
+Float|DOUBLE||double
 Double|DOUBLE||double
 BigDecimal|DECIMAL||decimal
 String|VARCHAR|<4000|varchar
