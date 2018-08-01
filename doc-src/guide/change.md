@@ -1,5 +1,15 @@
 # 更新历史
 huiche的版本会参照`MajorVersion.MinorVersion.Revision(主要版本.次要版本.修订版本)` 风格进行版本发布,但前期可能仅会变更`Revision`(包括新增功能的版本),后续有规范的打算
+## 1.0.6 <span style="font-size:0.6em;">2018-08-01</span>
+- 新增: PasswordEncoder 接口,封装密码加密,starter里面提供默认实现
+- 修复: HuiCheExcetion个别构造的code丢失问题
+- 改进: StringUtil.json() 方法
+- 改进: 合并updates到update方法避免歧义
+- 改进: 条件拼装or方法参数为可变数组 不再限定只能2个条件
+- 改进: 建表工具,移出小数类型的默认长度
+- 改进: 建表工具,Java float类型 映射为 数据库Double类型
+- 更新: spring-boot 2.0.4
+- 移除: DateUtil 时间字符串转LocalDateTime方法
 ## 1.0.5 <span style="font-size:0.6em;">2018-06-25</span>
 - 改进: web模块预置的 `restful` 风格的增删改查接口
 ## 1.0.4 <span style="font-size:0.6em;">2018-06-17</span>

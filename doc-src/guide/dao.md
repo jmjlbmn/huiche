@@ -10,8 +10,7 @@ create|创建单条记录
 creates|批量创建多条记录
 delete|删除数据
 truncate|清空数据
-update|更新单条记录
-updates|批量更新多条记录
+update|更新记录
 count|查询条数
 exists|查询是否存在
 get|返回一条记录的全部字段

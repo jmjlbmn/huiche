@@ -4,8 +4,9 @@
 方法名|说明
 :-|:-
 predicate|构造一个条件
-predicates|用`and`拼接多个条件为一个条件
-or|用`or`拼接2个条件
+and|用`and`拼接多个条件为一个条件
+predicates|等同`and`方法,用`and`拼接多个条件为一个条件
+or|用`or`拼接多个条件
 extendColumn|扩展列
 excludeColumn|排除列
 
