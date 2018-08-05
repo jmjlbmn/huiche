@@ -1,5 +1,7 @@
 package org.huiche.dao;
 
+import com.alibaba.druid.sql.SQLUtils;
+import com.alibaba.druid.util.JdbcUtils;
 import com.google.common.collect.ImmutableList;
 import com.querydsl.core.QueryMetadata;
 import com.querydsl.core.types.Expression;
@@ -8,6 +10,7 @@ import com.querydsl.core.types.ParamNotSetException;
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.SubQueryExpression;
 import com.querydsl.sql.Configuration;
+import com.querydsl.sql.MySQLTemplates;
 import com.querydsl.sql.RelationalPath;
 import com.querydsl.sql.SQLListener;
 import com.querydsl.sql.SQLSerializer;
@@ -115,6 +118,16 @@ public class QueryDsl {
         });
     }
 
+    private static boolean druid = true;
+
+    static {
+        try {
+            Class.forName("com.alibaba.druid.sql.SQLUtils");
+        } catch (ClassNotFoundException e) {
+            druid = false;
+        }
+    }
+
     public static void logSql(@Nonnull QueryMetadata md, @Nonnull SQLSerializer serializer) {
         ImmutableList.Builder<Object> args = ImmutableList.builder();
         Map<ParamExpression<?>, Object> params = md.getParams();
@@ -140,6 +153,10 @@ public class QueryDsl {
                 }
             }
         }
-        log.debug(sql);
+        if (druid && CONFIG.getTemplates() instanceof MySQLTemplates) {
+            log.debug(SQLUtils.format(sql, JdbcUtils.MYSQL));
+        } else {
+            log.debug(sql);
+        }
     }
 }
