@@ -1,5 +1,6 @@
 package org.huiche.extra.sql.builder;
 
+import lombok.extern.java.Log;
 import org.huiche.annotation.sql.Table;
 import org.huiche.extra.sql.builder.info.ColumnCompareInfo;
 import org.huiche.extra.sql.builder.info.ColumnInfo;
@@ -10,6 +11,8 @@ import org.huiche.extra.sql.builder.sql.Sql;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -23,6 +26,7 @@ import java.util.Properties;
  *
  * @author Maning
  */
+@Log
 public class SqlBuilder {
     private static final SqlBuilder TOOL = new SqlBuilder();
     private String url;
@@ -106,28 +110,32 @@ public class SqlBuilder {
     }
 
     public void run(boolean update, @Nonnull String... packageName) {
-        List<Class<?>> classList;
-        if (packageName.length > 0) {
-            classList = Util.scan(rootPath, clazz -> {
-                for (String pkg : packageName) {
-                    if (clazz.getPackage().toString().contains(pkg)) {
-                        Table table = clazz.getAnnotation(Table.class);
-                        return null != table;
+        try {
+            List<Class<?>> classList;
+            if (packageName.length > 0) {
+                classList = Util.scan(rootPath, clazz -> {
+                    for (String pkg : packageName) {
+                        if (clazz.getPackage().toString().contains(pkg)) {
+                            Table table = clazz.getAnnotation(Table.class);
+                            return null != table;
+                        }
                     }
-                }
-                return false;
-            });
-        } else {
-            classList = Util.scan(rootPath, clazz -> {
-                Table table = clazz.getAnnotation(Table.class);
-                return null != table;
-            });
+                    return false;
+                });
+            } else {
+                classList = Util.scan(rootPath, clazz -> {
+                    Table table = clazz.getAnnotation(Table.class);
+                    return null != table;
+                });
+            }
+            if (classList.isEmpty()) {
+                throw new RuntimeException("找不到符合条件的类");
+            }
+            Class<?>[] classes = new Class[classList.size()];
+            run(update, classList.toArray(classes));
+        } catch (Exception e) {
+            logError(e);
         }
-        if (classList.isEmpty()) {
-            throw new RuntimeException("找不到符合条件的类");
-        }
-        Class<?>[] classes = new Class[classList.size()];
-        run(update, classList.toArray(classes));
     }
 
     /**
@@ -137,26 +145,36 @@ public class SqlBuilder {
      * @param classes 表
      */
     public void run(boolean update, @Nonnull Class<?>... classes) {
-        if (classes.length == 0) {
-            System.err.println("没有要生成SQL的类,不会进行操作");
-            return;
-        }
-        sqlList.clear();
-        manualSqlList.clear();
-        Properties props = new Properties();
-        props.setProperty("user", user);
-        props.setProperty("password", password);
-        props.setProperty("remarks", "true");
-        props.setProperty("useInformationSchema", "true");
-        try (Connection conn = DriverManager.getConnection(url, props)) {
-            conn.setAutoCommit(true);
-            List<Class<?>> list = Arrays.asList(classes);
-            create(list, conn, update);
-        } catch (Exception e) {
+        try {
+            if (classes.length == 0) {
+                log.warning("没有要生成SQL的类,不会进行操作");
+                return;
+            }
+            sqlList.clear();
+            manualSqlList.clear();
+            Properties props = new Properties();
+            props.setProperty("user", user);
+            props.setProperty("password", password);
+            props.setProperty("remarks", "true");
+            props.setProperty("useInformationSchema", "true");
+            try (Connection conn = DriverManager.getConnection(url, props)) {
+                conn.setAutoCommit(true);
+                List<Class<?>> list = Arrays.asList(classes);
+                create(list, conn, update);
+            } catch (Exception e) {
+                printSql();
+                throw new RuntimeException(e);
+            }
             printSql();
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            logError(e);
         }
-        printSql();
+    }
+
+    private void logError(Throwable ex) {
+        StringWriter sbw = new StringWriter();
+        ex.printStackTrace(new PrintWriter(sbw));
+        log.warning(sbw.toString());
     }
 
     private void create(@Nonnull List<Class<?>> classes, @Nonnull Connection conn, boolean update) {
@@ -164,20 +182,20 @@ public class SqlBuilder {
             TableInfo tableInfo = Sql.getInfo(clazz, namingRule);
             try {
                 if (dbSql.checkTableExists(conn, tableInfo.getName())) {
-                    System.out.println("数据表: " + tableInfo.getName() + " 已经存在,即将检查对比,尝试进行修改 ... ");
+                    log.info("数据表: " + tableInfo.getName() + " 已经存在,即将检查对比,尝试进行修改 ... ");
                     try {
                         update(tableInfo, conn, update);
                     } catch (SQLException e1) {
-                        System.out.print("修改实体: " + clazz.getSimpleName() + " 的数据表 失败!!!!!!");
+                        log.info("修改实体: " + clazz.getSimpleName() + " 的数据表 失败!!!!!!");
                         throw new RuntimeException(e1);
                     }
                 } else {
-                    System.out.println("创建实体: " + clazz.getSimpleName() + " 的数据表 ... 开始");
+                    log.info("创建实体: " + clazz.getSimpleName() + " 的数据表 ... 开始");
                     executeSql(conn, Sql.BR + dbSql.getCreate(tableInfo));
-                    System.out.println("创建实体: " + clazz.getSimpleName() + " 的数据表 ... 成功!!!");
+                    log.info("创建实体: " + clazz.getSimpleName() + " 的数据表 ... 成功!!!");
                 }
             } catch (SQLException e) {
-                System.out.println("失败");
+                log.info("失败");
                 e.printStackTrace();
             }
         }
@@ -185,55 +203,50 @@ public class SqlBuilder {
 
     private void update(@Nonnull TableInfo tableInfo, @Nonnull Connection conn, boolean update) throws SQLException {
         if (!tableInfo.getComment().equals(dbSql.getTableComment(conn, tableInfo.getName()))) {
-            System.out.println("修改表的注释,表: " + tableInfo.getName());
+            log.info("修改表的注释,表: " + tableInfo.getName());
             executeSql(conn, dbSql.getAlterTableComment(tableInfo));
         }
         List<ColumnInfo> javaList = tableInfo.getColumnInfoList();
         List<ColumnInfo> dbList = Sql.getInfo(conn, tableInfo.getName());
         ColumnCompareInfo compare = Sql.compare(javaList, dbList);
         if (compare.isEmpty()) {
-            System.out.println("数据表: " + tableInfo.getName() + " 没有变动,直接跳过 ...");
+            log.info("数据表: " + tableInfo.getName() + " 没有变动,直接跳过 ...");
             return;
         }
-        System.out.println(Sql.TAB + "修改表: " + tableInfo.getName() + " ... 开始");
+        log.info(Sql.TAB + "修改表: " + tableInfo.getName() + " ... 开始");
         if (!compare.getAddList().isEmpty()) {
-            System.out.println(Sql.TAB + Sql.TAB + "需要增加列:" + compare.getAddList() + " 开始执行==>");
+            log.info(Sql.TAB + Sql.TAB + "需要增加列:" + compare.getAddList() + " 开始执行==>");
             for (ColumnInfo columnInfo : compare.getAddList()) {
-                System.out.print(Sql.TAB + Sql.TAB + "增加列: " + columnInfo.getName() + " ... ");
+                log.info(Sql.TAB + Sql.TAB + "增加列: " + columnInfo.getName() + " ... ");
                 executeSql(conn, dbSql.getAlterAddColumn(tableInfo.getName(), columnInfo));
-                System.out.println("成功");
             }
         }
         if (!compare.getDelList().isEmpty()) {
-            System.out.println(Sql.TAB + Sql.TAB + "需要删除列:" + compare.getDelList() + " 开始执行==>");
+            log.info(Sql.TAB + Sql.TAB + "需要删除列:" + compare.getDelList() + " 开始执行==>");
             for (ColumnInfo columnInfo : compare.getDelList()) {
                 String sql = dbSql.getDropColumn(tableInfo.getName(), columnInfo.getName());
                 if (update) {
-                    System.out.print(Sql.TAB + Sql.TAB + "删除列: " + columnInfo.getName() + " ... ");
+                    log.info(Sql.TAB + Sql.TAB + "删除列: " + columnInfo.getName() + " ... ");
                     executeSql(conn, sql);
-                    System.out.println("成功");
-                    System.out.println();
                 } else {
                     manualSql(sql);
                 }
             }
         }
         if (!compare.getModifyList().isEmpty()) {
-            System.out.println(Sql.TAB + Sql.TAB + "需要修改列:" + compare.getModifyList() + " 开始执行==>");
+            log.info(Sql.TAB + Sql.TAB + "需要修改列:" + compare.getModifyList() + " 开始执行==>");
             for (ColumnInfo columnInfo : compare.getModifyList()) {
                 String sql = dbSql.getAlterModifyColumn(tableInfo.getName(), columnInfo);
                 if (update) {
-                    System.out.print(Sql.TAB + Sql.TAB + "修改列: " + columnInfo.getName() + " ... ");
+                    log.info(Sql.TAB + Sql.TAB + "修改列: " + columnInfo.getName() + " ... ");
                     executeSql(conn, sql);
-                    System.out.println("成功");
-                    System.out.println();
                 } else {
                     manualSql(sql);
                 }
 
             }
         }
-        System.out.println(Sql.TAB + "修改表: " + tableInfo.getName() + " ... 结束");
+        log.info(Sql.TAB + "修改表: " + tableInfo.getName() + " ... 结束");
     }
 
     private void executeSql(@Nonnull Connection conn, @Nonnull String sql) throws SQLException {
@@ -241,31 +254,34 @@ public class SqlBuilder {
         try {
             conn.prepareStatement(sql).execute();
         } catch (SQLException e) {
-            sqlList.add("#执行失败!!!!!!!!!!!!!!!!!!!" + Sql.BR);
+            sqlList.add(Sql.BR + "#执行失败!!!!!!!!!!!!!!!!!!!");
             throw e;
         }
-        sqlList.add("#执行成功==================>" + Sql.BR);
+        sqlList.add(Sql.BR + "#执行成功==================>");
     }
 
     private void manualSql(@Nonnull String sql) {
-        System.out.println(Sql.TAB + Sql.TAB + "请手动执行:");
-        System.out.println(Sql.TAB + Sql.TAB + sql);
-        manualSqlList.add(sql + ";");
+        log.info(Sql.TAB + Sql.TAB + "请手动执行:");
+        log.info(Sql.TAB + Sql.TAB + sql);
+        manualSqlList.add(Sql.BR + sql + ";" + Sql.BR);
     }
 
     private void printSql() {
         if (!sqlList.isEmpty()) {
-            System.out.println(Sql.BR + "#=====所有已经被执行的SQL如下=====>:" + Sql.BR);
+            log.info(Sql.BR + "#=====所有已经被执行的SQL如下=====>:" + Sql.BR);
+            StringBuilder builder = new StringBuilder();
             for (String sql : sqlList) {
-                System.out.println(sql);
+                builder.append(sql);
             }
+            log.info(builder.toString());
         }
         if (!manualSqlList.isEmpty()) {
-            System.out.println();
-            System.out.println(Sql.BR + "#=====需要您手动执行的SQL如下=====>:" + Sql.BR);
+            log.info(Sql.BR + "#=====需要您手动执行的SQL如下=====>:" + Sql.BR);
+            StringBuilder builder = new StringBuilder();
             for (String sql : manualSqlList) {
-                System.out.println(sql);
+                builder.append(sql);
             }
+            log.info(builder.toString());
         }
     }
 }

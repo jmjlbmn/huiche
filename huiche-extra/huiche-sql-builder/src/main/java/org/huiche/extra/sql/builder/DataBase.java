@@ -1,6 +1,7 @@
 package org.huiche.extra.sql.builder;
 
 
+import lombok.extern.java.Log;
 import org.huiche.extra.sql.builder.sql.Mysql;
 import org.huiche.extra.sql.builder.sql.Sql;
 
@@ -13,6 +14,7 @@ import java.util.List;
  *
  * @author Maning
  */
+@Log
 public enum DataBase {
     /**
      * MySql数据库
@@ -54,7 +56,7 @@ public enum DataBase {
                 ok = true;
                 break;
             } catch (ClassNotFoundException e) {
-                System.err.println("无法注册名为" + name + "的驱动,请确认已经引入相应数据库驱动jar包");
+                log.warning("无法注册名为" + name + "的驱动,请确认已经引入相应数据库驱动jar包");
             }
         }
         if (!ok) {

@@ -1,5 +1,6 @@
 package org.huiche.extra.sql.builder;
 
+import lombok.extern.java.Log;
 import org.huiche.annotation.sql.Column;
 import org.huiche.extra.sql.builder.info.FieldColumn;
 
@@ -25,6 +26,7 @@ import java.util.function.Predicate;
  *
  * @author Maning
  */
+@Log
 public class Util {
     private static final List<Class> SUPPORT_TYPE_LIST = Arrays.asList(
             Boolean.class,
@@ -101,14 +103,14 @@ public class Util {
                 list.add(new FieldColumn(key, type, field.getAnnotation(Column.class)));
             } else {
                 if (field.getType().getName().equals(field.getGenericType().getTypeName())) {
-                    System.err.println("类 " + clazz.getName() + "的 " + key + " 属性不支持处理,已跳过");
+                    log.info("类 " + clazz.getName() + "的 " + key + " 属性不支持处理,已跳过");
                 } else {
                     Map<String, Class<?>> parameterizedTypeMap = getParameterizedTypeMap(clazz);
                     String parameterizedType = field.getGenericType().getTypeName();
                     if (parameterizedTypeMap.containsKey(parameterizedType)) {
                         list.add(new FieldColumn(key, parameterizedTypeMap.get(parameterizedType), field.getAnnotation(Column.class)));
                     } else {
-                        System.err.println("类 " + clazz.getName() + "的 " + key + " 属性不支持处理,已跳过");
+                        log.info("类 " + clazz.getName() + "的 " + key + " 属性不支持处理,已跳过");
                     }
                 }
             }
@@ -144,7 +146,7 @@ public class Util {
         if (!dir.exists() || !dir.isDirectory()) {
             throw new RuntimeException("rootPath不正确:" + rootPath);
         } else {
-            System.out.println("扫描根路径: " + dir.getPath());
+            log.info("扫描根路径: " + dir.getPath());
         }
         Predicate<File> defaultFilePredicate = file -> {
             if (file.exists() && !file.isDirectory()) {

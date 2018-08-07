@@ -36,7 +36,7 @@ public interface Sql {
     List<String> KEYWORD = Arrays.asList(
             "select", "insert", "update", "delete",
             "create", "alter", "drop", "truncate",
-            "grant", "deny", "remove", "revoke", "transaction", "declare", "user",
+            "grant", "deny", "remove", "revoke", "transaction", "declare",
             "commit", "rollback", "savepoint", "begin", "call", "default",
             "to", "key", "primary", "foreign", "references", "not", "is", "null", "table", "values", "value", "length",
             "count", "distinct", "top", "as", "from", "where", "set", "into", "add", "or", "all", "like", "in",
