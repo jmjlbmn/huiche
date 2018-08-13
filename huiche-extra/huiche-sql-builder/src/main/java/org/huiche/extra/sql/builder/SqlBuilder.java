@@ -229,7 +229,7 @@ public class SqlBuilder {
                     log.info(Sql.TAB + Sql.TAB + "删除列: " + columnInfo.getName() + " ... ");
                     executeSql(conn, sql);
                 } else {
-                    manualSql(sql);
+                    manualSqlList.add(Sql.BR + sql + ";" + Sql.BR);
                 }
             }
         }
@@ -241,7 +241,7 @@ public class SqlBuilder {
                     log.info(Sql.TAB + Sql.TAB + "修改列: " + columnInfo.getName() + " ... ");
                     executeSql(conn, sql);
                 } else {
-                    manualSql(sql);
+                    manualSqlList.add(Sql.BR + sql + ";" + Sql.BR);
                 }
 
             }
@@ -250,34 +250,26 @@ public class SqlBuilder {
     }
 
     private void executeSql(@Nonnull Connection conn, @Nonnull String sql) throws SQLException {
-        sqlList.add(sql + ";");
+        sqlList.add(Sql.BR + sql + ";" + Sql.BR);
         try {
             conn.prepareStatement(sql).execute();
         } catch (SQLException e) {
-            sqlList.add(Sql.BR + "#执行失败!!!!!!!!!!!!!!!!!!!");
+            sqlList.add("#执行失败!!!!!!!!!!!!!!!!!!!" + Sql.BR);
             throw e;
         }
-        sqlList.add(Sql.BR + "#执行成功==================>");
-    }
-
-    private void manualSql(@Nonnull String sql) {
-        log.info(Sql.TAB + Sql.TAB + "请手动执行:");
-        log.info(Sql.TAB + Sql.TAB + sql);
-        manualSqlList.add(Sql.BR + sql + ";" + Sql.BR);
+        sqlList.add("#执行成功==================>" + Sql.BR);
     }
 
     private void printSql() {
         if (!sqlList.isEmpty()) {
-            log.info(Sql.BR + "#=====所有已经被执行的SQL如下=====>:" + Sql.BR);
-            StringBuilder builder = new StringBuilder();
+            StringBuilder builder = new StringBuilder(Sql.BR + "#=====所有已经被执行的SQL如下=====>:" + Sql.BR);
             for (String sql : sqlList) {
                 builder.append(sql);
             }
             log.info(builder.toString());
         }
         if (!manualSqlList.isEmpty()) {
-            log.info(Sql.BR + "#=====需要您手动执行的SQL如下=====>:" + Sql.BR);
-            StringBuilder builder = new StringBuilder();
+            StringBuilder builder = new StringBuilder(Sql.BR + "#=====需要您手动执行的SQL如下=====>:" + Sql.BR);
             for (String sql : manualSqlList) {
                 builder.append(sql);
             }
