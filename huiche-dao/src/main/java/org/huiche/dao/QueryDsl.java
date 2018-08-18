@@ -154,9 +154,11 @@ public class QueryDsl {
             }
         }
         if (druid && CONFIG.getTemplates() instanceof MySQLTemplates) {
-            log.debug(SQLUtils.format(sql, JdbcUtils.MYSQL));
-        } else {
-            log.debug(sql);
+            try {
+                sql = SQLUtils.format(sql, JdbcUtils.MYSQL);
+            } catch (Exception ignored) {
+            }
         }
+        log.debug(sql);
     }
 }
