@@ -1,6 +1,7 @@
 package org.huiche.web.response;
 
 
+import org.springframework.http.MediaType;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.RedirectView;
@@ -30,7 +31,7 @@ public class SimpleView implements View {
     }
 
     public static ModelAndView json(@Nonnull String content) {
-        return new ModelAndView(new SimpleView(content, "application/json"));
+        return new ModelAndView(new SimpleView(content, MediaType.APPLICATION_JSON_UTF8_VALUE));
     }
 
     public static ModelAndView css(@Nonnull String content) {
@@ -38,7 +39,7 @@ public class SimpleView implements View {
     }
 
     public static ModelAndView html(@Nonnull String content) {
-        return new ModelAndView(new SimpleView(content, "text/html"));
+        return new ModelAndView(new SimpleView(content, MediaType.TEXT_HTML_VALUE));
     }
 
     public static ModelAndView forward(@Nonnull String url) {
