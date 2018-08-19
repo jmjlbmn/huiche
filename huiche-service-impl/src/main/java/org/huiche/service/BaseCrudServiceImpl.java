@@ -104,32 +104,8 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity<T>> extends BaseS
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public long delete(@Nonnull Long... id) {
-        return dao().delete(id);
-    }
-
-    /**
-     * 删除
-     *
-     * @param id ID
-     * @return 删除条数
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
     public long delete(@Nonnull List<Long> id) {
         return dao().delete(id);
-    }
-
-    /**
-     * 删除
-     *
-     * @param ids ID
-     * @return 删除条数
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public long delete(@Nonnull String ids) {
-        return dao().delete(ids);
     }
 
     /**
@@ -144,18 +120,6 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity<T>> extends BaseS
         T t = dao().get(id);
         Assert.notNull(HuiCheError.NO_EXISTS, t);
         return t;
-    }
-
-    /**
-     * 根据ID获取数据
-     *
-     * @param ids 逗号分隔的ID
-     * @return 删除数量
-     */
-    @Override
-    @Nonnull
-    public List<T> get(@Nonnull String ids) {
-        return dao().list(ids);
     }
 
     /**

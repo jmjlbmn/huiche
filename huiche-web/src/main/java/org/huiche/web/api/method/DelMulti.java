@@ -2,6 +2,7 @@ package org.huiche.web.api.method;
 
 import org.huiche.core.exception.HuiCheError;
 import org.huiche.core.util.Assert;
+import org.huiche.core.util.StringUtil;
 import org.huiche.data.entity.BaseEntity;
 import org.huiche.web.ServiceProvider;
 import org.huiche.web.api.Api;
@@ -25,6 +26,6 @@ public interface DelMulti<T extends BaseEntity<T>> extends Api, ServiceProvider<
     @DeleteMapping
     default BaseResult<Long> delMulti(@Nullable String ids) {
         Assert.notNull(HuiCheError.NOT_NULL, ids);
-        return ok(service().delete(ids));
+        return ok(service().delete(StringUtil.split2ListLong(ids)));
     }
 }
