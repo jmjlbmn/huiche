@@ -1,6 +1,6 @@
 package org.huiche.extra.sql.builder;
 
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.huiche.annotation.sql.Column;
 import org.huiche.extra.sql.builder.info.FieldColumn;
 
@@ -26,7 +26,7 @@ import java.util.function.Predicate;
  *
  * @author Maning
  */
-@Log
+@Slf4j
 public class Util {
     private static final List<Class> SUPPORT_TYPE_LIST = Arrays.asList(
             Boolean.class,

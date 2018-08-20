@@ -1,6 +1,6 @@
 package org.huiche.extra.sql.builder;
 
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.huiche.annotation.sql.Table;
 import org.huiche.extra.sql.builder.info.ColumnCompareInfo;
 import org.huiche.extra.sql.builder.info.ColumnInfo;
@@ -26,7 +26,7 @@ import java.util.Properties;
  *
  * @author Maning
  */
-@Log
+@Slf4j
 public class SqlBuilder {
     private static final SqlBuilder TOOL = new SqlBuilder();
     private String url;
@@ -147,7 +147,7 @@ public class SqlBuilder {
     public void run(boolean update, @Nonnull Class<?>... classes) {
         try {
             if (classes.length == 0) {
-                log.warning("没有要生成SQL的类,不会进行操作");
+                log.error("没有要生成SQL的类,不会进行操作");
                 return;
             }
             sqlList.clear();
@@ -174,7 +174,7 @@ public class SqlBuilder {
     private void logError(Throwable ex) {
         StringWriter sbw = new StringWriter();
         ex.printStackTrace(new PrintWriter(sbw));
-        log.warning(sbw.toString());
+        log.error(sbw.toString());
     }
 
     private void create(@Nonnull List<Class<?>> classes, @Nonnull Connection conn, boolean update) {
