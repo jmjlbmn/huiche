@@ -5,8 +5,6 @@ import org.huiche.annotation.sql.Column;
 import org.huiche.extra.sql.builder.info.FieldColumn;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
@@ -19,7 +17,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Predicate;
 
 /**
  * 建表工具用到的工具类
@@ -129,67 +126,6 @@ public class Util {
                 // 倒序添加进去
                 if (!isInvalid(src[i])) {
                     target.add(src[i]);
-                }
-            }
-        }
-    }
-
-    @Nonnull
-    public static List<Class<?>> scan(@Nullable String rootPath, @Nullable Predicate<File> filePredicate, @Nullable Predicate<Class<?>> classPredicate) {
-        List<Class<?>> list = new ArrayList<>();
-        File dir;
-        if (null == rootPath) {
-            dir = new File(System.getProperty("user.dir"));
-        } else {
-            dir = new File(rootPath);
-        }
-        if (!dir.exists() || !dir.isDirectory()) {
-            throw new RuntimeException("rootPath不正确:" + rootPath);
-        } else {
-            log.info("扫描根路径: " + dir.getPath());
-        }
-        Predicate<File> defaultFilePredicate = file -> {
-            if (file.exists() && !file.isDirectory()) {
-                String path = file.getPath();
-                return path.contains("classes") && !path.contains("$") && path.endsWith(".class");
-            }
-            return false;
-        };
-        List<File> fileList = new ArrayList<>();
-        fetchFileList(dir, fileList);
-        for (File file : fileList) {
-            String path = file.getPath();
-            if (defaultFilePredicate.test(file)) {
-                boolean fitFile = null != filePredicate && filePredicate.test(file);
-                if (null == filePredicate || fitFile) {
-                    String className = path.substring(8 + path.lastIndexOf("classes"), path.indexOf(".class")).replaceAll("\\\\", ".").replaceAll("\\/", ".");
-                    try {
-                        Class<?> clazz = Class.forName(className);
-                        boolean fitClass = null != classPredicate && classPredicate.test(clazz);
-                        if (null == classPredicate || fitClass) {
-                            list.add(clazz);
-                        }
-                    } catch (ClassNotFoundException ignored) {
-                    }
-                }
-            }
-        }
-        return list;
-    }
-
-    @Nonnull
-    public static List<Class<?>> scan(@Nonnull String rootPath, @Nullable Predicate<Class<?>> classPredicate) {
-        return scan(rootPath, null, classPredicate);
-    }
-
-    public static void fetchFileList(@Nonnull File dir, @Nonnull List<File> fileList) {
-        if (!dir.isDirectory() && dir.isFile()) {
-            fileList.add(dir);
-        } else {
-            File[] list = dir.listFiles();
-            if (null != list) {
-                for (File f : list) {
-                    fetchFileList(f, fileList);
                 }
             }
         }

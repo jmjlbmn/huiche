@@ -8,6 +8,7 @@ import org.huiche.extra.sql.builder.info.TableInfo;
 import org.huiche.extra.sql.builder.naming.CamelCaseNamingRule;
 import org.huiche.extra.sql.builder.naming.NamingRule;
 import org.huiche.extra.sql.builder.sql.Sql;
+import org.reflections.Reflections;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -18,6 +19,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 
@@ -28,11 +30,9 @@ import java.util.Properties;
  */
 @Slf4j
 public class SqlBuilder {
-    private static final SqlBuilder TOOL = new SqlBuilder();
     private String url;
     private String user;
     private String password;
-    private String rootPath;
     private Sql dbSql;
     private NamingRule namingRule;
     private List<String> sqlList;
@@ -41,101 +41,76 @@ public class SqlBuilder {
     private SqlBuilder() {
     }
 
-    @Nonnull
+    /**
+     * 初始化方法
+     *
+     * @param jdbcUrl  JDBC_URL
+     * @param user     数据库用户名
+     * @param password 数据库密码
+     * @return builder
+     */
     public static SqlBuilder init(@Nonnull String jdbcUrl, @Nonnull String user, @Nonnull String password) {
-        return init(jdbcUrl, user, password, null, CamelCaseNamingRule.getInstance(), null);
+        return init(jdbcUrl, user, password, CamelCaseNamingRule.getInstance(), null);
     }
 
-    @Nonnull
-    public static SqlBuilder init(@Nonnull String jdbcUrl, @Nonnull String user, @Nonnull String password, @Nullable String rootPath) {
-        return init(jdbcUrl, user, password, rootPath, CamelCaseNamingRule.getInstance(), null);
-    }
-
-    @Nonnull
-    public static SqlBuilder init(@Nonnull String jdbcUrl, @Nonnull String user, @Nonnull String password, @Nullable Sql sql) {
-        return init(jdbcUrl, user, password, null, CamelCaseNamingRule.getInstance(), sql);
-    }
-
-    @Nonnull
-    public static SqlBuilder init(@Nonnull String jdbcUrl, @Nonnull String user, @Nonnull String password, @Nonnull NamingRule namingRule) {
-        return init(jdbcUrl, user, password, namingRule, null);
-    }
-
-    @Nonnull
-    public static SqlBuilder init(@Nonnull String jdbcUrl, @Nonnull String user, @Nonnull String password, @Nullable String rootPath, @Nonnull Sql sql) {
-        return init(jdbcUrl, user, password, rootPath, CamelCaseNamingRule.getInstance(), sql);
-    }
-
-    @Nonnull
-    public static SqlBuilder init(@Nonnull String jdbcUrl, @Nonnull String user, @Nonnull String password, @Nullable String rootPath, @Nonnull NamingRule namingRule) {
-        return init(jdbcUrl, user, password, rootPath, namingRule, null);
-    }
-
-    @Nonnull
-    public static SqlBuilder init(@Nonnull String jdbcUrl, @Nonnull String user, @Nonnull String password, @Nonnull NamingRule namingRule, @Nullable Sql sql) {
-        return init(jdbcUrl, user, password, null, namingRule, sql);
-    }
-
-    @Nonnull
-    public static SqlBuilder init(@Nonnull String jdbcUrl, @Nonnull String user, @Nonnull String password, @Nullable String rootPath, @Nonnull NamingRule namingRule, @Nullable Sql sql) {
-        TOOL.url = jdbcUrl;
-        TOOL.user = user;
-        TOOL.password = password;
-        TOOL.rootPath = rootPath;
-        TOOL.namingRule = namingRule;
-        if (null == sql) {
-            TOOL.dbSql = DataBase.init(TOOL.url).sql();
-        } else {
-            TOOL.dbSql = sql;
+    /**
+     * 初始化方法
+     *
+     * @param jdbcUrl    JDBC_URL
+     * @param user       数据库用户名
+     * @param password   数据库密码
+     * @param namingRule 命名规则
+     * @param sql        数据库
+     * @return builder
+     */
+    public static SqlBuilder init(@Nonnull String jdbcUrl, @Nonnull String user, @Nonnull String password, @Nullable NamingRule namingRule, @Nullable Sql sql) {
+        SqlBuilder builder = new SqlBuilder();
+        builder.url = jdbcUrl;
+        builder.user = user;
+        builder.password = password;
+        if (null == namingRule) {
+            builder.namingRule = CamelCaseNamingRule.getInstance();
         }
-        TOOL.sqlList = new ArrayList<>();
-        TOOL.manualSqlList = new ArrayList<>();
-        return TOOL;
+        builder.namingRule = namingRule;
+        if (null == sql) {
+            builder.dbSql = DataBase.init(builder.url).sql();
+        } else {
+            builder.dbSql = sql;
+        }
+        builder.sqlList = new ArrayList<>();
+        builder.manualSqlList = new ArrayList<>();
+        return builder;
     }
 
-    public void run() {
-        run(false);
-    }
-
-    public void run(boolean update) {
-        run(update, new String[]{});
-    }
-
-    public void run(@Nonnull Class<?>... classes) {
-        run(false, classes);
-    }
-
-    public void run(@Nonnull String... packageName) {
+    public void run(@Nonnull String packageName) {
         run(false, packageName);
     }
 
-    public void run(boolean update, @Nonnull String... packageName) {
+    public void run(boolean update, @Nonnull String packageName) {
         try {
-            List<Class<?>> classList;
-            if (packageName.length > 0) {
-                classList = Util.scan(rootPath, clazz -> {
-                    for (String pkg : packageName) {
-                        if (clazz.getPackage().toString().contains(pkg)) {
-                            Table table = clazz.getAnnotation(Table.class);
-                            return null != table;
-                        }
-                    }
-                    return false;
-                });
-            } else {
-                classList = Util.scan(rootPath, clazz -> {
-                    Table table = clazz.getAnnotation(Table.class);
-                    return null != table;
-                });
-            }
-            if (classList.isEmpty()) {
-                throw new RuntimeException("找不到符合条件的类");
-            }
-            Class<?>[] classes = new Class[classList.size()];
-            run(update, classList.toArray(classes));
+            run(update, new Reflections(packageName).getTypesAnnotatedWith(Table.class,true));
         } catch (Exception e) {
             logError(e);
         }
+    }
+
+    /**
+     * 执行部分类
+     *
+     * @param classes 要执行的类
+     */
+    public void runSome(Class<?>... classes) {
+        runSome(false, classes);
+    }
+
+    /**
+     * 执行部分类
+     *
+     * @param update  是否进行更新
+     * @param classes 要执行的类
+     */
+    public void runSome(boolean update, Class<?>... classes) {
+        run(update, Arrays.asList(classes));
     }
 
     /**
@@ -144,9 +119,9 @@ public class SqlBuilder {
      * @param update  是否执行修改列和删除列操作
      * @param classes 表
      */
-    public void run(boolean update, @Nonnull Class<?>... classes) {
+    public void run(boolean update, Collection<Class<?>> classes) {
         try {
-            if (classes.length == 0) {
+            if (classes.size() == 0) {
                 log.error("没有要生成SQL的类,不会进行操作");
                 return;
             }
@@ -159,8 +134,7 @@ public class SqlBuilder {
             props.setProperty("useInformationSchema", "true");
             try (Connection conn = DriverManager.getConnection(url, props)) {
                 conn.setAutoCommit(true);
-                List<Class<?>> list = Arrays.asList(classes);
-                create(list, conn, update);
+                create(classes, conn, update);
             } catch (Exception e) {
                 printSql();
                 throw new RuntimeException(e);
@@ -177,7 +151,7 @@ public class SqlBuilder {
         log.error(sbw.toString());
     }
 
-    private void create(@Nonnull List<Class<?>> classes, @Nonnull Connection conn, boolean update) {
+    private void create(@Nonnull Collection<Class<?>> classes, @Nonnull Connection conn, boolean update) {
         for (Class<?> clazz : classes) {
             TableInfo tableInfo = Sql.getInfo(clazz, namingRule);
             try {
