@@ -17,6 +17,7 @@
         <module>huiche-service-impl</module>
         <module>huiche-web</module>
         <module>huiche-extra</module>
+        <module>test</module>
     </modules>
     <name>huiche</name>
     <description>huiche framework Powered by spring-boot and querydsl</description>
@@ -45,6 +46,7 @@
         <querydsl.version>4.2.1</querydsl.version>
         <jsr305.version>3.0.2</jsr305.version>
         <jetbrains-annotations.version>16.0.2</jetbrains-annotations.version>
+        <reflections.version>0.9.11</reflections.version>
     </properties>
     <scm>
         <url>https://github.com/jmjlbmn/huiche</url>
@@ -68,6 +70,11 @@
                 <groupId>org.jetbrains</groupId>
                 <artifactId>annotations</artifactId>
                 <version>${jetbrains-annotations.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.reflections</groupId>
+                <artifactId>reflections</artifactId>
+                <version>${reflections.version}</version>
             </dependency>
             <!--Druid数据库连接池-->
             <dependency>
@@ -187,6 +194,16 @@
     <profiles>
         <profile>
             <id>huicheDeploy</id>
+            <modules>
+                <module>huiche-annotation</module>
+                <module>huiche-core</module>
+                <module>huiche-data</module>
+                <module>huiche-service</module>
+                <module>huiche-dao</module>
+                <module>huiche-service-impl</module>
+                <module>huiche-web</module>
+                <module>huiche-extra</module>
+            </modules>
             <build>
                 <plugins>
                     <plugin>
