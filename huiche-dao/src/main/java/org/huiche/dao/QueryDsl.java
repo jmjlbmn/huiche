@@ -1,20 +1,14 @@
 package org.huiche.dao;
 
 import com.alibaba.druid.sql.SQLUtils;
-import com.alibaba.druid.util.JdbcUtils;
-import com.google.common.collect.ImmutableList;
+import com.alibaba.druid.util.JdbcConstants;
 import com.querydsl.core.QueryMetadata;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.ParamExpression;
 import com.querydsl.core.types.ParamNotSetException;
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.SubQueryExpression;
-import com.querydsl.sql.Configuration;
-import com.querydsl.sql.MySQLTemplates;
-import com.querydsl.sql.RelationalPath;
-import com.querydsl.sql.SQLListener;
-import com.querydsl.sql.SQLSerializer;
-import com.querydsl.sql.SQLTemplates;
+import com.querydsl.sql.*;
 import com.querydsl.sql.dml.SQLInsertBatch;
 import com.querydsl.sql.dml.SQLMergeBatch;
 import com.querydsl.sql.dml.SQLUpdateBatch;
@@ -23,6 +17,7 @@ import com.querydsl.sql.types.Null;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -129,7 +124,7 @@ public class QueryDsl {
     }
 
     public static void logSql(@Nonnull QueryMetadata md, @Nonnull SQLSerializer serializer) {
-        ImmutableList.Builder<Object> args = ImmutableList.builder();
+        List<Object> parameters = new ArrayList<>();
         Map<ParamExpression<?>, Object> params = md.getParams();
         for (Object o : serializer.getConstants()) {
             if (o instanceof ParamExpression) {
@@ -138,27 +133,58 @@ public class QueryDsl {
                 }
                 o = md.getParams().get(o);
             }
-            args.add(o);
+            if (o instanceof Null) {
+                parameters.add(null);
+            } else {
+                parameters.add(o);
+            }
         }
         String sql = serializer.toString();
-        ImmutableList<Object> list = args.build();
-        if (!list.isEmpty()) {
-            for (Object o : list) {
-                if (o instanceof Number) {
-                    sql = sql.replaceFirst("\\?", String.valueOf(o));
-                } else if (o instanceof Null) {
+        if (druid) {
+            String type;
+            SQLTemplates sqlTemplates = CONFIG.getTemplates();
+            if (sqlTemplates instanceof MySQLTemplates) {
+                type = JdbcConstants.MYSQL;
+            } else if (sqlTemplates instanceof H2Templates) {
+                type = JdbcConstants.H2;
+            } else if (sqlTemplates instanceof OracleTemplates) {
+                type = JdbcConstants.ORACLE;
+            } else if (sqlTemplates instanceof PostgreSQLTemplates) {
+                type = JdbcConstants.POSTGRESQL;
+            } else if (sqlTemplates instanceof DB2Templates) {
+                type = JdbcConstants.DB2;
+            } else if (sqlTemplates instanceof DerbyTemplates) {
+                type = JdbcConstants.DERBY;
+            } else if (sqlTemplates instanceof HSQLDBTemplates) {
+                type = JdbcConstants.HSQL;
+            } else if (sqlTemplates instanceof SQLServerTemplates) {
+                type = JdbcConstants.SQL_SERVER;
+            } else {
+                type = JdbcConstants.MYSQL;
+            }
+            try {
+                sql = SQLUtils.format(sql, type, parameters);
+            } catch (Exception ignored) {
+                sql = parseParameters(sql, parameters);
+            }
+        } else {
+            sql = parseParameters(sql, parameters);
+        }
+        log.debug(sql);
+    }
+
+    private static String parseParameters(String sql, List<Object> parameters) {
+        if (!parameters.isEmpty()) {
+            for (Object o : parameters) {
+                if (null == o) {
                     sql = sql.replaceFirst("\\?", "NULL");
+                } else if (o instanceof Number) {
+                    sql = sql.replaceFirst("\\?", String.valueOf(o));
                 } else {
                     sql = sql.replaceFirst("\\?", "'" + Matcher.quoteReplacement(String.valueOf(o)) + "'");
                 }
             }
         }
-        if (druid && CONFIG.getTemplates() instanceof MySQLTemplates) {
-            try {
-                sql = SQLUtils.format(sql, JdbcUtils.MYSQL);
-            } catch (Exception ignored) {
-            }
-        }
-        log.debug(sql);
+        return sql;
     }
 }
