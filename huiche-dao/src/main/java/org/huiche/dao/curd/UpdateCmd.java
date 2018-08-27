@@ -68,6 +68,20 @@ public interface UpdateCmd<T extends BaseEntity<T>> extends PathProvider<T>, Sql
     /**
      * 根据条件更新,自行set更新内容
      *
+     * @param entity 实体类
+     * @param setter update
+     * @return 更新条数
+     */
+    default long update(@Nonnull T entity, Consumer<SQLUpdateClause> setter) {
+        Assert.notNull(HuiCheError.UPDATE_MUST_HAVE_ID, entity.getId());
+        SQLUpdateClause update = sql().update(root()).populate(entity);
+        setter.accept(update);
+        return update.where(pk().eq(entity.getId())).execute();
+    }
+
+    /**
+     * 根据条件更新,自行set更新内容
+     *
      * @param setter    update
      * @param predicate 条件
      * @return 更新条数
@@ -75,6 +89,23 @@ public interface UpdateCmd<T extends BaseEntity<T>> extends PathProvider<T>, Sql
     default long update(Consumer<SQLUpdateClause> setter, @Nullable Predicate... predicate) {
         Assert.ok("更新时条件不能为空", null != predicate && predicate.length > 0);
         SQLUpdateClause update = sql().update(root());
+        setter.accept(update);
+        return update.where(predicate).execute();
+    }
+
+    /**
+     * 根据条件更新,自行set更新内容
+     *
+     * @param entity    实体类
+     * @param setter    update
+     * @param predicate 条件
+     * @return 更新条数
+     */
+    default long update(@Nonnull T entity, Consumer<SQLUpdateClause> setter, @Nullable Predicate... predicate) {
+        Assert.ok("更新时条件不能为空", null != predicate && predicate.length > 0);
+        // 强制不更新ID
+        entity.setId(null);
+        SQLUpdateClause update = sql().update(root()).populate(entity);
         setter.accept(update);
         return update.where(predicate).execute();
     }
