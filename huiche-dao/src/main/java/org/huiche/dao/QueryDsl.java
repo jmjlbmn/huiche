@@ -8,7 +8,19 @@ import com.querydsl.core.types.ParamExpression;
 import com.querydsl.core.types.ParamNotSetException;
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.SubQueryExpression;
-import com.querydsl.sql.*;
+import com.querydsl.sql.Configuration;
+import com.querydsl.sql.DB2Templates;
+import com.querydsl.sql.DerbyTemplates;
+import com.querydsl.sql.H2Templates;
+import com.querydsl.sql.HSQLDBTemplates;
+import com.querydsl.sql.MySQLTemplates;
+import com.querydsl.sql.OracleTemplates;
+import com.querydsl.sql.PostgreSQLTemplates;
+import com.querydsl.sql.RelationalPath;
+import com.querydsl.sql.SQLListener;
+import com.querydsl.sql.SQLSerializer;
+import com.querydsl.sql.SQLServerTemplates;
+import com.querydsl.sql.SQLTemplates;
 import com.querydsl.sql.dml.SQLInsertBatch;
 import com.querydsl.sql.dml.SQLMergeBatch;
 import com.querydsl.sql.dml.SQLUpdateBatch;
@@ -30,9 +42,29 @@ import java.util.regex.Matcher;
 @Slf4j
 public class QueryDsl {
     public static Configuration CONFIG = new Configuration(SQLTemplates.DEFAULT);
+    private static String type;
 
     public static void init(SQLTemplates templates) {
         CONFIG = new Configuration(templates);
+        if (templates instanceof MySQLTemplates) {
+            type = JdbcConstants.MYSQL;
+        } else if (templates instanceof H2Templates) {
+            type = JdbcConstants.H2;
+        } else if (templates instanceof OracleTemplates) {
+            type = JdbcConstants.ORACLE;
+        } else if (templates instanceof PostgreSQLTemplates) {
+            type = JdbcConstants.POSTGRESQL;
+        } else if (templates instanceof DB2Templates) {
+            type = JdbcConstants.DB2;
+        } else if (templates instanceof DerbyTemplates) {
+            type = JdbcConstants.DERBY;
+        } else if (templates instanceof HSQLDBTemplates) {
+            type = JdbcConstants.HSQL;
+        } else if (templates instanceof SQLServerTemplates) {
+            type = JdbcConstants.SQL_SERVER;
+        } else {
+            type = JdbcConstants.MYSQL;
+        }
         CONFIG.setExceptionTranslator(new SpringExceptionTranslator());
         CONFIG.addListener(new SQLListener() {
             @Override
@@ -141,27 +173,6 @@ public class QueryDsl {
         }
         String sql = serializer.toString();
         if (druid) {
-            String type;
-            SQLTemplates sqlTemplates = CONFIG.getTemplates();
-            if (sqlTemplates instanceof MySQLTemplates) {
-                type = JdbcConstants.MYSQL;
-            } else if (sqlTemplates instanceof H2Templates) {
-                type = JdbcConstants.H2;
-            } else if (sqlTemplates instanceof OracleTemplates) {
-                type = JdbcConstants.ORACLE;
-            } else if (sqlTemplates instanceof PostgreSQLTemplates) {
-                type = JdbcConstants.POSTGRESQL;
-            } else if (sqlTemplates instanceof DB2Templates) {
-                type = JdbcConstants.DB2;
-            } else if (sqlTemplates instanceof DerbyTemplates) {
-                type = JdbcConstants.DERBY;
-            } else if (sqlTemplates instanceof HSQLDBTemplates) {
-                type = JdbcConstants.HSQL;
-            } else if (sqlTemplates instanceof SQLServerTemplates) {
-                type = JdbcConstants.SQL_SERVER;
-            } else {
-                type = JdbcConstants.MYSQL;
-            }
             try {
                 sql = SQLUtils.format(sql, type, parameters);
             } catch (Exception ignored) {
