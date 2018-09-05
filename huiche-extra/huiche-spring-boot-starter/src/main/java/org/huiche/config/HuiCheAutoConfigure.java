@@ -8,8 +8,10 @@ import org.hibernate.validator.HibernateValidator;
 import org.huiche.core.exception.HuiCheException;
 import org.huiche.core.json.JsonApi;
 import org.huiche.core.util.StringUtil;
+import org.huiche.core.validation.ValidationUtil;
 import org.huiche.dao.MySqlExTemplates;
 import org.huiche.dao.QueryDsl;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -24,9 +26,13 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Provider;
 import javax.sql.DataSource;
+import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * HuiChe自动配置
@@ -113,5 +119,25 @@ public class HuiCheAutoConfigure {
         Provider<Connection> provider = new SpringConnectionProvider(dataSource);
         QueryDsl.init(new MySqlExTemplates());
         return new SQLQueryFactory(QueryDsl.CONFIG, provider);
+    }
+
+    /**
+     * 注册验证工具
+     *
+     * @param validator 验证器
+     * @return 验证工具
+     */
+    @Bean
+    @ConditionalOnMissingBean
+    public ValidationUtil validationUtil(@Qualifier("fastValidator") Validator validator) {
+        return objects -> {
+            List<String> list = new ArrayList<>();
+            for (Object obj : objects) {
+                if (null != obj) {
+                    list.addAll(validator.validate(obj).stream().map(ConstraintViolation::getMessage).collect(Collectors.toList()));
+                }
+            }
+            return list;
+        };
     }
 }
