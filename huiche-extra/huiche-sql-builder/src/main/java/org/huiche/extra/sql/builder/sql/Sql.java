@@ -262,7 +262,7 @@ public interface Sql {
             for (ColumnInfo java : javaList) {
                 for (ColumnInfo db : dbList) {
                     // 比较名称是否相同,已复写equals
-                    if (java.equals(db)) {
+                    if (java.equals(db) && !java.getIsPrimaryKey()) {
                         String comment = java.getComment();
                         if (!java.getType().equals(db.getType())) {
                             // 类型不同
@@ -273,8 +273,7 @@ public interface Sql {
                         } else if (null != comment && !"".contentEquals(comment.trim()) && !comment.equals(db.getComment())) {
                             // 注释不同
                             modifyList.add(java);
-                        } else if (!java.getIsPrimaryKey()) {
-                            // 非主键
+                        } else {
                             if (!java.getNotNull().equals(db.getNotNull())) {
                                 // 是否非空不同
                                 modifyList.add(java);
