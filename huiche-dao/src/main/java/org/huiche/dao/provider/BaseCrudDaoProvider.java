@@ -2,7 +2,6 @@ package org.huiche.dao.provider;
 
 import org.huiche.dao.curd.CountQuery;
 import org.huiche.dao.curd.CreateCmd;
-import org.huiche.dao.curd.CreatesCmd;
 import org.huiche.dao.curd.DeleteCmd;
 import org.huiche.dao.curd.ExistsQuery;
 import org.huiche.dao.curd.GetColumnQuery;
@@ -24,7 +23,6 @@ import org.huiche.data.query.Query;
  */
 public interface BaseCrudDaoProvider<T extends BaseEntity<T>> extends
         CreateCmd<T>,
-        CreatesCmd<T>,
         UpdateCmd<T>,
         DeleteCmd<T>,
         CountQuery<T>,
@@ -38,5 +36,7 @@ public interface BaseCrudDaoProvider<T extends BaseEntity<T>> extends
         PageQuery<T>,
         PageColumnsQuery<T>,
         Query,
-        SqlProvider {
+        SqlProvider,
+        PathProvider<T>,
+        CreateHandleProvider<T> {
 }
