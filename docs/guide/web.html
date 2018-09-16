@@ -7,24 +7,24 @@
     <meta name="description" content="基于SpringBoot,QueryDsl 的 Java 快速开发框架">
     <link rel="icon" href="/fav.ico">
 
-      <link rel="preload" href="/assets/css/0.styles.67e3b234.css" as="style">
-      <link rel="preload" href="/assets/js/app.94737a1a.js" as="script">
-      <link rel="preload" href="/assets/js/16.05f4b6dc.js" as="script">
-      <link rel="prefetch" href="/assets/js/7.f6f66c22.js">
+      <link rel="preload" href="/assets/css/0.styles.a19f2b7d.css" as="style">
+      <link rel="preload" href="/assets/js/app.ee4ac1f3.js" as="script">
+      <link rel="preload" href="/assets/js/16.0ad98689.js" as="script">
+      <link rel="prefetch" href="/assets/js/7.35510385.js">
       <link rel="prefetch" href="/assets/js/2.cda51ec0.js">
-      <link rel="prefetch" href="/assets/js/3.d786b20a.js">
-      <link rel="prefetch" href="/assets/js/4.d4fdbb70.js">
-      <link rel="prefetch" href="/assets/js/5.e3053265.js">
-      <link rel="prefetch" href="/assets/js/6.9f42997d.js">
-      <link rel="prefetch" href="/assets/js/8.1333654f.js">
-      <link rel="prefetch" href="/assets/js/9.c76f7bad.js">
-      <link rel="prefetch" href="/assets/js/10.f422496b.js">
-      <link rel="prefetch" href="/assets/js/11.bd153cbc.js">
-      <link rel="prefetch" href="/assets/js/12.4bebbcd1.js">
-      <link rel="prefetch" href="/assets/js/13.0c9bb01e.js">
-      <link rel="prefetch" href="/assets/js/14.48b75943.js">
-      <link rel="prefetch" href="/assets/js/15.64ae3da7.js">
-      <link rel="stylesheet" href="/assets/css/0.styles.67e3b234.css">
+      <link rel="prefetch" href="/assets/js/3.c0a04ab7.js">
+      <link rel="prefetch" href="/assets/js/4.2cdd12ca.js">
+      <link rel="prefetch" href="/assets/js/5.71fb1042.js">
+      <link rel="prefetch" href="/assets/js/6.7583e42c.js">
+      <link rel="prefetch" href="/assets/js/8.b0b1ea5c.js">
+      <link rel="prefetch" href="/assets/js/9.99ca4ccd.js">
+      <link rel="prefetch" href="/assets/js/10.b446cacf.js">
+      <link rel="prefetch" href="/assets/js/11.97301a60.js">
+      <link rel="prefetch" href="/assets/js/12.366f76c2.js">
+      <link rel="prefetch" href="/assets/js/13.21b92e9a.js">
+      <link rel="prefetch" href="/assets/js/14.0671a8c9.js">
+      <link rel="prefetch" href="/assets/js/15.7e476b55.js">
+      <link rel="stylesheet" href="/assets/css/0.styles.a19f2b7d.css">
   </head>
   <body>
   <div id="app" data-server-rendered="true">
@@ -38,7 +38,7 @@
                   </svg>
               </div>
               <a href="/" class="home-link router-link-active"><!----> <span class="site-name">HuiChe</span></a>
-              <div class="links">
+              <div class="links" style="max-width:nullpx;">
                   <div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value="">
                       <!----></div>
                   <nav class="nav-links can-hide">
@@ -144,21 +144,9 @@
                   <li><a href="/guide/service.html" class="sidebar-link">业务层</a></li>
                   <li><a href="/guide/web.html" class="active sidebar-link">控制层</a>
                       <ul class="sidebar-sub-headers">
-                          <li class="sidebar-sub-header"><a href="/guide/web.html#restful风格" class="sidebar-link">Restful风格</a>
-                              <ul class="sidebar-sub-headers">
-                                  <li class="sidebar-sub-header"><a href="/guide/web.html#curdapi内置方法"
-                                                                    class="sidebar-link">CurdApi内置方法</a></li>
-                                  <li class="sidebar-sub-header"><a href="/guide/web.html#crudapi示例"
-                                                                    class="sidebar-link">CrudApi示例</a></li>
-                              </ul>
+                          <li class="sidebar-sub-header"><a href="/guide/web.html#curdapi内置方法" class="sidebar-link">CurdApi内置方法</a>
                           </li>
-                          <li class="sidebar-sub-header"><a href="/guide/web.html#传统post风格" class="sidebar-link">传统Post风格</a>
-                              <ul class="sidebar-sub-headers">
-                                  <li class="sidebar-sub-header"><a href="/guide/web.html#postcontroller内置方法"
-                                                                    class="sidebar-link">PostController内置方法</a></li>
-                                  <li class="sidebar-sub-header"><a href="/guide/web.html#crudcontroller示例"
-                                                                    class="sidebar-link">CrudController示例</a></li>
-                              </ul>
+                          <li class="sidebar-sub-header"><a href="/guide/web.html#crudapi示例" class="sidebar-link">CrudApi示例</a>
                           </li>
                       </ul>
                   </li>
@@ -172,10 +160,9 @@
           </div>
           <div class="page">
               <div class="content"><h1 id="控制层"><a href="#控制层" aria-hidden="true" class="header-anchor">#</a> 控制层</h1>
-                  <h2 id="restful风格"><a href="#restful风格" aria-hidden="true" class="header-anchor">#</a> Restful风格</h2>
                   <p><code>org.huiche.web.api.BaseCrudPageApi</code>, 提供默认的restful风格的Crud控制器接口</p>
-                  <h3 id="curdapi内置方法"><a href="#curdapi内置方法" aria-hidden="true" class="header-anchor">#</a> CurdApi内置方法
-                  </h3>
+                  <h2 id="curdapi内置方法"><a href="#curdapi内置方法" aria-hidden="true" class="header-anchor">#</a> CurdApi内置方法
+                  </h2>
                   <table>
                       <thead>
                       <tr>
@@ -212,57 +199,11 @@
                       </tr>
                       </tbody>
                   </table>
-                  <h3 id="crudapi示例"><a href="#crudapi示例" aria-hidden="true" class="header-anchor">#</a> CrudApi示例</h3>
+                  <h2 id="crudapi示例"><a href="#crudapi示例" aria-hidden="true" class="header-anchor">#</a> CrudApi示例</h2>
                   <div class="language-java extra-class"><pre class="language-java"><code><span
                           class="token annotation punctuation">@RestController</span>
 <span class="token annotation punctuation">@RequestMapping</span><span class="token punctuation">(</span><span class="token string">&quot;api/student&quot;</span><span class="token punctuation">)</span>
 <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">StudentApi</span> <span class="token keyword">extends</span> <span class="token class-name">BaseCrudPageApi</span> <span class="token punctuation">{</span>
-    <span class="token annotation punctuation">@Resource</span>
-    <span class="token keyword">private</span> StudentService studentService<span class="token punctuation">;</span>
-
-    <span class="token annotation punctuation">@Override</span>
-    <span class="token keyword">public</span> BaseCrudService<span class="token generics function"><span class="token punctuation">&lt;</span>Student<span class="token punctuation">&gt;</span></span> <span class="token function">service</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-        <span class="token keyword">return</span> studentService<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
-</code></pre>
-                  </div>
-                  <h2 id="传统post风格"><a href="#传统post风格" aria-hidden="true" class="header-anchor">#</a> 传统Post风格</h2>
-                  <p><code>org.huiche.web.controller.BaseCrudPageController</code>, 提供默认的post风格的Crud控制器接口</p>
-                  <h3 id="postcontroller内置方法"><a href="#postcontroller内置方法" aria-hidden="true"
-                                                 class="header-anchor">#</a> PostController内置方法</h3>
-                  <table>
-                      <thead>
-                      <tr>
-                          <th style="text-align:left">uri</th>
-                          <th style="text-align:left">说明</th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      <tr>
-                          <td style="text-align:left">/get/</td>
-                          <td style="text-align:left">获取单条记录</td>
-                      </tr>
-                      <tr>
-                          <td style="text-align:left">/save/</td>
-                          <td style="text-align:left">根据是否设置id,创建或更新数据</td>
-                      </tr>
-                      <tr>
-                          <td style="text-align:left">/del/</td>
-                          <td style="text-align:left">删除单条记录</td>
-                      </tr>
-                      <tr>
-                          <td style="text-align:left">/page/</td>
-                          <td style="text-align:left">分页获取数据</td>
-                      </tr>
-                      </tbody>
-                  </table>
-                  <h3 id="crudcontroller示例"><a href="#crudcontroller示例" aria-hidden="true" class="header-anchor">#</a>
-                      CrudController示例</h3>
-                  <div class="language-java extra-class"><pre class="language-java"><code><span
-                          class="token annotation punctuation">@RestController</span>
-<span class="token annotation punctuation">@RequestMapping</span><span class="token punctuation">(</span><span class="token string">&quot;student&quot;</span><span class="token punctuation">)</span>
-<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">StudentController</span> <span class="token keyword">extends</span> <span class="token class-name">BaseCrudPageController</span> <span class="token punctuation">{</span>
     <span class="token annotation punctuation">@Resource</span>
     <span class="token keyword">private</span> StudentService studentService<span class="token punctuation">;</span>
 
@@ -286,7 +227,7 @@
                       </svg>
                   </div>
                   <div class="last-updated"><span class="prefix">上次更新: </span> <span
-                          class="time">2018-6-25 00:54:50</span></div>
+                          class="time">2018-9-16 23:24:02</span></div>
               </div>
               <div class="page-nav"><p class="inner"><span class="prev">
         ←
@@ -299,7 +240,7 @@
       </span></p></div>
           </div> <!----></div>
   </div>
-  <script src="/assets/js/16.05f4b6dc.js" defer></script>
-  <script src="/assets/js/app.94737a1a.js" defer></script>
+  <script src="/assets/js/16.0ad98689.js" defer></script>
+  <script src="/assets/js/app.ee4ac1f3.js" defer></script>
   </body>
 </html>

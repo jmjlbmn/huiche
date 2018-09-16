@@ -7,24 +7,24 @@
     <meta name="description" content="基于SpringBoot,QueryDsl 的 Java 快速开发框架">
     <link rel="icon" href="/fav.ico">
 
-      <link rel="preload" href="/assets/css/0.styles.67e3b234.css" as="style">
-      <link rel="preload" href="/assets/js/app.94737a1a.js" as="script">
-      <link rel="preload" href="/assets/js/5.e3053265.js" as="script">
-      <link rel="prefetch" href="/assets/js/7.f6f66c22.js">
+      <link rel="preload" href="/assets/css/0.styles.a19f2b7d.css" as="style">
+      <link rel="preload" href="/assets/js/app.ee4ac1f3.js" as="script">
+      <link rel="preload" href="/assets/js/5.71fb1042.js" as="script">
+      <link rel="prefetch" href="/assets/js/7.35510385.js">
       <link rel="prefetch" href="/assets/js/2.cda51ec0.js">
-      <link rel="prefetch" href="/assets/js/3.d786b20a.js">
-      <link rel="prefetch" href="/assets/js/4.d4fdbb70.js">
-      <link rel="prefetch" href="/assets/js/6.9f42997d.js">
-      <link rel="prefetch" href="/assets/js/8.1333654f.js">
-      <link rel="prefetch" href="/assets/js/9.c76f7bad.js">
-      <link rel="prefetch" href="/assets/js/10.f422496b.js">
-      <link rel="prefetch" href="/assets/js/11.bd153cbc.js">
-      <link rel="prefetch" href="/assets/js/12.4bebbcd1.js">
-      <link rel="prefetch" href="/assets/js/13.0c9bb01e.js">
-      <link rel="prefetch" href="/assets/js/14.48b75943.js">
-      <link rel="prefetch" href="/assets/js/15.64ae3da7.js">
-      <link rel="prefetch" href="/assets/js/16.05f4b6dc.js">
-      <link rel="stylesheet" href="/assets/css/0.styles.67e3b234.css">
+      <link rel="prefetch" href="/assets/js/3.c0a04ab7.js">
+      <link rel="prefetch" href="/assets/js/4.2cdd12ca.js">
+      <link rel="prefetch" href="/assets/js/6.7583e42c.js">
+      <link rel="prefetch" href="/assets/js/8.b0b1ea5c.js">
+      <link rel="prefetch" href="/assets/js/9.99ca4ccd.js">
+      <link rel="prefetch" href="/assets/js/10.b446cacf.js">
+      <link rel="prefetch" href="/assets/js/11.97301a60.js">
+      <link rel="prefetch" href="/assets/js/12.366f76c2.js">
+      <link rel="prefetch" href="/assets/js/13.21b92e9a.js">
+      <link rel="prefetch" href="/assets/js/14.0671a8c9.js">
+      <link rel="prefetch" href="/assets/js/15.7e476b55.js">
+      <link rel="prefetch" href="/assets/js/16.0ad98689.js">
+      <link rel="stylesheet" href="/assets/css/0.styles.a19f2b7d.css">
   </head>
   <body>
   <div id="app" data-server-rendered="true">
@@ -38,7 +38,7 @@
                   </svg>
               </div>
               <a href="/" class="home-link router-link-active"><!----> <span class="site-name">HuiChe</span></a>
-              <div class="links">
+              <div class="links" style="max-width:nullpx;">
                   <div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value="">
                       <!----></div>
                   <nav class="nav-links can-hide">
@@ -172,7 +172,7 @@
                           <polygon fill="currentColor"
                                    points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
                       </svg>
-                  </a> <a href="http://search.maven.org/#artifactdetails%7Corg.huiche%7Chuiche%7C1.0.5%7C"
+                  </a> <a href="http://search.maven.org/#artifactdetails%7Corg.huiche%7Chuiche%7C1.0.7%7C"
                           target="_blank" rel="noopener noreferrer"><img
                           src="https://img.shields.io/maven-metadata/v/http/central.maven.org/maven2/org/huiche/huiche/maven-metadata.xml.svg?style=flat-square"
                           alt="maven">
@@ -189,7 +189,7 @@
                       <li>涵盖大部分单表查询场景的通用Dao</li>
                       <li>方便实用的关联查询</li>
                       <li>基于java.util.function编写的函数式编程方式的动态数据筛选功能</li>
-                      <li>基于jsr-303(Bean Validation)的注解式验证</li>
+                      <li>基于jsr-303/380(Bean Validation)的注解式验证</li>
                       <li>基于jsr-305的静态分析</li>
                       <li>提供restful和传统单post两种方式的常用增删改查功能的BaseController</li>
                       <li>huiche-spring-boot-starter快速搭建项目</li>
@@ -213,13 +213,20 @@
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>parent</span><span class="token punctuation">&gt;</span></span>
         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">&gt;</span></span>org.huiche<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">&gt;</span></span>
         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">&gt;</span></span>huiche<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">&gt;</span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">&gt;</span></span>RELEASE<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span
+                class="token punctuation">&gt;</span></span>1.0.7<span class="token tag"><span class="token tag"><span
+                              class="token punctuation">&lt;/</span>version</span><span
+                              class="token punctuation">&gt;</span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>parent</span><span class="token punctuation">&gt;</span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependencies</span><span class="token punctuation">&gt;</span></span>
         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">&gt;</span></span>
             <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">&gt;</span></span>org.huiche<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">&gt;</span></span>
             <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">&gt;</span></span>huiche-spring-boot-starter<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">&gt;</span></span>
-            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">&gt;</span></span>RELEASE<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span
+                    class="token punctuation">&lt;</span>version</span><span
+                    class="token punctuation">&gt;</span></span>1.0.7<span class="token tag"><span
+                              class="token tag"><span class="token punctuation">&lt;/</span>version</span><span
+                              class="token punctuation">&gt;</span></span>
         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">&gt;</span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependencies</span><span class="token punctuation">&gt;</span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>project</span><span class="token punctuation">&gt;</span></span>
@@ -240,7 +247,11 @@
             <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">&gt;</span></span>
                 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">&gt;</span></span>org.huiche<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">&gt;</span></span>
                 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">&gt;</span></span>huiche<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">&gt;</span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">&gt;</span></span>RELEASE<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">&gt;</span></span>
+                <span class="token tag"><span class="token tag"><span
+                        class="token punctuation">&lt;</span>version</span><span
+                        class="token punctuation">&gt;</span></span>1.0.7<span class="token tag"><span
+                              class="token tag"><span class="token punctuation">&lt;/</span>version</span><span
+                              class="token punctuation">&gt;</span></span>
                 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>type</span><span class="token punctuation">&gt;</span></span>pom<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>type</span><span class="token punctuation">&gt;</span></span>
                 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>scope</span><span class="token punctuation">&gt;</span></span>import<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>scope</span><span class="token punctuation">&gt;</span></span>
             <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">&gt;</span></span>
@@ -268,7 +279,7 @@
                       </svg>
                   </div>
                   <div class="last-updated"><span class="prefix">上次更新: </span> <span
-                          class="time">2018-6-25 00:54:50</span></div>
+                          class="time">2018-9-16 23:24:02</span></div>
               </div>
               <div class="page-nav"><p class="inner"><!----> <span class="next"><a href="/guide/data.html">
           实体类
@@ -277,7 +288,7 @@
       </span></p></div>
           </div> <!----></div>
   </div>
-  <script src="/assets/js/5.e3053265.js" defer></script>
-  <script src="/assets/js/app.94737a1a.js" defer></script>
+  <script src="/assets/js/5.71fb1042.js" defer></script>
+  <script src="/assets/js/app.ee4ac1f3.js" defer></script>
   </body>
 </html>
