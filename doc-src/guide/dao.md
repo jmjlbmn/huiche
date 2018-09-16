@@ -6,8 +6,7 @@
 ### 内置数据操作方法
 方法名|说明
 :-|:-
-create|创建单条记录
-creates|批量创建多条记录
+create|创建单条/多条记录
 delete|删除数据
 truncate|清空数据
 update|更新记录

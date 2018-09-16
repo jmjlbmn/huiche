@@ -14,7 +14,7 @@ charset|编码|mysql时为`utf8mb4`|<span style="color:#f00">不进行更新,仅
 engine|引擎|mysql时为`InnoDB`|<span style="color:#f00">不进行更新,仅创建时设置</span>
 collation|排序|无,按数据库默认规则|<span style="color:#f00">不进行更新,仅创建时设置</span>
 ## @Column注解
-> 可选,但建议都提供注释`comment`
+> 可选,但建议都提供注释`comment`,<b>目前主键字段不会进行任何更新/变动</b>
 
 属性|说明|默认值|已存在时是否更新
 :-|:-|:-|:-
@@ -63,9 +63,9 @@ public class CreateTable {
         SqlBuilder builder = SqlBuilder.init(JDBC_URL, DB_USER, DB_PASSWORD);
         // 生成建表语句并执行,但不会执行字段修改或删除等危险SQL
         // 会在控制台进行打印,可以根据实际情况手动执行
-        builder.run();// 等同builder.run(false);
+        builder.run("packageName");// 等同builder.run(false,"packageName");
         // 生成建表语句并执行,包括字段修改和删除等危险SQL,(建议仅开发初期使用)
-        builder.run(true);
+        builder.run(true,"packageName");
     }
 } 
 ```

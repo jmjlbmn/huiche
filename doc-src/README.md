@@ -13,19 +13,18 @@ features:
 footer: Apache Licensed | Copyright © 2018-present Jmjlbmn
 ---
 [![build](https://img.shields.io/travis/jmjlbmn/huiche.svg?style=flat-square)](https://travis-ci.org/jmjlbmn/huiche)
-[![maven](https://img.shields.io/maven-metadata/v/http/central.maven.org/maven2/org/huiche/huiche/maven-metadata.xml.svg?style=flat-square)](http://search.maven.org/#artifactdetails%7Corg.huiche%7Chuiche%7C1.0.4%7C)
+[![maven](https://img.shields.io/maven-metadata/v/http/central.maven.org/maven2/org/huiche/huiche/maven-metadata.xml.svg?style=flat-square)](http://search.maven.org/#artifactdetails%7Corg.huiche%7Chuiche%7C1.0.7%7C)
 ```xml
 <project>
     <parent>
         <groupId>org.huiche</groupId>
         <artifactId>huiche</artifactId>
-        <version>RELEASE</version>
+        <version>1.0.7</version>
     </parent>
     <dependencies>
         <dependency>
             <groupId>org.huiche</groupId>
             <artifactId>huiche-spring-boot-starter</artifactId>
-            <version>RELEASE</version>
         </dependency>
     </dependencies>
 </project>

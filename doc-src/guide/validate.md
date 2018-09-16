@@ -27,7 +27,7 @@ public class Demo{
 ```
 
 ## 数据验证
-huiche默认引入了JSR-303`Bean Validation` 用于数据验证
+huiche默认引入了JSR-303/380`Bean Validation` 用于数据验证
 > 默认仅在Dao层的`create/creates`和`updata/updates`方法中验证
 ### 数据验证示例
 ```java
@@ -49,3 +49,5 @@ public class Student extends BaseEntity<Student>{
 ### 如何取消默认验证?
 - 重写CrudDao的`doValid`方法,返回`false`(推荐)
 - 重写`validOnCreate`和`validRegular`的实现
+### 手动验证
+内置了`ValidationUtil`可以注入使用,自行在合适的地方验证即可

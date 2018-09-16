@@ -1,5 +1,15 @@
 # 更新历史
 huiche的版本会参照`MajorVersion.MinorVersion.Revision(主要版本.次要版本.修订版本)` 风格进行版本发布,但前期可能仅会变更`Revision`(包括新增功能的版本),后续有规范的打算
+## 1.0.7 <span style="font-size:0.6em;">2018-09-16</span>
+- 新增: Sql语句格式化功能
+- 新增: LogUtil,方便日志输入异常堆栈
+- 新增: ValidationUtil,方便手动进行验证
+- 新增: 部分常用插件的pluginManagement
+- 新增: update新增设置null或基于字段本身的值进行更新的方法
+- 改进: 合并create方法和creates方法
+- 改进: 建表工具重构,改善扫描实体类的速度和兼容性,调整主键字段不进行任何更新
+- 更新: spring-boot 2.0.5
+- 移除: 默认service的部分非必要方法,传统Post风格的Crud控制器
 ## 1.0.6 <span style="font-size:0.6em;">2018-08-01</span>
 - 新增: PasswordEncoder 接口,封装密码加密,starter里面提供默认实现
 - 修复: HuiCheExcetion个别构造的code丢失问题
