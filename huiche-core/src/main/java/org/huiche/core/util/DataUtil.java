@@ -34,7 +34,6 @@ import java.util.function.Function;
  */
 @Slf4j
 @UtilityClass
-@SuppressWarnings("unchecked")
 public class DataUtil {
     private static final Map<String, Map<String, PropertyInfo>> PROPERTY_CACHE = Collections.synchronizedMap(new WeakHashMap<>());
     private static final Map<Class<?>, Method[]> METHOD_CACHE = Collections.synchronizedMap(new WeakHashMap<>());
@@ -160,7 +159,7 @@ public class DataUtil {
      * @return 去重后的集合
      */
     @Nonnull
-    public static <T> List<T> distinctList(@Nonnull List<T> list) {
+    public static <T extends Comparable> List<T> distinctList(@Nonnull List<T> list) {
         if (HuiCheUtil.isNotEmpty(list)) {
             List<T> newList = new ArrayList<>();
             Set<T> set = new TreeSet<>();
@@ -175,6 +174,7 @@ public class DataUtil {
             return list;
         }
     }
+
 
     /**
      * 复制属性
@@ -223,7 +223,6 @@ public class DataUtil {
                                     log.warn("[数据复制][复写] {} 的 {} 被复写为 null ,原值为 {}", target.getClass().getSimpleName(), propertyName, targetVal);
                                 }
                             }
-
                         } else {
                             if (sourceType.equals(targetType) && !Collection.class.isAssignableFrom(targetType)) {
                                 // 类型相同且不是集合,直接赋值
@@ -242,7 +241,7 @@ public class DataUtil {
                                 writeMethod.invoke(target, val.doubleValue());
                             } else if (Double.class.equals(sourceType) && BigDecimal.class.equals(targetType)) {
                                 // 原类型Double,目标类型BigDecimal
-                                Double val = Double.class.cast(sourceVal);
+                                Double val = (Double) sourceVal;
                                 writeMethod.invoke(target, new BigDecimal(val));
                             } else if (sourceType.isEnum() && Integer.class.equals(targetType)) {
                                 //原类型枚举,目标类型Integer
@@ -326,12 +325,12 @@ public class DataUtil {
                                                 List<Object> list = new ArrayList<>();
                                                 if (sourceType.isArray()) {
                                                     for (Object item : (Object[]) sourceVal) {
-                                                        list.add(copyProperties(item, targetItemClass.newInstance(), copyNull));
+                                                        list.add(copyProperties(item, targetItemClass.getConstructor().newInstance(), copyNull));
                                                     }
                                                 } else if (Collection.class.isAssignableFrom(sourceType)) {
                                                     Collection collection = ((Collection) sourceVal);
                                                     for (Object item : collection) {
-                                                        list.add(copyProperties(item, targetItemClass.newInstance(), copyNull));
+                                                        list.add(copyProperties(item, targetItemClass.getConstructor().newInstance(), copyNull));
                                                     }
 
                                                 } else {
@@ -359,7 +358,7 @@ public class DataUtil {
                                 }
                             } else {
                                 try {
-                                    copyProperties(sourceVal, targetType.newInstance(), copyNull);
+                                    copyProperties(sourceVal, targetType.getConstructor().newInstance(), copyNull);
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                     log.warn("[数据复制][跳过] {} 的 {}({}) 与 {} 的 {}({}) 类型不一致,跳过复制,如需要赋值请手动赋值",
@@ -381,9 +380,7 @@ public class DataUtil {
                 log.info("[数据复制][跳过] {} 没有 {} 的 {} 属性,如需要赋值请手动赋值", source.getClass().getSimpleName(), target.getClass().getSimpleName(), propertyName);
             }
 
-
         }
-
         return target;
     }
 
@@ -433,7 +430,7 @@ public class DataUtil {
         return null;
     }
 
-    private class BeanInfo {
+    private static class BeanInfo {
         @Nonnull
         private final Class<?> clazz;
 
@@ -512,7 +509,7 @@ public class DataUtil {
         }
     }
 
-    private class PropertyInfo {
+    private static class PropertyInfo {
         private static final String GET = "get";
         private static final String SET = "set";
         private static final String IS = "is";

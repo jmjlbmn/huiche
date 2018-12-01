@@ -1,7 +1,7 @@
 # 开始使用
 ## 说明
 [![build](https://img.shields.io/travis/jmjlbmn/huiche.svg?style=flat-square)](https://travis-ci.org/jmjlbmn/huiche)
-[![maven](https://img.shields.io/maven-metadata/v/http/central.maven.org/maven2/org/huiche/huiche/maven-metadata.xml.svg?style=flat-square)](http://search.maven.org/#artifactdetails%7Corg.huiche%7Chuiche%7C1.0.7%7C)
+[![maven](https://img.shields.io/maven-metadata/v/http/central.maven.org/maven2/org/huiche/huiche/maven-metadata.xml.svg?style=flat-square)](http://search.maven.org/#artifactdetails%7Corg.huiche%7Chuiche%7C1.1.0%7C)
 - 基于QueryDsl的快速,类型安全的SQL查询
 - 涵盖大部分单表查询场景的通用Dao
 - 方便实用的关联查询
@@ -18,13 +18,13 @@
     <parent>
         <groupId>org.huiche</groupId>
         <artifactId>huiche</artifactId>
-        <version>1.0.7</version>
+        <version>1.1.0</version>
     </parent>
     <dependencies>
         <dependency>
             <groupId>org.huiche</groupId>
             <artifactId>huiche-spring-boot-starter</artifactId>
-            <version>1.0.7</version>
+            <version>1.1.0</version>
         </dependency>
     </dependencies>
 </project>
@@ -43,7 +43,7 @@
             <dependency>
                 <groupId>org.huiche</groupId>
                 <artifactId>huiche</artifactId>
-                <version>1.0.7</version>
+                <version>1.1.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
