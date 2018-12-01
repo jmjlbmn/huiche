@@ -71,7 +71,7 @@ public class HuiCheAutoConfigure {
             public <T> T fromJson(@Nullable String json, @Nonnull Class<T> clazz) {
                 try {
                     if (StringUtil.isEmpty(json)) {
-                        return clazz.newInstance();
+                        return clazz.getConstructor().newInstance();
                     }
                     return objectMapper.readValue(json, clazz);
                 } catch (Exception e) {

@@ -6,7 +6,7 @@
 
     <groupId>org.huiche</groupId>
     <artifactId>huiche</artifactId>
-    <version>1.0.7</version>
+    <version>1.1.0</version>
     <packaging>pom</packaging>
     <modules>
         <module>huiche-annotation</module>
@@ -40,12 +40,13 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <huiche.version>1.0.7</huiche.version>
-        <spring-boot.version>2.0.5.RELEASE</spring-boot.version>
-        <druid.version>1.1.10</druid.version>
+        <huiche.version>1.1.0</huiche.version>
+        <spring-boot.version>2.1.1.RELEASE</spring-boot.version>
+        <druid-starter.version>1.1.10</druid-starter.version>
+        <druid.version>1.1.12</druid.version>
         <querydsl.version>4.2.1</querydsl.version>
         <jsr305.version>3.0.2</jsr305.version>
-        <jetbrains-annotations.version>16.0.2</jetbrains-annotations.version>
+        <jetbrains-annotations.version>16.0.3</jetbrains-annotations.version>
         <reflections.version>0.9.11</reflections.version>
         <guava.version>20.0</guava.version>
     </properties>
@@ -88,7 +89,7 @@
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid-spring-boot-starter</artifactId>
-                <version>${druid.version}</version>
+                <version>${druid-starter.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.alibaba</groupId>
@@ -185,6 +186,16 @@
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
     <build>
         <pluginManagement>
@@ -232,7 +243,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-shade-plugin</artifactId>
-                    <version>3.1.1</version>
+                    <version>3.2.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -247,7 +258,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.22.0</version>
+                    <version>2.22.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
