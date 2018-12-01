@@ -7,82 +7,83 @@
     <meta name="description" content="基于SpringBoot,QueryDsl 的 Java 快速开发框架">
     <link rel="icon" href="/fav.ico">
 
-      <link rel="preload" href="/assets/css/0.styles.a19f2b7d.css" as="style">
-      <link rel="preload" href="/assets/js/app.ee4ac1f3.js" as="script">
-      <link rel="preload" href="/assets/js/13.21b92e9a.js" as="script">
-      <link rel="prefetch" href="/assets/js/7.35510385.js">
-      <link rel="prefetch" href="/assets/js/2.cda51ec0.js">
-      <link rel="prefetch" href="/assets/js/3.c0a04ab7.js">
-      <link rel="prefetch" href="/assets/js/4.2cdd12ca.js">
-      <link rel="prefetch" href="/assets/js/5.71fb1042.js">
-      <link rel="prefetch" href="/assets/js/6.7583e42c.js">
-      <link rel="prefetch" href="/assets/js/8.b0b1ea5c.js">
-      <link rel="prefetch" href="/assets/js/9.99ca4ccd.js">
-      <link rel="prefetch" href="/assets/js/10.b446cacf.js">
-      <link rel="prefetch" href="/assets/js/11.97301a60.js">
-      <link rel="prefetch" href="/assets/js/12.366f76c2.js">
-      <link rel="prefetch" href="/assets/js/14.0671a8c9.js">
-      <link rel="prefetch" href="/assets/js/15.7e476b55.js">
-      <link rel="prefetch" href="/assets/js/16.0ad98689.js">
-      <link rel="stylesheet" href="/assets/css/0.styles.a19f2b7d.css">
+      <link as="style" href="/assets/css/0.styles.a19f2b7d.css" rel="preload">
+      <link as="script" href="/assets/js/app.63317ce2.js" rel="preload">
+      <link as="script" href="/assets/js/12.f50e83f1.js" rel="preload">
+      <link href="/assets/js/10.9c816e9e.js" rel="prefetch">
+      <link href="/assets/js/11.04e129b6.js" rel="prefetch">
+      <link href="/assets/js/13.3e344283.js" rel="prefetch">
+      <link href="/assets/js/14.790f870f.js" rel="prefetch">
+      <link href="/assets/js/15.11938f7c.js" rel="prefetch">
+      <link href="/assets/js/16.ee684b3f.js" rel="prefetch">
+      <link href="/assets/js/2.876591ee.js" rel="prefetch">
+      <link href="/assets/js/3.63a4f2ca.js" rel="prefetch">
+      <link href="/assets/js/4.b7ba53fd.js" rel="prefetch">
+      <link href="/assets/js/5.577be87e.js" rel="prefetch">
+      <link href="/assets/js/6.277ca7df.js" rel="prefetch">
+      <link href="/assets/js/7.29372f28.js" rel="prefetch">
+      <link href="/assets/js/8.0539e76e.js" rel="prefetch">
+      <link href="/assets/js/9.3e12df25.js" rel="prefetch">
+      <link href="/assets/css/0.styles.a19f2b7d.css" rel="stylesheet">
   </head>
   <body>
-  <div id="app" data-server-rendered="true">
+  <div data-server-rendered="true" id="app">
       <div class="theme-container">
           <header class="navbar">
               <div class="sidebar-button">
-                  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512"
-                       class="icon">
-                      <path fill="currentColor"
-                            d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path>
+                  <svg aria-hidden="true" class="icon" role="img" viewBox="0 0 448 512"
+                       xmlns="http://www.w3.org/2000/svg">
+                      <path d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"
+                            fill="currentColor"></path>
                   </svg>
               </div>
-              <a href="/" class="home-link router-link-active"><!----> <span class="site-name">HuiChe</span></a>
+              <a class="home-link router-link-active" href="/"><!----> <span class="site-name">HuiChe</span></a>
               <div class="links" style="max-width:nullpx;">
                   <div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value="">
                       <!----></div>
                   <nav class="nav-links can-hide">
-                      <div class="nav-item"><a href="/guide/" class="nav-link router-link-active">使用指南</a></div>
-                      <div class="nav-item"><a href="https://github.com/jmjlbmn/huiche-examples/" target="_blank"
-                                               rel="noopener noreferrer" class="nav-link external">
+                      <div class="nav-item"><a class="nav-link router-link-active" href="/guide/">使用指南</a></div>
+                      <div class="nav-item"><a class="nav-link external"
+                                               href="https://github.com/jmjlbmn/huiche-examples/"
+                                               rel="noopener noreferrer" target="_blank">
   使用示例
-                          <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px"
-                               viewBox="0 0 100 100" width="15" height="15" class="icon outbound">
-                              <path fill="currentColor"
-                                    d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
+                          <svg aria-hidden="true" class="icon outbound" height="15" viewBox="0 0 100 100" width="15"
+                               x="0px" xmlns="http://www.w3.org/2000/svg" y="0px">
+                              <path d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"
+                                    fill="currentColor"></path>
                               <polygon fill="currentColor"
                                        points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
                           </svg>
                       </a></div>
-                      <div class="nav-item"><a href="http://huiche.org/guide/change.html" target="_blank"
-                                               rel="noopener noreferrer" class="nav-link external">
+                      <div class="nav-item"><a class="nav-link external" href="http://huiche.org/guide/change.html"
+                                               rel="noopener noreferrer" target="_blank">
                           更新历史
-                          <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px"
-                               viewBox="0 0 100 100" width="15" height="15" class="icon outbound">
-                              <path fill="currentColor"
-                                    d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
+                          <svg aria-hidden="true" class="icon outbound" height="15" viewBox="0 0 100 100" width="15"
+                               x="0px" xmlns="http://www.w3.org/2000/svg" y="0px">
+                              <path d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"
+                                    fill="currentColor"></path>
                               <polygon fill="currentColor"
                                        points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
                           </svg>
                       </a></div>
-                      <div class="nav-item"><a href="https://apidoc.gitee.com/jmjlbmn/huiche/" target="_blank"
-                                               rel="noopener noreferrer" class="nav-link external">
+                      <div class="nav-item"><a class="nav-link external" href="https://apidoc.gitee.com/jmjlbmn/huiche/"
+                                               rel="noopener noreferrer" target="_blank">
   JavaDoc
-                          <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px"
-                               viewBox="0 0 100 100" width="15" height="15" class="icon outbound">
-                              <path fill="currentColor"
-                                    d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
+                          <svg aria-hidden="true" class="icon outbound" height="15" viewBox="0 0 100 100" width="15"
+                               x="0px" xmlns="http://www.w3.org/2000/svg" y="0px">
+                              <path d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"
+                                    fill="currentColor"></path>
                               <polygon fill="currentColor"
                                        points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
                           </svg>
                       </a></div>
-                      <a href="https://github.com/jmjlbmn/huiche" target="_blank" rel="noopener noreferrer"
-                         class="repo-link">
+                      <a class="repo-link" href="https://github.com/jmjlbmn/huiche" rel="noopener noreferrer"
+                         target="_blank">
     GitHub
-                          <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px"
-                               viewBox="0 0 100 100" width="15" height="15" class="icon outbound">
-                              <path fill="currentColor"
-                                    d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
+                          <svg aria-hidden="true" class="icon outbound" height="15" viewBox="0 0 100 100" width="15"
+                               x="0px" xmlns="http://www.w3.org/2000/svg" y="0px">
+                              <path d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"
+                                    fill="currentColor"></path>
                               <polygon fill="currentColor"
                                        points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
                           </svg>
@@ -92,76 +93,77 @@
           <div class="sidebar-mask"></div>
           <div class="sidebar">
               <nav class="nav-links">
-                  <div class="nav-item"><a href="/guide/" class="nav-link router-link-active">使用指南</a></div>
-                  <div class="nav-item"><a href="https://github.com/jmjlbmn/huiche-examples/" target="_blank"
-                                           rel="noopener noreferrer" class="nav-link external">
+                  <div class="nav-item"><a class="nav-link router-link-active" href="/guide/">使用指南</a></div>
+                  <div class="nav-item"><a class="nav-link external" href="https://github.com/jmjlbmn/huiche-examples/"
+                                           rel="noopener noreferrer" target="_blank">
   使用示例
-                      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100"
-                           width="15" height="15" class="icon outbound">
-                          <path fill="currentColor"
-                                d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
+                      <svg aria-hidden="true" class="icon outbound" height="15" viewBox="0 0 100 100" width="15" x="0px"
+                           xmlns="http://www.w3.org/2000/svg" y="0px">
+                          <path d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"
+                                fill="currentColor"></path>
                           <polygon fill="currentColor"
                                    points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
                       </svg>
                   </a></div>
-                  <div class="nav-item"><a href="http://huiche.org/guide/change.html" target="_blank"
-                                           rel="noopener noreferrer" class="nav-link external">
+                  <div class="nav-item"><a class="nav-link external" href="http://huiche.org/guide/change.html"
+                                           rel="noopener noreferrer" target="_blank">
                       更新历史
-                      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100"
-                           width="15" height="15" class="icon outbound">
-                          <path fill="currentColor"
-                                d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
+                      <svg aria-hidden="true" class="icon outbound" height="15" viewBox="0 0 100 100" width="15" x="0px"
+                           xmlns="http://www.w3.org/2000/svg" y="0px">
+                          <path d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"
+                                fill="currentColor"></path>
                           <polygon fill="currentColor"
                                    points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
                       </svg>
                   </a></div>
-                  <div class="nav-item"><a href="https://apidoc.gitee.com/jmjlbmn/huiche/" target="_blank"
-                                           rel="noopener noreferrer" class="nav-link external">
+                  <div class="nav-item"><a class="nav-link external" href="https://apidoc.gitee.com/jmjlbmn/huiche/"
+                                           rel="noopener noreferrer" target="_blank">
   JavaDoc
-                      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100"
-                           width="15" height="15" class="icon outbound">
-                          <path fill="currentColor"
-                                d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
+                      <svg aria-hidden="true" class="icon outbound" height="15" viewBox="0 0 100 100" width="15" x="0px"
+                           xmlns="http://www.w3.org/2000/svg" y="0px">
+                          <path d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"
+                                fill="currentColor"></path>
                           <polygon fill="currentColor"
                                    points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
                       </svg>
                   </a></div>
-                  <a href="https://github.com/jmjlbmn/huiche" target="_blank" rel="noopener noreferrer"
-                     class="repo-link">
+                  <a class="repo-link" href="https://github.com/jmjlbmn/huiche" rel="noopener noreferrer"
+                     target="_blank">
     GitHub
-                      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100"
-                           width="15" height="15" class="icon outbound">
-                          <path fill="currentColor"
-                                d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
+                      <svg aria-hidden="true" class="icon outbound" height="15" viewBox="0 0 100 100" width="15" x="0px"
+                           xmlns="http://www.w3.org/2000/svg" y="0px">
+                          <path d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"
+                                fill="currentColor"></path>
                           <polygon fill="currentColor"
                                    points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
                       </svg>
                   </a></nav>
               <ul class="sidebar-links">
-                  <li><a href="/guide/" class="sidebar-link">开始使用</a></li>
-                  <li><a href="/guide/data.html" class="sidebar-link">实体类</a></li>
-                  <li><a href="/guide/dao.html" class="sidebar-link">数据访问层</a></li>
-                  <li><a href="/guide/service.html" class="active sidebar-link">业务层</a>
+                  <li><a class="sidebar-link" href="/guide/">开始使用</a></li>
+                  <li><a class="sidebar-link" href="/guide/data.html">实体类</a></li>
+                  <li><a class="sidebar-link" href="/guide/dao.html">数据访问层</a></li>
+                  <li><a class="active sidebar-link" href="/guide/service.html">业务层</a>
                       <ul class="sidebar-sub-headers">
-                          <li class="sidebar-sub-header"><a href="/guide/service.html#service内置方法" class="sidebar-link">service内置方法</a>
+                          <li class="sidebar-sub-header"><a class="sidebar-link" href="/guide/service.html#service内置方法">service内置方法</a>
                           </li>
-                          <li class="sidebar-sub-header"><a href="/guide/service.html#crudservice示例"
-                                                            class="sidebar-link">CrudService示例</a></li>
+                          <li class="sidebar-sub-header"><a class="sidebar-link"
+                                                            href="/guide/service.html#crudservice示例">CrudService示例</a>
+                          </li>
                       </ul>
                   </li>
-                  <li><a href="/guide/web.html" class="sidebar-link">控制层</a></li>
-                  <li><a href="/guide/predicate.html" class="sidebar-link">条件拼装</a></li>
-                  <li><a href="/guide/search.html" class="sidebar-link">自定义筛选</a></li>
-                  <li><a href="/guide/validate.html" class="sidebar-link">验证</a></li>
-                  <li><a href="/guide/sql.html" class="sidebar-link">建表工具</a></li>
-                  <li><a href="/guide/import.html" class="sidebar-link">数据迁移工具</a></li>
-                  <li><a href="/guide/change.html" class="sidebar-link">更新历史</a></li>
+                  <li><a class="sidebar-link" href="/guide/web.html">控制层</a></li>
+                  <li><a class="sidebar-link" href="/guide/predicate.html">条件拼装</a></li>
+                  <li><a class="sidebar-link" href="/guide/search.html">自定义筛选</a></li>
+                  <li><a class="sidebar-link" href="/guide/validate.html">验证</a></li>
+                  <li><a class="sidebar-link" href="/guide/sql.html">建表工具</a></li>
+                  <li><a class="sidebar-link" href="/guide/import.html">数据迁移工具</a></li>
+                  <li><a class="sidebar-link" href="/guide/change.html">更新历史</a></li>
               </ul>
           </div>
           <div class="page">
-              <div class="content"><h1 id="业务层"><a href="#业务层" aria-hidden="true" class="header-anchor">#</a> 业务层</h1>
+              <div class="content"><h1 id="业务层"><a aria-hidden="true" class="header-anchor" href="#业务层">#</a> 业务层</h1>
                   <p><code>org.huiche.service.BaseCrudServiceImpl</code>, 作为单表的通用CrudService,主要对BaseCrudDao进行了调用封装</p>
-                  <h2 id="service内置方法"><a href="#service内置方法" aria-hidden="true" class="header-anchor">#</a> service内置方法
+                  <h2 id="service内置方法"><a aria-hidden="true" class="header-anchor" href="#service内置方法">#</a> service内置方法
                   </h2>
                   <table>
                       <thead>
@@ -197,7 +199,7 @@
                       </tr>
                       </tbody>
                   </table>
-                  <h2 id="crudservice示例"><a href="#crudservice示例" aria-hidden="true" class="header-anchor">#</a>
+                  <h2 id="crudservice示例"><a aria-hidden="true" class="header-anchor" href="#crudservice示例">#</a>
                       CrudService示例</h2>
                   <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span
                           class="token keyword">interface</span> <span
@@ -222,12 +224,12 @@
               </div>
               <div class="page-edit">
                   <div class="edit-link"><a
-                          href="https://github.com/jmjlbmn/huiche/edit/master/doc-src/guide/service.md" target="_blank"
-                          rel="noopener noreferrer">帮忙完善此页面</a>
-                      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100"
-                           width="15" height="15" class="icon outbound">
-                          <path fill="currentColor"
-                                d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
+                          href="https://github.com/jmjlbmn/huiche/edit/master/doc-src/guide/service.md"
+                          rel="noopener noreferrer" target="_blank">帮忙完善此页面</a>
+                      <svg aria-hidden="true" class="icon outbound" height="15" viewBox="0 0 100 100" width="15" x="0px"
+                           xmlns="http://www.w3.org/2000/svg" y="0px">
+                          <path d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"
+                                fill="currentColor"></path>
                           <polygon fill="currentColor"
                                    points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
                       </svg>
@@ -246,7 +248,7 @@
       </span></p></div>
           </div> <!----></div>
   </div>
-  <script src="/assets/js/13.21b92e9a.js" defer></script>
-  <script src="/assets/js/app.ee4ac1f3.js" defer></script>
+  <script defer src="/assets/js/12.f50e83f1.js"></script>
+  <script defer src="/assets/js/app.63317ce2.js"></script>
   </body>
 </html>
