@@ -109,7 +109,7 @@ public class Mysql implements Sql {
                 throw new RuntimeException("目前不支持此JDBC类型:" + columnInfo.getType().getName());
         }
         if (columnInfo.getIsPrimaryKey()) {
-            if (columnInfo.getIsPrimaryKey() && canAutoIncrement(columnInfo)) {
+            if (canAutoIncrement(columnInfo)) {
                 builder.append(" PRIMARY KEY AUTO_INCREMENT");
             } else {
                 builder.append(" PRIMARY KEY");

@@ -1,5 +1,9 @@
 # 更新历史
 huiche的版本会参照`MajorVersion.MinorVersion.Revision(主要版本.次要版本.修订版本)` 风格进行版本发布,但前期可能仅会变更`Revision`(包括新增功能的版本),后续有规范的打算
+## 1.1.1 <span style="font-size:0.6em;">2019-03-13</span>
+- 更新: spring-boot 2.1.3.RELEASE
+- 更新: druid 1.1.14
+- 改进: mysql-connector-java 8.x版本在Sql-Builder和QueryDsl-CodeGen的兼容
 ## 1.1.0 <span style="font-size:0.6em;">2018-12-01</span>
 - 更新: spring-boot 2.1.1.RELEASE
 - 更新: druid 1.1.12

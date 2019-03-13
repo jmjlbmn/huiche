@@ -430,7 +430,7 @@ public interface Sql {
         String comment = "";
         try {
             DatabaseMetaData metaData = conn.getMetaData();
-            ResultSet resultSet = metaData.getTables(null, null, tableName, null);
+            ResultSet resultSet = metaData.getTables(conn.getCatalog(), null, tableName, new String[]{"TABLE"});
             if (resultSet.next()) {
                 return resultSet.getString("REMARKS");
             }

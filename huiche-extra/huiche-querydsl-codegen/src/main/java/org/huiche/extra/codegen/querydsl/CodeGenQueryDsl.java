@@ -9,6 +9,7 @@ import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 /**
  * QueryDsl查询实体生成
@@ -35,33 +36,12 @@ public class CodeGenQueryDsl {
      */
     @Nonnull
     public static CodeGenQueryDsl init(@Nonnull String jdbcUrl, @Nonnull String user, @Nonnull String password, @Nonnull String exporterPath) {
-        initDriver(jdbcUrl);
         CodeGenQueryDsl codeGenQueryDsl = new CodeGenQueryDsl();
         codeGenQueryDsl.jdbcUrl = jdbcUrl;
         codeGenQueryDsl.user = user;
         codeGenQueryDsl.password = password;
         codeGenQueryDsl.exporterPath = exporterPath;
         return codeGenQueryDsl;
-    }
-
-    /**
-     * 初始化驱动
-     *
-     * @param url JDBC_URL
-     */
-    private static void initDriver(@Nonnull String url) {
-        if (url.startsWith(Sql.MY_SQL)) {
-            try {
-                Class.forName("com.mysql.jdbc.Driver");
-            } catch (ClassNotFoundException e) {
-                try {
-                    Class.forName("com.mysql.cj.jdbc.Driver");
-                } catch (ClassNotFoundException e1) {
-                    e1.printStackTrace();
-                    throw new RuntimeException("请检查是否引入与传入url相匹配的数据库驱动jar包,url: " + url);
-                }
-            }
-        }
     }
 
     /**
@@ -77,7 +57,12 @@ public class CodeGenQueryDsl {
      * @param packageName 包名
      */
     public void exportTable(@Nullable String packageName) {
-        try (Connection conn = DriverManager.getConnection(jdbcUrl, user, password)) {
+        Properties props = new Properties();
+        props.put("user", user);
+        props.put("password", password);
+        props.put("nullCatalogMeansCurrent", true);
+
+        try (Connection conn = DriverManager.getConnection(jdbcUrl, props)) {
             MetaDataExporter exporter = new MetaDataExporter();
             exporter.setPackageName(null == packageName ? "table" : packageName);
             exporter.setTargetFolder(new File(exporterPath));
@@ -106,7 +91,11 @@ public class CodeGenQueryDsl {
      * @param packageName 包名
      */
     public void exportView(@Nullable String packageName) {
-        try (Connection conn = DriverManager.getConnection(jdbcUrl, user, password)) {
+        Properties props = new Properties();
+        props.put("user", user);
+        props.put("password", password);
+        props.put("nullCatalogMeansCurrent", true);
+        try (Connection conn = DriverManager.getConnection(jdbcUrl, props)) {
             MetaDataExporter exporter = new MetaDataExporter();
             exporter.setPackageName(null == packageName ? "view" : packageName);
             exporter.setTargetFolder(new File(exporterPath));
