@@ -18,9 +18,8 @@ import java.util.Properties;
  */
 public class CodeGenQueryDsl {
     private String jdbcUrl;
-    private String user;
-    private String password;
     private String exporterPath;
+    private Properties props;
 
     private CodeGenQueryDsl() {
     }
@@ -38,9 +37,11 @@ public class CodeGenQueryDsl {
     public static CodeGenQueryDsl init(@Nonnull String jdbcUrl, @Nonnull String user, @Nonnull String password, @Nonnull String exporterPath) {
         CodeGenQueryDsl codeGenQueryDsl = new CodeGenQueryDsl();
         codeGenQueryDsl.jdbcUrl = jdbcUrl;
-        codeGenQueryDsl.user = user;
-        codeGenQueryDsl.password = password;
         codeGenQueryDsl.exporterPath = exporterPath;
+        codeGenQueryDsl.props = new Properties();
+        codeGenQueryDsl.props.setProperty("user", user);
+        codeGenQueryDsl.props.setProperty("password", password);
+        codeGenQueryDsl.props.setProperty("nullCatalogMeansCurrent", "true");
         return codeGenQueryDsl;
     }
 
@@ -57,11 +58,6 @@ public class CodeGenQueryDsl {
      * @param packageName 包名
      */
     public void exportTable(@Nullable String packageName) {
-        Properties props = new Properties();
-        props.put("user", user);
-        props.put("password", password);
-        props.put("nullCatalogMeansCurrent", true);
-
         try (Connection conn = DriverManager.getConnection(jdbcUrl, props)) {
             MetaDataExporter exporter = new MetaDataExporter();
             exporter.setPackageName(null == packageName ? "table" : packageName);
@@ -91,10 +87,6 @@ public class CodeGenQueryDsl {
      * @param packageName 包名
      */
     public void exportView(@Nullable String packageName) {
-        Properties props = new Properties();
-        props.put("user", user);
-        props.put("password", password);
-        props.put("nullCatalogMeansCurrent", true);
         try (Connection conn = DriverManager.getConnection(jdbcUrl, props)) {
             MetaDataExporter exporter = new MetaDataExporter();
             exporter.setPackageName(null == packageName ? "view" : packageName);
@@ -105,12 +97,5 @@ public class CodeGenQueryDsl {
         } catch (SQLException e) {
             throw new RuntimeException("生成视图失败!", e);
         }
-    }
-
-    /**
-     * sql类型
-     */
-    interface Sql {
-        String MY_SQL = "jdbc:mysql";
     }
 }
