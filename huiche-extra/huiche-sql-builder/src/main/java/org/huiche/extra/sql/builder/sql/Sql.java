@@ -192,7 +192,7 @@ public interface Sql {
     static List<ColumnInfo> getInfo(@Nonnull Connection conn, @Nonnull String tableName) {
         List<ColumnInfo> list = new ArrayList<>();
         try {
-            ResultSet rs = conn.getMetaData().getColumns(null, null, tableName, null);
+            ResultSet rs = conn.getMetaData().getColumns(conn.getCatalog(), null, tableName, null);
             ColumnInfo columnInfo;
             while (rs.next()) {
                 columnInfo = new ColumnInfo();
