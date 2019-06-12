@@ -1,6 +1,8 @@
 package org.huiche.web.util;
 
 import org.huiche.core.exception.HuiCheException;
+import org.huiche.core.util.LogUtil;
+import org.huiche.web.ErrorVO;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -32,6 +34,17 @@ public class ResponseUtil {
         } catch (IOException e) {
             e.printStackTrace();
             throw new HuiCheException("返回数据出错");
+        }
+    }
+
+    public static ErrorVO error(Exception e, HttpServletResponse response, boolean debug) {
+        LogUtil.error(e);
+        if (e instanceof HuiCheException) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return new ErrorVO().setErrCode(((HuiCheException) e).getCode()).setErrMsg(((HuiCheException) e).getMsg());
+        } else {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return new ErrorVO().setErrCode(-1).setErrMsg(debug ? e.getLocalizedMessage() : "服务器错误");
         }
     }
 }

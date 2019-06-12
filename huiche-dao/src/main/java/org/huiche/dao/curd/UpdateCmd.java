@@ -61,6 +61,7 @@ public interface UpdateCmd<T extends BaseEntity<T>> extends PathProvider<T>, Sql
         Assert.ok("更新时条件不能为空", null != predicate && predicate.length > 0);
         // 强制不更新ID
         entity.setId(null);
+        beforeUpdate(entity);
         validRegular(entity);
         return sql().update(root()).populate(entity).where(predicate).execute();
     }
@@ -74,6 +75,8 @@ public interface UpdateCmd<T extends BaseEntity<T>> extends PathProvider<T>, Sql
      */
     default long update(@Nonnull T entity, Consumer<SQLUpdateClause> setter) {
         Assert.notNull(HuiCheError.UPDATE_MUST_HAVE_ID, entity.getId());
+        beforeUpdate(entity);
+        validRegular(entity);
         SQLUpdateClause update = sql().update(root()).populate(entity);
         setter.accept(update);
         return update.where(pk().eq(entity.getId())).execute();
@@ -103,6 +106,8 @@ public interface UpdateCmd<T extends BaseEntity<T>> extends PathProvider<T>, Sql
      */
     default long update(@Nonnull T entity, Consumer<SQLUpdateClause> setter, @Nullable Predicate... predicate) {
         Assert.ok("更新时条件不能为空", null != predicate && predicate.length > 0);
+        beforeUpdate(entity);
+        validRegular(entity);
         // 强制不更新ID
         entity.setId(null);
         SQLUpdateClause update = sql().update(root()).populate(entity);
