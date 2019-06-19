@@ -1,3 +1,4 @@
 language: java
+# use openjdk
 jdk:
   - openjdk8
