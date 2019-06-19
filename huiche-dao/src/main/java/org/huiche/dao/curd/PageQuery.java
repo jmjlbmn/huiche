@@ -14,6 +14,7 @@ import javax.annotation.Nullable;
 
 /**
  * 分页获取实体类操作,即 Select * ,建议使用pageColumns
+ *
  * @author Maning
  */
 public interface PageQuery<T> extends PathProvider<T>, SqlProvider {
@@ -37,11 +38,39 @@ public interface PageQuery<T> extends PathProvider<T>, SqlProvider {
      */
     @Nonnull
     default PageResponse<T> page(@Nullable PageRequest pageRequest, @Nullable Predicate... predicate) {
+        return page(pageRequest, (OrderSpecifier[]) null, predicate);
+    }
+
+    /**
+     * 获取分页数据,默认方法,表结构简单时可以调用,结构复杂时请务必选择pageColumns
+     *
+     * @param pageRequest 分页请求
+     * @param predicate   条件
+     * @param order       排序
+     * @return 分页数据
+     */
+    @Nonnull
+    default PageResponse<T> page(@Nullable PageRequest pageRequest, @Nullable OrderSpecifier order, @Nullable Predicate... predicate) {
+        return page(pageRequest, null == order ? null : new OrderSpecifier[]{order}, predicate);
+    }
+
+    /**
+     * 获取分页数据,默认方法,表结构简单时可以调用,结构复杂时请务必选择pageColumns
+     *
+     * @param pageRequest 分页请求
+     * @param predicate   条件
+     * @param order       排序
+     * @return 分页数据
+     */
+    @Nonnull
+    default PageResponse<T> page(@Nullable PageRequest pageRequest, @Nullable OrderSpecifier[] order, @Nullable Predicate... predicate) {
         SQLQuery<T> query = sql().selectFrom(root());
         if (null != predicate && predicate.length > 0) {
             query = query.where(predicate);
         }
-        OrderSpecifier[] order = QueryUtil.parsePageRequest(pageRequest);
+        if (order == null || order.length == 0) {
+            order = QueryUtil.parsePageRequest(pageRequest);
+        }
         if (order.length > 0) {
             query = query.orderBy(order);
         } else {

@@ -5,7 +5,14 @@ import org.huiche.core.util.LogUtil;
 import org.huiche.web.ErrorVO;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URLEncoder;
 
 /**
  * 响应工具类,提供响应JSON,JS,CSS等方法
@@ -34,6 +41,19 @@ public class ResponseUtil {
         } catch (IOException e) {
             e.printStackTrace();
             throw new HuiCheException("返回数据出错");
+        }
+    }
+
+    public static void download(HttpServletResponse response, File file, String fileName) throws Exception {
+        try (InputStream in = new BufferedInputStream(new FileInputStream(file)); OutputStream out = new BufferedOutputStream(response.getOutputStream())) {
+            byte[] buffer = new byte[in.available()];
+            if (in.read(buffer) > 0) {
+                response.reset();
+                response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "utf-8"));
+                response.addHeader("Content-Length", "" + file.length());
+                response.setContentType("application/octet-stream");
+                out.write(buffer);
+            }
         }
     }
 
