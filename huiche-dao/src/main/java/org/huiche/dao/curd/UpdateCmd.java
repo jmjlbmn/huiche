@@ -83,7 +83,7 @@ public interface UpdateCmd<T extends BaseEntity<T>> extends PathProvider<T>, Sql
     }
 
     /**
-     * 根据条件更新,自行set更新内容
+     * 根据条件更新,自行set更新内容,注意该方法不会更新修改时间,也不进行校验
      *
      * @param setter    update
      * @param predicate 条件
@@ -97,7 +97,7 @@ public interface UpdateCmd<T extends BaseEntity<T>> extends PathProvider<T>, Sql
     }
 
     /**
-     * 根据条件更新,自行set更新内容
+     * 根据条件更新,自行set更新内容,注意该方法通过setter进行的字段更新不会进行校验
      *
      * @param entity    实体类
      * @param setter    update
