@@ -31,7 +31,7 @@ public class SimpleView implements View {
     }
 
     public static ModelAndView json(@Nonnull String content) {
-        return new ModelAndView(new SimpleView(content, MediaType.APPLICATION_JSON_UTF8_VALUE));
+        return new ModelAndView(new SimpleView(content, MediaType.APPLICATION_JSON_VALUE));
     }
 
     public static ModelAndView css(@Nonnull String content) {
