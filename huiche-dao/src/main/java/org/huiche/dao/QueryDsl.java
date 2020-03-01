@@ -24,7 +24,6 @@ import com.querydsl.sql.SQLTemplates;
 import com.querydsl.sql.dml.SQLInsertBatch;
 import com.querydsl.sql.dml.SQLMergeBatch;
 import com.querydsl.sql.dml.SQLUpdateBatch;
-import com.querydsl.sql.spring.SpringExceptionTranslator;
 import com.querydsl.sql.types.Null;
 import lombok.extern.slf4j.Slf4j;
 
@@ -65,7 +64,7 @@ public class QueryDsl {
         } else {
             type = JdbcConstants.MYSQL;
         }
-        CONFIG.setExceptionTranslator(new SpringExceptionTranslator());
+        CONFIG.setExceptionTranslator(new QueryDslExceptionTranslator());
         CONFIG.addListener(new SQLListener() {
             @Override
             public void notifyQuery(QueryMetadata md) {

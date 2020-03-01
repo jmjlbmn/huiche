@@ -11,7 +11,6 @@ import org.huiche.dao.provider.UpdateHandleProvider;
 import org.huiche.data.entity.BaseEntity;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.function.Consumer;
 
@@ -57,13 +56,14 @@ public interface UpdateCmd<T extends BaseEntity<T>> extends PathProvider<T>, Sql
      * @param predicate 条件
      * @return 变更条数
      */
-    default long update(@Nonnull T entity, @Nullable Predicate... predicate) {
-        Assert.ok("更新时条件不能为空", null != predicate && predicate.length > 0);
-        // 强制不更新ID
-        entity.setId(null);
+    default long update(@Nonnull T entity, Predicate... predicate) {
         beforeUpdate(entity);
         validRegular(entity);
-        return sql().update(root()).populate(entity).where(predicate).execute();
+        if (entity.getId() == null) {
+            return sql().update(root()).populate(entity).where(predicate).execute();
+        } else {
+            return sql().update(root()).populate(entity).where(pk().eq(entity.getId())).where(predicate).execute();
+        }
     }
 
     /**
@@ -89,7 +89,7 @@ public interface UpdateCmd<T extends BaseEntity<T>> extends PathProvider<T>, Sql
      * @param predicate 条件
      * @return 更新条数
      */
-    default long update(Consumer<SQLUpdateClause> setter, @Nullable Predicate... predicate) {
+    default long update(Consumer<SQLUpdateClause> setter, Predicate... predicate) {
         Assert.ok("更新时条件不能为空", null != predicate && predicate.length > 0);
         SQLUpdateClause update = sql().update(root());
         setter.accept(update);
@@ -104,15 +104,16 @@ public interface UpdateCmd<T extends BaseEntity<T>> extends PathProvider<T>, Sql
      * @param predicate 条件
      * @return 更新条数
      */
-    default long update(@Nonnull T entity, Consumer<SQLUpdateClause> setter, @Nullable Predicate... predicate) {
-        Assert.ok("更新时条件不能为空", null != predicate && predicate.length > 0);
+    default long update(@Nonnull T entity, Consumer<SQLUpdateClause> setter, Predicate... predicate) {
         beforeUpdate(entity);
         validRegular(entity);
-        // 强制不更新ID
-        entity.setId(null);
         SQLUpdateClause update = sql().update(root()).populate(entity);
         setter.accept(update);
-        return update.where(predicate).execute();
+        if (entity.getId() == null) {
+            return update.where(predicate).execute();
+        } else {
+            return update.where(pk().eq(entity.getId())).where(predicate).execute();
+        }
     }
 
     /**

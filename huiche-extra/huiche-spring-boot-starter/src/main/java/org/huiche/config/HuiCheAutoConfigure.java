@@ -3,7 +3,6 @@ package org.huiche.config;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.querydsl.sql.SQLQueryFactory;
-import com.querydsl.sql.spring.SpringConnectionProvider;
 import org.hibernate.validator.HibernateValidator;
 import org.huiche.core.exception.HuiCheException;
 import org.huiche.core.json.JsonApi;
@@ -116,7 +115,7 @@ public class HuiCheAutoConfigure {
     @ConditionalOnBean(DataSource.class)
     @ConditionalOnMissingBean
     public SQLQueryFactory sqlQueryFactory(DataSource dataSource) {
-        Provider<Connection> provider = new SpringConnectionProvider(dataSource);
+        Provider<Connection> provider = new QueryDslConnectionProvider(dataSource);
         QueryDsl.init(new MySqlExTemplates());
         return new SQLQueryFactory(QueryDsl.CONFIG, provider);
     }
