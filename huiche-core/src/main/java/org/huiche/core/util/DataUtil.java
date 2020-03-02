@@ -159,7 +159,7 @@ public class DataUtil {
      * @return 去重后的集合
      */
     @Nonnull
-    public static <T extends Comparable> List<T> distinctList(@Nonnull List<T> list) {
+    public static <T extends Comparable<?>> List<T> distinctList(@Nonnull List<T> list) {
         if (HuiCheUtil.isNotEmpty(list)) {
             List<T> newList = new ArrayList<>();
             Set<T> set = new TreeSet<>();
@@ -249,7 +249,7 @@ public class DataUtil {
                                     ValEnum valEnum = (ValEnum) sourceVal;
                                     writeMethod.invoke(target, valEnum.val());
                                 } else {
-                                    Enum valEnum = (Enum) sourceVal;
+                                    Enum<?> valEnum = (Enum<?>) sourceVal;
                                     writeMethod.invoke(target, valEnum.ordinal());
                                     log.warn("[数据复制][警告] 源对象 {} 的 {} 是枚举类型 {},而目标对象 {} 的 {} 是Integer 现在根据ordinal赋值,极有可能不准确,请调整让枚举实现ValEnum接口或手动赋值",
                                             source.getClass().getSimpleName(),
@@ -276,7 +276,7 @@ public class DataUtil {
                                             propertyName,
                                             targetType.getName());
                                     for (Object object : targetType.getEnumConstants()) {
-                                        Enum valEnum = (Enum) object;
+                                        Enum<?> valEnum = (Enum<?>) object;
                                         if (HuiCheUtil.equals(valEnum.ordinal(), sourceVal)) {
                                             writeMethod.invoke(target, valEnum);
                                             break;
@@ -286,9 +286,9 @@ public class DataUtil {
 
                             } else if (sourceType.isEnum() && targetType.isEnum()) {
                                 // 原类型与目标类型都是枚举
-                                Enum enumVal = (Enum) sourceVal;
+                                Enum<?> enumVal = (Enum<?>) sourceVal;
                                 for (Object oItem : targetType.getEnumConstants()) {
-                                    Enum item = (Enum) oItem;
+                                    Enum<?> item = (Enum<?>) oItem;
                                     if (item.name().equals(enumVal.name())) {
                                         writeMethod.invoke(target, item);
                                         break;
@@ -305,7 +305,7 @@ public class DataUtil {
                                             if (sourceType.isArray()) {
                                                 list.addAll(Arrays.asList((Object[]) sourceVal));
                                             } else if (Collection.class.isAssignableFrom(sourceType)) {
-                                                list.addAll(((Collection) sourceVal));
+                                                list.addAll(((Collection<?>) sourceVal));
                                             } else {
                                                 log.warn("[数据复制][出错] {} 的 {}({}) 与 {} 的 {}({}) 类型不匹配,未进行处理,跳过复制,如需要赋值请手动赋值",
                                                         source.getClass().getSimpleName(),
@@ -328,7 +328,7 @@ public class DataUtil {
                                                         list.add(copyProperties(item, targetItemClass.getConstructor().newInstance(), copyNull));
                                                     }
                                                 } else if (Collection.class.isAssignableFrom(sourceType)) {
-                                                    Collection collection = ((Collection) sourceVal);
+                                                    Collection<?> collection = (Collection<?>) sourceVal;
                                                     for (Object item : collection) {
                                                         list.add(copyProperties(item, targetItemClass.getConstructor().newInstance(), copyNull));
                                                     }

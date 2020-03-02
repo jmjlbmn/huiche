@@ -2,7 +2,11 @@ package org.huiche.config;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.querydsl.sql.AbstractSQLQuery;
+import com.querydsl.sql.SQLBaseListener;
+import com.querydsl.sql.SQLListenerContext;
 import com.querydsl.sql.SQLQueryFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.HibernateValidator;
 import org.huiche.core.exception.HuiCheException;
 import org.huiche.core.json.JsonApi;
@@ -20,6 +24,7 @@ import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -39,6 +44,7 @@ import java.util.stream.Collectors;
  * @author Maning
  */
 @Configuration
+@Slf4j
 @AutoConfigureAfter({DataSourceAutoConfiguration.class, JacksonAutoConfiguration.class})
 public class HuiCheAutoConfigure {
     /**
@@ -112,13 +118,23 @@ public class HuiCheAutoConfigure {
      * @return SQLQueryFactory
      */
     @Bean
-    @ConditionalOnBean(DataSource.class)
-    @ConditionalOnMissingBean
     public SQLQueryFactory sqlQueryFactory(DataSource dataSource) {
         Provider<Connection> provider = new QueryDslConnectionProvider(dataSource);
         QueryDsl.init(new MySqlExTemplates());
+        QueryDsl.CONFIG.addListener(new SQLBaseListener() {
+            @Override
+            public void end(SQLListenerContext context) {
+                Connection connection = context.getConnection();
+                if (connection != null && context.getData(PARENT_CONTEXT) == null) {
+                    DataSourceUtils.releaseConnection(connection, dataSource);
+                }
+                super.end(context);
+            }
+        });
         return new SQLQueryFactory(QueryDsl.CONFIG, provider);
     }
+
+    private static final String PARENT_CONTEXT = AbstractSQLQuery.class.getName() + "#PARENT_CONTEXT";
 
     /**
      * 注册验证工具
