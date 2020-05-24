@@ -1,6 +1,6 @@
 # HuiChe
 [![build](https://img.shields.io/travis/jmjlbmn/huiche.svg?style=flat-square)](https://travis-ci.org/jmjlbmn/huiche)
-[![maven](https://img.shields.io/maven-metadata/v/http/central.maven.org/maven2/org/huiche/huiche/maven-metadata.xml.svg?style=flat-square)](http://search.maven.org/#artifactdetails%7Corg.huiche%7Chuiche%7C1.3.3%7C)
+[![maven](https://img.shields.io/maven-metadata/v/http/central.maven.org/maven2/org/huiche/huiche/maven-metadata.xml.svg?style=flat-square)](http://search.maven.org/#artifactdetails%7Corg.huiche%7Chuiche%7C1.3.5%7C)
 ## 基于SpringBoot和QueryDsl的快速开发框架
 ## 主要功能
 - 基于QueryDsl的快速,类型安全的SQL查询
@@ -24,13 +24,13 @@
     <parent>
         <groupId>org.huiche</groupId>
         <artifactId>huiche</artifactId>
-        <version>1.3.3</version>
+        <version>${huiche.version}</version>
     </parent>
     <dependencies>
         <dependency>
             <groupId>org.huiche</groupId>
             <artifactId>huiche-spring-boot-starter</artifactId>
-            <version>1.3.3</version>
+            <version>${huiche.version}</version>
         </dependency>
     </dependencies>
 </project>
@@ -51,7 +51,7 @@
             <dependency>
                 <groupId>org.huiche</groupId>
                 <artifactId>huiche</artifactId>
-                <version>1.3.3</version>
+                <version>${huiche.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
