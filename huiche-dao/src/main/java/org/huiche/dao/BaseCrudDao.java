@@ -47,7 +47,12 @@ public abstract class BaseCrudDao<T extends BaseEntity<T>> extends BaseDao imple
     @Override
     public void beforeCreate(@Nonnull T entity) {
         String time = DateUtil.nowTime();
-        entity.setCreateTime(time).setModifyTime(time);
+        if (entity.getCreateTime() == null) {
+            entity.setCreateTime(time);
+        }
+        if (entity.getModifyTime() == null) {
+            entity.setModifyTime(time);
+        }
     }
 
     /**

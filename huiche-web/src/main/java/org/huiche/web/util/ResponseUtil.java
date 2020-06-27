@@ -20,15 +20,15 @@ import java.net.URLEncoder;
  * @author Maning
  */
 public class ResponseUtil {
-    public static void respJSON(HttpServletResponse response, String json) {
+    public static void respJson(HttpServletResponse response, String json) {
         respStr(response, json, "application/json");
     }
 
-    public static void respJS(HttpServletResponse response, String js) {
+    public static void respJs(HttpServletResponse response, String js) {
         respStr(response, js, "application/javascript");
     }
 
-    public static void respCSS(HttpServletResponse response, String css) {
+    public static void respCss(HttpServletResponse response, String css) {
         respStr(response, css, "text/css");
     }
 

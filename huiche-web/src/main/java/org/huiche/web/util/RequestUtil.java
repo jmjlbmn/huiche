@@ -63,7 +63,7 @@ public class RequestUtil {
      * @return url
      */
     @Nonnull
-    public static String getRequestURL(@Nullable HttpServletRequest request) {
+    public static String getRequestUrl(@Nullable HttpServletRequest request) {
         if (null == request) {
             return "/";
         }
