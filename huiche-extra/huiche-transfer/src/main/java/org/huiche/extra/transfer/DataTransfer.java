@@ -174,7 +174,7 @@ public class DataTransfer {
         fp = 0 == fp ? 1 : fp;
         for (long page = 1; page <= totalPage; page++) {
             long start = (page - 1) * size;
-            long end = (start + size) > count ? count : (start + size);
+            long end = Math.min((start + size), count);
             System.out.println(String.format("%" + fp + "d", page) + "/" + totalPage +
                     " 已处理" + String.format("%5s", String.format("%.2f", start * 100 / (double) count)) +
                     "% 准备处理第" + String.format("%" + fc + "d", (start + 1)) +

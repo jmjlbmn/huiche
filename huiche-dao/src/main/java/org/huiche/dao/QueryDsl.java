@@ -1,5 +1,6 @@
 package org.huiche.dao;
 
+import com.alibaba.druid.DbType;
 import com.alibaba.druid.sql.SQLUtils;
 import com.alibaba.druid.util.JdbcConstants;
 import com.querydsl.core.QueryMetadata;
@@ -41,7 +42,7 @@ import java.util.regex.Matcher;
 @Slf4j
 public class QueryDsl {
     public static Configuration CONFIG = new Configuration(SQLTemplates.DEFAULT);
-    private static String type;
+    private static DbType type;
 
     public static void init(SQLTemplates templates) {
         CONFIG = new Configuration(templates);
