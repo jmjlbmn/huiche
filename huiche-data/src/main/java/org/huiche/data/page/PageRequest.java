@@ -1,7 +1,5 @@
 package org.huiche.data.page;
 
-import lombok.Getter;
-import lombok.ToString;
 import org.huiche.core.util.HuiCheUtil;
 
 import java.io.Serializable;
@@ -11,8 +9,6 @@ import java.io.Serializable;
  *
  * @author Maning
  */
-@Getter
-@ToString
 public class PageRequest implements Serializable {
     private int page = 1;
     private int rows = 10;
@@ -71,5 +67,31 @@ public class PageRequest implements Serializable {
             this.order = order;
         }
         return this;
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public String getOrder() {
+        return order;
+    }
+
+    @Override
+    public String toString() {
+        return "PageRequest{" +
+                "page=" + page +
+                ", rows=" + rows +
+                ", sort='" + sort + '\'' +
+                ", order='" + order + '\'' +
+                '}';
     }
 }

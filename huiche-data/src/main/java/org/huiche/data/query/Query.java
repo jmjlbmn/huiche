@@ -1,11 +1,7 @@
 package org.huiche.data.query;
 
-import com.querydsl.core.types.Expression;
-import com.querydsl.core.types.ExpressionUtils;
-import com.querydsl.core.types.Path;
-import com.querydsl.core.types.Predicate;
-import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.QBean;
+import com.querydsl.core.types.*;
+import com.querydsl.core.types.dsl.StringExpression;
 import com.querydsl.sql.RelationalPath;
 import org.huiche.core.util.HuiCheUtil;
 import org.huiche.data.entity.BaseEntity;
@@ -81,6 +77,25 @@ public interface Query {
     @Nullable
     default <T> Predicate predicate(@Nonnull Supplier<Predicate> predicate) {
         return predicate.get();
+    }
+
+    /**
+     * 关键字
+     *
+     * @param keyword 关键字
+     * @param cols    关键字列
+     * @return 条件
+     */
+    @Nullable
+    default Predicate keyword(@Nullable String keyword, StringExpression... cols) {
+        if (HuiCheUtil.isEmpty(keyword)) {
+            return null;
+        }
+        List<Predicate> list = new ArrayList<>(cols.length);
+        for (StringExpression col : cols) {
+            list.add(col.contains(keyword));
+        }
+        return list.isEmpty() ? null : ExpressionUtils.anyOf(list);
     }
 
     /**

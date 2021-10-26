@@ -1,7 +1,7 @@
 package org.huiche.core.util;
 
-import lombok.experimental.UtilityClass;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 import java.io.PrintWriter;
@@ -10,9 +10,8 @@ import java.io.StringWriter;
 /**
  * @author Maning
  */
-@UtilityClass
-@Slf4j
 public class LogUtil {
+    private static final Logger log = LoggerFactory.getLogger(LogUtil.class);
     public static void error(@Nonnull String msg, @Nonnull Throwable ex) {
         log.error(msg + System.lineSeparator() + printStackTrace(ex));
     }

@@ -6,7 +6,7 @@
 
     <groupId>org.huiche</groupId>
     <artifactId>huiche</artifactId>
-    <version>1.3.7</version>
+    <version>1.3.8</version>
     <packaging>pom</packaging>
     <modules>
         <module>huiche-annotation</module>
@@ -39,26 +39,18 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <huiche.version>1.3.7</huiche.version>
-        <spring-boot.version>2.3.4.RELEASE</spring-boot.version>
-        <druid.version>1.2.1</druid.version>
+        <spring-boot.version>2.5.5</spring-boot.version>
+        <druid.version>1.2.8</druid.version>
         <querydsl.version>4.4.0</querydsl.version>
         <jsr305.version>3.0.2</jsr305.version>
-        <jetbrains-annotations.version>20.1.0</jetbrains-annotations.version>
-        <reflections.version>0.9.12</reflections.version>
-        <guava.version>29.0-jre</guava.version>
+        <jetbrains-annotations.version>22.0.0</jetbrains-annotations.version>
+        <reflections.version>0.10.1</reflections.version>
+        <guava.version>31.0.1-jre</guava.version>
         <inject.version>1.0.3</inject.version>
     </properties>
     <scm>
         <url>https://github.com/jmjlbmn/huiche</url>
     </scm>
-    <repositories>
-        <repository>
-            <id>aliyun</id>
-            <name>Aliyun Maven</name>
-            <url>https://maven.aliyun.com/repository/public</url>
-        </repository>
-    </repositories>
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -126,75 +118,70 @@
                 <artifactId>querydsl-sql-codegen</artifactId>
                 <version>${querydsl.version}</version>
             </dependency>
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>${guava.version}</version>
-            </dependency>
+            <!--            <dependency>-->
+            <!--                <groupId>com.google.guava</groupId>-->
+            <!--                <artifactId>guava</artifactId>-->
+            <!--                <version>${guava.version}</version>-->
+            <!--            </dependency>-->
             <!--内部组件-->
             <dependency>
                 <groupId>org.huiche</groupId>
                 <artifactId>huiche-annotation</artifactId>
-                <version>${huiche.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.huiche</groupId>
                 <artifactId>huiche-core</artifactId>
-                <version>${huiche.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.huiche</groupId>
                 <artifactId>huiche-data</artifactId>
-                <version>${huiche.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.huiche</groupId>
                 <artifactId>huiche-service</artifactId>
-                <version>${huiche.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.huiche</groupId>
                 <artifactId>huiche-dao</artifactId>
-                <version>${huiche.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.huiche</groupId>
                 <artifactId>huiche-service-impl</artifactId>
-                <version>${huiche.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.huiche</groupId>
                 <artifactId>huiche-web</artifactId>
-                <version>${huiche.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.huiche</groupId>
                 <artifactId>huiche-spring-boot-starter</artifactId>
-                <version>${huiche.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.huiche</groupId>
                 <artifactId>huiche-sql-builder</artifactId>
-                <version>${huiche.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.huiche</groupId>
                 <artifactId>huiche-querydsl-codegen</artifactId>
-                <version>${huiche.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.huiche</groupId>
                 <artifactId>huiche-transfer</artifactId>
-                <version>${huiche.version}</version>
+                <version>${project.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
     <dependencies>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
@@ -245,7 +232,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>3.1.1</version>
+                        <version>3.2.0</version>
                         <executions>
                             <execution>
                                 <phase>package</phase>
@@ -267,6 +254,17 @@
                                 </goals>
                             </execution>
                         </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>1.6.8</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>oss</serverId>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>

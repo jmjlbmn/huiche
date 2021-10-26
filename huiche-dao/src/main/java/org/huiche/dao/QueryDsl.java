@@ -4,29 +4,14 @@ import com.alibaba.druid.DbType;
 import com.alibaba.druid.sql.SQLUtils;
 import com.alibaba.druid.util.JdbcConstants;
 import com.querydsl.core.QueryMetadata;
-import com.querydsl.core.types.Expression;
-import com.querydsl.core.types.ParamExpression;
-import com.querydsl.core.types.ParamNotSetException;
-import com.querydsl.core.types.Path;
-import com.querydsl.core.types.SubQueryExpression;
-import com.querydsl.sql.Configuration;
-import com.querydsl.sql.DB2Templates;
-import com.querydsl.sql.DerbyTemplates;
-import com.querydsl.sql.H2Templates;
-import com.querydsl.sql.HSQLDBTemplates;
-import com.querydsl.sql.MySQLTemplates;
-import com.querydsl.sql.OracleTemplates;
-import com.querydsl.sql.PostgreSQLTemplates;
-import com.querydsl.sql.RelationalPath;
-import com.querydsl.sql.SQLListener;
-import com.querydsl.sql.SQLSerializer;
-import com.querydsl.sql.SQLServerTemplates;
-import com.querydsl.sql.SQLTemplates;
+import com.querydsl.core.types.*;
+import com.querydsl.sql.*;
 import com.querydsl.sql.dml.SQLInsertBatch;
 import com.querydsl.sql.dml.SQLMergeBatch;
 import com.querydsl.sql.dml.SQLUpdateBatch;
 import com.querydsl.sql.types.Null;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -39,8 +24,8 @@ import java.util.regex.Matcher;
  *
  * @author Maning
  */
-@Slf4j
 public class QueryDsl {
+    public static final Logger log = LoggerFactory.getLogger(QueryDsl.class);
     public static Configuration CONFIG = new Configuration(SQLTemplates.DEFAULT);
     private static DbType type;
 

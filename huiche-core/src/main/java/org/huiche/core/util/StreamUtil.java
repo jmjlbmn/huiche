@@ -1,7 +1,5 @@
 package org.huiche.core.util;
 
-import lombok.experimental.UtilityClass;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -17,7 +15,6 @@ import java.util.stream.Collector;
  *
  * @author Maning
  */
-@UtilityClass
 public class StreamUtil {
     public static <T, R> Collector<T, List<T>, List<R>> toList(Function<List<T>, List<R>> finisher) {
         return new Collector<T, List<T>, List<R>>() {

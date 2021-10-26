@@ -1,7 +1,6 @@
 package org.huiche.extra.sql.builder;
 
 
-import lombok.extern.slf4j.Slf4j;
 import org.huiche.extra.sql.builder.sql.Mysql;
 import org.huiche.extra.sql.builder.sql.Sql;
 
@@ -12,7 +11,6 @@ import javax.annotation.Nonnull;
  *
  * @author Maning
  */
-@Slf4j
 public enum DataBase {
     /**
      * MySql数据库

@@ -1,7 +1,5 @@
 package org.huiche.core.exception;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.huiche.core.util.StringUtil;
 
 /**
@@ -9,8 +7,6 @@ import org.huiche.core.util.StringUtil;
  *
  * @author Maning
  */
-@Setter
-@Getter
 public class HuiCheException extends RuntimeException {
     /**
      * 错误代码
@@ -55,5 +51,21 @@ public class HuiCheException extends RuntimeException {
         super(StringUtil.isEmpty(msg) ? HuiCheError.FAIL.msg() : msg);
         this.code = null == error ? HuiCheError.FAIL.code() : error.code();
         this.msg = getMessage();
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 }

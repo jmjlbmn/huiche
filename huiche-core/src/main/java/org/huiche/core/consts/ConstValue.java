@@ -1,10 +1,5 @@
 package org.huiche.core.consts;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import lombok.experimental.Accessors;
-
 import java.io.Serializable;
 
 /**
@@ -12,10 +7,6 @@ import java.io.Serializable;
  *
  * @author Maning
  */
-@Getter
-@Setter
-@ToString
-@Accessors(chain = true)
 public class ConstValue implements Serializable {
     /**
      * 值
@@ -39,5 +30,41 @@ public class ConstValue implements Serializable {
         this.value = value;
         this.text = text;
         this.extra = extra;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public ConstValue setValue(String value) {
+        this.value = value;
+        return this;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public ConstValue setText(String text) {
+        this.text = text;
+        return this;
+    }
+
+    public String getExtra() {
+        return extra;
+    }
+
+    public ConstValue setExtra(String extra) {
+        this.extra = extra;
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return "ConstValue{" +
+                "value='" + value + '\'' +
+                ", text='" + text + '\'' +
+                ", extra='" + extra + '\'' +
+                '}';
     }
 }

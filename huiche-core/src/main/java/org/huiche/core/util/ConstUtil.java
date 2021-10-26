@@ -1,6 +1,5 @@
 package org.huiche.core.util;
 
-import lombok.experimental.UtilityClass;
 import org.huiche.annotation.consts.ConstVal;
 import org.huiche.core.consts.ConstValue;
 
@@ -15,7 +14,6 @@ import java.util.List;
  *
  * @author Maning
  */
-@UtilityClass
 public class ConstUtil {
     /**
      * 获取常量类的值和扩展数据

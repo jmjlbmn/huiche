@@ -1,6 +1,5 @@
 package org.huiche.config;
 
-import lombok.extern.slf4j.Slf4j;
 import org.huiche.core.exception.HuiCheError;
 import org.huiche.core.exception.HuiCheException;
 import org.huiche.core.util.LogUtil;
@@ -38,7 +37,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
  * @author Maning
  */
 @ControllerAdvice
-@Slf4j
 public class ErrorHandler extends ResponseEntityExceptionHandler {
 
     /**

@@ -1,6 +1,5 @@
 package org.huiche.core.util;
 
-import lombok.experimental.UtilityClass;
 import org.huiche.core.consts.Const;
 
 import javax.annotation.Nonnull;
@@ -14,7 +13,6 @@ import java.util.Objects;
  *
  * @author Maning
  */
-@UtilityClass
 public class HuiCheUtil {
     /**
      * 是否是空集合或数组

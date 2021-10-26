@@ -6,7 +6,6 @@ import com.querydsl.sql.AbstractSQLQuery;
 import com.querydsl.sql.SQLBaseListener;
 import com.querydsl.sql.SQLListenerContext;
 import com.querydsl.sql.SQLQueryFactory;
-import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.HibernateValidator;
 import org.huiche.core.exception.HuiCheException;
 import org.huiche.core.json.JsonApi;
@@ -44,7 +43,6 @@ import java.util.stream.Collectors;
  * @author Maning
  */
 @Configuration
-@Slf4j
 @AutoConfigureAfter({DataSourceAutoConfiguration.class, JacksonAutoConfiguration.class})
 public class HuiCheAutoConfigure {
     /**

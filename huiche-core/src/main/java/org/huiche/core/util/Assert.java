@@ -1,6 +1,5 @@
 package org.huiche.core.util;
 
-import lombok.experimental.UtilityClass;
 import org.huiche.core.enums.ValEnum;
 import org.huiche.core.exception.BaseError;
 import org.huiche.core.exception.HuiCheException;
@@ -16,7 +15,6 @@ import java.util.function.Supplier;
  *
  * @author Maning
  */
-@UtilityClass
 public class Assert {
     /**
      * 判断条件,false 抛出

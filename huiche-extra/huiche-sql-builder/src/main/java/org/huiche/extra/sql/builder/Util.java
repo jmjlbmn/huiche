@@ -1,8 +1,9 @@
 package org.huiche.extra.sql.builder;
 
-import lombok.extern.slf4j.Slf4j;
 import org.huiche.annotation.sql.Column;
 import org.huiche.extra.sql.builder.info.FieldColumn;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 import java.lang.reflect.Field;
@@ -23,8 +24,8 @@ import java.util.Map;
  *
  * @author Maning
  */
-@Slf4j
 public class Util {
+    private final static Logger log = LoggerFactory.getLogger(Util.class);
     private static final List<Class> SUPPORT_TYPE_LIST = Arrays.asList(
             Boolean.class,
             Integer.class,

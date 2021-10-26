@@ -1,9 +1,5 @@
 package org.huiche.extra.sql.builder.info;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import lombok.experimental.Accessors;
 import org.huiche.annotation.sql.Column;
 
 import javax.annotation.Nonnull;
@@ -13,10 +9,6 @@ import javax.annotation.Nonnull;
  *
  * @author Maning
  */
-@Setter
-@Getter
-@Accessors(chain = true)
-@ToString
 public class FieldColumn {
     private String name;
     private Class<?> type;
@@ -25,6 +17,30 @@ public class FieldColumn {
     public FieldColumn(@Nonnull String name, @Nonnull Class<?> type, @Nonnull Column column) {
         this.name = name;
         this.type = type;
+        this.column = column;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Class<?> getType() {
+        return type;
+    }
+
+    public void setType(Class<?> type) {
+        this.type = type;
+    }
+
+    public Column getColumn() {
+        return column;
+    }
+
+    public void setColumn(Column column) {
         this.column = column;
     }
 }

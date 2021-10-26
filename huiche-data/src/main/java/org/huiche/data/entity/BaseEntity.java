@@ -1,8 +1,6 @@
 package org.huiche.data.entity;
 
 
-import lombok.Getter;
-import lombok.ToString;
 import org.huiche.annotation.sql.Column;
 
 import java.io.Serializable;
@@ -13,8 +11,6 @@ import java.io.Serializable;
  * @author Maning
  */
 @SuppressWarnings("unchecked")
-@Getter
-@ToString
 public class BaseEntity<T extends BaseEntity> implements Serializable {
     /**
      * 主键
@@ -47,5 +43,26 @@ public class BaseEntity<T extends BaseEntity> implements Serializable {
     public T setId(Long id) {
         this.id = id;
         return (T) this;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public String getModifyTime() {
+        return modifyTime;
+    }
+
+    @Override
+    public String toString() {
+        return "BaseEntity{" +
+                "id=" + id +
+                ", createTime='" + createTime + '\'' +
+                ", modifyTime='" + modifyTime + '\'' +
+                '}';
     }
 }

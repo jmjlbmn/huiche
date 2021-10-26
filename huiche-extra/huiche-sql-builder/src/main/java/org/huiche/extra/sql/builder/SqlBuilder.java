@@ -1,6 +1,5 @@
 package org.huiche.extra.sql.builder;
 
-import lombok.extern.slf4j.Slf4j;
 import org.huiche.annotation.sql.Table;
 import org.huiche.extra.sql.builder.info.ColumnCompareInfo;
 import org.huiche.extra.sql.builder.info.ColumnInfo;
@@ -9,6 +8,8 @@ import org.huiche.extra.sql.builder.naming.CamelCaseNamingRule;
 import org.huiche.extra.sql.builder.naming.NamingRule;
 import org.huiche.extra.sql.builder.sql.Sql;
 import org.reflections.Reflections;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -17,19 +18,15 @@ import java.io.StringWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * 建表工具入口类
  *
  * @author Maning
  */
-@Slf4j
 public class SqlBuilder {
+    private static final Logger log = LoggerFactory.getLogger(SqlBuilder.class);
     private String url;
     private String user;
     private String password;

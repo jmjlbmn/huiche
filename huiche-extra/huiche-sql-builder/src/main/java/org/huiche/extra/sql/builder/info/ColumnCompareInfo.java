@@ -1,9 +1,5 @@
 package org.huiche.extra.sql.builder.info;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.Accessors;
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -12,9 +8,6 @@ import java.util.List;
  *
  * @author Maning
  */
-@Setter
-@Getter
-@Accessors(chain = true)
 public class ColumnCompareInfo implements Serializable {
     private List<ColumnInfo> addList;
     private List<ColumnInfo> modifyList;
@@ -29,5 +22,29 @@ public class ColumnCompareInfo implements Serializable {
 
     public boolean isEmpty() {
         return addList.isEmpty() && modifyList.isEmpty() && delList.isEmpty();
+    }
+
+    public List<ColumnInfo> getAddList() {
+        return addList;
+    }
+
+    public void setAddList(List<ColumnInfo> addList) {
+        this.addList = addList;
+    }
+
+    public List<ColumnInfo> getModifyList() {
+        return modifyList;
+    }
+
+    public void setModifyList(List<ColumnInfo> modifyList) {
+        this.modifyList = modifyList;
+    }
+
+    public List<ColumnInfo> getDelList() {
+        return delList;
+    }
+
+    public void setDelList(List<ColumnInfo> delList) {
+        this.delList = delList;
     }
 }

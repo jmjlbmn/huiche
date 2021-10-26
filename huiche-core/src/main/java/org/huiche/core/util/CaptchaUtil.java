@@ -1,7 +1,5 @@
 package org.huiche.core.util;
 
-import lombok.experimental.UtilityClass;
-
 import javax.annotation.Nonnull;
 import java.util.Random;
 
@@ -10,7 +8,6 @@ import java.util.Random;
  *
  * @author Maning
  */
-@UtilityClass
 public final class CaptchaUtil {
     @Nonnull
     public static String getNumber() {

@@ -1,7 +1,6 @@
 # HuiChe
 [![build](https://img.shields.io/travis/jmjlbmn/huiche.svg?style=flat-square)](https://travis-ci.org/jmjlbmn/huiche)
 [![maven](https://badgen.net/maven/v/maven-central/org.huiche/huiche)](https://search.maven.org/artifact/org.huiche/huiche)
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fjmjlbmn%2Fhuiche.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fjmjlbmn%2Fhuiche?ref=badge_shield)
 ## 基于SpringBoot和QueryDsl的快速开发框架
 ## 主要功能
 - 基于QueryDsl的快速,类型安全的SQL查询
@@ -84,6 +83,3 @@
   </repository>          
 </repositories>
 ```  
-
-## License
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fjmjlbmn%2Fhuiche.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fjmjlbmn%2Fhuiche?ref=badge_large)

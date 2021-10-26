@@ -1,6 +1,5 @@
 package org.huiche.core.util;
 
-import lombok.experimental.UtilityClass;
 import org.huiche.core.consts.ConstValue;
 
 import javax.annotation.Nonnull;
@@ -14,7 +13,6 @@ import java.util.regex.Pattern;
  *
  * @author Maning
  */
-@UtilityClass
 public class CheckUtil {
     /**
      * 验证字符串是否是手机号码

@@ -1,25 +1,18 @@
 package org.huiche.core.util;
 
-import lombok.experimental.UtilityClass;
 import org.huiche.core.consts.Const;
 import org.huiche.core.exception.HuiCheException;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-import java.util.Random;
+import java.util.*;
 
 /**
  * 字符串处理工具类,很常用
  *
  * @author Maning
  */
-@UtilityClass
 public class StringUtil {
     /**
      * 是否null或空字符串
@@ -417,7 +410,7 @@ public class StringUtil {
         List<Long> list = new ArrayList<>();
         try {
             if (isNotEmpty(str)) {
-                String[] arr = str.split(Const.COMMA);
+                String[] arr = str.split(sep);
                 if (arr.length > 0) {
                     for (String s : arr) {
                         if (isNotEmpty(s)) {

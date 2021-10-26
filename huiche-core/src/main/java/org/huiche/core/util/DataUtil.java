@@ -1,29 +1,16 @@
 package org.huiche.core.util;
 
 
-import lombok.experimental.UtilityClass;
-import lombok.extern.slf4j.Slf4j;
 import org.huiche.core.consts.If;
 import org.huiche.core.enums.ValEnum;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
+import java.lang.reflect.*;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.WeakHashMap;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Function;
 
@@ -32,9 +19,8 @@ import java.util.function.Function;
  *
  * @author Maning
  */
-@Slf4j
-@UtilityClass
 public class DataUtil {
+    private static final Logger log = LoggerFactory.getLogger(DataUtil.class);
     private static final Map<String, Map<String, PropertyInfo>> PROPERTY_CACHE = Collections.synchronizedMap(new WeakHashMap<>());
     private static final Map<Class<?>, Method[]> METHOD_CACHE = Collections.synchronizedMap(new WeakHashMap<>());
     private static final Map<Class<?>, PropertyInfo[]> FIELD_CACHE = Collections.synchronizedMap(new WeakHashMap<>());

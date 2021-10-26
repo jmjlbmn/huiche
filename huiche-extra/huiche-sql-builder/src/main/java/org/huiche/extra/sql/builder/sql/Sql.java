@@ -101,8 +101,8 @@ public interface Sql {
                 columnInfo.setName(checkName(namingRule.javaName2SqlName(field.getName())));
                 columnInfo.setNotNull(false);
                 columnInfo.setUnique(false);
-                columnInfo.setIsPrimaryKey(false);
-                columnInfo.setIsAutoIncrement(false);
+                columnInfo.setPrimaryKey(false);
+                columnInfo.setAutoIncrement(false);
             } else {
                 if (!column.isDbField()) {
                     continue;
@@ -110,11 +110,11 @@ public interface Sql {
                 columnInfo.setName(checkName("".equals(column.value().trim()) ? namingRule.javaName2SqlName(field.getName()) : column.value().trim()));
                 columnInfo.setNotNull(column.notNull());
                 columnInfo.setUnique(column.unique());
-                columnInfo.setIsPrimaryKey(column.isPrimaryKey());
+                columnInfo.setPrimaryKey(column.isPrimaryKey());
                 if (column.isPrimaryKey()) {
-                    columnInfo.setIsAutoIncrement(column.isAutoIncrement());
+                    columnInfo.setAutoIncrement(column.isAutoIncrement());
                 } else {
-                    columnInfo.setIsAutoIncrement(false);
+                    columnInfo.setAutoIncrement(false);
                 }
                 columnInfo.setComment("".equals(column.comment().trim()) ? "" : column.comment().trim());
             }
@@ -262,7 +262,7 @@ public interface Sql {
             for (ColumnInfo java : javaList) {
                 for (ColumnInfo db : dbList) {
                     // 比较名称是否相同,已复写equals
-                    if (java.equals(db) && !java.getIsPrimaryKey()) {
+                    if (java.equals(db) && !java.getPrimaryKey()) {
                         String comment = java.getComment();
                         if (!java.getType().equals(db.getType())) {
                             // 类型不同

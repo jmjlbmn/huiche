@@ -1,6 +1,5 @@
 package org.huiche.core.util;
 
-import lombok.experimental.UtilityClass;
 import org.huiche.core.exception.HuiCheException;
 
 import javax.annotation.Nonnull;
@@ -19,7 +18,6 @@ import java.util.Date;
  *
  * @author Maning
  */
-@UtilityClass
 public class DateUtil {
     /**
      * 获取当前时间,到秒

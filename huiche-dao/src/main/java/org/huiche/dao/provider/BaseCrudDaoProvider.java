@@ -1,18 +1,6 @@
 package org.huiche.dao.provider;
 
-import org.huiche.dao.curd.CountQuery;
-import org.huiche.dao.curd.CreateCmd;
-import org.huiche.dao.curd.DeleteCmd;
-import org.huiche.dao.curd.ExistsQuery;
-import org.huiche.dao.curd.GetColumnQuery;
-import org.huiche.dao.curd.GetColumnsQuery;
-import org.huiche.dao.curd.GetQuery;
-import org.huiche.dao.curd.ListColumnQuery;
-import org.huiche.dao.curd.ListColumnsQuery;
-import org.huiche.dao.curd.ListQuery;
-import org.huiche.dao.curd.PageColumnsQuery;
-import org.huiche.dao.curd.PageQuery;
-import org.huiche.dao.curd.UpdateCmd;
+import org.huiche.dao.curd.*;
 import org.huiche.data.entity.BaseEntity;
 import org.huiche.data.query.Query;
 
@@ -33,6 +21,7 @@ public interface BaseCrudDaoProvider<T extends BaseEntity<T>> extends
         ListQuery<T>,
         ListColumnQuery<T>,
         ListColumnsQuery<T>,
+        ListPageQuery<T>,
         PageQuery<T>,
         PageColumnsQuery<T>,
         Query,
