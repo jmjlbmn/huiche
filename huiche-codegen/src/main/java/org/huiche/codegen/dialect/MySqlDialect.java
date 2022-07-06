@@ -1,7 +1,6 @@
 package org.huiche.codegen.dialect;
 
 import org.huiche.codegen.domain.ColumnInfo;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,12 +13,12 @@ public class MySqlDialect implements SqlDialect {
     public static final MySqlDialect DEFAULT = new MySqlDialect();
 
     @Override
-    public @NotNull String quoteStr() {
+    public String quoteStr() {
         return "`";
     }
 
     @Override
-    public @NotNull String escapeStr() {
+    public String escapeStr() {
         return "'";
     }
 
@@ -27,7 +26,7 @@ public class MySqlDialect implements SqlDialect {
      * <a href="https://dev.mysql.com/doc/connector-j/8.0/en/connector-j-reference-type-conversions.html">参考MySQL定义</a>
      */
     @Override
-    public @NotNull String columnDefinition(@NotNull ColumnInfo column) {
+    public String columnDefinition(ColumnInfo column) {
         String type;
         switch (column.getJdbcType()) {
             case FLOAT:
@@ -75,12 +74,12 @@ public class MySqlDialect implements SqlDialect {
     }
 
     @Override
-    public @NotNull String columnAutoIncrement(@NotNull ColumnInfo column) {
+    public String columnAutoIncrement(ColumnInfo column) {
         return "AUTO_INCREMENT";
     }
 
     @Override
-    public @NotNull String tablePrimaryKey(@NotNull List<String> pks) {
+    public String tablePrimaryKey(List<String> pks) {
         return "PRIMARY KEY (" + pks.stream().map(this::columnName).collect(Collectors.joining(",")) + ")";
     }
 }

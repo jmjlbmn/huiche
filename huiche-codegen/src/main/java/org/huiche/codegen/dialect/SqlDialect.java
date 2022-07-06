@@ -2,8 +2,6 @@ package org.huiche.codegen.dialect;
 
 import org.huiche.codegen.domain.ColumnInfo;
 import org.huiche.codegen.domain.TableInfo;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,8 +20,8 @@ public interface SqlDialect {
      * @param columns 字段信息
      * @return ddl
      */
-    @NotNull
-    default String createTable(@NotNull TableInfo table, @NotNull Collection<ColumnInfo> columns) {
+
+    default String createTable(TableInfo table, Collection<ColumnInfo> columns) {
         StringBuilder builder = new StringBuilder();
         builder.append("CREATE TABLE ")
                 .append(tableName(table))
@@ -71,8 +69,8 @@ public interface SqlDialect {
      * @param column 列信息
      * @return ddl
      */
-    @NotNull
-    default String createColumn(@NotNull ColumnInfo column) {
+
+    default String createColumn(ColumnInfo column) {
         List<String> parts = new ArrayList<>();
         parts.add(columnName(column));
         if (column.getDefinition() != null) {
@@ -101,7 +99,7 @@ public interface SqlDialect {
      *
      * @return 引用字符
      */
-    @NotNull
+
     default String quoteStr() {
         return "";
     }
@@ -111,7 +109,7 @@ public interface SqlDialect {
      *
      * @return 转义标识
      */
-    @NotNull
+
     default String escapeStr() {
         return "\"";
     }
@@ -122,8 +120,8 @@ public interface SqlDialect {
      * @param column 字段信息
      * @return ddl
      */
-    @NotNull
-    default String columnDefinition(@NotNull ColumnInfo column) {
+
+    default String columnDefinition(ColumnInfo column) {
         return column.getJdbcType().getName() + columnLengthAndSignStatus(column);
     }
 
@@ -133,8 +131,8 @@ public interface SqlDialect {
      * @param column 列信息
      * @return ddl
      */
-    @NotNull
-    default String columnLengthAndSignStatus(@NotNull ColumnInfo column) {
+
+    default String columnLengthAndSignStatus(ColumnInfo column) {
         String definition = "";
         if (column.getLength() != null) {
             if (column.getPrecision() != null) {
@@ -155,8 +153,8 @@ public interface SqlDialect {
      * @param column 列信息
      * @return ddl
      */
-    @NotNull
-    default String columnDefaultValue(@NotNull ColumnInfo column) {
+
+    default String columnDefaultValue(ColumnInfo column) {
         return "DEFAULT " + column.getDefaultValue();
     }
 
@@ -166,8 +164,8 @@ public interface SqlDialect {
      * @param column 列信息
      * @return ddl
      */
-    @NotNull
-    default String columnComment(@NotNull ColumnInfo column) {
+
+    default String columnComment(ColumnInfo column) {
         return "COMMENT " + escapeStr() + column.getComment() + escapeStr();
     }
 
@@ -177,8 +175,8 @@ public interface SqlDialect {
      * @param column 列信息
      * @return ddl
      */
-    @NotNull
-    default String columnName(@NotNull ColumnInfo column) {
+
+    default String columnName(ColumnInfo column) {
         return columnName(column.getColumnName());
     }
 
@@ -188,8 +186,8 @@ public interface SqlDialect {
      * @param columnName 列名
      * @return ddl
      */
-    @NotNull
-    default String columnName(@NotNull String columnName) {
+
+    default String columnName(String columnName) {
         return quoteStr() + columnName + quoteStr();
     }
 
@@ -199,8 +197,8 @@ public interface SqlDialect {
      * @param column 列信息
      * @return ddl
      */
-    @NotNull
-    default String columnAutoIncrement(@NotNull ColumnInfo column) {
+
+    default String columnAutoIncrement(ColumnInfo column) {
         return "GENERATED ALWAYS AS IDENTITY";
     }
 
@@ -210,8 +208,7 @@ public interface SqlDialect {
      * @param column 列信息
      * @return ddl
      */
-    @Nullable
-    default String columnAdditional(@NotNull ColumnInfo column) {
+    default String columnAdditional(ColumnInfo column) {
         List<String> list = new ArrayList<>(2);
         if (column.getAdditional() != null) {
             list.add(column.getAdditional());
@@ -232,8 +229,8 @@ public interface SqlDialect {
      * @param pks 主键
      * @return ddl
      */
-    @NotNull
-    default String tablePrimaryKey(@NotNull List<String> pks) {
+
+    default String tablePrimaryKey(List<String> pks) {
         return "CONSTRAINT pk PRIMARY KEY (" + pks.stream().map(this::columnName).collect(Collectors.joining(",")) + ")";
     }
 
@@ -243,9 +240,9 @@ public interface SqlDialect {
      * @param uk 列
      * @return ddl
      */
-    @NotNull
-    default String tableUniqueKey(@NotNull String uk) {
-        return "CONSTRAINT uk_" + uk + " PRIMARY KEY (" + columnName(uk) + ")";
+
+    default String tableUniqueKey(String uk) {
+        return "CONSTRAINT uk_" + uk + " UNIQUE (" + columnName(uk) + ")";
     }
 
     /**
@@ -254,8 +251,8 @@ public interface SqlDialect {
      * @param table 表信息
      * @return ddl
      */
-    @NotNull
-    default String tableName(@NotNull TableInfo table) {
+
+    default String tableName(TableInfo table) {
         String name = quoteStr() + table.getTableName() + quoteStr();
         return table.getSchema() != null ? table.getSchema() + "." + name : name;
     }
@@ -266,8 +263,8 @@ public interface SqlDialect {
      * @param table 表信息
      * @return ddl
      */
-    @NotNull
-    default String tableComment(@NotNull TableInfo table) {
+
+    default String tableComment(TableInfo table) {
         return "COMMENT = " + escapeStr() + table.getComment() + escapeStr();
     }
 
@@ -277,8 +274,7 @@ public interface SqlDialect {
      * @param table 表信息
      * @return ddl
      */
-    @Nullable
-    default String tableAdditional(@NotNull TableInfo table) {
+    default String tableAdditional(TableInfo table) {
         List<String> list = new ArrayList<>(2);
         if (table.getAdditional() != null) {
             list.add(table.getAdditional());

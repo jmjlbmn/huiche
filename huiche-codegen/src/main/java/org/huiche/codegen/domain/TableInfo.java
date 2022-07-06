@@ -2,23 +2,21 @@ package org.huiche.codegen.domain;
 
 import org.huiche.annotation.Table;
 import org.huiche.support.NamingUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Maning
  */
 public class TableInfo {
-    @NotNull
+
     private final String tableName;
-    @Nullable
+
     private final String comment;
-    @Nullable
+
     private final String schema;
-    @Nullable
+
     private final String additional;
 
-    private TableInfo(@NotNull Table table, @NotNull String className) {
+    private TableInfo(Table table, String className) {
         if (!"".equals(table.name())) {
             this.tableName = table.name();
         } else {
@@ -33,8 +31,8 @@ public class TableInfo {
         this.additional = !"".equals(table.additional()) ? table.additional() : null;
     }
 
-    @NotNull
-    public static TableInfo of(@NotNull Class<?> clazz) {
+
+    public static TableInfo of(Class<?> clazz) {
         Table table = clazz.getAnnotation(Table.class);
         if (table == null) {
             throw new RuntimeException("必须标注@Table注解");
@@ -42,22 +40,22 @@ public class TableInfo {
         return new TableInfo(table, clazz.getSimpleName());
     }
 
-    @NotNull
+
     public String getTableName() {
         return tableName;
     }
 
-    @Nullable
+
     public String getComment() {
         return comment;
     }
 
-    @Nullable
+
     public String getSchema() {
         return schema;
     }
 
-    @Nullable
+
     public String getAdditional() {
         return additional;
     }

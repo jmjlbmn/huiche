@@ -1,4 +1,4 @@
-package org.huiche.dao;
+package org.huiche.dao.support;
 
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.PathMetadata;
@@ -10,8 +10,8 @@ import com.querydsl.sql.RelationalPath;
 import org.huiche.annotation.Column;
 import org.huiche.support.IdGenerator;
 import org.huiche.support.PrimaryKey;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.dao.TypeMismatchDataAccessException;
+import org.springframework.lang.NonNull;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
@@ -29,7 +29,7 @@ public class IdInfo {
     private final Field field;
     private final IdGenerator idGenerator;
 
-    public IdInfo(RelationalPath<?> table, Path<?> column) {
+    public IdInfo(@NonNull RelationalPath<?> table, @NonNull Path<?> column) {
         PathMetadata metadata = column.getMetadata();
         this.name = metadata.getName();
         this.path = column;
@@ -63,7 +63,7 @@ public class IdInfo {
     }
 
     @Override
-    public String toString() {
+    public @NonNull String toString() {
         return "IdInfo{" +
                 "name='" + name + '\'' +
                 ", wherePath=" + wherePath +
@@ -79,7 +79,7 @@ public class IdInfo {
         return this.wherePath.eq(String.valueOf(id));
     }
 
-    public <ID> Predicate idsWhere(@NotNull Collection<ID> ids) {
+    public <ID> Predicate idsWhere(@NonNull Collection<ID> ids) {
         return this.wherePath.in(ids.stream().map(String::valueOf).collect(Collectors.toList()));
     }
 
@@ -99,6 +99,7 @@ public class IdInfo {
         }
     }
 
+    @NonNull
     Object generateId() {
         if (Number.class.isAssignableFrom(type)) {
             return idGenerator.generateNumberId();

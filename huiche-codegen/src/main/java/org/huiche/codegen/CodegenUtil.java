@@ -1,19 +1,15 @@
 package org.huiche.codegen;
 
 import org.huiche.annotation.Table;
-import org.huiche.codegen.dialect.MySqlDialect;
 import org.huiche.codegen.dialect.SqlDialect;
 import org.huiche.codegen.domain.ColumnInfo;
 import org.huiche.codegen.domain.TableInfo;
 import org.huiche.support.ReflectUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.springframework.asm.ClassReader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import java.io.IOException;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -24,33 +20,21 @@ import java.util.stream.Collectors;
 /**
  * @author Maning
  */
-public class HuicheCodegen {
-    public static void ddlPrint(@NotNull SqlDialect dialect, @NotNull String... packages) {
+public class Codegen {
+    public static void ddlPrint(SqlDialect dialect, String... packages) {
         ddl(dialect, packages).forEach(System.out::println);
     }
 
-    public static List<String> ddl(@NotNull SqlDialect dialect, @NotNull String... packages) {
+    public static List<String> ddl(SqlDialect dialect, String... packages) {
         List<String> list = new ArrayList<>();
         for (Class<?> entity : scan(i -> i.isAnnotationPresent(Table.class), packages)) {
             list.add(dialect.createTable(TableInfo.of(entity),
-                    ReflectUtil.scanFields(entity, field -> {
-                        int mod = field.getModifiers();
-                        return !Modifier.isStatic(mod) && !Modifier.isTransient(mod);
-                    }).stream().map(ColumnInfo::of).collect(Collectors.toList())));
+                    ReflectUtil.scanNormalFields(entity).stream().map(ColumnInfo::of).collect(Collectors.toList())));
         }
         return list;
     }
 
-    public static List<String> ddlMysql(@NotNull String... packages) {
-        return ddl(MySqlDialect.DEFAULT, packages);
-    }
-
-    public static void ddlMysqlPrint(@NotNull String... packages) {
-        ddlMysql(packages).forEach(System.out::println);
-    }
-
-    @NotNull
-    public static Set<Class<?>> scan(@Nullable Predicate<Class<?>> predicate, @NotNull String... packages) {
+    public static Set<Class<?>> scan(Predicate<Class<?>> predicate, String... packages) {
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         Set<String> nameSet = new HashSet<>();
         try {

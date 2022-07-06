@@ -4,8 +4,6 @@ import org.huiche.annotation.Column;
 import org.huiche.support.NamingUtil;
 import org.huiche.support.PrimaryKey;
 import org.huiche.support.TypeMapping;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
 import java.sql.JDBCType;
@@ -15,29 +13,29 @@ import java.util.Arrays;
  * @author Maning
  */
 public class ColumnInfo {
-    @NotNull
+
     private final String columnName;
-    @Nullable
+
     private final String comment;
     private final boolean nullable;
-    @Nullable
+
     private final Integer precision;
-    @NotNull
+
     private final JDBCType jdbcType;
-    @Nullable
+
     private final String defaultValue;
     private final boolean primaryKey;
     private final boolean autoIncrement;
     private final boolean unsigned;
-    @Nullable
+
     private final String definition;
-    @Nullable
+
     private final String additional;
     private final boolean unique;
-    @Nullable
+
     private Integer length;
 
-    public ColumnInfo(@Nullable Column column, @NotNull String fieldName, @NotNull JDBCType defaultJdbcType) {
+    public ColumnInfo(Column column, String fieldName, JDBCType defaultJdbcType) {
         if (column != null) {
             this.columnName = !"".equals(column.name()) ? column.name() : NamingUtil.camel2underLine(fieldName);
             this.comment = !"".equals(column.comment()) ? column.comment() : null;
@@ -73,17 +71,17 @@ public class ColumnInfo {
         }
     }
 
-    @NotNull
-    public static ColumnInfo of(@NotNull Field field) {
+
+    public static ColumnInfo of(Field field) {
         return new ColumnInfo(field.getAnnotation(Column.class), field.getName(), TypeMapping.parseJdbcType(field.getType()));
     }
 
-    @NotNull
+
     public String getColumnName() {
         return columnName;
     }
 
-    @Nullable
+
     public String getComment() {
         return comment;
     }
@@ -92,26 +90,26 @@ public class ColumnInfo {
         return nullable;
     }
 
-    @Nullable
+
     public Integer getLength() {
         return length;
     }
 
-    public void setLength(@Nullable Integer length) {
+    public void setLength(Integer length) {
         this.length = length;
     }
 
-    @Nullable
+
     public Integer getPrecision() {
         return precision;
     }
 
-    @NotNull
+
     public JDBCType getJdbcType() {
         return jdbcType;
     }
 
-    @Nullable
+
     public String getDefaultValue() {
         return defaultValue;
     }
@@ -124,12 +122,12 @@ public class ColumnInfo {
         return unsigned;
     }
 
-    @Nullable
+
     public String getDefinition() {
         return definition;
     }
 
-    @Nullable
+
     public String getAdditional() {
         return additional;
     }
