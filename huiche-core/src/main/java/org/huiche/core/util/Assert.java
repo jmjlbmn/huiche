@@ -1,6 +1,5 @@
 package org.huiche.core.util;
 
-import org.huiche.core.enums.ValEnum;
 import org.huiche.core.exception.BaseError;
 import org.huiche.core.exception.HuiCheException;
 import org.jetbrains.annotations.Contract;
@@ -440,83 +439,6 @@ public class Assert {
         ok(msg, HuiCheUtil.in(src, target));
     }
 
-    /**
-     * 是否在常量类中
-     *
-     * @param error 错误
-     * @param src   源对象
-     * @param clazz 常量类
-     */
-    public static void inConst(@Nonnull BaseError error, @Nullable Object src, @Nonnull Class<?> clazz) {
-        ok(error, CheckUtil.inConstant(clazz, src));
-    }
-
-    /**
-     * 是否在常量类中
-     *
-     * @param msg   错误
-     * @param src   源对象
-     * @param clazz 常量类
-     */
-    public static void inConst(@Nonnull String msg, @Nullable Object src, @Nonnull Class<?> clazz) {
-        ok(msg, CheckUtil.inConstant(clazz, src));
-    }
-
-    /**
-     * 是否在枚举中
-     *
-     * @param error 错误
-     * @param <T>   类型
-     * @param src   源对象
-     * @param clazz 枚举类
-     */
-    public static <T extends Enum<T>> void inEnum(@Nonnull BaseError error, @Nullable String src, @Nonnull Class<T> clazz) {
-        if (HuiCheUtil.isNotEmpty(src)) {
-            try {
-                Enum.valueOf(clazz, src);
-            } catch (Exception e) {
-                throw new HuiCheException(error);
-            }
-        } else {
-            throw new HuiCheException(error);
-        }
-    }
-
-    /**
-     * 是否在枚举中
-     *
-     * @param msg   错误
-     * @param <T>   类型
-     * @param src   源对象
-     * @param clazz 枚举类
-     */
-    public static <T extends Enum<T>> void inEnum(@Nonnull String msg, @Nullable String src, @Nonnull Class<T> clazz) {
-        inEnum(BaseError.fail(msg), src, clazz);
-    }
-
-    /**
-     * 是否在枚举中
-     *
-     * @param error 错误
-     * @param <T>   枚举类型
-     * @param src   源对象
-     * @param clazz 枚举类
-     */
-    public static <T extends Enum<T> & ValEnum> void inValEnum(@Nonnull BaseError error, @Nullable Integer src, @Nonnull Class<T> clazz) {
-        notNull(error, EnumUtil.of(src, clazz));
-    }
-
-    /**
-     * 是否在枚举中
-     *
-     * @param msg   错误
-     * @param <T>   类型
-     * @param src   源对象
-     * @param clazz 枚举类
-     */
-    public static <T extends Enum<T> & ValEnum> void inValEnum(@Nonnull String msg, @Nullable Integer src, @Nonnull Class<T> clazz) {
-        notNull(msg, EnumUtil.of(src, clazz));
-    }
 
     private static boolean isAllNull(@Nonnull Object... obj) {
         if (obj.length > 0) {

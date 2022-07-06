@@ -5,12 +5,6 @@ package org.huiche.dao.provider;
  * @author Maning
  */
 public interface CreateHandleProvider<T> extends UpdateHandleProvider<T> {
-    /**
-     * 创建时验证
-     *
-     * @param entity 实体
-     */
-    void validOnCreate(T entity);
 
     /**
      * 创建之前的处理(默认值等)

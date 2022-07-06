@@ -11,25 +11,9 @@ public enum HuiCheError implements BaseError {
      */
     ERROR(-1, "系统错误"),
     /**
-     * 成功
-     */
-    OK(0, "成功"),
-    /**
      * 操作失败(用户原因造成错误导致)
      */
-    FAIL(1, "操作失败"),
-    /**
-     * 参数不能为空
-     */
-    NOT_NULL(2, "参数不能为空"),
-    /**
-     * 数据不存在
-     */
-    NO_EXISTS(3, "数据不存在"),
-    /**
-     * 更新数据必须设置ID
-     */
-    UPDATE_MUST_HAVE_ID(4, "更新数据必须设置ID");
+    FAIL(1, "操作失败");
 
 
     private final int id;

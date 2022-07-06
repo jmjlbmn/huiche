@@ -1,41 +1,16 @@
 package org.huiche.config;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.querydsl.sql.AbstractSQLQuery;
-import com.querydsl.sql.SQLBaseListener;
-import com.querydsl.sql.SQLListenerContext;
-import com.querydsl.sql.SQLQueryFactory;
-import org.hibernate.validator.HibernateValidator;
-import org.huiche.core.exception.HuiCheException;
-import org.huiche.core.json.JsonApi;
-import org.huiche.core.util.StringUtil;
-import org.huiche.core.validation.ValidationUtil;
-import org.huiche.dao.MySqlExTemplates;
-import org.huiche.dao.QueryDsl;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import com.querydsl.sql.*;
+import org.huiche.dao.QueryDslExceptionTranslator;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
-import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Provider;
 import javax.sql.DataSource;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
 import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * HuiChe自动配置
@@ -43,114 +18,43 @@ import java.util.stream.Collectors;
  * @author Maning
  */
 @Configuration
-@AutoConfigureAfter({DataSourceAutoConfiguration.class, JacksonAutoConfiguration.class})
+@Import(DataSourceAutoConfiguration.class)
 public class HuiCheAutoConfigure {
+
     /**
-     * 默认实现一个JsonApi
+     * 注册数据库模板
      *
-     * @param objectMapper 注入jackson
-     * @return jsonApi
+     * @return SQLTemplates
      */
     @Bean
-    @ConditionalOnBean({ObjectMapper.class, JacksonAutoConfiguration.class})
     @ConditionalOnMissingBean
-    public JsonApi jsonApi(ObjectMapper objectMapper) {
-        return new JsonApi() {
-            @Override
-            @Nonnull
-            public String toJson(@Nullable Object object) {
-                try {
-                    if (null == object) {
-                        return "";
-                    }
-                    return objectMapper.writeValueAsString(object);
-                } catch (JsonProcessingException e) {
-                    throw new HuiCheException(e);
-                }
-            }
-
-            @Override
-            @Nonnull
-            public <T> T fromJson(@Nullable String json, @Nonnull Class<T> clazz) {
-                try {
-                    if (StringUtil.isEmpty(json)) {
-                        return clazz.getConstructor().newInstance();
-                    }
-                    return objectMapper.readValue(json, clazz);
-                } catch (Exception e) {
-                    throw new HuiCheException(e);
-                }
-            }
-        };
+    public SQLTemplates sqlTemplates() {
+        return new MySQLTemplates();
     }
 
     /**
-     * 注册全局异常处理
+     * 注册SQLQueryFactory
      *
-     * @return 异常处理
-     */
-    @Bean
-    @ConditionalOnWebApplication
-    public ErrorHandler errorHandler() {
-        return new ErrorHandler();
-    }
-
-    /**
-     * 注册dao的快速验证器
-     *
-     * @return 验证器
-     */
-    @Bean("fastValidator")
-    @ConditionalOnClass(HibernateValidator.class)
-    public Validator validator() {
-        return Validation.byProvider(HibernateValidator.class)
-                .configure()
-                .failFast(true)
-                .buildValidatorFactory().getValidator();
-    }
-
-    /**
-     * 注册SQLQueryFactory,默认MySql,如用其他db请注册SQLTemplates的bean 或自行注册SQLQueryFactory
-     *
-     * @param dataSource 数据源
+     * @param dataSource   数据源
+     * @param sqlTemplates 数据库模板
      * @return SQLQueryFactory
      */
     @Bean
-    public SQLQueryFactory sqlQueryFactory(DataSource dataSource) {
-        Provider<Connection> provider = new QueryDslConnectionProvider(dataSource);
-        QueryDsl.init(new MySqlExTemplates());
-        QueryDsl.CONFIG.addListener(new SQLBaseListener() {
+    @ConditionalOnMissingBean
+    public SQLQueryFactory sqlQueryFactory(DataSource dataSource, SQLTemplates sqlTemplates) {
+        com.querydsl.sql.Configuration configuration = new com.querydsl.sql.Configuration(sqlTemplates);
+        configuration.setExceptionTranslator(new QueryDslExceptionTranslator());
+        configuration.addListener(new SQLBaseListener() {
             @Override
             public void end(SQLListenerContext context) {
                 Connection connection = context.getConnection();
                 if (connection != null && context.getData(PARENT_CONTEXT) == null) {
                     DataSourceUtils.releaseConnection(connection, dataSource);
                 }
-                super.end(context);
             }
         });
-        return new SQLQueryFactory(QueryDsl.CONFIG, provider);
+        return new SQLQueryFactory(configuration, () -> DataSourceUtils.getConnection(dataSource));
     }
 
     private static final String PARENT_CONTEXT = AbstractSQLQuery.class.getName() + "#PARENT_CONTEXT";
-
-    /**
-     * 注册验证工具
-     *
-     * @param validator 验证器
-     * @return 验证工具
-     */
-    @Bean
-    @ConditionalOnMissingBean
-    public ValidationUtil validationUtil(@Qualifier("fastValidator") Validator validator) {
-        return objects -> {
-            List<String> list = new ArrayList<>();
-            for (Object obj : objects) {
-                if (null != obj) {
-                    list.addAll(validator.validate(obj).stream().map(ConstraintViolation::getMessage).collect(Collectors.toList()));
-                }
-            }
-            return list;
-        };
-    }
 }

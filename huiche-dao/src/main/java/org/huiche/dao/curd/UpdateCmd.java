@@ -38,9 +38,8 @@ public interface UpdateCmd<T extends BaseEntity<T>> extends PathProvider<T>, Sql
      * @return 变更条数
      */
     default long update(@Nonnull T entity, boolean ignoreNull) {
-        Assert.notNull(HuiCheError.UPDATE_MUST_HAVE_ID, entity.getId());
+        Assert.notNull(HuiCheError.ERROR, entity.getId());
         beforeUpdate(entity);
-        validRegular(entity);
         SQLUpdateClause update = sql().update(root());
         if (ignoreNull) {
             return update.populate(entity).where(pk().eq(entity.getId())).execute();
@@ -58,7 +57,6 @@ public interface UpdateCmd<T extends BaseEntity<T>> extends PathProvider<T>, Sql
      */
     default long update(@Nonnull T entity, Predicate... predicate) {
         beforeUpdate(entity);
-        validRegular(entity);
         if (entity.getId() == null) {
             return sql().update(root()).populate(entity).where(predicate).execute();
         } else {
@@ -74,9 +72,8 @@ public interface UpdateCmd<T extends BaseEntity<T>> extends PathProvider<T>, Sql
      * @return 更新条数
      */
     default long update(@Nonnull T entity, Consumer<SQLUpdateClause> setter) {
-        Assert.notNull(HuiCheError.UPDATE_MUST_HAVE_ID, entity.getId());
+        Assert.notNull(HuiCheError.ERROR, entity.getId());
         beforeUpdate(entity);
-        validRegular(entity);
         SQLUpdateClause update = sql().update(root()).populate(entity);
         setter.accept(update);
         return update.where(pk().eq(entity.getId())).execute();
@@ -106,7 +103,6 @@ public interface UpdateCmd<T extends BaseEntity<T>> extends PathProvider<T>, Sql
      */
     default long update(@Nonnull T entity, Consumer<SQLUpdateClause> setter, Predicate... predicate) {
         beforeUpdate(entity);
-        validRegular(entity);
         SQLUpdateClause update = sql().update(root()).populate(entity);
         setter.accept(update);
         if (entity.getId() == null) {
@@ -128,7 +124,6 @@ public interface UpdateCmd<T extends BaseEntity<T>> extends PathProvider<T>, Sql
             Long id = entity.getId();
             if (null != id) {
                 beforeUpdate(entity);
-                validRegular(entity);
                 update.populate(entity.setId(null)).where(pk().eq(id)).addBatch();
             }
         }

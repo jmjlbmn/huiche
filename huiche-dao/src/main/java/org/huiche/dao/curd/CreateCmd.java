@@ -37,7 +37,6 @@ public interface CreateCmd<T extends BaseEntity<T>> extends PathProvider<T>, Sql
      */
     default long create(@Nonnull T entity, boolean setId) {
         beforeCreate(entity);
-        validOnCreate(entity);
         Long id = entity.getId();
         if (null == id) {
             id = sql().insert(root())
@@ -79,7 +78,6 @@ public interface CreateCmd<T extends BaseEntity<T>> extends PathProvider<T>, Sql
         SQLInsertClause insert = sql().insert(root());
         entityList.forEach(t -> {
             beforeCreate(t.setId(null));
-            validOnCreate(t);
             if (fast) {
                 insert.populate(t).addBatch();
             } else {
@@ -111,7 +109,6 @@ public interface CreateCmd<T extends BaseEntity<T>> extends PathProvider<T>, Sql
         SQLInsertClause insert = sql().insert(root());
         entityList.forEach(t -> {
             beforeCreate(t);
-            validOnCreate(t);
             insert.populate(t, DefaultMapper.WITH_NULL_BINDINGS).addBatch();
         });
         long size = insert.getBatchCount();

@@ -1,8 +1,6 @@
 package org.huiche.core.util;
 
 
-import org.huiche.core.consts.If;
-import org.huiche.core.enums.ValEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -191,11 +189,11 @@ public class DataUtil {
                     Method readMethod = sourceInfo.readMethod;
                     Method writeMethod = targetInfo.writeMethod;
                     if (null == readMethod) {
-                        log.warn("[数据复制] {} 的 {} 属性找不到Get方法,将跳过", source.getClass().getSimpleName(), propertyName);
+                        log.debug("[数据复制] {} 的 {} 属性找不到Get方法,将跳过", source.getClass().getSimpleName(), propertyName);
                         continue;
                     }
                     if (null == writeMethod) {
-                        log.warn("[数据复制] {} 的 {} 属性找不到Set方法,将跳过 ", target.getClass().getSimpleName(), propertyName);
+                        log.debug("[数据复制] {} 的 {} 属性找不到Set方法,将跳过 ", target.getClass().getSimpleName(), propertyName);
                         continue;
                     }
                     Object sourceVal = readMethod.invoke(source);
@@ -206,7 +204,7 @@ public class DataUtil {
                                 Object targetVal = targetReadMethod.invoke(target);
                                 if (null != targetVal) {
                                     writeMethod.invoke(target, (Object) null);
-                                    log.warn("[数据复制][复写] {} 的 {} 被复写为 null ,原值为 {}", target.getClass().getSimpleName(), propertyName, targetVal);
+                                    log.debug("[数据复制][复写] {} 的 {} 被复写为 null ,原值为 {}", target.getClass().getSimpleName(), propertyName, targetVal);
                                 }
                             }
                         } else {
@@ -216,11 +214,11 @@ public class DataUtil {
                             } else if (Boolean.class.equals(sourceType) && Integer.class.equals(targetType)) {
                                 // 原类型Boolean,目标类型Integer
                                 Boolean ok = (Boolean) sourceVal;
-                                writeMethod.invoke(target, ok ? If.YES : If.NO);
+                                writeMethod.invoke(target, ok ? 1 : 0);
                             } else if (Integer.class.equals(sourceType) && Boolean.class.equals(targetType)) {
                                 // 原类型Integer,目标类型Boolean
                                 Integer val = (Integer) sourceVal;
-                                writeMethod.invoke(target, HuiCheUtil.equals(If.YES, val));
+                                writeMethod.invoke(target, HuiCheUtil.equals(1, val));
                             } else if (BigDecimal.class.equals(sourceType) && Double.class.equals(targetType)) {
                                 // 原类型BigDecimal,目标类型Double
                                 BigDecimal val = (BigDecimal) sourceVal;
@@ -231,42 +229,27 @@ public class DataUtil {
                                 writeMethod.invoke(target, new BigDecimal(val));
                             } else if (sourceType.isEnum() && Integer.class.equals(targetType)) {
                                 //原类型枚举,目标类型Integer
-                                if (ValEnum.class.isAssignableFrom(sourceType)) {
-                                    ValEnum valEnum = (ValEnum) sourceVal;
-                                    writeMethod.invoke(target, valEnum.val());
-                                } else {
-                                    Enum<?> valEnum = (Enum<?>) sourceVal;
-                                    writeMethod.invoke(target, valEnum.ordinal());
-                                    log.warn("[数据复制][警告] 源对象 {} 的 {} 是枚举类型 {},而目标对象 {} 的 {} 是Integer 现在根据ordinal赋值,极有可能不准确,请调整让枚举实现ValEnum接口或手动赋值",
-                                            source.getClass().getSimpleName(),
-                                            propertyName,
-                                            sourceType.getName(),
-                                            target.getClass().getSimpleName(),
-                                            propertyName);
-                                }
+                                Enum<?> valEnum = (Enum<?>) sourceVal;
+                                writeMethod.invoke(target, valEnum.ordinal());
+                                log.debug("[数据复制][警告] 源对象 {} 的 {} 是枚举类型 {},而目标对象 {} 的 {} 是Integer 现在根据ordinal赋值,极有可能不准确,请调整让枚举实现ValEnum接口或手动赋值",
+                                        source.getClass().getSimpleName(),
+                                        propertyName,
+                                        sourceType.getName(),
+                                        target.getClass().getSimpleName(),
+                                        propertyName);
                             } else if (Integer.class.equals(sourceType) && targetType.isEnum()) {
                                 //原类型Integer,目标类型枚举
-                                if (ValEnum.class.isAssignableFrom(targetType)) {
-                                    for (Object object : targetType.getEnumConstants()) {
-                                        ValEnum valEnum = (ValEnum) object;
-                                        if (HuiCheUtil.equals(valEnum.val(), sourceVal)) {
-                                            writeMethod.invoke(target, valEnum);
-                                            break;
-                                        }
-                                    }
-                                } else {
-                                    log.warn("[数据复制][警告] 源对象 {} 的 {} 是Integer {},而目标对象 {} 的 {} 是枚举类型 现在根据ordinal赋值,极有可能不准确,请调整让枚举实现ValEnum接口或手动赋值",
-                                            source.getClass().getSimpleName(),
-                                            propertyName,
-                                            target.getClass().getSimpleName(),
-                                            propertyName,
-                                            targetType.getName());
-                                    for (Object object : targetType.getEnumConstants()) {
-                                        Enum<?> valEnum = (Enum<?>) object;
-                                        if (HuiCheUtil.equals(valEnum.ordinal(), sourceVal)) {
-                                            writeMethod.invoke(target, valEnum);
-                                            break;
-                                        }
+                                log.debug("[数据复制][警告] 源对象 {} 的 {} 是Integer {},而目标对象 {} 的 {} 是枚举类型 现在根据ordinal赋值,极有可能不准确,请调整让枚举实现ValEnum接口或手动赋值",
+                                        source.getClass().getSimpleName(),
+                                        propertyName,
+                                        target.getClass().getSimpleName(),
+                                        propertyName,
+                                        targetType.getName());
+                                for (Object object : targetType.getEnumConstants()) {
+                                    Enum<?> valEnum = (Enum<?>) object;
+                                    if (HuiCheUtil.equals(valEnum.ordinal(), sourceVal)) {
+                                        writeMethod.invoke(target, valEnum);
+                                        break;
                                     }
                                 }
 
@@ -293,7 +276,7 @@ public class DataUtil {
                                             } else if (Collection.class.isAssignableFrom(sourceType)) {
                                                 list.addAll(((Collection<?>) sourceVal));
                                             } else {
-                                                log.warn("[数据复制][出错] {} 的 {}({}) 与 {} 的 {}({}) 类型不匹配,未进行处理,跳过复制,如需要赋值请手动赋值",
+                                                log.debug("[数据复制][出错] {} 的 {}({}) 与 {} 的 {}({}) 类型不匹配,未进行处理,跳过复制,如需要赋值请手动赋值",
                                                         source.getClass().getSimpleName(),
                                                         propertyName,
                                                         sourceType.getName(),
@@ -320,7 +303,7 @@ public class DataUtil {
                                                     }
 
                                                 } else {
-                                                    log.warn("[数据复制][出错] {} 的 {}({}) 与 {} 的 {}({}) 类型不匹配,未进行处理,跳过复制,如需要赋值请手动赋值",
+                                                    log.debug("[数据复制][出错] {} 的 {}({}) 与 {} 的 {}({}) 类型不匹配,未进行处理,跳过复制,如需要赋值请手动赋值",
                                                             source.getClass().getSimpleName(),
                                                             propertyName,
                                                             sourceType.getName(),
@@ -334,7 +317,7 @@ public class DataUtil {
                                     }
                                 } catch (Exception e) {
                                     e.printStackTrace();
-                                    log.warn("[数据复制][出错] {} 的 {}({}) 与 {} 的 {}({}) 是集合且泛型类型不一致,处理出错,跳过复制,如需要赋值请手动赋值",
+                                    log.debug("[数据复制][出错] {} 的 {}({}) 与 {} 的 {}({}) 是集合且泛型类型不一致,处理出错,跳过复制,如需要赋值请手动赋值",
                                             source.getClass().getSimpleName(),
                                             propertyName,
                                             sourceType.getName(),
@@ -347,7 +330,7 @@ public class DataUtil {
                                     copyProperties(sourceVal, targetType.getConstructor().newInstance(), copyNull);
                                 } catch (Exception e) {
                                     e.printStackTrace();
-                                    log.warn("[数据复制][跳过] {} 的 {}({}) 与 {} 的 {}({}) 类型不一致,跳过复制,如需要赋值请手动赋值",
+                                    log.debug("[数据复制][跳过] {} 的 {}({}) 与 {} 的 {}({}) 类型不一致,跳过复制,如需要赋值请手动赋值",
                                             source.getClass().getSimpleName(),
                                             propertyName,
                                             sourceType.getName(),
@@ -360,10 +343,10 @@ public class DataUtil {
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    log.error("[数据复制][出错] 复制 {} 的 {} 到 {} 出错,如需要赋值请手动赋值,出现错误: {}", source.getClass().getSimpleName(), propertyName, target.getClass().getSimpleName(), e.getLocalizedMessage());
+                    log.debug("[数据复制][出错] 复制 {} 的 {} 到 {} 出错,如需要赋值请手动赋值,出现错误: {}", source.getClass().getSimpleName(), propertyName, target.getClass().getSimpleName(), e.getLocalizedMessage());
                 }
             } else {
-                log.info("[数据复制][跳过] {} 没有 {} 的 {} 属性,如需要赋值请手动赋值", source.getClass().getSimpleName(), target.getClass().getSimpleName(), propertyName);
+                log.debug("[数据复制][跳过] {} 没有 {} 的 {} 属性,如需要赋值请手动赋值", source.getClass().getSimpleName(), target.getClass().getSimpleName(), propertyName);
             }
 
         }

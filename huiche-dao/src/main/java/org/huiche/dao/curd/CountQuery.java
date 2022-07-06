@@ -4,7 +4,6 @@ import com.querydsl.core.types.Predicate;
 import com.querydsl.sql.SQLQuery;
 import org.huiche.dao.provider.PathProvider;
 import org.huiche.dao.provider.SqlProvider;
-import org.huiche.dao.util.QueryUtil;
 
 import javax.annotation.Nullable;
 
@@ -34,6 +33,6 @@ public interface CountQuery<T> extends PathProvider<T>, SqlProvider {
         if (null != predicate && predicate.length > 0) {
             query = query.where(predicate);
         }
-        return QueryUtil.count(query);
+        return query.fetchCount();
     }
 }

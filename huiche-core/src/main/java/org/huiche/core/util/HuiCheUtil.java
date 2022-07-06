@@ -1,7 +1,5 @@
 package org.huiche.core.util;
 
-import org.huiche.core.consts.Const;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Collection;
@@ -70,7 +68,7 @@ public class HuiCheUtil {
                 return true;
             }
             String objStr = obj.toString().trim();
-            while (objStr.startsWith(Const.QUOTE_DOUBLE) && objStr.endsWith(Const.QUOTE_DOUBLE) || objStr.startsWith(Const.QUOTE_SINGLE) && objStr.endsWith(Const.QUOTE_SINGLE)) {
+            while (objStr.startsWith("\"") && objStr.endsWith( "\"") || objStr.startsWith("'") && objStr.endsWith("'")) {
                 objStr = objStr.substring(1, objStr.length() - 1).trim();
             }
             return objStr.length() == 0 || "null".equalsIgnoreCase(objStr) || "undefined".equalsIgnoreCase(objStr);
