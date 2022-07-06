@@ -5,7 +5,13 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -51,7 +57,7 @@ public class Assert {
      * @param expression 表达式
      * @param args       先决判断的非空参数
      */
-    public static void ifNotEmpty(@NotNull String msg, @NotNull Supplier<Boolean> expression, @NotNull Object... args) {
+    public static void ifNotEmpty(@NotNull String msg, @NotNull Supplier<Boolean> expression, @NotNull Object @NotNull ... args) {
         for (Object arg : args) {
             if (checkEmpty(arg)) {
                 return;
@@ -135,7 +141,7 @@ public class Assert {
      * @param obj 对象
      * @return 是否胃口
      */
-    public static boolean checkEmpty(@Nullable Object obj) {
+    private static boolean checkEmpty(@Nullable Object obj) {
         if (obj == null) {
             return true;
         }
@@ -167,7 +173,7 @@ public class Assert {
      * @param b 参数b
      * @return 是否相等
      */
-    public static boolean checkEquals(@Nullable Object a, @Nullable Object b) {
+    private static boolean checkEquals(@Nullable Object a, @Nullable Object b) {
         boolean r = Objects.equals(a, b);
         if (!r && a instanceof Number && b instanceof Number) {
             r = ((Number) a).doubleValue() - ((Number) b).doubleValue() == 0;

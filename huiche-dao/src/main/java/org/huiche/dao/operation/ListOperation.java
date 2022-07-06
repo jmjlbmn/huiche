@@ -3,8 +3,7 @@ package org.huiche.dao.operation;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.Predicate;
-import org.huiche.dao.Q;
-import org.jetbrains.annotations.NotNull;
+import org.huiche.dao.support.Q;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -21,7 +20,8 @@ public interface ListOperation<T> {
      * @param <ID> ID类型
      * @return 实体列表
      */
-    @NotNull <ID extends Serializable> List<T> listByIds(@NotNull Collection<ID> ids);
+
+    <ID extends Serializable> List<T> listByIds(Collection<ID> ids);
 
     /**
      * 根据ID列表获取实体列表
@@ -31,7 +31,8 @@ public interface ListOperation<T> {
      * @param <ID>    ID类型
      * @return 实体列表
      */
-    @NotNull <ID extends Serializable> List<T> listColumnsByIds(@NotNull Expression<?>[] columns, @NotNull Collection<ID> ids);
+
+    <ID extends Serializable> List<T> listColumnsByIds(Expression<?>[] columns, Collection<ID> ids);
 
     /**
      * 根据ID列表获取实体字段列表
@@ -41,7 +42,8 @@ public interface ListOperation<T> {
      * @param <ID>   ID类型
      * @return 实体列表
      */
-    @NotNull <ID extends Serializable, Col> List<Col> listColumnByIds(@NotNull Path<Col> column, @NotNull Collection<ID> ids);
+
+    <ID extends Serializable, Col> List<Col> listColumnByIds(Path<Col> column, Collection<ID> ids);
 
     /**
      * 根据ID列表获取DTO列表
@@ -52,7 +54,8 @@ public interface ListOperation<T> {
      * @param <ID>     ID类型
      * @return 实体列表
      */
-    @NotNull <ID extends Serializable, DTO> List<DTO> listDtoByIds(@NotNull Class<DTO> dtoClass, @NotNull Expression<?>[] columns, @NotNull Collection<ID> ids);
+
+    <ID extends Serializable, DTO> List<DTO> listDtoByIds(Class<DTO> dtoClass, Expression<?>[] columns, Collection<ID> ids);
 
     /**
      * 根据条件获取实体列表
@@ -60,10 +63,16 @@ public interface ListOperation<T> {
      * @param conditions 条件
      * @return 实体类别
      */
-    @NotNull
-    default List<T> list(@NotNull Predicate... conditions) {
+
+    default List<T> list(Predicate... conditions) {
         return list(Q.of(conditions));
     }
+
+
+    /**
+     * 根据实体获取实体列表
+     */
+    List<T> list(T query);
 
     /**
      * 根据查询参数获取实体列表
@@ -71,8 +80,8 @@ public interface ListOperation<T> {
      * @param q 查询参数
      * @return 实体列表
      */
-    @NotNull
-    List<T> list(@NotNull Q q);
+
+    List<T> list(Q q);
 
     /**
      * 根据条件获取字段列表
@@ -81,8 +90,8 @@ public interface ListOperation<T> {
      * @param conditions 条件
      * @return 实体类别
      */
-    @NotNull
-    default <Col> List<Col> listColumn(@NotNull Path<Col> column, @NotNull Predicate... conditions) {
+
+    default <Col> List<Col> listColumn(Path<Col> column, Predicate... conditions) {
         return listColumn(column, Q.of(conditions));
     }
 
@@ -93,7 +102,8 @@ public interface ListOperation<T> {
      * @param q      查询参数
      * @return 实体类别
      */
-    @NotNull <Col> List<Col> listColumn(@NotNull Path<Col> column, @NotNull Q q);
+
+    <Col> List<Col> listColumn(Path<Col> column, Q q);
 
     /**
      * 根据查询参数获取实体多个属性列表
@@ -102,8 +112,8 @@ public interface ListOperation<T> {
      * @param conditions 条件
      * @return 实体多个属性列表
      */
-    @NotNull
-    default List<T> listColumns(@NotNull Expression<?>[] columns, @NotNull Predicate... conditions) {
+
+    default List<T> listColumns(Expression<?>[] columns, Predicate... conditions) {
         return listColumns(columns, Q.of(conditions));
     }
 
@@ -114,8 +124,8 @@ public interface ListOperation<T> {
      * @param q       查询参数
      * @return 实体多个属性列表
      */
-    @NotNull
-    List<T> listColumns(@NotNull Expression<?>[] columns, @NotNull Q q);
+
+    List<T> listColumns(Expression<?>[] columns, Q q);
 
     /**
      * 根据查询参数获取DTO列表
@@ -125,8 +135,8 @@ public interface ListOperation<T> {
      * @param conditions 条件
      * @return 实体多个属性列表
      */
-    @NotNull
-    default <DTO> List<DTO> listDto(@NotNull Class<DTO> dtoClass, @NotNull Expression<?>[] columns, @NotNull Predicate... conditions) {
+
+    default <DTO> List<DTO> listDto(Class<DTO> dtoClass, Expression<?>[] columns, Predicate... conditions) {
         return listDto(dtoClass, columns, Q.of(conditions));
     }
 
@@ -138,5 +148,6 @@ public interface ListOperation<T> {
      * @param q        查询参数
      * @return 实体多个属性列表
      */
-    @NotNull <DTO> List<DTO> listDto(@NotNull Class<DTO> dtoClass, @NotNull Expression<?>[] columns, @NotNull Q q);
+
+    <DTO> List<DTO> listDto(Class<DTO> dtoClass, Expression<?>[] columns, Q q);
 }

@@ -20,9 +20,9 @@ public class QuerydslExceptionTranslator implements SQLExceptionTranslator {
     @Override
     public RuntimeException translate(String sql, List<Object> bindings, SQLException e) {
         DataAccessException exception = this.translator.translate("querydsl", sql, e);
-        if(exception!=null){
+        if (exception != null) {
             return exception;
-        }else {
+        } else {
             return new RuntimeException(e);
         }
     }

@@ -9,8 +9,8 @@ import com.querydsl.sql.dml.SQLInsertClause;
 import com.querydsl.sql.dml.SQLUpdateClause;
 import com.querydsl.sql.mysql.MySQLReplaceClause;
 import org.huiche.exception.HuicheIllegalArgumentException;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.dao.TypeMismatchDataAccessException;
+import org.springframework.lang.Nullable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -47,8 +47,7 @@ public class CrudDaoMultiplePkImpl<T> extends AbstractCrudDao<T> {
     }
 
     @Override
-    @NotNull
-    public T create(@NotNull T entity) {
+    public <E extends T> E create(E entity) {
         beforeCreate(entity);
         SQLInsertClause dml = sql.insert(table);
         boolean autoIncrement = autoIncrementId != null && autoIncrementId.handleId(entity);
@@ -63,8 +62,8 @@ public class CrudDaoMultiplePkImpl<T> extends AbstractCrudDao<T> {
     }
 
     @Override
-    @NotNull
-    public T createOrReplace(@NotNull T entity) {
+
+    public <E extends T> E createOrReplace(E entity) {
         beforeCreate(entity);
         if (autoIncrementId != null && autoIncrementId.getIdVal(entity) == null) {
             throw new HuicheIllegalArgumentException("replace operation need primary key has a value");
@@ -75,7 +74,7 @@ public class CrudDaoMultiplePkImpl<T> extends AbstractCrudDao<T> {
     }
 
     @Override
-    public long createBatch(@NotNull Collection<T> entityList) {
+    public <E extends T> long createBatch(Collection<E> entityList) {
         SQLInsertClause dmlHasNoId = sql.insert(table);
         SQLInsertClause dmlHasId = sql.insert(table);
         List<T> hasNoIdList = new ArrayList<>(entityList.size());
@@ -100,66 +99,66 @@ public class CrudDaoMultiplePkImpl<T> extends AbstractCrudDao<T> {
     }
 
     @Override
-    public <ID extends Serializable> boolean existsById(@NotNull ID id) {
+    public <ID extends Serializable> boolean existsById(ID id) {
         throw EXCEPTION;
     }
 
     @Override
-    public <ID extends Serializable> T getById(@NotNull ID id) {
+    public <ID extends Serializable> T getById(ID id) {
         throw EXCEPTION;
     }
 
     @Override
-    public <ID extends Serializable, Col> Col getColumnById(@NotNull Expression<Col> column, @NotNull ID id) {
+    public <ID extends Serializable, Col> Col getColumnById(Expression<Col> column, ID id) {
         throw EXCEPTION;
     }
 
     @Override
-    public <ID extends Serializable> T getColumnsById(Expression<?> @NotNull [] columns, @NotNull ID id) {
+    public <ID extends Serializable> T getColumnsById(Expression<?>[] columns, ID id) {
         throw EXCEPTION;
     }
 
     @Override
-    public <ID extends Serializable, DTO> DTO getDtoById(@NotNull Class<DTO> dtoClass, Expression<?> @NotNull [] columns, @NotNull ID id) {
+    public <ID extends Serializable, DTO> DTO getDtoById(Class<DTO> dtoClass, Expression<?>[] columns, ID id) {
         throw EXCEPTION;
     }
 
     @Override
-    @NotNull
-    public <ID extends Serializable> List<T> listByIds(@NotNull Collection<ID> ids) {
+
+    public <ID extends Serializable> List<T> listByIds(Collection<ID> ids) {
         throw EXCEPTION;
     }
 
     @Override
-    @NotNull
-    public <ID extends Serializable> List<T> listColumnsByIds(@NotNull Expression<?>[] columns, @NotNull Collection<ID> ids) {
+
+    public <ID extends Serializable> List<T> listColumnsByIds(Expression<?>[] columns, Collection<ID> ids) {
         throw EXCEPTION;
     }
 
     @Override
-    @NotNull
-    public <ID extends Serializable, Col> List<Col> listColumnByIds(@NotNull Path<Col> column, @NotNull Collection<ID> ids) {
+
+    public <ID extends Serializable, Col> List<Col> listColumnByIds(Path<Col> column, Collection<ID> ids) {
         throw EXCEPTION;
     }
 
     @Override
-    @NotNull
-    public <ID extends Serializable, DTO> List<DTO> listDtoByIds(@NotNull Class<DTO> dtoClass, Expression<?> @NotNull [] columns, @NotNull Collection<ID> ids) {
+
+    public <ID extends Serializable, DTO> List<DTO> listDtoByIds(Class<DTO> dtoClass, Expression<?>[] columns, Collection<ID> ids) {
         throw EXCEPTION;
     }
 
     @Override
-    public <ID extends Serializable> long deleteById(@NotNull ID id) {
+    public <ID extends Serializable> long deleteById(ID id) {
         throw EXCEPTION;
     }
 
     @Override
-    public <ID extends Serializable> long deleteByIds(@NotNull Collection<ID> ids) {
+    public <ID extends Serializable> long deleteByIds(Collection<ID> ids) {
         throw EXCEPTION;
     }
 
     @Override
-    public <ID extends Serializable> long updateById(T entityUpdate, Consumer<SQLUpdateClause> setter, @NotNull ID id) {
+    public <ID extends Serializable> long updateById(@Nullable T entityUpdate, @Nullable Consumer<SQLUpdateClause> setter, ID id) {
         throw EXCEPTION;
     }
 }

@@ -1,6 +1,10 @@
 package org.huiche.annotation;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * 标注实体类的表注解
@@ -34,5 +38,5 @@ public @interface Table {
 
     boolean generateMapper() default true;
 
-    boolean generateDao() default false;
+    boolean generateDao() default true;
 }

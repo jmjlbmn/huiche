@@ -3,7 +3,11 @@ package org.huiche.annotation;
 import org.huiche.support.IdGenerator;
 import org.huiche.support.PrimaryKey;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.sql.JDBCType;
 
 /**

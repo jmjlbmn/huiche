@@ -1,7 +1,5 @@
 package org.huiche.domain;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 
 /**
@@ -45,6 +43,5 @@ public interface Page<T> {
      *
      * @return 数据列表
      */
-    @NotNull
     List<T> getRows();
 }

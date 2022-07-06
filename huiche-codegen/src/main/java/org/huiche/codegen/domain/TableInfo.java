@@ -20,7 +20,7 @@ public class TableInfo {
         if (!"".equals(table.name())) {
             this.tableName = table.name();
         } else {
-            this.tableName = NamingUtil.camel2underLine(className);
+            this.tableName = NamingUtil.camel2snake(className);
         }
         if (!"".equals(table.schema())) {
             this.schema = table.schema();

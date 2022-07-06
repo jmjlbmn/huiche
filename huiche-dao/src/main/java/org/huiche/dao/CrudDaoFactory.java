@@ -5,7 +5,6 @@ import com.querydsl.sql.PrimaryKey;
 import com.querydsl.sql.RelationalPath;
 import com.querydsl.sql.SQLQueryFactory;
 import org.huiche.dao.operation.CrudOperation;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,8 +14,8 @@ import java.util.List;
  * @author Maning
  */
 public class CrudDaoFactory {
-    @NotNull
-    public static <T> CrudOperation<T> create(SQLQueryFactory sql, @NotNull RelationalPath<T> table) {
+
+    public static <T> CrudOperation<T> create(SQLQueryFactory sql, RelationalPath<T> table) {
         List<IdInfo> ids = getIdListByTable(table);
         int size = ids.size();
         if (size == 0) {
@@ -28,8 +27,8 @@ public class CrudDaoFactory {
         }
     }
 
-    @NotNull
-    public static <T> List<IdInfo> getIdListByTable(@NotNull RelationalPath<T> table) {
+
+    public static <T> List<IdInfo> getIdListByTable(RelationalPath<T> table) {
         PrimaryKey<T> pk = table.getPrimaryKey();
         if (pk != null) {
             List<? extends Path<?>> ids = pk.getLocalColumns();

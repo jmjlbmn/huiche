@@ -1,4 +1,4 @@
-package org.huiche.dao.support;
+package org.huiche.dao;
 
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.PathMetadata;
@@ -12,6 +12,7 @@ import org.huiche.support.IdGenerator;
 import org.huiche.support.PrimaryKey;
 import org.springframework.dao.TypeMismatchDataAccessException;
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
@@ -29,7 +30,7 @@ public class IdInfo {
     private final Field field;
     private final IdGenerator idGenerator;
 
-    public IdInfo(@NonNull RelationalPath<?> table, @NonNull Path<?> column) {
+    IdInfo(RelationalPath<?> table, Path<?> column) {
         PathMetadata metadata = column.getMetadata();
         this.name = metadata.getName();
         this.path = column;
@@ -63,7 +64,7 @@ public class IdInfo {
     }
 
     @Override
-    public @NonNull String toString() {
+    public String toString() {
         return "IdInfo{" +
                 "name='" + name + '\'' +
                 ", wherePath=" + wherePath +
@@ -91,7 +92,7 @@ public class IdInfo {
         return PrimaryKey.AUTO.equals(idType);
     }
 
-    public void setIdVal(Object entity, Object val) {
+    public void setIdVal(Object entity, @Nullable Object val) {
         try {
             field.set(entity, val);
         } catch (IllegalAccessException e) {
@@ -110,6 +111,7 @@ public class IdInfo {
         }
     }
 
+    @Nullable
     public Object getIdVal(Object entity) {
         try {
             return field.get(entity);

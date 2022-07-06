@@ -2,6 +2,6 @@
  * @author Maning
  */
 @NonNullApi
-package org.huiche.dao.operation;
+package org.huiche.dao;
 
 import org.springframework.lang.NonNullApi;

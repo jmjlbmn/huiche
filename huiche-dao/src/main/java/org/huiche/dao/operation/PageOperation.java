@@ -2,9 +2,11 @@ package org.huiche.dao.operation;
 
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Expression;
-import org.huiche.dao.Q;
+import com.querydsl.core.types.OrderSpecifier;
+import org.huiche.dao.support.Q;
 import org.huiche.domain.Page;
-import org.jetbrains.annotations.NotNull;
+import org.huiche.domain.Pageable;
+import org.springframework.lang.Nullable;
 
 import java.util.function.Function;
 
@@ -18,8 +20,41 @@ public interface PageOperation<T> {
      * @param q 查询参数
      * @return 分页结果
      */
-    @NotNull
-    Page<T> page(@NotNull Q q);
+
+    Page<T> page(Q q);
+
+    /**
+     * 分页获取实体
+     *
+     * @param pageable 分页
+     * @return 分页结果
+     */
+
+    default Page<T> page(Pageable pageable) {
+        return page(Q.of(pageable.page(), pageable.size()));
+    }
+
+    /**
+     * 分页获取实体,通过实体条件查询
+     *
+     * @param pageable 分页
+     * @param query    查询
+     * @return 分页结果
+     */
+    Page<T> page(Pageable pageable, T query);
+
+    /**
+     * 分页获取实体
+     *
+     * @param pageable 分页
+     * @param order    排序
+     * @return 分页结果
+     */
+
+    default Page<T> page(Pageable pageable, @Nullable OrderSpecifier<?> order) {
+        return page(Q.of(pageable.page(), pageable.size()).order(order));
+    }
+
 
     /**
      * 分页查询实体的某些字段
@@ -28,8 +63,8 @@ public interface PageOperation<T> {
      * @param q       查询参数
      * @return 包含查询字段的实体
      */
-    @NotNull
-    Page<T> pageColumns(@NotNull Expression<?>[] columns, @NotNull Q q);
+
+    Page<T> pageColumns(Expression<?>[] columns, Q q);
 
     /**
      * 分页查询DTO
@@ -40,7 +75,8 @@ public interface PageOperation<T> {
      * @param <DTO>    DTO类型
      * @return DTO分页
      */
-    @NotNull <DTO> Page<DTO> pageDto(@NotNull Class<DTO> dtoClass, @NotNull Expression<?>[] columns, @NotNull Q q);
+
+    <DTO> Page<DTO> pageDto(Class<DTO> dtoClass, Expression<?>[] columns, Q q);
 
     /**
      * 分页查询DTO
@@ -51,5 +87,6 @@ public interface PageOperation<T> {
      * @param <DTO>   DTO类型
      * @return DTO分页
      */
-    @NotNull <DTO> Page<DTO> pageDto(@NotNull Function<Tuple, DTO> mapper, @NotNull Expression<?>[] columns, @NotNull Q q);
+
+    <DTO> Page<DTO> pageDto(Function<Tuple, DTO> mapper, Expression<?>[] columns, Q q);
 }

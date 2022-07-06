@@ -1,0 +1,43 @@
+package {{basePackage}}.service;
+
+import {{basePackage}}.dao.{{entityName}}Dao;
+import {{entityPackage}}.{{entityName}};
+import lombok.RequiredArgsConstructor;
+import org.huiche.domain.Page;
+import org.huiche.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+/**
+* @author huiche-codegen
+*/
+@Service
+@RequiredArgsConstructor
+public class {{entityName}}Service {
+    private final {{entityName}}Dao dao;
+
+    @Transactional(rollbackFor = Exception.class)
+    public {{entityName}} create({{entityName}} entity) {
+        return dao.create(entity);
+    }
+
+    {{#idType}}
+    @Transactional(rollbackFor = Exception.class)
+    public void delete({{idType}} id) {
+        dao.deleteById(id);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void update({{entityName}} entity, {{idType}} id) {
+        dao.updateById(entity, id);
+    }
+
+    public {{entityName}} get({{idType}} id) {
+        return dao.getById(id);
+    }
+    {{/idType}}
+
+    public Page<{{entityName}}> page(Pageable pageable, {{entityName}} query) {
+        return dao.page(pageable, query);
+    }
+}

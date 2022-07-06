@@ -5,10 +5,10 @@ package org.huiche.exception;
  */
 public class HuicheException extends RuntimeException {
     public HuicheException(String message) {
-        super(message, null, false, false);
+        super(message, null, true, true);
     }
 
     public HuicheException(String message, Throwable cause) {
-        super(message, cause, false, false);
+        super(message, cause, true, true);
     }
 }

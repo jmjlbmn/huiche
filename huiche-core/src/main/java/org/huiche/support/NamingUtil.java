@@ -8,13 +8,12 @@ import java.beans.Introspector;
  * @author Maning
  */
 public class NamingUtil {
-    @NotNull
-    public static String camel2underLine(@NotNull String camelStr) {
-        int length = camelStr.length();
+    public static String camel2snake(@NotNull String camelCase) {
+        int length = camelCase.length();
         StringBuilder sb = new StringBuilder(length);
         for (int i = 0; i < length; i++) {
-            char ch = camelStr.charAt(i);
-            if (i > 0 && Character.isUpperCase(ch) && Character.isLowerCase(camelStr.charAt(i - 1))) {
+            char ch = camelCase.charAt(i);
+            if (i > 0 && Character.isUpperCase(ch) && Character.isLowerCase(camelCase.charAt(i - 1))) {
                 sb.append("_");
             }
             sb.append(Character.toLowerCase(ch));
@@ -22,8 +21,7 @@ public class NamingUtil {
         return sb.toString();
     }
 
-    @NotNull
-    public static String deCapitalize(@NotNull String str) {
-        return Introspector.decapitalize(str);
+    public static String pascal2camel(@NotNull String pascalCase) {
+        return Introspector.decapitalize(pascalCase);
     }
 }

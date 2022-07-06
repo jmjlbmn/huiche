@@ -1,7 +1,6 @@
 package org.huiche.dao.operation;
 
 import com.querydsl.core.types.Predicate;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 
@@ -17,7 +16,7 @@ public interface ExistsOperation<T> {
      * @param <ID> ID类型
      * @return 是否存在
      */
-    <ID extends Serializable> boolean existsById(@NotNull ID id);
+    <ID extends Serializable> boolean existsById(ID id);
 
     /**
      * 通过条件判断是否存在
@@ -25,5 +24,5 @@ public interface ExistsOperation<T> {
      * @param conditions 条件
      * @return 是否存在
      */
-    boolean exists(@NotNull Predicate... conditions);
+    boolean exists(Predicate... conditions);
 }

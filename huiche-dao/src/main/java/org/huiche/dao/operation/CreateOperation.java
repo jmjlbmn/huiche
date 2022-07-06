@@ -1,7 +1,5 @@
 package org.huiche.dao.operation;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -15,7 +13,7 @@ public interface CreateOperation<T> {
      * @param entity 实体
      * @return 持久化后的实体
      */
-    @NotNull T create(@NotNull T entity);
+    <E extends T> E create(E entity);
 
     /**
      * 新增或替换
@@ -23,7 +21,7 @@ public interface CreateOperation<T> {
      * @param entity 实体
      * @return 持久化后的实体
      */
-    @NotNull T createOrReplace(@NotNull T entity);
+    <E extends T> E createOrReplace(E entity);
 
     /**
      * 批量插入
@@ -31,7 +29,7 @@ public interface CreateOperation<T> {
      * @param entityArr 实体数组
      * @return 插入条数
      */
-    default long createBatch(@NotNull T[] entityArr) {
+    default <E extends T> long createBatch(E[] entityArr) {
         return createBatch(Arrays.asList(entityArr));
     }
 
@@ -41,5 +39,5 @@ public interface CreateOperation<T> {
      * @param entityList 实体列表
      * @return 插入条数
      */
-    long createBatch(@NotNull Collection<T> entityList);
+    <E extends T> long createBatch(Collection<E> entityList);
 }

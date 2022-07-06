@@ -1,7 +1,5 @@
 package org.huiche.support;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.UUID;
 
 /**
@@ -16,7 +14,6 @@ public interface IdGenerator {
      *
      * @return 数字ID
      */
-    @NotNull
     default Number generateNumberId() {
         throw new RuntimeException("must override generateNumberId");
     }
@@ -26,7 +23,6 @@ public interface IdGenerator {
      *
      * @return 字符串ID
      */
-    @NotNull
     default String generateStrId() {
         return UUID.randomUUID().toString().replaceAll("-", "");
     }

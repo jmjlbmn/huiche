@@ -2,9 +2,8 @@ package org.huiche.dao.operation;
 
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Predicate;
-import org.huiche.dao.Q;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.huiche.dao.support.Q;
+import org.springframework.lang.Nullable;
 
 import java.io.Serializable;
 
@@ -19,7 +18,8 @@ public interface GetOperation<T> {
      * @param <ID> ID类型
      * @return 实体
      */
-    @Nullable <ID extends Serializable> T getById(@NotNull ID id);
+    @Nullable
+    <ID extends Serializable> T getById(ID id);
 
     /**
      * 通过ID获取某字段
@@ -30,7 +30,8 @@ public interface GetOperation<T> {
      * @param <Col>  字段类型
      * @return 字段
      */
-    @Nullable <ID extends Serializable, Col> Col getColumnById(@NotNull Expression<Col> column, @NotNull ID id);
+    @Nullable
+    <ID extends Serializable, Col> Col getColumnById(Expression<Col> column, ID id);
 
 
     /**
@@ -41,7 +42,8 @@ public interface GetOperation<T> {
      * @param <ID>    ID类型
      * @return 包含某些字段的实体
      */
-    @Nullable <ID extends Serializable> T getColumnsById(@NotNull Expression<?>[] columns, @NotNull ID id);
+    @Nullable
+    <ID extends Serializable> T getColumnsById(Expression<?>[] columns, ID id);
 
     /**
      * 通过ID获取DTO
@@ -53,7 +55,8 @@ public interface GetOperation<T> {
      * @param <DTO>    DTO类型
      * @return DTO
      */
-    @Nullable <ID extends Serializable, DTO> DTO getDtoById(@NotNull Class<DTO> dtoClass, @NotNull Expression<?>[] columns, @NotNull ID id);
+    @Nullable
+    <ID extends Serializable, DTO> DTO getDtoById(Class<DTO> dtoClass, Expression<?>[] columns, ID id);
 
     /**
      * 获取唯一实体,若存在多个则报错
@@ -62,7 +65,7 @@ public interface GetOperation<T> {
      * @return 实体
      */
     @Nullable
-    T getOne(@NotNull Predicate... conditions);
+    T getOne(Predicate... conditions);
 
     /**
      * 获取唯一实体的字段,若存在多个则报错
@@ -72,7 +75,8 @@ public interface GetOperation<T> {
      * @param <Col>      字段类型
      * @return 多个字段的实体
      */
-    @Nullable <Col> Col getColumnOne(@NotNull Expression<Col> column, @NotNull Predicate... conditions);
+    @Nullable
+    <Col> Col getColumnOne(Expression<Col> column, Predicate... conditions);
 
     /**
      * 获取唯一实体多个字段,若存在多个则报错
@@ -82,7 +86,7 @@ public interface GetOperation<T> {
      * @return 实体
      */
     @Nullable
-    T getColumnsOne(@NotNull Expression<?>[] columns, @NotNull Predicate... conditions);
+    T getColumnsOne(Expression<?>[] columns, Predicate... conditions);
 
     /**
      * 获取唯一DTO,若存在多个则报错
@@ -93,7 +97,8 @@ public interface GetOperation<T> {
      * @param <DTO>      DTO类型
      * @return DTO
      */
-    @Nullable <DTO> DTO getDtoOne(@NotNull Class<DTO> dtoClass, @NotNull Expression<?>[] columns, @NotNull Predicate... conditions);
+    @Nullable
+    <DTO> DTO getDtoOne(Class<DTO> dtoClass, Expression<?>[] columns, Predicate... conditions);
 
     /**
      * 根据条件获取第一个实体
@@ -102,7 +107,7 @@ public interface GetOperation<T> {
      * @return 实体
      */
     @Nullable
-    default T getFirst(@NotNull Predicate... conditions) {
+    default T getFirst(Predicate... conditions) {
         return getFirst(Q.of(conditions));
     }
 
@@ -113,7 +118,7 @@ public interface GetOperation<T> {
      * @return 实体
      */
     @Nullable
-    T getFirst(@NotNull Q q);
+    T getFirst(Q q);
 
     /**
      * 根据条件获取第一个实体的字段
@@ -124,7 +129,7 @@ public interface GetOperation<T> {
      * @return 字段
      */
     @Nullable
-    default <Col> Col getColumnFirst(@NotNull Expression<Col> column, @NotNull Predicate... conditions) {
+    default <Col> Col getColumnFirst(Expression<Col> column, Predicate... conditions) {
         return getColumnFirst(column, Q.of(conditions));
     }
 
@@ -136,7 +141,8 @@ public interface GetOperation<T> {
      * @param <Col>  字段类型
      * @return 字段
      */
-    @Nullable <Col> Col getColumnFirst(@NotNull Expression<Col> column, @NotNull Q q);
+    @Nullable
+    <Col> Col getColumnFirst(Expression<Col> column, Q q);
 
     /**
      * 根据条件获取第一个实体的多个字段
@@ -146,7 +152,7 @@ public interface GetOperation<T> {
      * @return 含多个字段值的实体
      */
     @Nullable
-    default T getColumnsFirst(@NotNull Expression<?>[] columns, @NotNull Predicate... conditions) {
+    default T getColumnsFirst(Expression<?>[] columns, Predicate... conditions) {
         return getColumnsFirst(columns, Q.of(conditions));
     }
 
@@ -158,7 +164,7 @@ public interface GetOperation<T> {
      * @return 含多个字段值的实体
      */
     @Nullable
-    T getColumnsFirst(@NotNull Expression<?>[] columns, @NotNull Q q);
+    T getColumnsFirst(Expression<?>[] columns, Q q);
 
     /**
      * 根据条件获取第一个DTO
@@ -170,7 +176,7 @@ public interface GetOperation<T> {
      * @return DTO
      */
     @Nullable
-    default <DTO> DTO getDtoFirst(@NotNull Class<DTO> dtoClass, @NotNull Expression<?>[] columns, @NotNull Predicate... conditions) {
+    default <DTO> DTO getDtoFirst(Class<DTO> dtoClass, Expression<?>[] columns, Predicate... conditions) {
         return getDtoFirst(dtoClass, columns, Q.of(conditions));
     }
 
@@ -183,5 +189,6 @@ public interface GetOperation<T> {
      * @param <DTO>    DTO类型
      * @return DTO
      */
-    @Nullable <DTO> DTO getDtoFirst(@NotNull Class<DTO> dtoClass, @NotNull Expression<?>[] columns, @NotNull Q q);
+    @Nullable
+    <DTO> DTO getDtoFirst(Class<DTO> dtoClass, Expression<?>[] columns, Q q);
 }

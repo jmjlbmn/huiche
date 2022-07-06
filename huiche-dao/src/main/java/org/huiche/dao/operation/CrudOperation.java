@@ -1,7 +1,6 @@
 package org.huiche.dao.operation;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.springframework.lang.Nullable;
 
 /**
  * @author Maning
@@ -12,7 +11,7 @@ public interface CrudOperation<T> extends CreateOperation<T>, DeleteOperation<T>
      *
      * @param entity 实体
      */
-    default void beforeCreate(@NotNull T entity) {
+    default void beforeCreate(T entity) {
     }
 
     /**

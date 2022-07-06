@@ -1,7 +1,6 @@
 package org.huiche.dao.operation;
 
 import com.querydsl.core.types.Predicate;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -18,7 +17,7 @@ public interface DeleteOperation<T> {
      * @param <ID> ID类型
      * @return 删除条数
      */
-    <ID extends Serializable> long deleteById(@NotNull ID id);
+    <ID extends Serializable> long deleteById(ID id);
 
     /**
      * 通过ID列表删除,只支持单主键
@@ -27,7 +26,7 @@ public interface DeleteOperation<T> {
      * @param <ID> ID类型
      * @return 删除条数
      */
-    <ID extends Serializable> long deleteByIds(@NotNull Collection<ID> ids);
+    <ID extends Serializable> long deleteByIds(Collection<ID> ids);
 
     /**
      * 通过条件删除
@@ -35,5 +34,5 @@ public interface DeleteOperation<T> {
      * @param conditions 条件
      * @return 删除条数
      */
-    long delete(@NotNull Predicate... conditions);
+    long delete(Predicate... conditions);
 }

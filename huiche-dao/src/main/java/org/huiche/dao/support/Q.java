@@ -1,13 +1,12 @@
-package org.huiche.dao;
+package org.huiche.dao.support;
 
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.sql.SQLQuery;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.huiche.domain.Pageable;
+import org.springframework.lang.NonNull;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -23,57 +22,35 @@ public class Q {
         return new Q();
     }
 
-    public static Q of(@Nullable Predicate where) {
-        return new Q().where(where);
-    }
-
-    public Q where(@Nullable Predicate where) {
-        if (where != null) {
-            this.wheres.add(where);
-        }
-        return this;
-    }
-
-    public static Q of(@Nullable OrderSpecifier<?> order) {
-        return new Q().order(order);
-    }
-
-    public Q order(@Nullable OrderSpecifier<?> order) {
-        if (order != null) {
-            this.orders.add(order);
-        }
-        return this;
-    }
-
-    public static Q of(@NotNull Long page, @NotNull Long size) {
+    public static Q of(Long page, Long size) {
         return new Q().page(page, size);
     }
 
-    public Q page(@NotNull Long page, @NotNull Long size) {
+    public static Q of(Pageable pageable) {
+        return new Q().page(pageable);
+    }
+
+    public static Q of(Predicate... wheres) {
+        return new Q().where(wheres);
+    }
+
+    public static Q of(OrderSpecifier<?>... orders) {
+        return new Q().order(orders);
+    }
+
+    public Q page(Long page, Long size) {
         this.page = page;
         this.size = size;
         return this;
     }
 
-    public static Q of(@NotNull Predicate[] wheres) {
-        return new Q().where(wheres);
-    }
-
-    public Q where(@NotNull Predicate[] wheres) {
-        this.wheres.addAll(Arrays.asList(wheres));
+    public Q page(@NonNull Pageable pageable) {
+        this.page = pageable.page();
+        this.size = pageable.size();
         return this;
     }
 
-    public static Q of(@NotNull OrderSpecifier<?>[] orders) {
-        return new Q().order(orders);
-    }
-
-    public Q order(@NotNull OrderSpecifier<?>[] orders) {
-        this.orders.addAll(Arrays.asList(orders));
-        return this;
-    }
-
-    public Q size(@NotNull Long size) {
+    public Q size(Long size) {
         this.size = size;
         return this;
     }
@@ -102,70 +79,22 @@ public class Q {
         return query;
     }
 
-    public Q where(@Nullable Predicate where1, @Nullable Predicate where2) {
-        addWhere(where1);
-        addWhere(where2);
-        return this;
-    }
-
-    private void addWhere(@Nullable Predicate where) {
-        if (where != null) {
-            this.wheres.add(where);
-        }
-    }
-
-    public Q where(@Nullable Predicate where1, @Nullable Predicate where2, @Nullable Predicate where3) {
-        addWhere(where1);
-        addWhere(where2);
-        addWhere(where3);
-        return this;
-    }
-
-    public Q where(@Nullable Predicate where1, @Nullable Predicate where2, @Nullable Predicate where3, @Nullable Predicate where4) {
-        addWhere(where1);
-        addWhere(where2);
-        addWhere(where3);
-        addWhere(where4);
-        return this;
-    }
-
-    public Q where(@Nullable Predicate where1, @Nullable Predicate where2, @Nullable Predicate where3, @Nullable Predicate where4, @Nullable Predicate where5) {
-        addWhere(where1);
-        addWhere(where2);
-        addWhere(where3);
-        addWhere(where4);
-        addWhere(where5);
-        return this;
-    }
-
-    public Q where(@Nullable Predicate where1, @Nullable Predicate where2, @Nullable Predicate where3, @Nullable Predicate where4, @Nullable Predicate where5, @NotNull Predicate... wheres) {
-        addWhere(where1);
-        addWhere(where2);
-        addWhere(where3);
-        addWhere(where4);
-        addWhere(where5);
-        this.wheres.addAll(Arrays.asList(wheres));
-        return this;
-    }
-
-    public Q order(@Nullable OrderSpecifier<?> order1, @Nullable OrderSpecifier<?> order2) {
-        if (order1 != null) {
-            this.orders.add(order1);
-        }
-        if (order2 != null) {
-            this.orders.add(order2);
+    public Q where(@NonNull Predicate... wheres) {
+        for (Predicate where : wheres) {
+            if (where != null) {
+                this.wheres.add(where);
+            }
         }
         return this;
     }
 
-    public Q order(@Nullable OrderSpecifier<?> order1, @Nullable OrderSpecifier<?> order2, @NotNull OrderSpecifier<?>... orders) {
-        if (order1 != null) {
-            this.orders.add(order1);
+    public Q order(@NonNull OrderSpecifier<?>... orders) {
+        for (OrderSpecifier<?> order : orders) {
+            if (order != null) {
+                this.orders.add(order);
+            }
         }
-        if (order2 != null) {
-            this.orders.add(order2);
-        }
-        this.orders.addAll(Arrays.asList(orders));
         return this;
     }
+
 }

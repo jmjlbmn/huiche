@@ -37,7 +37,7 @@ public class ColumnInfo {
 
     public ColumnInfo(Column column, String fieldName, JDBCType defaultJdbcType) {
         if (column != null) {
-            this.columnName = !"".equals(column.name()) ? column.name() : NamingUtil.camel2underLine(fieldName);
+            this.columnName = !"".equals(column.name()) ? column.name() : NamingUtil.camel2snake(fieldName);
             this.comment = !"".equals(column.comment()) ? column.comment() : null;
             this.defaultValue = !"".equals(column.defaultValue()) ? column.defaultValue() : null;
             this.definition = !"".equals(column.definition()) ? column.definition() : null;
@@ -53,7 +53,7 @@ public class ColumnInfo {
                 this.length = column.length();
             }
         } else {
-            this.columnName = NamingUtil.camel2underLine(fieldName);
+            this.columnName = NamingUtil.camel2snake(fieldName);
             this.comment = null;
             this.defaultValue = null;
             this.definition = null;

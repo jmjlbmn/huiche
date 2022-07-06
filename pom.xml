@@ -5,13 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.huiche</groupId>
-    <artifactId>huiche</artifactId>
+    <artifactId>huiche-bom</artifactId>
     <version>2.0.0-dev</version>
     <modules>
-        <module>huiche-bom</module>
+        <module>huiche-codegen</module>
         <module>huiche-core</module>
         <module>huiche-dao</module>
-        <module>huiche-ddl</module>
         <module>huiche-spring-boot-starter</module>
         <module>huiche-apt</module>
     </modules>
@@ -59,19 +58,41 @@
                 <version>${javapoet.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.jetbrains</groupId>
+                <artifactId>annotations</artifactId>
+                <version>${jetbrains-annotations.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.ifinalframework.auto</groupId>
                 <artifactId>auto-service</artifactId>
                 <version>${auto-service.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.huiche</groupId>
+                <artifactId>huiche-apt</artifactId>
+                <version>${project.version}</version>
+                <optional>true</optional>
+            </dependency>
+            <dependency>
+                <groupId>org.huiche</groupId>
+                <artifactId>huiche-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.huiche</groupId>
+                <artifactId>huiche-dao</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.huiche</groupId>
+                <artifactId>huiche-codegen</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.huiche</groupId>
+                <artifactId>huiche-spring-boot-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
-    <dependencies>
-        <dependency>
-            <groupId>org.jetbrains</groupId>
-            <artifactId>annotations</artifactId>
-            <version>${jetbrains-annotations.version}</version>
-            <optional>true</optional>
-        </dependency>
-    </dependencies>
-
 </project>

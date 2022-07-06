@@ -1,12 +1,16 @@
 package org.huiche.support;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.JDBCType;
-import java.time.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.OffsetDateTime;
+import java.time.OffsetTime;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,7 +49,6 @@ public class TypeMapping {
         TYPE_MAP.put(ZonedDateTime.class.getCanonicalName(), JDBCType.TIMESTAMP);
     }
 
-    @NotNull
     public static JDBCType parseJdbcType(@NotNull Class<?> clazz) {
         JDBCType type = parseJdbcType(clazz.getCanonicalName());
         if (type == null && clazz.isEnum()) {
@@ -57,7 +60,6 @@ public class TypeMapping {
         return type;
     }
 
-    @Nullable
     public static JDBCType parseJdbcType(String className) {
         return TYPE_MAP.get(className);
     }

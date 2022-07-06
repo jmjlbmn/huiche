@@ -1,4 +1,4 @@
-package org.huiche.dao;
+package org.huiche.dao.support;
 
 import com.querydsl.sql.types.EnumByNameType;
 
@@ -13,9 +13,10 @@ public class EnumTypePool {
     private static final Map<String, EnumByNameType<? extends Enum<?>>> POOL = new HashMap<>();
 
     public static <T extends Enum<T>> void put(Class<T> clazz, EnumByNameType<T> type) {
-        POOL.put(clazz.getCanonicalName(),type);
+        POOL.put(clazz.getCanonicalName(), type);
     }
-    public static Collection<EnumByNameType<? extends Enum<?>>> types(){
+
+    public static Collection<EnumByNameType<? extends Enum<?>>> types() {
         return POOL.values();
     }
 }

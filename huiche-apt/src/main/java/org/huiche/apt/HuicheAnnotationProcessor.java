@@ -5,7 +5,11 @@ import com.squareup.javapoet.TypeSpec;
 import org.huiche.annotation.Table;
 import org.ifinalframework.auto.service.annotation.AutoProcessor;
 
-import javax.annotation.processing.*;
+import javax.annotation.processing.AbstractProcessor;
+import javax.annotation.processing.Filer;
+import javax.annotation.processing.Messager;
+import javax.annotation.processing.ProcessingEnvironment;
+import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
@@ -63,7 +67,6 @@ public class HuicheAnnotationProcessor extends AbstractProcessor {
             if (table.generateDao()) {
                 writeFile(fatherPackage + ".dao", daoGenerator.createDao(entityType));
             }
-
         }
         return false;
     }
