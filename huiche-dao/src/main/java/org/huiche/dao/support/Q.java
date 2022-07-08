@@ -3,6 +3,7 @@ package org.huiche.dao.support;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.sql.SQLQuery;
+import org.huiche.domain.PageRequest;
 import org.huiche.domain.Pageable;
 import org.springframework.lang.NonNull;
 
@@ -26,27 +27,45 @@ public class Q {
         return new Q().page(page, size);
     }
 
-    public static Q of(Pageable pageable) {
-        return new Q().page(pageable);
-    }
-
-    public static Q of(Predicate... wheres) {
-        return new Q().where(wheres);
-    }
-
-    public static Q of(OrderSpecifier<?>... orders) {
-        return new Q().order(orders);
-    }
-
     public Q page(Long page, Long size) {
         this.page = page;
         this.size = size;
         return this;
     }
 
+    public static Q of(Pageable pageable) {
+        return new Q().page(pageable);
+    }
+
     public Q page(@NonNull Pageable pageable) {
         this.page = pageable.page();
         this.size = pageable.size();
+        return this;
+    }
+
+    public static Q of(Predicate... wheres) {
+        return new Q().where(wheres);
+    }
+
+    public Q where(@NonNull Predicate... wheres) {
+        for (Predicate where : wheres) {
+            if (where != null) {
+                this.wheres.add(where);
+            }
+        }
+        return this;
+    }
+
+    public static Q of(OrderSpecifier<?>... orders) {
+        return new Q().order(orders);
+    }
+
+    public Q order(@NonNull OrderSpecifier<?>... orders) {
+        for (OrderSpecifier<?> order : orders) {
+            if (order != null) {
+                this.orders.add(order);
+            }
+        }
         return this;
     }
 
@@ -79,22 +98,10 @@ public class Q {
         return query;
     }
 
-    public Q where(@NonNull Predicate... wheres) {
-        for (Predicate where : wheres) {
-            if (where != null) {
-                this.wheres.add(where);
-            }
-        }
-        return this;
+    public Pageable getPageable() {
+        PageRequest pageable = new PageRequest();
+        pageable.setPage(page == null ? 1 : page);
+        pageable.setSize(size == null ? 10 : size);
+        return pageable;
     }
-
-    public Q order(@NonNull OrderSpecifier<?>... orders) {
-        for (OrderSpecifier<?> order : orders) {
-            if (order != null) {
-                this.orders.add(order);
-            }
-        }
-        return this;
-    }
-
 }

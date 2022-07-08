@@ -34,7 +34,10 @@ public class Querys {
         List<Predicate> pds = new ArrayList<>();
         try {
             for (Field field : ReflectUtil.scanNormalFields(entity4Query.getClass())) {
-                field.setAccessible(true);
+                try {
+                    field.setAccessible(true);
+                } catch (SecurityException ignored) {
+                }
                 Object val = field.get(entity4Query);
                 if (val != null) {
                     String sv = String.valueOf(val);

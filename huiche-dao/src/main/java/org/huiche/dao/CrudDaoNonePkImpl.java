@@ -34,7 +34,12 @@ public class CrudDaoNonePkImpl<T> extends AbstractCrudDao<T> {
 
     @Override
 
-    public <E extends T> E createOrReplace(E entity) {
+    public <E extends T> E replace(E entity) {
+        throw EXCEPTION;
+    }
+
+    @Override
+    public <E extends T> E save(E entity) {
         throw EXCEPTION;
     }
 

@@ -42,7 +42,10 @@ public class IdInfo {
         } else {
             this.field = field;
         }
-        this.field.setAccessible(true);
+        try {
+            this.field.setAccessible(true);
+        } catch (SecurityException ignored) {
+        }
         Column colAnno = column.getAnnotatedElement().getAnnotation(Column.class);
         if (colAnno == null || PrimaryKey.NOT_PK.equals(colAnno.primaryKey())) {
             throw new TypeMismatchDataAccessException(type.getCanonicalName() + "#" + name + "is not a pk,you need add a @Column and set isPrimaryKey=true");

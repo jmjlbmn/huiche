@@ -9,6 +9,7 @@ import org.huiche.support.ReflectUtil;
 import org.springframework.lang.NonNull;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -47,5 +48,9 @@ public class CodegenDDL {
 
     public List<String> ddl(@NonNull String... packages) {
         return CodegenUtil.scan(i -> i.isAnnotationPresent(Table.class), packages).stream().map(this::ddl).collect(Collectors.toList());
+    }
+
+    public List<String> ddl(@NonNull Collection<String> packages) {
+        return CodegenUtil.scan(packages, i -> i.isAnnotationPresent(Table.class)).stream().map(this::ddl).collect(Collectors.toList());
     }
 }

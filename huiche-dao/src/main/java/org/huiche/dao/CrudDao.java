@@ -25,8 +25,13 @@ public class CrudDao<T> extends AbstractCrudDao<T> implements InitializingBean {
 
     @Override
 
-    public <E extends T> E createOrReplace(E entity) {
-        return delegate.createOrReplace(entity);
+    public <E extends T> E replace(E entity) {
+        return delegate.replace(entity);
+    }
+
+    @Override
+    public <E extends T> E save(E entity) {
+        return delegate.save(entity);
     }
 
     @Override

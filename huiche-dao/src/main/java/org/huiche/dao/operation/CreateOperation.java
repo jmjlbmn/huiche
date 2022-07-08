@@ -16,12 +16,20 @@ public interface CreateOperation<T> {
     <E extends T> E create(E entity);
 
     /**
-     * 新增或替换
+     * 替换,仅支持replace into的数据库支持
      *
      * @param entity 实体
      * @return 持久化后的实体
      */
-    <E extends T> E createOrReplace(E entity);
+    <E extends T> E replace(E entity);
+
+    /**
+     * 保存,新增或更新,无主键的表不支持, 如果所有主键有值,执行更新,否则执行插入
+     *
+     * @param entity 实体
+     * @return 持久化后的实体
+     */
+    <E extends T> E save(E entity);
 
     /**
      * 批量插入

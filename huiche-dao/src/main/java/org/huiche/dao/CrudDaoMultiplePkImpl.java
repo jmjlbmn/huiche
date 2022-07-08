@@ -1,13 +1,14 @@
 package org.huiche.dao;
 
+import com.querydsl.core.QueryFlag;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Path;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.sql.RelationalPath;
 import com.querydsl.sql.SQLQueryFactory;
 import com.querydsl.sql.dml.DefaultMapper;
 import com.querydsl.sql.dml.SQLInsertClause;
 import com.querydsl.sql.dml.SQLUpdateClause;
-import com.querydsl.sql.mysql.MySQLReplaceClause;
 import org.huiche.exception.HuicheIllegalArgumentException;
 import org.springframework.dao.TypeMismatchDataAccessException;
 import org.springframework.lang.Nullable;
@@ -47,6 +48,9 @@ public class CrudDaoMultiplePkImpl<T> extends AbstractCrudDao<T> {
     }
 
     @Override
+    public <ID extends Serializable> boolean existsById(ID id) {
+        throw EXCEPTION;
+    }    @Override
     public <E extends T> E create(E entity) {
         beforeCreate(entity);
         SQLInsertClause dml = sql.insert(table);
@@ -62,18 +66,55 @@ public class CrudDaoMultiplePkImpl<T> extends AbstractCrudDao<T> {
     }
 
     @Override
+    public <ID extends Serializable> T getById(ID id) {
+        throw EXCEPTION;
+    }    @Override
 
-    public <E extends T> E createOrReplace(E entity) {
+    public <E extends T> E replace(E entity) {
         beforeCreate(entity);
         if (autoIncrementId != null && autoIncrementId.getIdVal(entity) == null) {
             throw new HuicheIllegalArgumentException("replace operation need primary key has a value");
         }
         otherIdInfoList.forEach(id -> id.handleId(entity));
-        new MySQLReplaceClause(sql.getConnection(), sql.getConfiguration(), table).populate(entity).execute();
+        sql.insert(table).addFlag(QueryFlag.Position.START_OVERRIDE, "REPLACE INTO ").populate(entity).execute();
         return entity;
     }
 
     @Override
+    public <ID extends Serializable, Col> Col getColumnById(Expression<Col> column, ID id) {
+        throw EXCEPTION;
+    }    @Override
+    public <E extends T> E save(E entity) {
+        boolean isUpdate = true;
+        List<Predicate> idWhere = new ArrayList<>();
+        if (autoIncrementId != null) {
+            Object val = autoIncrementId.getIdVal(entity);
+            if (val == null) {
+                isUpdate = false;
+            } else {
+                idWhere.add(autoIncrementId.idWhere(val));
+            }
+        }
+        for (IdInfo idInfo : otherIdInfoList) {
+            Object val = idInfo.getIdVal(entity);
+            if (val == null) {
+                isUpdate = false;
+                break;
+            }
+            idWhere.add(idInfo.idWhere(val));
+        }
+        if (isUpdate) {
+            update(entity, idWhere.toArray(new Predicate[0]));
+            return entity;
+        } else {
+            return create(entity);
+        }
+    }
+
+    @Override
+    public <ID extends Serializable> T getColumnsById(Expression<?>[] columns, ID id) {
+        throw EXCEPTION;
+    }    @Override
     public <E extends T> long createBatch(Collection<E> entityList) {
         SQLInsertClause dmlHasNoId = sql.insert(table);
         SQLInsertClause dmlHasId = sql.insert(table);
@@ -96,26 +137,6 @@ public class CrudDaoMultiplePkImpl<T> extends AbstractCrudDao<T> {
             result += dmlHasId.execute();
         }
         return result;
-    }
-
-    @Override
-    public <ID extends Serializable> boolean existsById(ID id) {
-        throw EXCEPTION;
-    }
-
-    @Override
-    public <ID extends Serializable> T getById(ID id) {
-        throw EXCEPTION;
-    }
-
-    @Override
-    public <ID extends Serializable, Col> Col getColumnById(Expression<Col> column, ID id) {
-        throw EXCEPTION;
-    }
-
-    @Override
-    public <ID extends Serializable> T getColumnsById(Expression<?>[] columns, ID id) {
-        throw EXCEPTION;
     }
 
     @Override
@@ -161,4 +182,12 @@ public class CrudDaoMultiplePkImpl<T> extends AbstractCrudDao<T> {
     public <ID extends Serializable> long updateById(@Nullable T entityUpdate, @Nullable Consumer<SQLUpdateClause> setter, ID id) {
         throw EXCEPTION;
     }
+
+
+
+
+
+
+
+
 }

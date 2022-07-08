@@ -1,5 +1,6 @@
 package org.huiche.dao;
 
+import com.querydsl.core.QueryFlag;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Path;
 import com.querydsl.sql.RelationalPath;
@@ -7,7 +8,6 @@ import com.querydsl.sql.SQLQueryFactory;
 import com.querydsl.sql.dml.DefaultMapper;
 import com.querydsl.sql.dml.SQLInsertClause;
 import com.querydsl.sql.dml.SQLUpdateClause;
-import com.querydsl.sql.mysql.MySQLReplaceClause;
 import org.huiche.dao.support.Q;
 import org.huiche.exception.HuicheIllegalArgumentException;
 import org.springframework.lang.Nullable;
@@ -85,6 +85,21 @@ public class CrudDaoSinglePkImpl<T> extends AbstractCrudDao<T> {
     }
 
     @Override
+    public <ID extends Serializable> long deleteById(ID id) {
+        return delete(idInfo.idWhere(id));
+    }
+
+    @Override
+    public <ID extends Serializable> long deleteByIds(Collection<ID> ids) {
+        return delete(idInfo.idsWhere(ids));
+    }
+
+    @Override
+    public <ID extends Serializable> long updateById(@Nullable T entityUpdate, @Nullable Consumer<SQLUpdateClause> setter, ID id) {
+        return update(entityUpdate, setter, idInfo.idWhere(id));
+    }
+
+    @Override
     public <E extends T> E create(E entity) {
         beforeCreate(entity);
         SQLInsertClause dml = sql.insert(table);
@@ -99,14 +114,25 @@ public class CrudDaoSinglePkImpl<T> extends AbstractCrudDao<T> {
     }
 
     @Override
-
-    public <E extends T> E createOrReplace(E entity) {
+    public <E extends T> E replace(E entity) {
         beforeCreate(entity);
         if (idInfo.getIdVal(entity) == null) {
             throw new HuicheIllegalArgumentException("replace operation need primary key has a value");
         }
-        new MySQLReplaceClause(sql.getConnection(), sql.getConfiguration(), table).populate(entity).execute();
+        sql.insert(table).addFlag(QueryFlag.Position.START_OVERRIDE, "REPLACE INTO ").populate(entity).execute();
         return entity;
+    }
+
+
+    @Override
+    public <E extends T> E save(E entity) {
+        Object val = idInfo.getIdVal(entity);
+        if (val == null) {
+            return create(entity);
+        } else {
+            update(entity, idInfo.idWhere(val));
+            return entity;
+        }
     }
 
     @Override
@@ -133,18 +159,5 @@ public class CrudDaoSinglePkImpl<T> extends AbstractCrudDao<T> {
         return result;
     }
 
-    @Override
-    public <ID extends Serializable> long deleteById(ID id) {
-        return delete(idInfo.idWhere(id));
-    }
 
-    @Override
-    public <ID extends Serializable> long deleteByIds(Collection<ID> ids) {
-        return delete(idInfo.idsWhere(ids));
-    }
-
-    @Override
-    public <ID extends Serializable> long updateById(@Nullable T entityUpdate, @Nullable Consumer<SQLUpdateClause> setter, ID id) {
-        return update(entityUpdate, setter, idInfo.idWhere(id));
-    }
 }
