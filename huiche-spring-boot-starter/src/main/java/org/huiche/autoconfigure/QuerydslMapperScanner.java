@@ -31,7 +31,7 @@ public class QuerydslMapperScanner extends ClassPathBeanDefinitionScanner {
                 Class<?> entity = ResolvableType.forType(mapper.getGenericSuperclass()).getGeneric(0).resolve();
                 if (entity != null) {
                     BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(mapper);
-                    builder.addConstructorArgValue(NamingUtil.pascal2camel(entity.getSimpleName()));
+                    builder.addConstructorArgValue(NamingUtil.camel2snake(entity.getSimpleName()));
                     registry.registerBeanDefinition(definitionHolder.getBeanName(), builder.getRawBeanDefinition());
                 }
             } catch (ClassNotFoundException e) {
