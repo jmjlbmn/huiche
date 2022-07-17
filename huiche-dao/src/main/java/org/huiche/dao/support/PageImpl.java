@@ -16,15 +16,15 @@ public class PageImpl<T> implements Page<T> {
 
     private Long page;
     private Long size;
-    private Long totalItem;
-    private List<T> rows;
+    private Long total;
+    private List<T> content;
 
     public static <T> Page<T> of(Long page, Long size, Long totalItem, List<T> rows) {
         PageImpl<T> impl = new PageImpl<>();
         impl.page = page == null ? 1 : page;
         impl.size = size == null ? 10 : size;
-        impl.totalItem = totalItem == null ? 0 : totalItem;
-        impl.rows = rows;
+        impl.total = totalItem == null ? 0 : totalItem;
+        impl.content = rows;
         return impl;
     }
 
@@ -32,8 +32,8 @@ public class PageImpl<T> implements Page<T> {
         PageImpl<T> impl = new PageImpl<>();
         impl.page = pageable.page();
         impl.size = pageable.size();
-        impl.totalItem = result.getTotal();
-        impl.rows = result.getResults();
+        impl.total = result.getTotal();
+        impl.content = result.getResults();
         return impl;
     }
 
@@ -41,8 +41,8 @@ public class PageImpl<T> implements Page<T> {
         PageImpl<T> impl = new PageImpl<>();
         impl.page = pageable.page();
         impl.size = pageable.size();
-        impl.totalItem = result.getTotal();
-        impl.rows = result.getResults().stream().map(mapper).collect(Collectors.toList());
+        impl.total = result.getTotal();
+        impl.content = result.getResults().stream().map(mapper).collect(Collectors.toList());
         return impl;
     }
 
@@ -58,12 +58,22 @@ public class PageImpl<T> implements Page<T> {
 
 
     @Override
-    public long getTotalItem() {
-        return totalItem;
+    public long getTotal() {
+        return total;
     }
 
     @Override
-    public List<T> getRows() {
-        return rows;
+    public List<T> getContent() {
+        return content;
+    }
+
+    @Override
+    public String toString() {
+        return "PageImpl{" +
+                "page=" + page +
+                ", size=" + size +
+                ", total=" + total +
+                ", content=" + content +
+                '}';
     }
 }

@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 /**
  * @author Maning
  */
-public class IntEntity implements Serializable {
+public class SimpleEntity implements Serializable {
     @Column(comment = "主键ID", primaryKey = PrimaryKey.AUTO)
     private Integer id;
     @Column(comment = "创建时间", length = 3, defaultValue = "CURRENT_TIMESTAMP(3)")

@@ -19,8 +19,8 @@ public interface Page<T> {
      * @return 总页数
      */
     default long getTotalPage() {
-        boolean flag = getTotalItem() % getSize() == 0;
-        long totalPage = getTotalItem() / getSize();
+        boolean flag = getTotal() % getSize() == 0;
+        long totalPage = getTotal() / getSize();
         return flag ? totalPage : totalPage + 1;
     }
 
@@ -36,12 +36,12 @@ public interface Page<T> {
      *
      * @return 总数
      */
-    long getTotalItem();
+    long getTotal();
 
     /**
      * 数据列表
      *
      * @return 数据列表
      */
-    List<T> getRows();
+    List<T> getContent();
 }
