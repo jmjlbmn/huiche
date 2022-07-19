@@ -9,4 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class Dao {
     @Autowired
     protected SQLQueryFactory sql;
+
+    public SQLQueryFactory sql() {
+        return sql;
+    }
 }

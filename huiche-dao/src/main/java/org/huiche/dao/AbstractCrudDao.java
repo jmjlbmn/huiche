@@ -128,7 +128,7 @@ public abstract class AbstractCrudDao<T> extends Dao implements CrudOperation<T>
         entityUpdate = beforeUpdate(entityUpdate);
         SQLUpdateClause dml = sql.update(table);
         if (entityUpdate != null) {
-            dml.populate(dml);
+            dml.populate(entityUpdate);
         }
         if (conditions.length > 0) {
             dml.where(conditions);

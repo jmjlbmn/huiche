@@ -1,22 +1,21 @@
 package org.huiche.dao.support;
 
-import com.querydsl.core.types.Expression;
-import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.*;
 import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.StringExpression;
 import com.querydsl.sql.RelationalPath;
 import org.huiche.support.ReflectUtil;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 import java.lang.reflect.Field;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.OffsetDateTime;
-import java.time.OffsetTime;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * @author Maning
@@ -58,5 +57,151 @@ public class Querys {
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * 如果ok为true,则返回条件,否则返回null
+     *
+     * @param ok        是否添加条件
+     * @param predicate 条件提供者
+     * @return 条件
+     */
+    @Nullable
+    public static Predicate predicate(boolean ok, @NonNull Supplier<Predicate> predicate) {
+        if (ok) {
+            return predicate.get();
+        }
+        return null;
+    }
+
+    /**
+     * 如果val不是空,则返回对值进行的匹配条件,否则返回null
+     *
+     * @param op  操作方法
+     * @param val 值
+     * @param <T> 值类型
+     * @return 条件
+     */
+    @Nullable
+    public static <T> Predicate predicate(@Nullable T val, @NonNull Function<T, Predicate> op) {
+        return predicate(val != null, () -> op.apply(val));
+    }
+
+    /**
+     * 如果val不是空,则返回条件,否则返回null
+     *
+     * @param predicate 条件
+     * @param val       值
+     * @param <T>       值类型
+     * @return 条件
+     */
+    @Nullable
+    public static <T> Predicate predicate(@Nullable T val, @NonNull Supplier<Predicate> predicate) {
+        if (val != null) {
+            return predicate.get();
+        }
+        return null;
+    }
+
+    /**
+     * 条件提供者
+     *
+     * @param predicate 条件
+     * @param <T>       值类型
+     * @return 条件
+     */
+    @Nullable
+    public static <T> Predicate predicate(@NonNull Supplier<Predicate> predicate) {
+        return predicate.get();
+    }
+
+    /**
+     * 关键字
+     *
+     * @param keyword 关键字
+     * @param cols    关键字列
+     * @return 条件
+     */
+    @Nullable
+    public static Predicate keyword(@Nullable String keyword, StringExpression... cols) {
+        if (keyword == null || keyword.trim().length() == 0) {
+            return null;
+        }
+        List<Predicate> list = new ArrayList<>(cols.length);
+        for (StringExpression col : cols) {
+            list.add(col.contains(keyword));
+        }
+        return list.isEmpty() ? null : ExpressionUtils.anyOf(list);
+    }
+
+    /**
+     * 用and组合多个条件,等同predicates
+     *
+     * @param predicate 多个条件
+     * @return 最终条件
+     */
+    @Nullable
+    public static Predicate and(@NonNull Predicate... predicate) {
+        return ExpressionUtils.allOf(predicate);
+    }
+
+    /**
+     * or
+     *
+     * @param predicate 条件
+     * @return 最终条件
+     */
+    @Nullable
+    public static Predicate or(@NonNull Predicate... predicate) {
+        return ExpressionUtils.anyOf(predicate);
+    }
+
+    /**
+     * 扩展增加dto继承
+     *
+     * @param beanPath 实体类的查询类
+     * @param columns  扩展的列
+     * @param <T>      实体类
+     * @return 所有查询的列
+     */
+    @NonNull
+    public static <T> Expression<?>[] extendColumn(@NonNull RelationalPath<T> beanPath, @NonNull Expression<?>... columns) {
+        List<Expression<?>> list = new ArrayList<>();
+        list.addAll(beanPath.getColumns());
+        list.addAll(Arrays.asList(columns));
+        return list.toArray(new Expression[0]);
+    }
+
+    /**
+     * 扩展增加dto继承
+     *
+     * @param beanPath 实体类的查询类
+     * @param columns  排除的列
+     * @param <T>      实体类
+     * @return 所有查询的列
+     */
+    @NonNull
+    public static <T> Expression<?>[] excludeColumn(@NonNull RelationalPath<T> beanPath, @NonNull Expression<?>... columns) {
+        List<Path<?>> pathColumns = beanPath.getColumns();
+        if (columns.length > 0) {
+            List<Expression<?>> excludeList = Arrays.asList(columns);
+            pathColumns.removeIf(excludeList::contains);
+        }
+        return pathColumns.toArray(new Expression[0]);
+    }
+
+    /**
+     * 获取继承bean的dto
+     *
+     * @param dtoClass dto的class
+     * @param beanPath 实体类的查询类
+     * @param columns  扩展的列
+     * @param <T>      实体类
+     * @param <DTO>    dto的类
+     * @return dto
+     */
+    @NonNull
+    public static <DTO extends T, T> QBean<DTO> extendBean(@NonNull Class<DTO> dtoClass, @NonNull RelationalPath<T> beanPath, @NonNull Expression<?>... columns) {
+        return Projections.fields(dtoClass, extendColumn(beanPath, columns));
     }
 }

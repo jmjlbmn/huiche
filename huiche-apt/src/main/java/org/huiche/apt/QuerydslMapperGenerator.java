@@ -65,7 +65,7 @@ public class QuerydslMapperGenerator {
             }
             fields.add(createField(field, column, index++, metaList, enumList));
         }
-        ClassName mapperClass = ClassName.get(packageName, entityName + "Mapper");
+        ClassName mapperClass = ClassName.get(packageName, "Q" + entityName);
         String mapperVar = NamingUtil.pascal2camel(entityName);
         TypeSpec.Builder builder = TypeSpec.classBuilder(mapperClass)
                 .addModifiers(Modifier.PUBLIC)

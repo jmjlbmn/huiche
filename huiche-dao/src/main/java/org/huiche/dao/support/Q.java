@@ -47,6 +47,10 @@ public class Q {
         return new Q().where(wheres);
     }
 
+    public static Q of(Query query) {
+        return new Q().where(query.get());
+    }
+
     public Q where(@NonNull Predicate... wheres) {
         for (Predicate where : wheres) {
             if (where != null) {
@@ -54,6 +58,10 @@ public class Q {
             }
         }
         return this;
+    }
+
+    public Q where(@NonNull Query query) {
+        return where(query.get());
     }
 
     public static Q of(OrderSpecifier<?>... orders) {
