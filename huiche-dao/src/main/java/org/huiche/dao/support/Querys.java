@@ -10,12 +10,10 @@ import org.springframework.lang.Nullable;
 
 import java.lang.reflect.Field;
 import java.time.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 /**
  * @author Maning
@@ -32,24 +30,26 @@ public class Querys {
     public static <T> Predicate[] ofEntity(T entity4Query, RelationalPath<T> table) {
         List<Predicate> pds = new ArrayList<>();
         try {
+            Map<String, Path<?>> columnsMap = table.getColumns().stream().collect(Collectors.toMap(t -> t.getMetadata().getName(), Function.identity()));
             for (Field field : ReflectUtil.scanNormalFields(entity4Query.getClass())) {
                 try {
                     field.setAccessible(true);
                 } catch (SecurityException ignored) {
                 }
                 Object val = field.get(entity4Query);
-                if (val != null) {
+                String fieldName = field.getName();
+                if (val != null && columnsMap.containsKey(fieldName)) {
                     String sv = String.valueOf(val);
                     if (val instanceof CharSequence) {
-                        pds.add(Expressions.stringPath(table, field.getName()).contains(sv));
+                        pds.add(Expressions.stringPath(table, fieldName).contains(sv));
                     } else if (val instanceof Number) {
-                        pds.add(Expressions.numberPath(Double.class, table, field.getName()).eq(Double.valueOf(sv)));
+                        pds.add(Expressions.numberPath(Double.class, table, fieldName).eq(Double.valueOf(sv)));
                     } else if (val instanceof Boolean) {
-                        pds.add(Expressions.booleanPath(table, field.getName()).eq(Boolean.valueOf(sv)));
+                        pds.add(Expressions.booleanPath(table, fieldName).eq(Boolean.valueOf(sv)));
                     } else if (field.getType().isEnum() ||
                             val instanceof Date || val instanceof LocalDate || val instanceof LocalTime || val instanceof LocalDateTime ||
                             val instanceof OffsetTime || val instanceof OffsetDateTime || val instanceof ZonedDateTime) {
-                        pds.add(Expressions.stringPath(table, field.getName()).eq(sv));
+                        pds.add(Expressions.stringPath(table, fieldName).eq(sv));
                     }
                 }
             }
