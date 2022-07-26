@@ -46,6 +46,15 @@ public class PageImpl<T> implements Page<T> {
         return impl;
     }
 
+    public static <T, R> Page<R> of(Page<T> page, Function<T, R> mapper) {
+        PageImpl<R> impl = new PageImpl<>();
+        impl.page = page.getPage();
+        impl.size = page.getSize();
+        impl.total = page.getTotal();
+        impl.content = page.getContent().stream().map(mapper).collect(Collectors.toList());
+        return impl;
+    }
+
     @Override
     public long getPage() {
         return page;
