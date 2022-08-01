@@ -8,11 +8,12 @@
     <artifactId>huiche</artifactId>
     <version>2.0.0-dev</version>
     <modules>
+        <module>huiche-apt</module>
+        <module>huiche-bom</module>
         <module>huiche-codegen</module>
         <module>huiche-core</module>
         <module>huiche-dao</module>
         <module>huiche-spring-boot-starter</module>
-        <module>huiche-apt</module>
     </modules>
     <packaging>pom</packaging>
 
