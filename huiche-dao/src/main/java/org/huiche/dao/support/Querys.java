@@ -124,7 +124,11 @@ public class Querys {
      */
     @Nullable
     public static Predicate keyword(@Nullable String keyword, @NonNull StringExpression... cols) {
-        if (keyword == null || keyword.trim().length() == 0 || cols.length == 0) {
+        if (keyword == null || cols.length == 0) {
+            return null;
+        }
+        keyword = keyword.trim();
+        if (keyword.length() == 0) {
             return null;
         }
         List<Predicate> list = new ArrayList<>(cols.length);
@@ -140,6 +144,7 @@ public class Querys {
      * @param keyword 关键字
      * @param cols    关键字列
      * @return 条件
+     * @separator 分隔符
      */
     @Nullable
     public static Predicate keywordSplit(@Nullable String keyword, @NonNull String separator, @NonNull StringExpression... cols) {
@@ -153,10 +158,25 @@ public class Querys {
         List<Predicate> list = new ArrayList<>(cols.length);
         for (StringExpression col : cols) {
             for (String word : keywords) {
-                list.add(col.contains(word));
+                word = word.trim();
+                if (word.length() > 0) {
+                    list.add(col.contains(word));
+                }
             }
         }
         return ExpressionUtils.anyOf(list);
+    }
+
+    /**
+     * 关键字
+     *
+     * @param keyword 关键字
+     * @param cols    关键字列
+     * @return 条件
+     */
+    @Nullable
+    public static Predicate keywordSplit(@Nullable String keyword, @NonNull StringExpression... cols) {
+        return keywordSplit(keyword, " ", cols);
     }
 
     /**
