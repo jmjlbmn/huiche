@@ -123,15 +123,40 @@ public class Querys {
      * @return 条件
      */
     @Nullable
-    public static Predicate keyword(@Nullable String keyword, StringExpression... cols) {
-        if (keyword == null || keyword.trim().length() == 0) {
+    public static Predicate keyword(@Nullable String keyword, @NonNull StringExpression... cols) {
+        if (keyword == null || keyword.trim().length() == 0 || cols.length == 0) {
             return null;
         }
         List<Predicate> list = new ArrayList<>(cols.length);
         for (StringExpression col : cols) {
             list.add(col.contains(keyword));
         }
-        return list.isEmpty() ? null : ExpressionUtils.anyOf(list);
+        return ExpressionUtils.anyOf(list);
+    }
+
+    /**
+     * 关键字
+     *
+     * @param keyword 关键字
+     * @param cols    关键字列
+     * @return 条件
+     */
+    @Nullable
+    public static Predicate keywordSplit(@Nullable String keyword, @NonNull String separator, @NonNull StringExpression... cols) {
+        if (keyword == null || keyword.trim().length() == 0 || cols.length == 0) {
+            return null;
+        }
+        String[] keywords = keyword.split(separator);
+        if (keywords.length == 0) {
+            return null;
+        }
+        List<Predicate> list = new ArrayList<>(cols.length);
+        for (StringExpression col : cols) {
+            for (String word : keywords) {
+                list.add(col.contains(word));
+            }
+        }
+        return ExpressionUtils.anyOf(list);
     }
 
     /**
