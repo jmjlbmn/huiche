@@ -48,7 +48,7 @@ public class {{entityName}}Api {
     {{/idType}}
     
     @GetMapping
-    public Page<{{entityName}}> page(PageRequest pageRequest,{{entityName}} query) {
-        return service.page(pageRequest,query);
+    public Page<{{entityName}}> page(PageRequest pageRequest,{{entityName}} search) {
+        return service.page(pageRequest,search);
     }
 }

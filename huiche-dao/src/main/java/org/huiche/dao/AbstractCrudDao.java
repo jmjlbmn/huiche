@@ -12,7 +12,7 @@ import com.querydsl.sql.dml.SQLInsertClause;
 import com.querydsl.sql.dml.SQLUpdateClause;
 import org.huiche.dao.operation.CrudOperation;
 import org.huiche.dao.support.PageImpl;
-import org.huiche.dao.support.Q;
+import org.huiche.dao.support.Query;
 import org.huiche.dao.support.Querys;
 import org.huiche.domain.Page;
 import org.huiche.domain.Pageable;
@@ -65,23 +65,23 @@ public abstract class AbstractCrudDao<T> extends Dao implements CrudOperation<T>
     }
 
     @Override
-    public T getFirst(Q q) {
-        return q.use(sql.selectFrom(table)).fetchFirst();
+    public T getFirst(Query query) {
+        return query.use(sql.selectFrom(table)).fetchFirst();
     }
 
     @Override
-    public <Col> Col getColumnFirst(Expression<Col> column, Q q) {
-        return q.use(sql.select(column).from(table)).fetchFirst();
+    public <Col> Col getColumnFirst(Expression<Col> column, Query query) {
+        return query.use(sql.select(column).from(table)).fetchFirst();
     }
 
     @Override
-    public T getColumnsFirst(Expression<?>[] columns, Q q) {
-        return q.use(sql.select(Projections.fields(table, columns)).from(table)).fetchFirst();
+    public T getColumnsFirst(Expression<?>[] columns, Query query) {
+        return query.use(sql.select(Projections.fields(table, columns)).from(table)).fetchFirst();
     }
 
     @Override
-    public <DTO> DTO getDtoFirst(Class<DTO> dtoClass, Expression<?>[] columns, Q q) {
-        return q.use(sql.select(Projections.fields(dtoClass, columns)).from(table)).fetchFirst();
+    public <DTO> DTO getDtoFirst(Class<DTO> dtoClass, Expression<?>[] columns, Query query) {
+        return query.use(sql.select(Projections.fields(dtoClass, columns)).from(table)).fetchFirst();
     }
 
     @Override
@@ -90,23 +90,23 @@ public abstract class AbstractCrudDao<T> extends Dao implements CrudOperation<T>
     }
 
     @Override
-    public List<T> list(Q q) {
-        return q.use(sql.selectFrom(table)).fetch();
+    public List<T> list(Query query) {
+        return query.use(sql.selectFrom(table)).fetch();
     }
 
     @Override
-    public <Col> List<Col> listColumn(Path<Col> column, Q q) {
-        return q.use(sql.select(column).from(table)).fetch();
+    public <Col> List<Col> listColumn(Path<Col> column, Query query) {
+        return query.use(sql.select(column).from(table)).fetch();
     }
 
     @Override
-    public List<T> listColumns(Expression<?>[] columns, Q q) {
-        return q.use(sql.select(Projections.fields(table, columns)).from(table)).fetch();
+    public List<T> listColumns(Expression<?>[] columns, Query query) {
+        return query.use(sql.select(Projections.fields(table, columns)).from(table)).fetch();
     }
 
     @Override
-    public <DTO> List<DTO> listDto(Class<DTO> dtoClass, Expression<?>[] columns, Q q) {
-        return q.use(sql.select(Projections.fields(dtoClass, columns)).from(table)).fetch();
+    public <DTO> List<DTO> listDto(Class<DTO> dtoClass, Expression<?>[] columns, Query query) {
+        return query.use(sql.select(Projections.fields(dtoClass, columns)).from(table)).fetch();
     }
 
     @Override
@@ -155,28 +155,28 @@ public abstract class AbstractCrudDao<T> extends Dao implements CrudOperation<T>
 
     @Override
     public Page<T> page(Pageable pageable, T query) {
-        return page(Q.of(pageable).where(Querys.ofEntity(query, table)));
+        return page(Query.of(pageable).where(Querys.ofEntity(query, table)));
     }
 
 
     @Override
-    public Page<T> page(Q q) {
-        return PageImpl.of(q.getPageable(), q.useForPage(sql.selectFrom(table)).fetchResults());
+    public Page<T> page(Query query) {
+        return PageImpl.of(query.getPageable(), query.useForPage(sql.selectFrom(table)).fetchResults());
     }
 
     @Override
-    public Page<T> pageColumns(Expression<?>[] columns, Q q) {
-        return PageImpl.of(q.getPageable(), q.useForPage(sql.select(Projections.fields(table, columns)).from(table)).fetchResults());
+    public Page<T> pageColumns(Expression<?>[] columns, Query query) {
+        return PageImpl.of(query.getPageable(), query.useForPage(sql.select(Projections.fields(table, columns)).from(table)).fetchResults());
     }
 
     @Override
-    public <DTO> Page<DTO> pageDto(Class<DTO> dtoClass, Expression<?>[] columns, Q q) {
-        return PageImpl.of(q.getPageable(), q.useForPage(sql.select(Projections.fields(dtoClass, columns)).from(table)).fetchResults());
+    public <DTO> Page<DTO> pageDto(Class<DTO> dtoClass, Expression<?>[] columns, Query query) {
+        return PageImpl.of(query.getPageable(), query.useForPage(sql.select(Projections.fields(dtoClass, columns)).from(table)).fetchResults());
     }
 
     @Override
-    public <DTO> Page<DTO> pageDto(Function<Tuple, DTO> mapper, Expression<?>[] columns, Q q) {
-        return PageImpl.of(q.getPageable(), q.useForPage(sql.select(columns).from(table)).fetchResults(), mapper);
+    public <DTO> Page<DTO> pageDto(Function<Tuple, DTO> mapper, Expression<?>[] columns, Query query) {
+        return PageImpl.of(query.getPageable(), query.useForPage(sql.select(columns).from(table)).fetchResults(), mapper);
     }
 
 }

@@ -18,16 +18,16 @@ import java.util.stream.Collectors;
 /**
  * @author Maning
  */
-public class Querys {
-    public static Expression<?>[] columns(Expression<?>... cols) {
+public interface Querys {
+    static Expression<?>[] columns(Expression<?>... cols) {
         return cols;
     }
 
-    public static OrderSpecifier<?>[] orders(OrderSpecifier<?>... orders) {
+    static OrderSpecifier<?>[] orders(OrderSpecifier<?>... orders) {
         return orders;
     }
 
-    public static <T> Predicate[] ofEntity(T entity4Query, RelationalPath<T> table) {
+    static <T> Predicate[] ofEntity(T entity4Query, RelationalPath<T> table) {
         List<Predicate> pds = new ArrayList<>();
         try {
             Map<String, Path<?>> columnsMap = table.getColumns().stream().collect(Collectors.toMap(t -> t.getMetadata().getName(), Function.identity()));
@@ -67,7 +67,7 @@ public class Querys {
      * @return 条件
      */
     @Nullable
-    public static Predicate predicate(boolean ok, @NonNull Supplier<Predicate> predicate) {
+    static Predicate predicate(boolean ok, @NonNull Supplier<Predicate> predicate) {
         if (ok) {
             return predicate.get();
         }
@@ -83,7 +83,7 @@ public class Querys {
      * @return 条件
      */
     @Nullable
-    public static <T> Predicate predicate(@Nullable T val, @NonNull Function<T, Predicate> op) {
+    static <T> Predicate predicate(@Nullable T val, @NonNull Function<T, Predicate> op) {
         return predicate(val != null, () -> op.apply(val));
     }
 
@@ -96,7 +96,7 @@ public class Querys {
      * @return 条件
      */
     @Nullable
-    public static <T> Predicate predicate(@Nullable T val, @NonNull Supplier<Predicate> predicate) {
+    static <T> Predicate predicate(@Nullable T val, @NonNull Supplier<Predicate> predicate) {
         if (val != null) {
             return predicate.get();
         }
@@ -111,7 +111,7 @@ public class Querys {
      * @return 条件
      */
     @Nullable
-    public static <T> Predicate predicate(@NonNull Supplier<Predicate> predicate) {
+    static <T> Predicate predicate(@NonNull Supplier<Predicate> predicate) {
         return predicate.get();
     }
 
@@ -123,7 +123,7 @@ public class Querys {
      * @return 条件
      */
     @Nullable
-    public static Predicate keyword(@Nullable String keyword, @NonNull StringExpression... cols) {
+    static Predicate keyword(@Nullable String keyword, @NonNull StringExpression... cols) {
         if (keyword == null || cols.length == 0) {
             return null;
         }
@@ -147,7 +147,7 @@ public class Querys {
      * @separator 分隔符
      */
     @Nullable
-    public static Predicate keywordSplit(@Nullable String keyword, @NonNull String separator, @NonNull StringExpression... cols) {
+    static Predicate keywordSplit(@Nullable String keyword, @NonNull String separator, @NonNull StringExpression... cols) {
         if (keyword == null || keyword.trim().length() == 0 || cols.length == 0) {
             return null;
         }
@@ -175,7 +175,7 @@ public class Querys {
      * @return 条件
      */
     @Nullable
-    public static Predicate keywordSplit(@Nullable String keyword, @NonNull StringExpression... cols) {
+    static Predicate keywordSplit(@Nullable String keyword, @NonNull StringExpression... cols) {
         return keywordSplit(keyword, " ", cols);
     }
 
@@ -186,7 +186,7 @@ public class Querys {
      * @return 最终条件
      */
     @Nullable
-    public static Predicate and(@NonNull Predicate... predicate) {
+    static Predicate and(@NonNull Predicate... predicate) {
         return ExpressionUtils.allOf(predicate);
     }
 
@@ -197,7 +197,7 @@ public class Querys {
      * @return 最终条件
      */
     @Nullable
-    public static Predicate or(@NonNull Predicate... predicate) {
+    static Predicate or(@NonNull Predicate... predicate) {
         return ExpressionUtils.anyOf(predicate);
     }
 
@@ -210,7 +210,7 @@ public class Querys {
      * @return 所有查询的列
      */
     @NonNull
-    public static <T> Expression<?>[] extendColumn(@NonNull RelationalPath<T> beanPath, @NonNull Expression<?>... columns) {
+    static <T> Expression<?>[] extendColumn(@NonNull RelationalPath<T> beanPath, @NonNull Expression<?>... columns) {
         List<Expression<?>> list = new ArrayList<>();
         list.addAll(beanPath.getColumns());
         list.addAll(Arrays.asList(columns));
@@ -226,7 +226,7 @@ public class Querys {
      * @return 所有查询的列
      */
     @NonNull
-    public static <T> Expression<?>[] excludeColumn(@NonNull RelationalPath<T> beanPath, @NonNull Expression<?>... columns) {
+    static <T> Expression<?>[] excludeColumn(@NonNull RelationalPath<T> beanPath, @NonNull Expression<?>... columns) {
         List<Path<?>> pathColumns = beanPath.getColumns();
         if (columns.length > 0) {
             List<Expression<?>> excludeList = Arrays.asList(columns);
@@ -246,7 +246,7 @@ public class Querys {
      * @return dto
      */
     @NonNull
-    public static <DTO extends T, T> QBean<DTO> extendBean(@NonNull Class<DTO> dtoClass, @NonNull RelationalPath<T> beanPath, @NonNull Expression<?>... columns) {
+    static <DTO extends T, T> QBean<DTO> extendBean(@NonNull Class<DTO> dtoClass, @NonNull RelationalPath<T> beanPath, @NonNull Expression<?>... columns) {
         return Projections.fields(dtoClass, extendColumn(beanPath, columns));
     }
 }

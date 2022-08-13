@@ -2,7 +2,7 @@ package org.huiche.dao.operation;
 
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Predicate;
-import org.huiche.dao.support.Q;
+import org.huiche.dao.support.Query;
 import org.springframework.lang.Nullable;
 
 import java.io.Serializable;
@@ -108,17 +108,17 @@ public interface GetOperation<T> {
      */
     @Nullable
     default T getFirst(Predicate... conditions) {
-        return getFirst(Q.of(conditions));
+        return getFirst(Query.of(conditions));
     }
 
     /**
      * 根据条件获取第一个实体
      *
-     * @param q 查询参数
+     * @param query 查询参数
      * @return 实体
      */
     @Nullable
-    T getFirst(Q q);
+    T getFirst(Query query);
 
     /**
      * 根据条件获取第一个实体的字段
@@ -130,19 +130,19 @@ public interface GetOperation<T> {
      */
     @Nullable
     default <Col> Col getColumnFirst(Expression<Col> column, Predicate... conditions) {
-        return getColumnFirst(column, Q.of(conditions));
+        return getColumnFirst(column, Query.of(conditions));
     }
 
     /**
      * 根据条件获取第一个实体的字段
      *
      * @param column 字段
-     * @param q      查询参数
+     * @param query      查询参数
      * @param <Col>  字段类型
      * @return 字段
      */
     @Nullable
-    <Col> Col getColumnFirst(Expression<Col> column, Q q);
+    <Col> Col getColumnFirst(Expression<Col> column, Query query);
 
     /**
      * 根据条件获取第一个实体的多个字段
@@ -153,18 +153,18 @@ public interface GetOperation<T> {
      */
     @Nullable
     default T getColumnsFirst(Expression<?>[] columns, Predicate... conditions) {
-        return getColumnsFirst(columns, Q.of(conditions));
+        return getColumnsFirst(columns, Query.of(conditions));
     }
 
     /**
      * 根据条件获取第一个实体的多个字段
      *
      * @param columns 字段列表
-     * @param q       查询参数
+     * @param query       查询参数
      * @return 含多个字段值的实体
      */
     @Nullable
-    T getColumnsFirst(Expression<?>[] columns, Q q);
+    T getColumnsFirst(Expression<?>[] columns, Query query);
 
     /**
      * 根据条件获取第一个DTO
@@ -177,7 +177,7 @@ public interface GetOperation<T> {
      */
     @Nullable
     default <DTO> DTO getDtoFirst(Class<DTO> dtoClass, Expression<?>[] columns, Predicate... conditions) {
-        return getDtoFirst(dtoClass, columns, Q.of(conditions));
+        return getDtoFirst(dtoClass, columns, Query.of(conditions));
     }
 
     /**
@@ -185,10 +185,10 @@ public interface GetOperation<T> {
      *
      * @param dtoClass DTO类型
      * @param columns  字段列表
-     * @param q        查询参数
+     * @param query        查询参数
      * @param <DTO>    DTO类型
      * @return DTO
      */
     @Nullable
-    <DTO> DTO getDtoFirst(Class<DTO> dtoClass, Expression<?>[] columns, Q q);
+    <DTO> DTO getDtoFirst(Class<DTO> dtoClass, Expression<?>[] columns, Query query);
 }

@@ -37,7 +37,7 @@ public class {{entityName}}Service {
     }
     {{/idType}}
 
-    public Page<{{entityName}}> page(Pageable pageable, {{entityName}} query) {
-        return dao.page(pageable, query);
+    public Page<{{entityName}}> page(Pageable pageable, {{entityName}} search) {
+        return dao.page(pageable, search);
     }
 }

@@ -8,7 +8,7 @@ import com.querydsl.sql.SQLQueryFactory;
 import com.querydsl.sql.dml.DefaultMapper;
 import com.querydsl.sql.dml.SQLInsertClause;
 import com.querydsl.sql.dml.SQLUpdateClause;
-import org.huiche.dao.support.Q;
+import org.huiche.dao.support.Query;
 import org.huiche.exception.HuicheIllegalArgumentException;
 import org.springframework.lang.Nullable;
 
@@ -63,7 +63,7 @@ public class CrudDaoSinglePkImpl<T> extends AbstractCrudDao<T> {
     @Override
 
     public <ID extends Serializable> List<T> listByIds(Collection<ID> ids) {
-        return list(Q.of(idInfo.idsWhere(ids)));
+        return list(Query.of(idInfo.idsWhere(ids)));
     }
 
     @Override
