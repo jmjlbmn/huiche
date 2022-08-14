@@ -4,7 +4,6 @@ import com.querydsl.core.types.*;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.StringExpression;
 import com.querydsl.sql.RelationalPath;
-import com.sun.istack.internal.NotNull;
 import org.huiche.support.ReflectUtil;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
@@ -145,7 +144,7 @@ public interface Querys {
      * @param keyword 关键字
      * @param cols    关键字列
      * @return 条件
-     * @separator 分隔符
+     * &#064;separator  分隔符
      */
     @Nullable
     static Predicate keywordSplit(@Nullable String keyword, @NonNull String separator, @NonNull StringExpression... cols) {
@@ -198,7 +197,7 @@ public interface Querys {
      * @param predicates 多个条件
      * @return 条件数组
      */
-    @NotNull
+    @NonNull
     static Predicate[] concat(@Nullable Predicate predicate, @NonNull Predicate[] predicates) {
         if (predicate != null) {
             Predicate[] arr = new Predicate[]{predicate};
@@ -215,7 +214,7 @@ public interface Querys {
      * @param predicates2 条件2
      * @return 条件数组
      */
-    @NotNull
+    @NonNull
     static Predicate[] concat(@NonNull Predicate[] predicates1, @NonNull Predicate... predicates2) {
         Predicate[] arr = new Predicate[predicates1.length + predicates2.length];
         System.arraycopy(arr, 0, predicates1, 0, predicates1.length);
