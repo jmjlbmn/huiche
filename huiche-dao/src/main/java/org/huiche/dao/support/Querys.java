@@ -4,6 +4,7 @@ import com.querydsl.core.types.*;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.StringExpression;
 import com.querydsl.sql.RelationalPath;
+import com.sun.istack.internal.NotNull;
 import org.huiche.support.ReflectUtil;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
@@ -188,6 +189,38 @@ public interface Querys {
     @Nullable
     static Predicate and(@NonNull Predicate... predicate) {
         return ExpressionUtils.allOf(predicate);
+    }
+
+    /**
+     * 拼接条件
+     *
+     * @param predicate  条件
+     * @param predicates 多个条件
+     * @return 条件数组
+     */
+    @NotNull
+    static Predicate[] concat(@Nullable Predicate predicate, @NonNull Predicate[] predicates) {
+        if (predicate != null) {
+            Predicate[] arr = new Predicate[]{predicate};
+            System.arraycopy(arr, 0, predicates, 0, predicates.length);
+            return arr;
+        }
+        return predicates;
+    }
+
+    /**
+     * 拼接条件
+     *
+     * @param predicates1 条件1
+     * @param predicates2 条件2
+     * @return 条件数组
+     */
+    @NotNull
+    static Predicate[] concat(@NonNull Predicate[] predicates1, @NonNull Predicate... predicates2) {
+        Predicate[] arr = new Predicate[predicates1.length + predicates2.length];
+        System.arraycopy(arr, 0, predicates1, 0, predicates1.length);
+        System.arraycopy(arr, 0, predicates2, 0, predicates2.length);
+        return arr;
     }
 
     /**
