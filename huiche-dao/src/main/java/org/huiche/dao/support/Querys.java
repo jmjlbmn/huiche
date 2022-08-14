@@ -216,6 +216,12 @@ public interface Querys {
      */
     @NonNull
     static Predicate[] concat(@NonNull Predicate[] predicates1, @NonNull Predicate... predicates2) {
+        if (predicates1.length == 0) {
+            return predicates2;
+        }
+        if (predicates2.length == 0) {
+            return predicates1;
+        }
         Predicate[] arr = new Predicate[predicates1.length + predicates2.length];
         System.arraycopy(arr, 0, predicates1, 0, predicates1.length);
         System.arraycopy(arr, 0, predicates2, 0, predicates2.length);
