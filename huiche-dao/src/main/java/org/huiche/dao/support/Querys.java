@@ -200,9 +200,10 @@ public interface Querys {
     @NonNull
     static Predicate[] concat(@Nullable Predicate predicate, @NonNull Predicate[] predicates) {
         if (predicate != null) {
-            Predicate[] arr = new Predicate[]{predicate};
-            System.arraycopy(arr, 0, predicates, 0, predicates.length);
-            return arr;
+            List<Predicate> list = new ArrayList<>();
+            list.add(predicate);
+            list.addAll(Arrays.asList(predicates));
+            return list.toArray(new Predicate[0]);
         }
         return predicates;
     }
@@ -222,10 +223,9 @@ public interface Querys {
         if (predicates2.length == 0) {
             return predicates1;
         }
-        Predicate[] arr = new Predicate[predicates1.length + predicates2.length];
-        System.arraycopy(arr, 0, predicates1, 0, predicates1.length);
-        System.arraycopy(arr, 0, predicates2, 0, predicates2.length);
-        return arr;
+        List<Predicate> list = new ArrayList<>(Arrays.asList(predicates1));
+        list.addAll(Arrays.asList(predicates2));
+        return list.toArray(new Predicate[0]);
     }
 
     /**
