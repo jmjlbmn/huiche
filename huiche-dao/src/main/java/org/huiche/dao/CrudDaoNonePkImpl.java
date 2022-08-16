@@ -2,6 +2,7 @@ package org.huiche.dao;
 
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Path;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.sql.RelationalPath;
 import com.querydsl.sql.SQLQueryFactory;
 import com.querydsl.sql.dml.DefaultMapper;
@@ -60,25 +61,25 @@ public class CrudDaoNonePkImpl<T> extends AbstractCrudDao<T> {
 
     @Override
     @Nullable
-    public <ID extends Serializable> T getById(ID id) {
+    public <ID extends Serializable> T getById(ID id, Predicate... conditions) {
         throw EXCEPTION;
     }
 
     @Override
     @Nullable
-    public <ID extends Serializable, Col> Col getColumnById(Expression<Col> column, ID id) {
+    public <ID extends Serializable, Col> Col getColumnById(Expression<Col> column, ID id, Predicate... conditions) {
         throw EXCEPTION;
     }
 
     @Override
     @Nullable
-    public <ID extends Serializable> T getColumnsById(Expression<?>[] columns, ID id) {
+    public <ID extends Serializable> T getColumnsById(Expression<?>[] columns, ID id, Predicate... conditions) {
         throw EXCEPTION;
     }
 
     @Override
     @Nullable
-    public <ID extends Serializable, DTO> DTO getDtoById(Class<DTO> dtoClass, Expression<?>[] columns, ID id) {
+    public <ID extends Serializable, DTO> DTO getDtoById(Class<DTO> dtoClass, Expression<?>[] columns, ID id, Predicate... conditions) {
         throw EXCEPTION;
     }
 

@@ -3,12 +3,14 @@ package org.huiche.dao;
 import com.querydsl.core.QueryFlag;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Path;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.sql.RelationalPath;
 import com.querydsl.sql.SQLQueryFactory;
 import com.querydsl.sql.dml.DefaultMapper;
 import com.querydsl.sql.dml.SQLInsertClause;
 import com.querydsl.sql.dml.SQLUpdateClause;
 import org.huiche.dao.support.Query;
+import org.huiche.dao.support.Querys;
 import org.huiche.exception.HuicheIllegalArgumentException;
 import org.springframework.lang.Nullable;
 
@@ -38,26 +40,26 @@ public class CrudDaoSinglePkImpl<T> extends AbstractCrudDao<T> {
 
     @Override
     @Nullable
-    public <ID extends Serializable> T getById(ID id) {
-        return getOne(idInfo.idWhere(id));
+    public <ID extends Serializable> T getById(ID id, Predicate... conditions) {
+        return getOne(Querys.concat(idInfo.idWhere(id), conditions));
     }
 
     @Override
     @Nullable
-    public <ID extends Serializable, Col> Col getColumnById(Expression<Col> column, ID id) {
-        return getColumnOne(column, idInfo.idWhere(id));
+    public <ID extends Serializable, Col> Col getColumnById(Expression<Col> column, ID id, Predicate... conditions) {
+        return getColumnOne(column, Querys.concat(idInfo.idWhere(id), conditions));
     }
 
     @Override
     @Nullable
-    public <ID extends Serializable> T getColumnsById(Expression<?>[] columns, ID id) {
-        return getColumnsOne(columns, idInfo.idWhere(id));
+    public <ID extends Serializable> T getColumnsById(Expression<?>[] columns, ID id, Predicate... conditions) {
+        return getColumnsOne(columns, Querys.concat(idInfo.idWhere(id), conditions));
     }
 
     @Override
     @Nullable
-    public <ID extends Serializable, DTO> DTO getDtoById(Class<DTO> dtoClass, Expression<?>[] columns, ID id) {
-        return getDtoOne(dtoClass, columns, idInfo.idWhere(id));
+    public <ID extends Serializable, DTO> DTO getDtoById(Class<DTO> dtoClass, Expression<?>[] columns, ID id, Predicate... conditions) {
+        return getDtoOne(dtoClass, columns, Querys.concat(idInfo.idWhere(id), conditions));
     }
 
     @Override

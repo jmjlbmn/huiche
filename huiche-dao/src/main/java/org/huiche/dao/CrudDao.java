@@ -2,6 +2,7 @@ package org.huiche.dao;
 
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Path;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.sql.dml.SQLUpdateClause;
 import org.huiche.dao.operation.CrudOperation;
 import org.springframework.beans.factory.InitializingBean;
@@ -56,26 +57,26 @@ public class CrudDao<T> extends AbstractCrudDao<T> implements InitializingBean {
 
     @Override
     @Nullable
-    public <ID extends Serializable> T getById(ID id) {
-        return delegate.getById(id);
+    public <ID extends Serializable> T getById(ID id, Predicate... conditions) {
+        return delegate.getById(id, conditions);
     }
 
     @Override
     @Nullable
-    public <ID extends Serializable, Col> Col getColumnById(Expression<Col> column, ID id) {
-        return delegate.getColumnById(column, id);
+    public <ID extends Serializable, Col> Col getColumnById(Expression<Col> column, ID id, Predicate... conditions) {
+        return delegate.getColumnById(column, id, conditions);
     }
 
     @Override
     @Nullable
-    public <ID extends Serializable> T getColumnsById(Expression<?>[] columns, ID id) {
-        return delegate.getColumnsById(columns, id);
+    public <ID extends Serializable> T getColumnsById(Expression<?>[] columns, ID id, Predicate... conditions) {
+        return delegate.getColumnsById(columns, id, conditions);
     }
 
     @Override
     @Nullable
-    public <ID extends Serializable, DTO> DTO getDtoById(Class<DTO> dtoClass, Expression<?>[] columns, ID id) {
-        return delegate.getDtoById(dtoClass, columns, id);
+    public <ID extends Serializable, DTO> DTO getDtoById(Class<DTO> dtoClass, Expression<?>[] columns, ID id, Predicate... conditions) {
+        return delegate.getDtoById(dtoClass, columns, id, conditions);
     }
 
     @Override

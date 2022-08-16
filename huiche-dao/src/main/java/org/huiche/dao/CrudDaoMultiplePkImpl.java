@@ -66,7 +66,7 @@ public class CrudDaoMultiplePkImpl<T> extends AbstractCrudDao<T> {
     }
 
     @Override
-    public <ID extends Serializable> T getById(ID id) {
+    public <ID extends Serializable> T getById(ID id, Predicate... conditions) {
         throw EXCEPTION;
     }    @Override
 
@@ -81,7 +81,7 @@ public class CrudDaoMultiplePkImpl<T> extends AbstractCrudDao<T> {
     }
 
     @Override
-    public <ID extends Serializable, Col> Col getColumnById(Expression<Col> column, ID id) {
+    public <ID extends Serializable, Col> Col getColumnById(Expression<Col> column, ID id, Predicate... conditions) {
         throw EXCEPTION;
     }    @Override
     public <E extends T> E save(E entity) {
@@ -112,7 +112,7 @@ public class CrudDaoMultiplePkImpl<T> extends AbstractCrudDao<T> {
     }
 
     @Override
-    public <ID extends Serializable> T getColumnsById(Expression<?>[] columns, ID id) {
+    public <ID extends Serializable> T getColumnsById(Expression<?>[] columns, ID id, Predicate... conditions) {
         throw EXCEPTION;
     }    @Override
     public <E extends T> long createBatch(Collection<E> entityList) {
@@ -140,7 +140,7 @@ public class CrudDaoMultiplePkImpl<T> extends AbstractCrudDao<T> {
     }
 
     @Override
-    public <ID extends Serializable, DTO> DTO getDtoById(Class<DTO> dtoClass, Expression<?>[] columns, ID id) {
+    public <ID extends Serializable, DTO> DTO getDtoById(Class<DTO> dtoClass, Expression<?>[] columns, ID id, Predicate... conditions) {
         throw EXCEPTION;
     }
 

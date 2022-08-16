@@ -3,6 +3,7 @@ package org.huiche.dao.operation;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Predicate;
 import org.huiche.dao.support.Query;
+import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
 import java.io.Serializable;
@@ -14,49 +15,53 @@ public interface GetOperation<T> {
     /**
      * 通过ID获取实体
      *
-     * @param id   ID
-     * @param <ID> ID类型
+     * @param id         ID
+     * @param <ID>       ID类型
+     * @param conditions 附加条件
      * @return 实体
      */
     @Nullable
-    <ID extends Serializable> T getById(ID id);
+    <ID extends Serializable> T getById(@NonNull ID id, @NonNull Predicate... conditions);
 
     /**
      * 通过ID获取某字段
      *
-     * @param column 字段
-     * @param id     ID
-     * @param <ID>   ID类型
-     * @param <Col>  字段类型
+     * @param column     字段
+     * @param id         ID
+     * @param <ID>       ID类型
+     * @param <Col>      字段类型
+     * @param conditions 附加条件
      * @return 字段
      */
     @Nullable
-    <ID extends Serializable, Col> Col getColumnById(Expression<Col> column, ID id);
+    <ID extends Serializable, Col> Col getColumnById(@NonNull Expression<Col> column, @NonNull ID id, @NonNull Predicate... conditions);
 
 
     /**
      * 获取实体某些字段
      *
-     * @param columns 字段列表
-     * @param id      ID
-     * @param <ID>    ID类型
+     * @param columns    字段列表
+     * @param id         ID
+     * @param <ID>       ID类型
+     * @param conditions 附加条件
      * @return 包含某些字段的实体
      */
     @Nullable
-    <ID extends Serializable> T getColumnsById(Expression<?>[] columns, ID id);
+    <ID extends Serializable> T getColumnsById(@NonNull Expression<?>[] columns, @NonNull ID id, @NonNull Predicate... conditions);
 
     /**
      * 通过ID获取DTO
      *
-     * @param dtoClass DTO类型
-     * @param columns  字段
-     * @param id       ID
-     * @param <ID>     ID类型
-     * @param <DTO>    DTO类型
+     * @param dtoClass   DTO类型
+     * @param columns    字段
+     * @param id         ID
+     * @param <ID>       ID类型
+     * @param <DTO>      DTO类型
+     * @param conditions 附加条件
      * @return DTO
      */
     @Nullable
-    <ID extends Serializable, DTO> DTO getDtoById(Class<DTO> dtoClass, Expression<?>[] columns, ID id);
+    <ID extends Serializable, DTO> DTO getDtoById(@NonNull Class<DTO> dtoClass, @NonNull Expression<?>[] columns, @NonNull ID id, @NonNull Predicate... conditions);
 
     /**
      * 获取唯一实体,若存在多个则报错
@@ -76,7 +81,7 @@ public interface GetOperation<T> {
      * @return 多个字段的实体
      */
     @Nullable
-    <Col> Col getColumnOne(Expression<Col> column, Predicate... conditions);
+    <Col> Col getColumnOne(@NonNull Expression<Col> column, @NonNull Predicate... conditions);
 
     /**
      * 获取唯一实体多个字段,若存在多个则报错
@@ -86,7 +91,7 @@ public interface GetOperation<T> {
      * @return 实体
      */
     @Nullable
-    T getColumnsOne(Expression<?>[] columns, Predicate... conditions);
+    T getColumnsOne(@NonNull Expression<?>[] columns, @NonNull Predicate... conditions);
 
     /**
      * 获取唯一DTO,若存在多个则报错
@@ -98,7 +103,7 @@ public interface GetOperation<T> {
      * @return DTO
      */
     @Nullable
-    <DTO> DTO getDtoOne(Class<DTO> dtoClass, Expression<?>[] columns, Predicate... conditions);
+    <DTO> DTO getDtoOne(@NonNull Class<DTO> dtoClass, @NonNull Expression<?>[] columns, @NonNull Predicate... conditions);
 
     /**
      * 根据条件获取第一个实体
@@ -137,7 +142,7 @@ public interface GetOperation<T> {
      * 根据条件获取第一个实体的字段
      *
      * @param column 字段
-     * @param query      查询参数
+     * @param query  查询参数
      * @param <Col>  字段类型
      * @return 字段
      */
@@ -160,7 +165,7 @@ public interface GetOperation<T> {
      * 根据条件获取第一个实体的多个字段
      *
      * @param columns 字段列表
-     * @param query       查询参数
+     * @param query   查询参数
      * @return 含多个字段值的实体
      */
     @Nullable
@@ -185,7 +190,7 @@ public interface GetOperation<T> {
      *
      * @param dtoClass DTO类型
      * @param columns  字段列表
-     * @param query        查询参数
+     * @param query    查询参数
      * @param <DTO>    DTO类型
      * @return DTO
      */

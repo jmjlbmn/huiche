@@ -180,14 +180,14 @@ public interface Querys {
     }
 
     /**
-     * 用and组合多个条件,等同predicates
+     * 用and组合多个条件,等同conditions
      *
-     * @param predicate 多个条件
+     * @param conditions 多个条件
      * @return 最终条件
      */
     @Nullable
-    static Predicate and(@NonNull Predicate... predicate) {
-        return ExpressionUtils.allOf(predicate);
+    static Predicate and(@NonNull Predicate... conditions) {
+        return ExpressionUtils.allOf(conditions);
     }
 
     /**
